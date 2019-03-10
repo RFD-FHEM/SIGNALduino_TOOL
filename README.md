@@ -1,5 +1,4 @@
 # SIGNALduino_TOOL
-======
 
 The module is for the support of developers of the SIGNALduino project. It includes various functions for calculation / filtering / dispatchen / conversion and much more.
 
