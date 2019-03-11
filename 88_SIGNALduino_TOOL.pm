@@ -79,7 +79,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-03-10";
+	$hash->{Version} = "2019-03-11";
 	readingsSingleUpdate($hash, "state" , "Defined" , 0);
 
 	return undef;
@@ -209,8 +209,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						foreach my $keynames (sort %{$ProtocolList2{$key}}) {
 							if ($keynames =~ /msg.*(comment|dmsg|raw|user)/) {
 								$rawcount++ if ($keynames =~ /msg.*(comment)/);
-								$List{$DispatchModule}{$ProtocolList2{$key}{$keynames}} = "RAWMSG" if ($keynames =~ /msg.*comment/);		# need to view dispatch comment
-								$setList .= " ".$NameDocSet.$DispatchModule."_$keynames ";																							# name of option add doc
+								$List{$DispatchModule}{$ProtocolList2{$key}{$keynames}} = "RAWMSG".sprintf("%02s", ($rawcount)) if ($keynames =~ /msg.*comment/);		# need to view dispatch comment
+								$setList .= " ".$NameDocSet.$DispatchModule."_$keynames ";																																					# name of option add doc
 								Log3 $name, 5, "$name: Set $cmd - check setList via JSON - id ".$key.", $ProtocolList2{$key}{clientmodule} with $keynames: $ProtocolList2{$key}{$keynames} found (keycount=$rawcount)";
 							}
 						}
@@ -222,11 +222,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				foreach my $i( 0 .. (scalar(@names)-1)) {
 					$setList .= " ".$NameDocSet.$DispatchModule."_msg".sprintf("%02s", ($rawcount+1)).$names[$i];										# name of option add doc
 				}
-				
+
 				$setList .= " ".$NameDispatchSet.$DispatchModule. ":" . join(",", sort keys(%{$List{$DispatchModule}})) . " ";		# name of option dispatch
 			}
 			
-			#Log3 $name, 5, "$name: Set $cmd - check setList=$setList";
+			Log3 $name, 5, "$name: Set $cmd - check setList=$setList";
 		}
 	}
 
@@ -389,9 +389,15 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			## DispatchModule from JSON ##
 			if (not $DispatchModule =~ /.*.txt$/) {
 				my $clientmodule = substr ($a[0],length ($NameDispatchSet));
+				my $hashpos;
 				foreach my $key (sort keys %ProtocolList2) {
 					if ($ProtocolList2{$key}{clientmodule} eq $clientmodule) {
-						$RAWMSG = $ProtocolList2{$key}{$a[1]."_raw"};
+						## search right pos for name from hash
+						foreach my $key2 (sort keys %{$ProtocolList2{$key}}) {
+							$hashpos = $key2 if ($ProtocolList2{$key}{$key2} eq $a[1]);
+							$hashpos =~ s/_comment//g;
+						}
+						$RAWMSG = $ProtocolList2{$key}{$hashpos."_raw"};
 						last;
 					}
 				}
@@ -407,6 +413,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				}
 			}
 
+			#Log3 $name, 5, "$name: Set $cmd - check (6) RAWMSG=$RAWMSG $a[1]";
 			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);	# check RAWMSG
 			return "$error" if $error ne "";																# if check RAWMSG failed
 
@@ -430,6 +437,18 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			foreach my $key (sort keys %ProtocolList2) {
 				if ($ProtocolList2{$key}{clientmodule} eq $DispatchModule) {
 					$ProtocolList2{$key}{$selection} = $a[1];
+					## for new name in setlist
+					if ($selection =~ /(msg\d+_comment)/) {
+						my $value = $selection;
+						$value = $1 if ($value =~ /.*(\d+\d+?)_.*/);
+						foreach my $key2 (sort keys %{$List{$DispatchModule}}) {
+							if ($List{$DispatchModule}{$key2} =~ /$value/) {
+								Log3 $name, 5, "$name: Set $cmd - delete old comment at setlist $List{$DispatchModule}{$key2}";
+								delete $List{$DispatchModule}{$key2};
+							}
+						}
+					}
+
 					## check exists all selection points
 					for my $i (0 .. 3) {
 						if (not exists $ProtocolList2{$key}{$msgNumbre.$NameDocJSON[$i]}) {
@@ -445,7 +464,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 					$DummyMSGCNTvalue = undef;
 				}
 			}
-			######## need reload setlist !!! ########
 		}
 		
 		### Readings cmd_raw cmd_sendMSG ###		
