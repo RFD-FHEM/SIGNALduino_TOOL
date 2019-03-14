@@ -40,7 +40,8 @@ my @NameOnJSON = (	"state",														# 0 - device value
 										"name",															# 5 - device name
 										"protocol_comment",									# 6 - protocol comment
 										"clientmodule",											# 7 - clientmodule to dispatch
-										"protocol_info"											# 8 - flag, info from SD_ProtocolData.pm read
+										"protocol_info",										# 8 - flag, info from SD_ProtocolData.pm read
+										"id"																# 9 - protocol id
 									);
 
 my $jsonFile = "SD_ProtocolList.json";									# name of file to export / import ProtocolList
@@ -92,7 +93,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-03-12";
+	$hash->{Version} = "2019-03-14";
 	readingsSingleUpdate($hash, "state" , "Defined" , 0);
 
 	return undef;
@@ -1157,106 +1158,30 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $id_comment;									# comment from SD_Protocols
 		my $id_clientmodule;						# clientmodule from SD_Protocols
 		my $id_develop;									# developId from SD_Protocols
+		my $id_frequency;								# frequency from SD_Protocols
+		my $id_knownFreqs;							# knownFreqs from SD_Protocols
 		my $line_use = "no";						# flag use line yes / no
+
 		my $cnt_RAWmsg = 0;							# counter RAWmsg
 		my $cnt_ids_total = 0;					# counter protocol ids in file
 		my $cnt_no_comment = 0;					# counter no comment exists
 		my $cnt_no_clientmodule = 0;		# counter no clientmodule in id
 		my $cnt_develop = 0;						# counter id have develop flag
 		my $cnt_develop_modul = 0;			# counter id have developmodul flag
+		my $cnt_frequency = 0;					# counter id have frequency flag
+		my $cnt_knownFreqs = 0;					# counter id have knownFreqs flag without "" value
+		my $cnt_Freqs433 = 0;						# counter id knownFreqs 433
+		my $cnt_Freqs868 = 0;						# counter id knownFreqs 868
+
+		my $comment_behind = "";				# comment behind RAWMSG
+		my $comment_infront = "";				# comment in front RAWMSG
+		my $comment = "";								# comment
+
 		my @linevalue;
 
 		if (-e $path.$jsonFile) {
 			return "note: you already have a JSON file!";
 		} else {
-			# open (InputFile,"<$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
-			# while (<InputFile>){
-				# $_ =~ s/\s+\t+//g;					# cut space | tab
-				# $_ =~ s/\n//g;							# cut end
-
-				# if ($_ =~ /^("\d+(\.\d)?")/s) {
-					# @linevalue = split(/=>/, $_);
-					# $linevalue[0] =~ s/[^0-9\.]//g;
-					# $cnt_ids_total++;
-					# $id_now = $linevalue[0];
-					# $cnt_RAWmsg = 0;
-					# $line_use = "no";
-
-					# $id_name = lib::SD_Protocols::getProperty($id_now,"name");
-					# $id_comment = lib::SD_Protocols::getProperty($id_now,"comment");
-					# $id_clientmodule = lib::SD_Protocols::getProperty($id_now,"clientmodule");
-					# $id_develop = lib::SD_Protocols::getProperty($id_now,"developId");
-
-					# $ProtocolList{$linevalue[0]}{$NameOnJSON[4]} = "$id_name";
-					# $ProtocolList{$linevalue[0]}{$NameOnJSON[5]} = "generic";
-					# $ProtocolList{$linevalue[0]}{$NameOnJSON[8]} = "x";
-
-					# if (defined $id_comment) {
-						# $ProtocolList{$linevalue[0]}{$NameOnJSON[6]} = "$id_comment";
-					# } else {
-						# $ProtocolList{$linevalue[0]}{$NameOnJSON[6]} = "not noted";
-						# $cnt_no_comment++;
-					# }
-
-					# if (defined $id_clientmodule) {
-						# $ProtocolList{$linevalue[0]}{$NameOnJSON[7]} = "$id_clientmodule";
-					# } else {
-						# $ProtocolList{$linevalue[0]}{$NameOnJSON[7]} = "not assigned";
-						# $cnt_no_clientmodule++;
-					# }
-
-					# if (defined $id_develop) {
-						# $cnt_develop++ if ($id_develop eq "y");
-						# $cnt_develop_modul++ if ($id_develop eq "m");
-					# }
-				# } elsif ($line_use eq "no" && ($_ =~ /(MU;P)/s || $_ =~ /(MS;P)/s || $_ =~ /(MC;L)/s)) {
-					# $cnt_RAWmsg++;
-					# my $regexsearch = $1;
-
-					# my $commentkey = "msg".sprintf("%02s", $cnt_RAWmsg)."_$NameOnJSON[0]";		# name of key comment / state					
-					# my $DMSGkey = "msg".sprintf("%02s", $cnt_RAWmsg)."_$NameOnJSON[1]";				# name of key DMSG
-					# my $RAWMSGkey = "msg".sprintf("%02s", $cnt_RAWmsg)."_$NameOnJSON[2]";			# name of key RAWMSG
-					# my $Userkey = "msg".sprintf("%02s", $cnt_RAWmsg)."_$NameOnJSON[3]";				# name of key User
-
-					# $_ =~ s/(^#\s)//g;
-					# my $comment_behind = "";			# comment behind RAWMSG
-					# my $comment_infront = "";			# comment in front RAWMSG
-
-					# if ( $_ =~ /(.*)((MU;|MS;|MC;).*\d+;(O;)?)(.*)/s ) {
-						# $comment_infront = $1 if ($1 ne "");
-						# $comment_infront =~ s/\s|,/_/g;
-						# $comment_infront =~ s/_+/_/g;
-						# $comment_infront =~ s/_$//g;
-						# $comment_infront =~ s/_#//g;
-						# Log3 $name, 5, "$name: Get $cmd - id:$id_now START-Text -> $comment_infront" if ($comment_infront ne "");
-
-						# if (defined $5) {
-							# $comment_behind = $5 if ($5 ne "");
-						# }
-						# $comment_behind =~ s/^\s+//g;
-						# $comment_behind =~ s/\s+/_/g;
-						# $comment_behind =~ s/_+/_/g;
-						# $comment_behind =~ s/\/+/\//g;
-						# Log3 $name, 5, "$name: Get $cmd - id:$id_now END-Text <- $comment_behind" if ($comment_behind ne "");
-					# };
-
-					# my $RAWMSG = $2;
-					# $RAWMSG =~ s/\s//g;
-
-					# $ProtocolList{$linevalue[0]}{$DMSGkey} = "-";
-					# $ProtocolList{$linevalue[0]}{$Userkey} = "-";
-					# $ProtocolList{$linevalue[0]}{$RAWMSGkey} = $RAWMSG;
-					# $ProtocolList{$linevalue[0]}{$commentkey} = "msg".sprintf("%02s", $cnt_RAWmsg) if ($comment_infront eq "" && $comment_behind eq "");
-					# $ProtocolList{$linevalue[0]}{$commentkey} = "$comment_infront" if ($comment_infront ne "");
-					# $ProtocolList{$linevalue[0]}{$commentkey} = "$comment_behind" if ($comment_behind ne "");
-				# } elsif ($_ =~ /\},/s || $_ =~ /name.*=>/s) {
-					# $line_use = "yes";
-				# }
-			# }
-			# close InputFile;
-
-########################
-
 			open (InputFile,"<$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 			while (<InputFile>) {
 				$_ =~ s/\s+\t+//g;					# cut space | tab
@@ -1268,38 +1193,85 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					$cnt_ids_total++;
 					$id_now = $linevalue[0];
 					$line_use = "yes";
+					$comment_infront = "";
+					$comment_behind = "";
+					$comment = "";
+
+					## frequency ##
+					$id_frequency = lib::SD_Protocols::getProperty($id_now,"frequency");
+					if (defined $id_frequency) {
+						$cnt_frequency++;
+					}
+
+					## knownFreqs ##
+					$id_knownFreqs = lib::SD_Protocols::getProperty($id_now,"knownFreqs");
+					if (defined $id_knownFreqs && $id_knownFreqs ne "") {
+						$cnt_knownFreqs++;
+						if ($id_knownFreqs =~ /433/) {
+							$cnt_Freqs433++;
+						} elsif  ($id_knownFreqs =~ /868/) {
+							$cnt_Freqs868++;
+						}
+					}
 				} elsif ($_ =~ /\},/s || $_ =~ /name.*=>/s) {
 					$line_use = "no";
 				}
 
 				if ( $line_use eq "yes" && $_ =~ /(.*)((MU;|MS;|MC;).*\d+;(O;)?)(.*)/s ) {
+					#Log3 $name, 4, "$name: $_";
 					my $RAWMSG = $2;
 					$RAWMSG =~ s/\s//g;
 					$cnt_RAWmsg++;
 
-					#@NameOnJSON = ("state","dmsg","raw","user","protocol_name","sensor_name","protocol_comment","clientmodule","fromProtocolData");		# name of selection in JSON
-					$ProtocolList{$cnt_RAWmsg}{id} = $id_now;
-					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[0]} = "no info";		## state
-					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[1]} = "-";					## dmsg
-					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[2]} = $RAWMSG;			## raw
-					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[3]} = "unknown";		## user
+					$comment_infront = $1 if ($1 ne "");
+					$comment_infront =~ s/\s|,/_/g;
+					$comment_infront =~ s/_+/_/g;
+					$comment_infront =~ s/_$//g;
+					$comment_infront =~ s/_#//g;
+					$comment_infront =~ s/#_//g;
+					$comment_infront = "" if($comment_infront eq "#");
+
+					#Log3 $name, 4, "$name: Get $cmd - id:$id_now START-Text -> $comment_infront" if ($comment_infront ne "");
+
+					if (defined $5) {
+						$comment_behind = $5 if ($5 ne "");
+					}
+					$comment_behind =~ s/^\s+//g;
+					$comment_behind =~ s/\s+/_/g;
+					$comment_behind =~ s/_+/_/g;
+					$comment_behind =~ s/\/+/\//g;
+					#Log3 $name, 4, "$name: Get $cmd - id:$id_now END-Text <- $comment_behind" if ($comment_behind ne "");
+
+					$comment = $comment_infront if ($comment_infront ne "");
+					$comment = $comment_behind if ($comment_behind ne "");
+
+					if ($comment ne "") {
+						$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[0]} = $comment;
+					} else {
+						$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[0]} = "no info";		## state
+					}
+
+					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[1]} = "-";						## dmsg
+					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[2]} = $RAWMSG;				## raw
+					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[3]} = "unknown";			## user
 					#$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[4]} = "$id_name";
-					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[5]} = "generic";		## sensor_name
+					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[5]} = "generic";			## sensor_name
 					#$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[6]} = "$id_comment";
-					
+					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[9]} = "$id_now";
+
 					## comment from protocol id ##
-					$id_comment = lib::SD_Protocols::getProperty($id_now,"comment");					
+					$id_comment = lib::SD_Protocols::getProperty($id_now,"comment");
 					if (not defined $id_comment) {
 						$cnt_no_comment++;
 					}
-					
+
 					## developId ##
 					$id_develop = lib::SD_Protocols::getProperty($id_now,"developId");
 					if (defined $id_develop) {
 						$cnt_develop++ if ($id_develop eq "y");
 						$cnt_develop_modul++ if ($id_develop eq "m");
 					}
-					
+
 					## clientmodule ##
 					$id_clientmodule = lib::SD_Protocols::getProperty($id_now,"clientmodule");
 					if (defined $id_clientmodule) {
@@ -1308,61 +1280,60 @@ sub SIGNALduino_TOOL_Get($$$@) {
 						$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[7]} = "not assigned";
 						$cnt_no_clientmodule++;
 					}
-					
+
 					## flag from where ##
 					$ProtocolList{$cnt_RAWmsg}{$NameOnJSON[8]} = "x";
 				}
-
 			}
 			close InputFile;
-			
-########################
 
 			#### JSON write to file ####
-			my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\%ProtocolList);					# lesbares JSON | Sort hash keys alphabetically.
-		
+			my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a <=> $JSON::PP::b })->encode(\%ProtocolList);					# lesbares JSON | Sort numerically
+
 			readingsSingleUpdate($hash, "state" , "file $jsonFile created", 0);
 
 			open(SaveDoc, '>', $path.$jsonFile) || return "ERROR: file ($jsonFile) can not open!";
 				print SaveDoc $json;
 			close(SaveDoc);
 			##############################
-		
-			return "writing doc are finished!\n\nids total: $cnt_ids_total\nids without clientmodule: $cnt_no_clientmodule\nids without comment: $cnt_no_comment\ndevelopment ids: $cnt_develop\ndevelopment moduls: $cnt_develop_modul";
+
+			return "writing doc are finished!\n\nids total: $cnt_ids_total\nids without clientmodule: $cnt_no_clientmodule\nids without comment: $cnt_no_comment\ndevelopment ids: $cnt_develop\ndevelopment moduls: $cnt_develop_modul\n\nids with additional frequency value: $cnt_frequency\nids without known frequency documentation: ".($cnt_ids_total-$cnt_knownFreqs)."\nids with known frequency documentation: $cnt_knownFreqs\nids on frequency 433Mhz: $cnt_Freqs433\nids on frequency 868Mhz: $cnt_Freqs868\n\navailable messages: $cnt_RAWmsg";
 		}
 	}
 	
 	if ($cmd eq "ProtocolList_from_file_SD_ProtocolList.json") {
-		return "in development!";
-		# Log3 $name, 4, "$name: Get $cmd - check (11)";
+		Log3 $name, 4, "$name: Get $cmd - check (11)";
 
-		# #### JSON open file for check ####
-		# my $cnt_Line = 0;
-		# open (FileCheck,$path.$jsonFile) || return "ERROR: No file ($jsonFile) found in $path directory from FHEM!";
-			# while (<FileCheck>) {
-				# $cnt_Line++;
-				# return "ERROR: your JSON file have an wrong syntax in line $cnt_Line" if not ($_ =~ /^{$|^.*".*".:.".*",|"\d+.?\d?".:.{|\s+?},$|\s+?}$|^}|"name".:.".*"$/);
-			# }
-		# close FileCheck;
+		#### JSON open file for check ####
+		my $cnt_Line = 0;
+		open (FileCheck,$path.$jsonFile) || return "ERROR: No file ($jsonFile) found in $path directory from FHEM!";
+			while (<FileCheck>) {
+				$cnt_Line++;
+				return "ERROR: your JSON file have an wrong syntax in line $cnt_Line" if not ($_ =~ /^{|"\d+".?:.?{$|".*".?:.?".*",?$|},$|}$/);
+			}
+		close FileCheck;
 
-		# #### JSON read from file ####
-		# my $json_new;
-		# if (open (my $json_stream, $path.$jsonFile)) {
-			# local $/ = undef;
-      # $json_new = JSON::PP->new()->pretty->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->decode(<$json_stream>);
-      # close($json_stream);
-		# } else {
-			# Log3 $name, 3, "$name: Get $cmd - ERROR: JSON file not loaded!";
-		# }
+		#### JSON read from file ####
+		my $json_new;
+		if (open (my $json_stream, $path.$jsonFile)) {
+			local $/ = undef;
+			$json_new = JSON::PP->new()->pretty->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->decode(<$json_stream>);
+			close($json_stream);
+		} else {
+			Log3 $name, 3, "$name: Get $cmd - ERROR: JSON file not loaded!";
+		}
 
-		# %ProtocolList2 = %{$json_new};																																										# unsortiert
-		# my $json_sort = JSON::PP->new()->pretty->sort_by(sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\%{$json_new});		# sortiert zum check
+		%ProtocolList2 = %{$json_new};																																										# unsortiert
+		my $json_sort = JSON::PP->new()->pretty->sort_by(sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\%{$json_new});		# sortiert zum check
 
-		# readingsSingleUpdate($hash, "state" , "file $jsonFile readed", 0);
+		readingsSingleUpdate($hash, "state" , "file $jsonFile readed", 0);
 
-		# my @List;
-		# foreach my $key (sort keys %ProtocolList2) {
-			# if ($ProtocolList2{$key}{clientmodule} ne "not assigned" && not grep( /^$ProtocolList2{$key}{clientmodule}$/, @List )) {
+		#return "in development!";
+		return Dumper\%ProtocolList2;
+
+		#my @List;
+		#foreach my $key (sort keys %ProtocolList2) {
+			#if ($ProtocolList2{$key}{clientmodule} ne "not assigned" && not grep( /^$ProtocolList2{$key}{clientmodule}$/, @List )) {
 				# push (@List,$ProtocolList2{$key}{clientmodule});
 			# }
 		# }
@@ -1574,6 +1545,7 @@ sub SIGNALduino_TOOL_FW_Detail($@) {
 	<tr class='even'>";
 
   $ret .="<td><a href='#showDocuList' id='showDocuList'>Display documentation of message</a></td>";
+	$ret .="<td><a href='#showPoint2' id='showPoint2'>JSON file delete</a></td>";
   $ret .= '</tr></table></div>
   
 <script>
@@ -1582,7 +1554,39 @@ $( "#showDocuList" ).click(function(e) {
 	FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_getDocuList("'.$FW_detail.'")}&XHR=1\', function(data){SD_DocuListWindow(data)});
 });
 
+$( "#showPoint2" ).click(function(e) {
+	e.preventDefault();
+	FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_getView("'.$FW_detail.'")}&XHR=1\', function(data){SD_view_hash(data)});
+});
+
 function SD_DocuListWindow(txt) {
+  var div = $("<div id=\"SD_DocuDialog\">");
+  $(div).html(txt);
+  $("body").append(div);
+  var oldPos = $("body").scrollTop();
+  var btxtStable = "";
+  var btxtBlack = "";
+  if ($("#SD_protoCaption").text().substr(0,1) != "d") {
+  	    btxtStable = "stable";
+  }
+  if ($("#SD_protoCaption").text().substr(-1) == ".") {
+    btxtBlack = " except blacklist";
+  }
+  
+  $(div).dialog({
+    dialogClass:"no-close", modal:true, width:"auto", closeOnEscape:true, 
+    maxWidth:$(window).width()*0.9, maxHeight:$(window).height()*0.9,
+    title: "SD_TOOL Docu Overview",
+    buttons: [
+      {text:"close", click:function(){
+        $(this).dialog("close");
+        $(div).remove();
+        location.reload();
+      }}]
+	});
+}
+
+function SD_view_hash(txt) {
   var div = $("<div id=\"SD_DocuDialog\">");
   $(div).html(txt);
   $("body").append(div);
@@ -1622,35 +1626,67 @@ sub SIGNALduino_TOOL_FW_getDocuList {
 	my $key;
 	my $oddeven = "odd";			# for css styling
 	
-	my @IdList = ();
-
-	Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_getDocuList is running";
-
-	#return Dumper\%ProtocolList;	## for TEST
+	my @HashList = ();
+	my @HashList_sort = ();
 
 	if (!%ProtocolList) {
-		return "No hash available!";
+		return "No hash available! Please option ProtocolList_from_file_SD_ProtocolData!";
 	}
 
-	### list from id´s and sort list
+	### list sort list 1) alphanumeric 2) numeric
+	## step 1
 	foreach $id_now (keys %ProtocolList) {
-		push (@IdList, $id_now);
+		push (@HashList, $ProtocolList{$id_now}{clientmodule}."#".$id_now);
+		#Log3 $name, 3, "$name: SIGNALduino_TOOL_FW_getDocuList - ".$ProtocolList{$id_now}{clientmodule}."#".$id_now;
 	}
-	@IdList = sort { $a <=> $b } @IdList;
+	## step 2
+	foreach (sort {my ($aa, $bb) = map [ /(.*)#(\d+)/i ], $a, $b; $aa->[0] cmp $bb->[0] or $aa->[1] <=> $bb->[1];} @HashList) {
+    push (@HashList_sort,$_);
+		#Log3 $name, 3, "$name: SIGNALduino_TOOL_FW_getDocuList - ".$_;
+	}
 
 	$ret = "<table class=\"block wide internals wrapcolumns\">";
 	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation</caption>";
-	$ret .="<thead style=\"text-align:center\"> <td>Nr</td> <td>clientmodule</td> <td>id</td> <td>name</td> <td>msg comment | state | repeats ...</td> <td>user</td></thead>";
+	$ret .="<thead style=\"text-align:center\"> <td>nr</td> <td>clientmodule</td> <td>id</td> <td>name</td> <td>msg comment | state | repeats ...</td> <td>user</td> <td>from SD_ProtocolData</td> </thead>";
 	$ret .="<tbody>";
 	
 	### loop ID´s with entry
-	foreach $key (@IdList) {
+	my $cnt_loop;
+	my $info;
+
+	foreach $key (@HashList_sort) {
+		my @keysplit = split("#", $key);
+		$cnt_loop++;
+		if (exists $ProtocolList{$keysplit[1]}{$NameOnJSON[8]}) {
+			$info = $ProtocolList{$keysplit[1]}{$NameOnJSON[8]};
+		} else {
+			$info = "";
+		}
+		
 		$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
 		## lines with info
-		$ret .= sprintf("<tr class=\"%s\"> <td>%3s</td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> </tr>",$oddeven,$key,$ProtocolList{$key}{clientmodule},$ProtocolList{$key}{id},$ProtocolList{$key}{name},$ProtocolList{$key}{state},$ProtocolList{$key}{user});
+		$ret .= sprintf("<tr class=\"%s\"> <td>%3s</td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> <td><div>%s</div></td> </tr>",$oddeven,$cnt_loop,$ProtocolList{$keysplit[1]}{$NameOnJSON[7]},$ProtocolList{$keysplit[1]}{$NameOnJSON[9]},$ProtocolList{$keysplit[1]}{$NameOnJSON[5]},$ProtocolList{$keysplit[1]}{$NameOnJSON[0]},$ProtocolList{$keysplit[1]}{$NameOnJSON[3]},$info);
 	}
 	
 	$ret .="</tbody></table>";
+	return $ret;
+}
+
+################################
+sub SIGNALduino_TOOL_FW_getView {
+	my $name = shift;
+	my $devText = InternalVal($name,"Version","");
+	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
+	my $ret;
+	
+	# if (!%ProtocolList) {
+		# return "No hash available!";
+	# }
+
+	$ret = unlink ($path.$jsonFile) || return "ERROR: No file ($jsonFile) found in $path directory from FHEM!";
+	if ($ret == 1) {
+		$ret = "file delete";
+	}
 	return $ret;
 }
 
