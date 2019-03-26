@@ -43,14 +43,15 @@ our $FW_wname;
 sub SIGNALduino_TOOL_Initialize($) {
 	my ($hash) = @_;
 
-	$hash->{DefFn}				=	"SIGNALduino_TOOL_Define";
-	$hash->{SetFn}				=	"SIGNALduino_TOOL_Set";
-	$hash->{ShutdownFn}		= "SIGNALduino_TOOL_Shutdown";
-  $hash->{FW_detailFn}	= "SIGNALduino_TOOL_FW_Detail";
-	$hash->{FW_deviceOverview} = 1;
-	$hash->{AttrFn}				=	"SIGNALduino_TOOL_Attr";
-	$hash->{GetFn}				=	"SIGNALduino_TOOL_Get";
-	$hash->{AttrList}			=	"disable Dummyname Filename_input Filename_export MessageNumber Path StartString:MU;,MC;,MS; DispatchMax comment"
+	$hash->{DefFn}							=	"SIGNALduino_TOOL_Define";
+	$hash->{SetFn}							=	"SIGNALduino_TOOL_Set";
+	$hash->{ShutdownFn}					= "SIGNALduino_TOOL_Shutdown";
+  $hash->{FW_detailFn}				= "SIGNALduino_TOOL_FW_Detail";
+	$hash->{FW_deviceOverview}	= 1;
+	$hash->{AttrFn}							=	"SIGNALduino_TOOL_Attr";
+	$hash->{GetFn}							=	"SIGNALduino_TOOL_Get";
+	$hash->{NotifyFn}						= "SIGNALduino_TOOL_Notify";
+	$hash->{AttrList}						=	"disable Dummyname Filename_input Filename_export MessageNumber Path StartString:MU;,MC;,MS; DispatchMax comment"
 												." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3 Sendername Senderrepeats $readingFnAttributes";
 }
 
@@ -81,7 +82,11 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-03-21";
+	$hash->{Version} = "2019-03-26";
+
+	### name of event with limitation ###
+	$hash->{NOTIFYDEV} = "global,TYPE=SIGNALduino";
+
 	readingsSingleUpdate($hash, "state" , "Defined" , 0);
 
 	return undef;
@@ -210,10 +215,10 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			} elsif ($DispatchModule =~ /^.*$/ && @ProtocolList) {
 				my @setlist_new;
 				for (my $i=0;$i<@ProtocolList;$i++) {
-					if (defined $ProtocolList[$i]{clientmodule} && $ProtocolList[$i]{clientmodule} eq $DispatchModule && defined $ProtocolList[$i]{data}{state}) {
-						for (my $i2=0;$i2<@{ $ProtocolList[$i]{data}{state} };$i2++) {
-							#Log3 $name, 5, "$name: Set $cmd - check setList via memory array - id:$ProtocolList[$i]{id} state:$ProtocolList[$i]{data}{state}[$i2]" if ($cnt_loop == 1);
-							push(@setlist_new , "id".$ProtocolList[$i]{id}."_".$ProtocolList[$i]{data}{state}[$i2])
+					if (defined $ProtocolList[$i]{clientmodule} && $ProtocolList[$i]{clientmodule} eq $DispatchModule && (defined $ProtocolList[$i]{data}) ) {
+						for (my $i2=0;$i2<@{ $ProtocolList[$i]{data} };$i2++) {
+							Log3 $name, 5, "$name: Set $cmd - check setList via memory array - id:$ProtocolList[$i]{id} state:@{ $ProtocolList[$i]{data} }[$i2]->{state}" if ($cnt_loop == 1);
+							push(@setlist_new , "id".$ProtocolList[$i]{id}."_".@{ $ProtocolList[$i]{data} }[$i2]->{state})
 						}
 					}
 				}
@@ -385,7 +390,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 		### RAWMSG from DispatchModule Attributes ###
 		if ($cmd ne "-" && $cmd =~ /$NameDispatchSet$DispatchModule.*/ ) {
-			Log3 $name, 4, "$name: Set $cmd $a[1] - check (6)";
+			Log3 $name, 4, "$name: Set $cmd $a[1] - check (6)" if (defined $a[1]);
+			Log3 $name, 4, "$name: Set $cmd - check (6)" if (not defined $a[1]);
+
 			my $setcommand;
 			my $RAWMSG;
 			my $error_break = 0;
@@ -400,11 +407,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 					for (my $i=0;$i<@ProtocolList;$i++) {
 						if (defined $ProtocolList[$i]{clientmodule} && $ProtocolList[$i]{clientmodule} eq $DispatchModule && $ProtocolList[$i]{id} eq $id) {
-							for (my $i2=0;$i2<@{ $ProtocolList[$i]{data}{state} };$i2++) {
-								if ($ProtocolList[$i]{data}{state}[$i2] eq $state) {
-									$RAWMSG = $ProtocolList[$i]{data}{rawmsg}[$i2];
+							for (my $i2=0;$i2<@{ $ProtocolList[$i]{data} };$i2++) {
+								if (@{ $ProtocolList[$i]{data} }[$i2]->{state} eq $state) {
+									$RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{RAWMSG};
 									$error_break--;
-									Log3 $name, 5, "$name: Set $cmd - id:$id state=$ProtocolList[$i]{data}{state}[$i2] rawmsg=$ProtocolList[$i]{data}{rawmsg}[$i2]";
+									Log3 $name, 5, "$name: Set $cmd - id:$id state=".@{ $ProtocolList[$i]{data} }[$i2]->{state}." rawmsg=".@{ $ProtocolList[$i]{data} }[$i2]->{RAWMSG};
 								}
 							}
 						}
@@ -1116,177 +1123,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	}
 
 	if ($cmd eq "ProtocolList_from_file_SD_ProtocolData.pm") {
-		Log3 $name, 4, "$name: Get $cmd - check (10)";
-		my $id_now;											# readed id
-		my $id_name;										# name from SD_Protocols
-		my $id_comment;									# comment from SD_Protocols
-		my $id_clientmodule;						# clientmodule from SD_Protocols
-		my $id_develop;									# developId from SD_Protocols
-		my $id_frequency;								# frequency from SD_Protocols
-		my $id_knownFreqs;							# knownFreqs from SD_Protocols
-		my $line_use = "no";						# flag use line yes / no
-
-		my $cnt_RAWmsg = 0;							# counter RAWmsg in id
-		my $cnt_RAWmsg_all = 0;					# counter RAWmsg all over
-		my $cnt_id_same = 0;						# counter same id with other RAWmsg
-		my $cnt_ids_total = 0;					# counter protocol ids in file
-		my $cnt_no_comment = 0;					# counter no comment exists
-		my $cnt_no_clientmodule = 0;		# counter no clientmodule in id
-		my $cnt_develop = 0;						# counter id have develop flag
-		my $cnt_develop_modul = 0;			# counter id have developmodul flag
-		my $cnt_frequency = 0;					# counter id have frequency flag
-		my $cnt_knownFreqs = 0;					# counter id have knownFreqs flag without "" value
-		my $cnt_without_knownFreqs = 0;	# counter id without knownFreqs flag
-		my $cnt_Freqs433 = 0;						# counter id knownFreqs 433
-		my $cnt_Freqs868 = 0;						# counter id knownFreqs 868
-
-		my $comment_behind = "";				# comment behind RAWMSG
-		my $comment_infront = "";				# comment in front RAWMSG
-		my $comment = "";								# comment
-
-		my @linevalue;
-
-		open (InputFile,"<$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
-		while (<InputFile>) {
-			$_ =~ s/\s+\t+//g;					# cut space | tab
-			$_ =~ s/\n//g;							# cut end
-			chomp ($_);									# Zeilenende entfernen
-			#Log3 $name, 4, "$name: $_";
-
-			## protocol - id ##
-			if ($_ =~ /^("\d+(\.\d)?")/s) {
-				#Log3 $name, 4, "$name: id $_";
-				@linevalue = split(/=>/, $_);
-				$linevalue[0] =~ s/[^0-9\.]//g;
-				$line_use = "yes";
-				$id_now = $linevalue[0];
-
-				$ProtocolList[$cnt_ids_total]{id} = $id_now;																							## id -> array				
-				$ProtocolList[$cnt_ids_total]{name} = lib::SD_Protocols::getProperty($id_now,"name");			## name -> array
-
-				## statistic - comment from protocol id ##
-				$id_comment = lib::SD_Protocols::getProperty($id_now,"comment");
-				if (not defined $id_comment) {
-					$cnt_no_comment++;
-				} else {
-					$ProtocolList[$cnt_ids_total]{comment} = $id_comment;																		## comment -> array
-				}
-
-				## statistic - clientmodule from protocol id ##
-				$id_clientmodule = lib::SD_Protocols::getProperty($id_now,"clientmodule");
-				if (not defined $id_clientmodule) {
-					$cnt_no_clientmodule++;
-				} else {
-					$ProtocolList[$cnt_ids_total]{clientmodule} = $id_clientmodule;													## clientmodule -> array
-				}
-
-				## statistic - frequency from protocol id ##
-				$id_frequency = lib::SD_Protocols::getProperty($id_now,"frequency");
-				if (defined $id_frequency) {
-					$cnt_frequency++;
-				}
-
-				## statistic - knownFreqs from protocol id ##
-				$id_knownFreqs = lib::SD_Protocols::getProperty($id_now,"knownFreqs");
-				if (defined $id_knownFreqs && $id_knownFreqs ne "") {
-					$cnt_knownFreqs++;
-					if ($id_knownFreqs =~ /433/) {
-						$cnt_Freqs433++;
-					} elsif  ($id_knownFreqs =~ /868/) {
-						$cnt_Freqs868++;
-					}
-				}
-
-				## statistic - developId ##
-				$id_develop = lib::SD_Protocols::getProperty($id_now,"developId");
-				if (defined $id_develop) {
-					$cnt_develop++ if ($id_develop eq "y");
-					$cnt_develop_modul++ if ($id_develop eq "m");
-				}
-
-			## protocol - line user ##
-			} elsif ($_ =~ /#.*@\s?([a-zA-Z0-9-.]+)/s && $line_use eq "yes") {
-				#Log3 $name, 4, "$name: user $_";
-				$ProtocolList[$cnt_ids_total]{user} = $1;																									## user -> array
-			## protocol - message ##
-			} elsif ($line_use eq "yes" && $_ =~ /(.*)(M[USC];.*D=.*O?;)(.*)/s ) {
-				#Log3 $name, 4, "$name: message $_";
-				$comment = "";
-
-				if (defined $1) {
-					$comment_infront = $1 ;
-					$comment_infront =~ s/\s|,/_/g;
-					$comment_infront =~ s/_+/_/g;
-					$comment_infront =~ s/_$//g;
-					$comment_infront =~ s/_#//g;
-					$comment_infront =~ s/#_//g;
-					$comment_infront =~ s/^#//g;
-					if ($comment_infront =~ /:$/) {
-						$comment_infront =~ s/:$//g;
-					}
-				}
-
-				if (defined $5) {
-					$comment_behind = $5 if ($5 ne "");
-					$comment_behind =~ s/^\s+//g;
-					$comment_behind =~ s/\s+/_/g;
-					$comment_behind =~ s/_+/_/g;
-					$comment_behind =~ s/\/+/\//g;
-				}
-
-				$comment = $comment_infront if ($comment_infront ne "");
-				$comment = $comment_behind if ($comment_behind ne "");
-
-				if (defined $2) {
-					my $RAWMSG = $2;
-					$RAWMSG =~ s/\s//g;
-					$ProtocolList[$cnt_ids_total]{data}{rawmsg}[$cnt_RAWmsg] = $RAWMSG;											## RAWMSG -> array
-					if ($comment ne "") {
-						$ProtocolList[$cnt_ids_total]{data}{state}[$cnt_RAWmsg] = $comment;										## state -> array
-					} else {
-						$ProtocolList[$cnt_ids_total]{data}{state}[$cnt_RAWmsg] = "unknown_".($cnt_RAWmsg+1);	## state -> array
-					}
-					$cnt_RAWmsg++;
-					$cnt_RAWmsg_all++;
-				}
-			## protocol - end ##
-			} elsif ($_ =~ /^\},/s) {
-				#Log3 $name, 4, "$name: end $_";
-				$line_use = "no";
-				$cnt_ids_total++;
-				$cnt_RAWmsg = 0;
-			}
-		}
-		close InputFile;
-
-		#### JSON write to file ####
-		my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);					# lesbares JSON | Sort numerically
-
-		open(SaveDoc, '>', $path.$jsonFile) || return "ERROR: file ($jsonFile) can not open!";
-			print SaveDoc $json;
-		close(SaveDoc);
-		####    END    ####
-
-		## created new DispatchModule List with clientmodule from SD_ProtocolData ##
-		my @List_from_pm;
-		for (my $i=0;$i<@ProtocolList;$i++) {
-			if (defined $ProtocolList[$i]{clientmodule}) {
-				my $search = $ProtocolList[$i]{clientmodule};
-				push (@List_from_pm, $ProtocolList[$i]{clientmodule}) if (not grep /$search$/, @List_from_pm);
-			}
-		}
-
-		readingsSingleUpdate($hash, "state" , "information read and file $jsonFile created", 0);
-
-		$ProtocolList_setlist = join(",", @List_from_pm);
-		SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
-
-		## write parameters in ProtocolListInfo ##
-		$cnt_without_knownFreqs = $cnt_ids_total-$cnt_knownFreqs;
-		$ProtocolListInfo = <<"END_MSG";
-ids total: $cnt_ids_total<br>- without clientmodule: $cnt_no_clientmodule<br>- without comment: $cnt_no_comment<br>- development: $cnt_develop<br><br>- without known frequency documentation: $cnt_without_knownFreqs<br>- with known frequency documentation: $cnt_knownFreqs<br>- with additional frequency value: $cnt_frequency<br>- on frequency 433Mhz: $cnt_Freqs433<br>- on frequency 868Mhz: $cnt_Freqs868<br><br>development moduls: $cnt_develop_modul<br><br>available messages: $cnt_RAWmsg_all
-END_MSG
-		## END ##
+		my $return = SIGNALduino_TOOL_from_SD_ProtocolData($name,$cmd,$path,$Filename_input);
+		readingsSingleUpdate($hash, "state" , "$return", 0);
 		return "";
 	}
 
@@ -1490,6 +1328,196 @@ sub SIGNALduino_TOOL_RAWMSG_Check($$$) {
 }
 
 ################################
+sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
+	my ( $name, $cmd, $path, $Filename_input) = @_;
+	Log3 $name, 4, "$name: Get $cmd - check (10)";
+
+	my $id_now;											# readed id
+	my $id_name;										# name from SD_Protocols
+	my $id_comment;									# comment from SD_Protocols
+	my $id_clientmodule;						# clientmodule from SD_Protocols
+	my $id_develop;									# developId from SD_Protocols
+	my $id_frequency;								# frequency from SD_Protocols
+	my $id_knownFreqs;							# knownFreqs from SD_Protocols
+	my $line_use = "no";						# flag use line yes / no
+
+	my $RAWMSG_user;								# user from RAWMSG
+	my $cnt_RAWmsg = 0;							# counter RAWmsg in id
+	my $cnt_RAWmsg_all = 0;					# counter RAWmsg all over
+	my $cnt_id_same = 0;						# counter same id with other RAWmsg
+	my $cnt_ids_total = 0;					# counter protocol ids in file
+	my $cnt_no_comment = 0;					# counter no comment exists
+	my $cnt_no_clientmodule = 0;		# counter no clientmodule in id
+	my $cnt_develop = 0;						# counter id have develop flag
+	my $cnt_develop_modul = 0;			# counter id have developmodul flag
+	my $cnt_frequency = 0;					# counter id have frequency flag
+	my $cnt_knownFreqs = 0;					# counter id have knownFreqs flag without "" value
+	my $cnt_without_knownFreqs = 0;	# counter id without knownFreqs flag
+	my $cnt_Freqs433 = 0;						# counter id knownFreqs 433
+	my $cnt_Freqs868 = 0;						# counter id knownFreqs 868
+
+	my $comment_behind = "";				# comment behind RAWMSG
+	my $comment_infront = "";				# comment in front RAWMSG
+	my $comment = "";								# comment
+	my $return;
+
+	my @linevalue;
+
+	open (InputFile,"<$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+	while (<InputFile>) {
+		$_ =~ s/\s+\t+//g;					# cut space | tab
+		$_ =~ s/\n//g;							# cut end
+		chomp ($_);									# Zeilenende entfernen
+		#Log3 $name, 4, "$name: $_";
+
+		### needed information ###
+		### name | id | data -> (dmsg,state,user,RAWMSG) | version dev ? ###
+
+		## protocol - id ##
+		if ($_ =~ /^("\d+(\.\d)?")/s) {
+			#Log3 $name, 4, "$name: id $_";
+			@linevalue = split(/=>/, $_);
+			$linevalue[0] =~ s/[^0-9\.]//g;
+			$line_use = "yes";
+			$id_now = $linevalue[0];
+
+			$ProtocolList[$cnt_ids_total]{id} = $id_now;																								## id -> array				
+			$ProtocolList[$cnt_ids_total]{name} = lib::SD_Protocols::getProperty($id_now,"name");		## name -> array
+
+			## statistic - comment from protocol id ##
+			$id_comment = lib::SD_Protocols::getProperty($id_now,"comment");
+			if (not defined $id_comment) {
+				$cnt_no_comment++;
+			} else {
+				$ProtocolList[$cnt_ids_total]{comment} = $id_comment;																		## comment -> array
+			}
+
+			## statistic - clientmodule from protocol id ##
+			$id_clientmodule = lib::SD_Protocols::getProperty($id_now,"clientmodule");
+			if (not defined $id_clientmodule) {
+				$cnt_no_clientmodule++;
+			} else {
+				$ProtocolList[$cnt_ids_total]{clientmodule} = $id_clientmodule;													## clientmodule -> array
+			}
+
+			## statistic - frequency from protocol id ##
+			$id_frequency = lib::SD_Protocols::getProperty($id_now,"frequency");
+			if (defined $id_frequency) {
+				$cnt_frequency++;
+			}
+
+			## statistic - knownFreqs from protocol id ##
+			$id_knownFreqs = lib::SD_Protocols::getProperty($id_now,"knownFreqs");
+			if (defined $id_knownFreqs && $id_knownFreqs ne "") {
+				$cnt_knownFreqs++;
+				if ($id_knownFreqs =~ /433/) {
+					$cnt_Freqs433++;
+				} elsif  ($id_knownFreqs =~ /868/) {
+					$cnt_Freqs868++;
+				}
+			}
+
+			## statistic - developId ##
+			$id_develop = lib::SD_Protocols::getProperty($id_now,"developId");
+			if (defined $id_develop) {
+				$cnt_develop++ if ($id_develop eq "y");
+				$cnt_develop_modul++ if ($id_develop eq "m");
+			}
+
+			$RAWMSG_user = "";
+		## protocol - line user ##
+		} elsif ($_ =~ /#.*@\s?([a-zA-Z0-9-.]+)/s && $line_use eq "yes") {
+			#Log3 $name, 4, "$name: user $_";
+			$RAWMSG_user = $1;
+		## protocol - message ##
+		} elsif ($line_use eq "yes" && $_ =~ /(.*)(M[USC];.*D=.*O?;)(.*)/s ) {
+			#Log3 $name, 4, "$name: message $_";
+			$comment = "";
+
+			$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{user} = $RAWMSG_user if ($RAWMSG_user ne "");			## user -> array
+
+			if (defined $1) {
+				$comment_infront = $1 ;
+				$comment_infront =~ s/\s|,/_/g;
+				$comment_infront =~ s/_+/_/g;
+				$comment_infront =~ s/_$//g;
+				$comment_infront =~ s/_#//g;
+				$comment_infront =~ s/#_//g;
+				$comment_infront =~ s/^#//g;
+				if ($comment_infront =~ /:$/) {
+					$comment_infront =~ s/:$//g;
+				}
+			}
+
+			if (defined $5) {
+				$comment_behind = $5 if ($5 ne "");
+				$comment_behind =~ s/^\s+//g;
+				$comment_behind =~ s/\s+/_/g;
+				$comment_behind =~ s/_+/_/g;
+				$comment_behind =~ s/\/+/\//g;
+			}
+
+			$comment = $comment_infront if ($comment_infront ne "");
+			$comment = $comment_behind if ($comment_behind ne "");
+
+			if (defined $2) {
+				my $RAWMSG = $2;
+				$RAWMSG =~ s/\s//g;
+				$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{RAWMSG} = $RAWMSG;												## RAWMSG -> array
+				if ($comment ne "") {
+					$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{state} = $comment;											## state -> array
+				} else {
+					$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{state} = "unknown_".($cnt_RAWmsg+1);	## state -> array + 1 because cnt starts with 0
+				}
+				$cnt_RAWmsg++;
+				$cnt_RAWmsg_all++;
+			}
+		## protocol - end ##
+		} elsif ($_ =~ /^\},/s) {
+			#Log3 $name, 4, "$name: end $_";
+			$line_use = "no";
+			$cnt_ids_total++;
+			$cnt_RAWmsg = 0;
+		}
+	}
+	close InputFile;
+
+	#### JSON write to file ####
+	if (-e $path.$jsonFile) {
+		$return = "you already have a JSON file! only information are readed!";
+	} else {
+		my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);		# lesbares JSON | Sort numerically
+
+		open(SaveDoc, '>', $path.$jsonFile) || return "ERROR: file ($jsonFile) can not open!";
+			print SaveDoc $json;
+		close(SaveDoc);
+		$return = "JSON file created!";
+	}
+	####    END    ####
+
+	## created new DispatchModule List with clientmodule from SD_ProtocolData ##
+	my @List_from_pm;
+	for (my $i=0;$i<@ProtocolList;$i++) {
+		if (defined $ProtocolList[$i]{clientmodule}) {
+			my $search = $ProtocolList[$i]{clientmodule};
+			push (@List_from_pm, $ProtocolList[$i]{clientmodule}) if (not grep /$search$/, @List_from_pm);
+		}
+	}
+
+	$ProtocolList_setlist = join(",", @List_from_pm);
+	SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
+
+	## write parameters in ProtocolListInfo ##
+	$cnt_without_knownFreqs = $cnt_ids_total-$cnt_knownFreqs;
+	$ProtocolListInfo = <<"END_MSG";
+ids total: $cnt_ids_total<br>- without clientmodule: $cnt_no_clientmodule<br>- without comment: $cnt_no_comment<br>- development: $cnt_develop<br><br>- without known frequency documentation: $cnt_without_knownFreqs<br>- with known frequency documentation: $cnt_knownFreqs<br>- with additional frequency value: $cnt_frequency<br>- on frequency 433Mhz: $cnt_Freqs433<br>- on frequency 868Mhz: $cnt_Freqs868<br><br>development moduls: $cnt_develop_modul<br><br>available messages: $cnt_RAWmsg_all
+END_MSG
+	## END ##
+
+	return $return;
+}
+
+################################
 sub SIGNALduino_TOOL_HTMLrefresh($$) {
 	my ( $name, $cmd ) = @_;
 	Log3 $name, 4, "$name: SIGNALduino_TOOL_HTMLrefresh is running after $cmd";
@@ -1519,7 +1547,7 @@ sub SIGNALduino_TOOL_FW_Detail($@) {
 <script>
 $( "#button1" ).click(function(e) {
 	e.preventDefault();
-	FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_getDocuList("'.$FW_detail.'")}&XHR=1\', function(data){SD_DocuListWindow(data)});
+	FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_getSD_ProtocolData("'.$FW_detail.'")}&XHR=1\', function(data){SD_DocuListWindow(data)});
 });
 
 $( "#button2" ).click(function(e) {
@@ -1529,7 +1557,7 @@ $( "#button2" ).click(function(e) {
 
 $( "#button3" ).click(function(e) {
 	e.preventDefault();
-	FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_func3("'.$FW_detail.'")}&XHR=1\', function(data){function3(data)});
+	FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_getSD_JSONData("'.$FW_detail.'")}&XHR=1\', function(data){function3(data)});
 });
 
 $( "#button4" ).click(function(e) {
@@ -1618,11 +1646,10 @@ function function4(txt) {
 }
 
 ################################
-sub SIGNALduino_TOOL_FW_getDocuList {
+sub SIGNALduino_TOOL_FW_getSD_ProtocolData {
 	my $name = shift;
 	my $devText = InternalVal($name,"Version","");
 	my $ret;
-	my $id_now;								# readed id
 	my $oddeven = "odd";			# for css styling
 
 	if (!@ProtocolList) {
@@ -1631,24 +1658,20 @@ sub SIGNALduino_TOOL_FW_getDocuList {
 
 	$ret = "<table class=\"block wide internals wrapcolumns\">";
 	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation in SD_ProtocolData.pm</caption>";
-	$ret .="<thead style=\"text-align:center\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state | state comment ...</td> <td>user</td> </thead>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>comment or state of RAWMSG</td> <td>user</td> </thead>";
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@ProtocolList;$i++) {
-		$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-
 		my $clientmodule = "";
 		$clientmodule = $ProtocolList[$i]{clientmodule} if (defined $ProtocolList[$i]{clientmodule});
-		my $user = "";
-		$user = $ProtocolList[$i]{user} if (defined $ProtocolList[$i]{user});
 
-		if (defined $ProtocolList[$i]{data}{state}) {
-			for (my $i2=0;$i2<@{ $ProtocolList[$i]{data}{state} };$i2++) {
+		if (defined $ProtocolList[$i]{data}) {
+			for (my $i2=0;$i2<@{ $ProtocolList[$i]{data} };$i2++) {
 				$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-				$ret .= "<tr class=\"$oddeven\"> <td><div>".$ProtocolList[$i]{id}."</div></td> <td><div>".$clientmodule."</div></td> <td><div>".$ProtocolList[$i]{name}."</div></td> <td><div>".@{ $ProtocolList[$i]{data}{state} }[$i2]."</div></td> <td><div>".$user."</div></td> </tr>";
+				my $user = "";
+				$user = @{ $ProtocolList[$i]{data} }[$i2]->{user} if (defined @{ $ProtocolList[$i]{data} }[$i2]->{user});
+				$ret .= "<tr class=\"$oddeven\"> <td><div>".$ProtocolList[$i]{id}."</div></td> <td><div>".$clientmodule."</div></td> <td><div>".$ProtocolList[$i]{name}."</div></td> <td><div>".@{ $ProtocolList[$i]{data} }[$i2]->{state}."</div></td> <td><div>".$user."</div></td> </tr>";
 			}
-		} else {
-			$ret .= "<tr class=\"$oddeven\"> <td><div>".$ProtocolList[$i]{id}."</div></td> <td><div>".$clientmodule."</div></td> <td><div>".$ProtocolList[$i]{name}."</div></td> <td><div> </div></td> <td><div>".$user."</div></td> </tr>";
 		}
 	}
 
@@ -1671,17 +1694,48 @@ sub SIGNALduino_TOOL_FW_deleteJSON {
 }
 
 ################################
-sub SIGNALduino_TOOL_FW_func3 {
+sub SIGNALduino_TOOL_FW_getSD_JSONData {
 	my $name = shift;
 	my $devText = InternalVal($name,"Version","");
 	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
 	my $ret;
+	my $oddeven = "odd";			# for css styling
 
 	if (!$ProtocolListRead) {
 		return "No file readed in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolList.json</code><br> to read this information.";
 	}
 
-	return Dumper\$ProtocolListRead;
+	$ret = "<table class=\"block wide internals wrapcolumns\">";
+	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation from SIGNALduino</caption>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>user</td> </thead>";
+	$ret .="<tbody>";
+
+	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+		my $comment = "";
+		my $dmsg = "";
+		my $state = "";
+		my $user = "";
+		my $RAWMSG = "";
+		my $clientmodule = "";
+		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
+
+		#Log3 $name, 3, @$ProtocolListRead[$i]->{id}." - ".lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule");
+		my $data_array = @$ProtocolListRead[$i]->{data};
+		for my $data_element (@$data_array) {
+			foreach my $key (sort keys %{$data_element}) {
+				$comment = $data_element->{$key} if ($key =~ /comment/i);
+				$user = $data_element->{$key} if ($key =~ /user/i);
+				$state = $data_element->{$key} if ($key =~ /state/i);
+				#Log3 $name, 3, $key." - ".$data_element->{$key};
+			}
+			$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
+			$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$user</div></td> </tr>";
+		}
+		#Log3 $name, 3, "############ next id ############";
+	}
+
+	$ret .="</tbody></table>";
+	return $ret;
 }
 
 ################################
@@ -1701,6 +1755,26 @@ sub SIGNALduino_TOOL_FW_getInfo {
 	$ret .="<td>$ProtocolListInfo</td>";
 	$ret .="</tbody></table>";
 	return $ret;
+}
+
+################################
+sub SIGNALduino_TOOL_Notify($$) {
+	my ($hash,$dev_hash) = @_;
+	my $name = $hash->{NAME};																					# own name / hash
+	my $devName = $dev_hash->{NAME};																	# Device that created the events
+	my $Dummyname = AttrVal($name,"Dummyname","none");								# Dummyname
+	my $addvaltrigger = AttrVal($Dummyname,"addvaltrigger","none");		# attrib addvaltrigger
+
+	return "" if(IsDisabled($name));		# Return without any further action if the module is disabled
+
+	my $events = deviceEvents($dev_hash,1);
+	return if( !$events );
+
+	foreach my $event (@{$events}) {
+		$event = "" if(!defined($event));
+		## for instructions ##
+		#Log3 $name, 3, "$name: SIGNALduino_TOOL_Notify are running! addvaltrigger option dummy $Dummyname=$addvaltrigger | equipment restriction=".$hash->{NOTIFYDEV};
+	}
 }
 
 ################################
