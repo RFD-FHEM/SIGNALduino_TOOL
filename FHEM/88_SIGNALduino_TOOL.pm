@@ -259,7 +259,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 									foreach my $key (sort keys %{$data_element}) {
 										if ($key =~ /comment/) {
 											$comment = $data_element->{$key};
-											$comment =~ s/\s+/_/g;										# ersetze leerzeichen durch _
+											$comment =~ s/\s+/_/g;										# ersetze Leerzeichen durch _ (nicht erlaubt in setList)
+											$comment =~ s/,/_/g;											# ersetze Komma durch _ (nicht erlaubt in setList)
 										} elsif ($key =~ /state/) {
 											$state = $data_element->{$key};
 											$state =~ s/\s+/_/g;							  			# ersetze leerzeichen durch _
@@ -276,7 +277,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 							if ($comment ne "" || $state ne "") {
 								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":" . join(",", @setlist_new) . " ";
 							} else {
-								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":noArg";
+								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":noArg ";
 							}
 							@setlist_new = ();
 						}
@@ -452,6 +453,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			## DispatchModule from hash <- SD_ProtocolData ##
 			if ($DispatchModule =~ /^((?!\.txt).)*$/ && @ProtocolList) {
+				Log3 $name, 4, "$name: Set $cmd - check for dispatch from SD_ProtocolData";
 				if ($a[1] =~/id(\d+.?\d?)_(.*)/) {
 					my $id = $1;
 					my $state = $2;
@@ -473,30 +475,36 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			## DispatchModule from hash <- SD_Device_ProtocolList ##
 			} elsif ($DispatchModule =~ /^((?!\.txt).)*$/ && $ProtocolListRead) {
+				Log3 $name, 4, "$name: Set $cmd - check for dispatch from SD_Device_ProtocolList";
 				my $device = $cmd;
 				$device =~ s/$NameDispatchSet//g;		# cut NameDispatchSet name
 				$device =~ s/$DispatchModule//g;		# cut DispatchModule name
 				$device = substr($device,1);				# cut first _
-				
+
 				for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 					## for message with state or comment in doc ##
-					if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} eq $device && $a[1]) {
-						#Log3 $name, 5, "$name: set $cmd - device=".@{$ProtocolListRead}[$i]->{name}." found on pos $i";
+					my $devicename = @{$ProtocolListRead}[$i]->{name};
+					$devicename =~ s/\s/_/g;										# ersetze Leerzeichen durch _
+					
+					if (defined @{$ProtocolListRead}[$i]->{name} && $devicename eq $device && $a[1]) {
+						Log3 $name, 4, "$name: set $cmd - device=".@{$ProtocolListRead}[$i]->{name}." found on pos $i (".$a[1].")";
 						my $data_array = @$ProtocolListRead[$i]->{data};
 						for my $data_element (@$data_array) {
 							foreach my $key (sort keys %{$data_element}) {
 								my $RegEx = $data_element->{$key};
+								$RegEx =~ s/\s/_/g;										# ersetze Leerzeichen durch _
+								$RegEx =~ s/,/./g;										# ersetze Komma durch .
 								if ($a[1] =~ /$RegEx/) {
 									$RAWMSG = $data_element->{rmsg};
 									$error_break--;
-									#Log3 $name, 5, "$name: set $cmd - ".$a[1]." is verified in key=$key";
-									#Log3 $name, 5, "$name: set $cmd - key=$RAWMSG";
+									Log3 $name, 4, "$name: set $cmd - ".$a[1]." is verified in key=$key";
+									#Log3 $name, 3, "$name: set $cmd - key=$RAWMSG";
 								}
 							}
 						}
 					## for message without state and comment in doc ##
-					} elsif (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} eq $device && !$a[1]) {
-						#Log3 $name, 5, "$name: set $cmd - device $device only verified on name";
+					} elsif (defined @{$ProtocolListRead}[$i]->{name} && $devicename eq $device && !$a[1]) {
+						Log3 $name, 4, "$name: set $cmd - device $device only verified on name";
 						my $data_array = @$ProtocolListRead[$i]->{data};
 						for my $data_element (@$data_array) {
 							foreach my $key (sort keys %{$data_element}) {
@@ -511,11 +519,13 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			## DispatchModule from file ##
 			} elsif ($DispatchModule =~ /^.*\.txt$/) {
+				Log3 $name, 4, "$name: Set $cmd - check for dispatch from file";
 				foreach my $keys (sort keys %List) {
 					if ($cmd =~ /^$NameDispatchSet$DispatchModule\_$keys$/) {
 						$setcommand = $DispatchModule."_".$keys;
 						$RAWMSG = $List{$keys}{$cmd2} if (defined $cmd2);
 						$RAWMSG = $List{$keys}{noArg} if (not defined $cmd2);
+						$error_break--;
 						last;
 					}
 				}
