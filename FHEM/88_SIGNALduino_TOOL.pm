@@ -24,15 +24,17 @@ use lib::SD_Protocols;
 
 #$| = 1;		#Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
-my %List;																								# List of ne dispatch status
-my $ProtocolListInfo;																		# Info from many parameters
-my @ProtocolList;																				# ProtocolList hash from file write
-my $ProtocolListRead; 																	# ProtocolList from readed file
-my $ProtocolList_setlist = "";													# setlist with readed ProtocolList
+my %List;																								# for dispatch List from from file .txt
+my $ProtocolList_setlist = "";													# for setlist with readed ProtocolList information
+my $ProtocolListInfo;																		# for Info from many parameters from SD_ProtocolData file
+
+my @ProtocolList;																				# ProtocolList hash from file write SD_ProtocolData information
+my $ProtocolListRead; 																	# ProtocolList from readed SD_Device_ProtocolList file | (name id module dmsg user state repeat model comment rmsg)
 
 my $Filename_Dispatch = "SIGNALduino_TOOL_Dispatch_";		# name file to read input for dispatch
 my $NameDispatchSet = "Dispatch_";											# name of setlist value´s to dispatch
-my $jsonFile = "SD_ProtocolList.json";									# name of file to export / import ProtocolList
+my $jsonProtList = "SD_ProtocolList.json";							# name of file to export information from doc rmsg ProtocolList
+my $jsonDoc = "SD_Device_ProtocolList.json";						# name of file to import / export
 
 ################################
 
@@ -82,7 +84,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-03-26";
+	$hash->{Version} = "2019-03-27";
 
 	### name of event with limitation ###
 	$hash->{NOTIFYDEV} = "global,TYPE=SIGNALduino";
@@ -160,6 +162,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		readingsSingleUpdate($hash, "state" , "ERROR: $path not found! Please check Attributes Path." , 0) if not (-d $path);
 		readingsSingleUpdate($hash, "state" , "ready" , 0) if (-d $path && ReadingsVal($name, "state", "none") =~ /^ERROR.*Path.$/);
 
+		## read all .txt to dispatch
 		opendir(DIR,$path) || return "ERROR: directory $path can not open!";
 		while( my $directory_value = readdir DIR ){
 		if ($directory_value =~ /^$Filename_Dispatch.*txt/) {
@@ -170,27 +173,31 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		}
 		close DIR;
 
-		my @modeltyp_sorted = sort { lc($a) cmp lc($b) } @modeltyp;
-		my $userattr_list = join(",", @modeltyp_sorted);
-		my $userattr_list_new = $userattr_list.",".$ProtocolList_setlist;
+		my @modeltyp_sorted = sort { lc($a) cmp lc($b) } @modeltyp;													# array of dispatch txt files
+		my $userattr_list = join(",", @modeltyp_sorted);																		# sorted list of dispatch txt files
+		my $userattr_list_new = $userattr_list.",".$ProtocolList_setlist;										# list of all dispatch possibilities
 
-		my @userattr_list_new_unsorted = split(",", $userattr_list_new);
-		my @userattr_list_new_sorted = sort { $a cmp $b } @userattr_list_new_unsorted;
+		my @userattr_list_new_unsorted = split(",", $userattr_list_new);										# array of all dispatch possibilities
+		my @userattr_list_new_sorted = sort { $a cmp $b } @userattr_list_new_unsorted;			# sorted list of all dispatch possibilities
 
-		$userattr_list_new = "DispatchModule:-,".join( "," , @userattr_list_new_sorted );
+		$userattr_list_new = "DispatchModule:-,".join( "," , @userattr_list_new_sorted );		# attr value userattr
 		Log3 $name, 5, "$name: Set $cmd - attr userattr=$userattr" if ($cnt_loop == 1);
-		
-		$attr{$name}{userattr} = $userattr_list_new;																																																																						# set model, live always
-		$attr{$name}{DispatchModule} = "-" if (($userattr =~ /^DispatchModule:-,$/ || not $attr{$name}{userattr} =~ /$DispatchModule/) || (!@ProtocolList && not $DispatchModule =~ /.*txt/));	# set DispatchModule to standard
 
-		delete $hash->{dispatchOption} if ($DispatchModule eq "-" && exists $hash->{dispatchOption});
+		$attr{$name}{userattr} = $userattr_list_new;
+		$attr{$name}{DispatchModule} = "-" if ($userattr =~ /^DispatchModule:-,$/ || not $attr{$name}{userattr} =~ /$DispatchModule/);	# set DispatchModule to standard
+		
+		delete $hash->{dispatchOption} if (!$ProtocolListRead && !@ProtocolList && $hash->{dispatchOption});
 
 		if ($DispatchModule ne "-") {
 			my $count = 0;
 			my $returnList = "";
 
+			# Log3 $name, 5, "$name: Set $cmd - Dispatchoption = file" if ($DispatchModule =~ /^.*\.txt$/);
+			# Log3 $name, 5, "$name: Set $cmd - Dispatchoption = SD_ProtocolData.pm" if ($DispatchModule =~ /^((?!\.txt).)*$/ && @ProtocolList);
+			# Log3 $name, 5, "$name: Set $cmd - Dispatchoption = SD_Device_ProtocolList.json" if ($DispatchModule =~ /^((?!\.txt).)*$/ && $ProtocolListRead);
+
 			### read file dispatch file
-			if ($DispatchModule =~ /^.*.txt$/) {
+			if ($DispatchModule =~ /^.*\.txt$/) {
 				open (FileCheck,"<$path$Filename_Dispatch$DispatchModule") || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
 				while (<FileCheck>){
 					if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
@@ -206,18 +213,18 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 				### build new list for setlist | dispatch option
 				foreach my $keys (sort keys %List) {	
-					Log3 $name, 5, "$name: Set $cmd - check setList via file - $DispatchModule with $keys found" if ($cnt_loop == 1);
+					Log3 $name, 5, "$name: Set $cmd - check setList from file - $DispatchModule with $keys found" if ($cnt_loop == 1);
 					$returnList.= $NameDispatchSet.$DispatchModule."_".$keys . ":" . join(",", sort keys(%{$List{$keys}})) . " ";
 				}
 				$setList .= " $returnList";
 
-			### read dispatch from array in memory
-			} elsif ($DispatchModule =~ /^.*$/ && @ProtocolList) {
+			### read dispatch from SD_ProtocolData in memory
+			} elsif ($DispatchModule =~ /^((?!\.txt).)*$/ && @ProtocolList) {	# /^.*$/
 				my @setlist_new;
 				for (my $i=0;$i<@ProtocolList;$i++) {
 					if (defined $ProtocolList[$i]{clientmodule} && $ProtocolList[$i]{clientmodule} eq $DispatchModule && (defined $ProtocolList[$i]{data}) ) {
 						for (my $i2=0;$i2<@{ $ProtocolList[$i]{data} };$i2++) {
-							Log3 $name, 5, "$name: Set $cmd - check setList via memory array - id:$ProtocolList[$i]{id} state:@{ $ProtocolList[$i]{data} }[$i2]->{state}" if ($cnt_loop == 1);
+							Log3 $name, 5, "$name: Set $cmd - check setList from SD_ProtocolData - id:$ProtocolList[$i]{id} state:@{ $ProtocolList[$i]{data} }[$i2]->{state}" if ($cnt_loop == 1);
 							push(@setlist_new , "id".$ProtocolList[$i]{id}."_".@{ $ProtocolList[$i]{data} }[$i2]->{state})
 						}
 					}
@@ -228,6 +235,52 @@ sub SIGNALduino_TOOL_Set($$$@) {
 					Log3 $name, 5, "$name: Set $cmd - check setList is failed! syntax $1 not allowed in setlist!" if ($cnt_loop == 1);
 					$returnList =~ s/#/||/g;			# !! for no allowed # syntax in setlist - modified to later remodified
 					Log3 $name, 5, "$name: Set $cmd - check setList modified to |" if ($cnt_loop == 1);
+				}
+				$setList .= " $returnList";
+
+			### read dispatch from SD_Device_ProtocolList in memory
+			} elsif ($DispatchModule =~ /^((?!\.txt).)*$/ && $ProtocolListRead) {	# /^.*$/
+				my @setlist_new;
+				for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+					if (defined @{$ProtocolListRead}[$i]->{id}) {
+						my $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "clientmodule" );
+						if (defined $search && $search eq $DispatchModule) {	# for id´s with no clientmodule
+							#Log3 $name, 5, "$name: Set $cmd - check setList from SD_Device_ProtocolList - id:".@{$ProtocolListRead}[$i]->{id} if ($cnt_loop == 1);
+							my $newDeviceName = @{$ProtocolListRead}[$i]->{name};
+							$newDeviceName =~ s/\s+/_/g;
+
+							my $comment = "";
+							my $state = "";
+
+							### look for state or comment ###
+							if (defined @{$ProtocolListRead}[$i]->{data}) {
+								my $data_array = @$ProtocolListRead[$i]->{data};
+								for my $data_element (@$data_array) {
+									foreach my $key (sort keys %{$data_element}) {
+										if ($key =~ /comment/) {
+											$comment = $data_element->{$key};
+											$comment =~ s/\s+/_/g;										# ersetze leerzeichen durch _
+										} elsif ($key =~ /state/) {
+											$state = $data_element->{$key};
+											$state =~ s/\s+/_/g;							  			# ersetze leerzeichen durch _
+										}
+									}
+									Log3 $name, 5, "$name: state=$state comment=$comment";
+									push(@setlist_new , $state) if ($state ne "" && $comment eq "");
+									push(@setlist_new , $comment) if ($state eq "" && $comment ne "");
+									push(@setlist_new , $state."_".$comment) if ($state ne "" && $comment ne "");
+								}
+							}
+							
+							## setlist name part 2 ##
+							if ($comment ne "" || $state ne "") {
+								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":" . join(",", @setlist_new) . " ";
+							} else {
+								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":noArg";
+							}
+							@setlist_new = ();
+						}
+					}
 				}
 				$setList .= " $returnList";
 			}
@@ -380,7 +433,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		if ($cmd eq "RAWMSG_M1" || $cmd eq "RAWMSG_M2" || $cmd eq "RAWMSG_M3") {
 			Log3 $name, 4, "$name: Set $cmd - check (5)";
 			my $RAWMSG_Memory = AttrVal($name,"$cmd","");
-			$RAWMSG_Memory =~ s/;/;;/g;																			# ersetze ; durch ;;
+			$RAWMSG_Memory =~ s/;/;;/g;																		# ersetze ; durch ;;
 
 			fhem("get $Dummyname raw ".$RAWMSG_Memory);
 
@@ -395,10 +448,10 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			my $setcommand;
 			my $RAWMSG;
-			my $error_break = 0;
+			my $error_break = 1;
 
 			## DispatchModule from hash <- SD_ProtocolData ##
-			if (not $DispatchModule =~ /.*.txt$/) {
+			if ($DispatchModule =~ /^((?!\.txt).)*$/ && @ProtocolList) {
 				if ($a[1] =~/id(\d+.?\d?)_(.*)/) {
 					my $id = $1;
 					my $state = $2;
@@ -409,16 +462,55 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						if (defined $ProtocolList[$i]{clientmodule} && $ProtocolList[$i]{clientmodule} eq $DispatchModule && $ProtocolList[$i]{id} eq $id) {
 							for (my $i2=0;$i2<@{ $ProtocolList[$i]{data} };$i2++) {
 								if (@{ $ProtocolList[$i]{data} }[$i2]->{state} eq $state) {
-									$RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{RAWMSG};
+									$RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{rmsg};
 									$error_break--;
-									Log3 $name, 5, "$name: Set $cmd - id:$id state=".@{ $ProtocolList[$i]{data} }[$i2]->{state}." rawmsg=".@{ $ProtocolList[$i]{data} }[$i2]->{RAWMSG};
+									Log3 $name, 5, "$name: Set $cmd - id:$id state=".@{ $ProtocolList[$i]{data} }[$i2]->{state}." rawmsg=".@{ $ProtocolList[$i]{data} }[$i2]->{rmsg};
 								}
 							}
 						}
 					}
 				}
+
+			## DispatchModule from hash <- SD_Device_ProtocolList ##
+			} elsif ($DispatchModule =~ /^((?!\.txt).)*$/ && $ProtocolListRead) {
+				my $device = $cmd;
+				$device =~ s/$NameDispatchSet//g;		# cut NameDispatchSet name
+				$device =~ s/$DispatchModule//g;		# cut DispatchModule name
+				$device = substr($device,1);				# cut first _
+				
+				for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+					## for message with state or comment in doc ##
+					if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} eq $device && $a[1]) {
+						#Log3 $name, 5, "$name: set $cmd - device=".@{$ProtocolListRead}[$i]->{name}." found on pos $i";
+						my $data_array = @$ProtocolListRead[$i]->{data};
+						for my $data_element (@$data_array) {
+							foreach my $key (sort keys %{$data_element}) {
+								my $RegEx = $data_element->{$key};
+								if ($a[1] =~ /$RegEx/) {
+									$RAWMSG = $data_element->{rmsg};
+									$error_break--;
+									#Log3 $name, 5, "$name: set $cmd - ".$a[1]." is verified in key=$key";
+									#Log3 $name, 5, "$name: set $cmd - key=$RAWMSG";
+								}
+							}
+						}
+					## for message without state and comment in doc ##
+					} elsif (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} eq $device && !$a[1]) {
+						#Log3 $name, 5, "$name: set $cmd - device $device only verified on name";
+						my $data_array = @$ProtocolListRead[$i]->{data};
+						for my $data_element (@$data_array) {
+							foreach my $key (sort keys %{$data_element}) {
+								if ($key eq "rmsg") {
+									$RAWMSG = $data_element->{rmsg};
+									$error_break--;
+								}
+							}
+						}
+					}
+				}
+
 			## DispatchModule from file ##
-			} elsif ($DispatchModule =~ /.*.txt$/) {
+			} elsif ($DispatchModule =~ /^.*\.txt$/) {
 				foreach my $keys (sort keys %List) {
 					if ($cmd =~ /^$NameDispatchSet$DispatchModule\_$keys$/) {
 						$setcommand = $DispatchModule."_".$keys;
@@ -435,7 +527,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				return "";
 			}
 
-			#Log3 $name, 5, "$name: Set $cmd - check (6) RAWMSG=$RAWMSG $a[1]";
 			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);	# check RAWMSG
 			return "$error" if $error ne "";																# if check RAWMSG failed
 
@@ -536,7 +627,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$attr{$name}{webCmd} = $webCmd;
 		}
 
-		#Log3 $name, 5, "$name: Set $cmd - RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd" if ($cmd ne "?");
 		return;
 	}
 
@@ -553,7 +643,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my $onlyDataName = "-ONLY_DATA-";
 	my $list = "TimingsList:noArg Durration_of_Message invert_bitMsg invert_hexMsg change_bin_to_hex change_hex_to_bin change_dec_to_hex change_hex_to_dec reverse_Input ";
 	$list .= "FilterFile:multiple,bitMsg:,bitMsg_invert:,dmsg:,hexMsg:,hexMsg_invert:,MC;,MS;,MU;,RAWMSG:,READredu:,READ:,UserInfo:,$onlyDataName ProtocolList_from_file_SD_ProtocolData.pm:noArg ".
-					"ProtocolList_from_file_SD_ProtocolList.json:noArg All_ClockPulse:noArg All_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
+					"ProtocolList_from_file_SD_Device_ProtocolList.json:noArg All_ClockPulse:noArg All_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
 					"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg" if ($Filename_input ne "");
 	my $linecount = 0;
 	my $founded = 0;
@@ -572,6 +662,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		}
 	}
 
+	## create one list in csv format to import in other program ##
 	if ($cmd eq "TimingsList") {
 		Log3 $name, 4, "$name: Get $cmd - check (1)";
 		my %ProtocolListSIGNALduino = SIGNALduino_LoadProtocolHash("$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm");
@@ -683,6 +774,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "New TimingsList ($file) are created!\nFile is in $path directory from FHEM.";
 	}
 
+	## filtering args from input_file in export_file ##
 	if ($cmd eq "FilterFile") {
 		Log3 $name, 4, "$name: Get $cmd - check (2)";
 		my $manually = 0;
@@ -777,6 +869,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "$cmd are ready!";
 	}
 
+	## read information from InputFile and calculate duration from ClockPulse or SyncPulse ##
 	if ($cmd eq "All_ClockPulse" || $cmd eq "All_SyncPulse") {
 		Log3 $name, 4, "$name: Get $cmd - check (3)";
 		my $ClockPulse = 0;
@@ -854,6 +947,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return substr($cmd,4)." &Oslash; are ".$value." at $founded readed values!\nmin: $min (- $valuepercentmin%) | max: $max (+ $valuepercentmax%)";
 	}
 
+	## read information from InputFile and search ClockPulse or SyncPulse with tol ##
 	if ($cmd eq "InputFile_one_ClockPulse" || $cmd eq "InputFile_one_SyncPulse") {
 		Log3 $name, 4, "$name: Get $cmd - check (4)";
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
@@ -961,6 +1055,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		}
 	}
 
+	## read information from InputFile and check RAWMSG of one doublePulse ##
 	if ($cmd eq "InputFile_doublePulse") {
 		Log3 $name, 4, "$name: Get $cmd - check (7)";
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
@@ -1099,7 +1194,6 @@ sub SIGNALduino_TOOL_Get($$$@) {
 
 		$return.= $Durration_of_Message."\n" if ($msg_repeats > 1);
 		$return.= $Durration_of_Message_total;
-		### END
 
 		return $return;
 	}
@@ -1122,25 +1216,49 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".hex($a[0]);
 	}
 
+	## read information from SD_ProtocolData.pm in memory ##
 	if ($cmd eq "ProtocolList_from_file_SD_ProtocolData.pm") {
+		$attr{$name}{DispatchModule} = "-";										# to set standard
 		my $return = SIGNALduino_TOOL_from_SD_ProtocolData($name,$cmd,$path,$Filename_input);
 		readingsSingleUpdate($hash, "state" , "$return", 0);
+		$hash->{dispatchOption} = "from SD_ProtocolData.pm";
+		$ProtocolListRead = "";
+
 		return "";
 	}
 
-	if ($cmd eq "ProtocolList_from_file_SD_ProtocolList.json") {
+	## read information from SD_Device_ProtocolList.json in JSON format ##
+	if ($cmd eq "ProtocolList_from_file_SD_Device_ProtocolList.json") {
 		Log3 $name, 4, "$name: Get $cmd - check (11)";
 
 		my $json;
 		{
 			local $/; #Enable 'slurp' mode
-			open (LoadDoc, "<", $path.$jsonFile) || return "ERROR: file ($jsonFile) can not open!";
+			open (LoadDoc, "<", $path.$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
 				$json = <LoadDoc>;
 			close (LoadDoc);
 		}
 		$ProtocolListRead = decode_json($json);
+		
+		## created new DispatchModule List with clientmodule from SD_Device_ProtocolList ##
+		my @List_from_pm;
+		for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+			if (defined @{$ProtocolListRead}[$i]->{id}) {
+				my $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "clientmodule" );
+				if (defined $search) {	# for id´s with no clientmodule
+					push (@List_from_pm, $search) if (not grep /$search$/, @List_from_pm);
+				}
+			}
+		}
 
-		return "Your file $jsonFile are ready readed in memory!";
+		$ProtocolList_setlist = join(",", @List_from_pm);
+		$attr{$name}{DispatchModule} = "-";										# to set standard
+		SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
+		readingsSingleUpdate($hash, "state" , "Your file $jsonDoc are ready readed in memory!", 0);
+		$hash->{dispatchOption} = "from SD_Device_ProtocolList.json";
+		@ProtocolList = ();
+
+		return "";
 	}
 
 	return "Unknown argument $cmd, choose one of $list";
@@ -1261,7 +1379,6 @@ sub SIGNALduino_TOOL_Attr() {
 				close FileCheck;
 				Log3 $name, 4, "$name: Attr - You used $attrName from file $attrValue!";
 			} else {
-				$hash->{dispatchOption} = "from memory";
 				Log3 $name, 4, "$name: Attr - You used $attrName from memory!";
 			}
 
@@ -1370,9 +1487,6 @@ sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
 		chomp ($_);									# Zeilenende entfernen
 		#Log3 $name, 4, "$name: $_";
 
-		### needed information ###
-		### name | id | data -> (dmsg,state,user,RAWMSG) | version dev ? ###
-
 		## protocol - id ##
 		if ($_ =~ /^("\d+(\.\d)?")/s) {
 			#Log3 $name, 4, "$name: id $_";
@@ -1381,7 +1495,7 @@ sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
 			$line_use = "yes";
 			$id_now = $linevalue[0];
 
-			$ProtocolList[$cnt_ids_total]{id} = $id_now;																								## id -> array				
+			$ProtocolList[$cnt_ids_total]{id} = $id_now;																						## id -> array				
 			$ProtocolList[$cnt_ids_total]{name} = lib::SD_Protocols::getProperty($id_now,"name");		## name -> array
 
 			## statistic - comment from protocol id ##
@@ -1389,7 +1503,7 @@ sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
 			if (not defined $id_comment) {
 				$cnt_no_comment++;
 			} else {
-				$ProtocolList[$cnt_ids_total]{comment} = $id_comment;																		## comment -> array
+				$ProtocolList[$cnt_ids_total]{comment} = $id_comment;																	## comment -> array
 			}
 
 			## statistic - clientmodule from protocol id ##
@@ -1397,7 +1511,7 @@ sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
 			if (not defined $id_clientmodule) {
 				$cnt_no_clientmodule++;
 			} else {
-				$ProtocolList[$cnt_ids_total]{clientmodule} = $id_clientmodule;													## clientmodule -> array
+				$ProtocolList[$cnt_ids_total]{clientmodule} = $id_clientmodule;												## clientmodule -> array
 			}
 
 			## statistic - frequency from protocol id ##
@@ -1463,9 +1577,9 @@ sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
 			if (defined $2) {
 				my $RAWMSG = $2;
 				$RAWMSG =~ s/\s//g;
-				$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{RAWMSG} = $RAWMSG;												## RAWMSG -> array
+				$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{rmsg} = $RAWMSG;												## RAWMSG -> array
 				if ($comment ne "") {
-					$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{state} = $comment;											## state -> array
+					$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{state} = $comment;										## state -> array
 				} else {
 					$ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{state} = "unknown_".($cnt_RAWmsg+1);	## state -> array + 1 because cnt starts with 0
 				}
@@ -1482,18 +1596,17 @@ sub SIGNALduino_TOOL_from_SD_ProtocolData($$$$) {
 	}
 	close InputFile;
 
-	#### JSON write to file ####
-	if (-e $path.$jsonFile) {
+	#### JSON write to file | not file for changed ####
+	if (-e $path.$jsonProtList) {
 		$return = "you already have a JSON file! only information are readed!";
 	} else {
 		my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);		# lesbares JSON | Sort numerically
 
-		open(SaveDoc, '>', $path.$jsonFile) || return "ERROR: file ($jsonFile) can not open!";
+		open(SaveDoc, '>', $path.$jsonProtList) || return "ERROR: file ($jsonProtList) can not open!";
 			print SaveDoc $json;
 		close(SaveDoc);
 		$return = "JSON file created!";
 	}
-	####    END    ####
 
 	## created new DispatchModule List with clientmodule from SD_ProtocolData ##
 	my @List_from_pm;
@@ -1539,9 +1652,9 @@ sub SIGNALduino_TOOL_FW_Detail($@) {
 	<tr class='even'>";
 
 	$ret .="<td><a href='#button1' id='button1'>Display doc in SD_ProtocolData.pm</a></td>";
-	$ret .="<td><a href='#button2' id='button2'>Display more Information over all Protocols</a></td>";
+	$ret .="<td><a href='#button2' id='button2'>Display Information over all Protocols</a></td>";
 	$ret .="<td><a href='#button3' id='button3'>Display readed SD_ProtocolList.json</a></td>";
-	$ret .="<td><a href='#button4' id='button4'>JSON file delete</a></td>";
+	$ret .="<td><a href='#button4' id='button4'>file SD_ProtocolList.json delete</a></td>";
 	$ret .= '</tr></table></div>
 
 <script>
@@ -1658,7 +1771,7 @@ sub SIGNALduino_TOOL_FW_getSD_ProtocolData {
 
 	$ret = "<table class=\"block wide internals wrapcolumns\">";
 	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation in SD_ProtocolData.pm</caption>";
-	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>comment or state of RAWMSG</td> <td>user</td> </thead>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>comment or state of rmsg</td> <td>user</td> </thead>";
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@ProtocolList;$i++) {
@@ -1686,7 +1799,7 @@ sub SIGNALduino_TOOL_FW_deleteJSON {
 	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
 	my $ret;
 
-	$ret = unlink ($path.$jsonFile) || return "ERROR: No file ($jsonFile) found in $path directory from FHEM!";
+	$ret = unlink ($path.$jsonProtList) || return "ERROR: No file ($jsonProtList) found in $path directory from FHEM!";
 	if ($ret == 1) {
 		$ret = "file delete";
 	}
@@ -1702,12 +1815,12 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 	my $oddeven = "odd";			# for css styling
 
 	if (!$ProtocolListRead) {
-		return "No file readed in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolList.json</code><br> to read this information.";
+		return "No file readed in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information.";
 	}
 
 	$ret = "<table class=\"block wide internals wrapcolumns\">";
 	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation from SIGNALduino</caption>";
-	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>user</td> </thead>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>dmsg</td> <td>rmsg</td> <td>user</td> </thead>";
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
@@ -1719,19 +1832,20 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 		my $clientmodule = "";
 		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
 
-		#Log3 $name, 3, @$ProtocolListRead[$i]->{id}." - ".lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule");
-		my $data_array = @$ProtocolListRead[$i]->{data};
-		for my $data_element (@$data_array) {
-			foreach my $key (sort keys %{$data_element}) {
-				$comment = $data_element->{$key} if ($key =~ /comment/i);
-				$user = $data_element->{$key} if ($key =~ /user/i);
-				$state = $data_element->{$key} if ($key =~ /state/i);
-				#Log3 $name, 3, $key." - ".$data_element->{$key};
+		if (@$ProtocolListRead[$i]->{id} ne "") {
+			my $data_array = @$ProtocolListRead[$i]->{data};
+			for my $data_element (@$data_array) {
+				foreach my $key (sort keys %{$data_element}) {
+					$comment = $data_element->{$key} if ($key =~ /comment/);
+					$user = $data_element->{$key} if ($key =~ /user/);
+					$state = $data_element->{$key} if ($key =~ /state/);
+					$dmsg = $data_element->{$key} if ($key =~ /dmsg/);
+					$RAWMSG = "x" if ($key =~ /rmsg/);
+				}
+				$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
+				$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$dmsg</div></td> <td style=\"text-align:center\"><div>$RAWMSG</div></td> <td><div>$user</div></td> </tr>";
 			}
-			$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-			$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$user</div></td> </tr>";
 		}
-		#Log3 $name, 3, "############ next id ############";
 	}
 
 	$ret .="</tbody></table>";
@@ -1777,8 +1891,6 @@ sub SIGNALduino_TOOL_Notify($$) {
 	}
 }
 
-################################
-
 # Eval-Rückgabewert für erfolgreiches
 # Laden des Moduls
 1;
@@ -1821,7 +1933,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	<b>Get</b>
 	<ul><li><a name="All_ClockPulse"></a><code>All_ClockPulse</code> - calculates the average of the ClockPulse from Input_File</li><a name=""></a></ul>
 	<ul><li><a name="All_SyncPulse"></a><code>All_SyncPulse</code> - calculates the average of the SyncPulse from Input_File</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_from_file_SD_ProtocolList.json"></a><code>ProtocolList_from_file_SD_ProtocolList.json</code> - one reload from <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
@@ -1859,7 +1971,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 		<li><a name="MessageNumber">MessageNumber</a><br>
 		Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>START</code>!)</li>
 		<li><a name="Path">Path</a><br>
-			Path of the tool in which the file (s) are stored or read. (standard is <code>./</code> which corresponds to the directory FHEM)</li>
+			Path of the tool in which the file (s) are stored or read. example: SD_ProtocolList.json | SD_Device_ProtocolList.json (standard is <code>./</code> which corresponds to the directory FHEM)</li>
 		<li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
 			Memory 1 for a raw message</li>
 		<li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
@@ -1909,7 +2021,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	<b>Get</b>
 	<ul><li><a name="All_ClockPulse"></a><code>All_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei</li><a name=""></a></ul>
 	<ul><li><a name="All_SyncPulse"></a><code>All_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_from_file_SD_ProtocolList.json"></a><code>ProtocolList_from_file_SD_ProtocolList.json</code> - ein Reload der <code>SD_ProtocolList.json</code> Datei.</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
 	&emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
@@ -1951,7 +2063,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 			Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
 			<a name="MessageNumberEnd"></a>
 		<li><a name="Path">Path</a><br>
-			Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. (Standard ist <code>./</code> was dem Verzeichnis FHEM entspricht)</li>
+			Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SD_ProtocolList.json | SD_Device_ProtocolList.json (Standard ist <code>./</code> was dem Verzeichnis FHEM entspricht)</li>
 		<li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
 			Speicherplatz 1 für eine Roh-Nachricht</li>
 		<li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
