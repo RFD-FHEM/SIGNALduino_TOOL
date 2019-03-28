@@ -84,7 +84,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-03-27";
+	$hash->{Version} = "2019-03-28";
 
 	### name of event with limitation ###
 	$hash->{NOTIFYDEV} = "global,TYPE=SIGNALduino";
@@ -184,8 +184,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		Log3 $name, 5, "$name: Set $cmd - attr userattr=$userattr" if ($cnt_loop == 1);
 
 		$attr{$name}{userattr} = $userattr_list_new;
-		$attr{$name}{DispatchModule} = "-" if ($userattr =~ /^DispatchModule:-,$/ || not $attr{$name}{userattr} =~ /$DispatchModule/);	# set DispatchModule to standard
-		
+		$attr{$name}{DispatchModule} = "-" if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && not $DispatchModule =~ /^.*\.txt$/);	# set DispatchModule to standard
+	
 		delete $hash->{dispatchOption} if (!$ProtocolListRead && !@ProtocolList && $hash->{dispatchOption});
 
 		if ($DispatchModule ne "-") {
@@ -248,6 +248,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 							#Log3 $name, 5, "$name: Set $cmd - check setList from SD_Device_ProtocolList - id:".@{$ProtocolListRead}[$i]->{id} if ($cnt_loop == 1);
 							my $newDeviceName = @{$ProtocolListRead}[$i]->{name};
 							$newDeviceName =~ s/\s+/_/g;
+							my $idnow = @{$ProtocolListRead}[$i]->{id};
 
 							my $comment = "";
 							my $state = "";
@@ -275,9 +276,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 							
 							## setlist name part 2 ##
 							if ($comment ne "" || $state ne "") {
-								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":" . join(",", @setlist_new) . " ";
+								$returnList.= $NameDispatchSet.$DispatchModule."_id".$idnow."_".$newDeviceName.":" . join(",", @setlist_new) . " ";
 							} else {
-								$returnList.= $NameDispatchSet.$DispatchModule."_".$newDeviceName.":noArg ";
+								$returnList.= $NameDispatchSet.$DispatchModule."_id".$idnow."_".$newDeviceName.":noArg ";
 							}
 							@setlist_new = ();
 						}
@@ -287,6 +288,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			}
 
 			Log3 $name, 5, "$name: Set $cmd - check setList=$setList" if ($cnt_loop == 1);
+		}
+		
+		### for SD_Device_ProtocolList | new empty and save file
+		if ($ProtocolListRead) {
+			$setList .= " ProtocolList_add_new_entry:noArg ProtocolList_save_to_file:noArg";
 		}
 	}
 
@@ -378,7 +384,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$a[1],$cmd);		# check RAWMSG
 			return "$error" if $error ne "";																# if check RAWMSG failed
 
-			$a[1] =~ s/[^A-Za-z0-9\-;=]//g;;		# nur zulässige Zeichen erlauben
 			$a[1] =~ s/;+/;;/g;									# ersetze ; durch ;;
 			my $msg = $a[1];
 			Log3 $name, 4, "$name: get $Dummyname raw $msg" if (defined $a[1]);
@@ -479,7 +484,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				my $device = $cmd;
 				$device =~ s/$NameDispatchSet//g;		# cut NameDispatchSet name
 				$device =~ s/$DispatchModule//g;		# cut DispatchModule name
-				$device = substr($device,1);				# cut first _
+				$device =~ s/_id\d{1,}.?\d_//g;			# cut id
 
 				for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 					## for message with state or comment in doc ##
@@ -540,7 +545,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);	# check RAWMSG
 			return "$error" if $error ne "";																# if check RAWMSG failed
 
-			$RAWMSG =~ s/[^A-Za-z0-9\-;=]//g;;															# nur zulässige Zeichen erlauben
 			$RAWMSG =~ s/;/;;/g;																						# ersetze ; durch ;;
 			Log3 $name, 4, "$name: get $Dummyname raw $RAWMSG";
 			fhem("get $Dummyname raw ".$RAWMSG);
@@ -612,6 +616,16 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			Log3 $name, 4, "$name: Set $cmd - check (10)";
 			$DummyMSGCNTvalue = $DummyMSGCNT - $DummyMSGCNT_old if ($DummyMSGCNT - $DummyMSGCNT_old >= 1);					## old ->	$DummyMSGCNTvalue++ if ($DummyMSGCNT - $DummyMSGCNT_old >= 1);
 			$DMSG_last = "no DMSG! Protocol not decoded!" if (defined $DummyMSGCNTvalue && $DummyMSGCNTvalue == 0);
+		}
+
+		### new entry in SD_Device_ProtocolList ###
+		if ($cmd eq "ProtocolList_add_new_entry") {
+			return "still under development!";
+		}
+		
+		### save new SD_Device_ProtocolList file ###
+		if ($cmd eq "ProtocolList_save_to_file") {
+			return "still under development!";
 		}
 
 		$RAWMSG_last =~ s/;;/;/g;																						# ersetze ; durch ;;
@@ -1248,7 +1262,13 @@ sub SIGNALduino_TOOL_Get($$$@) {
 				$json = <LoadDoc>;
 			close (LoadDoc);
 		}
-		$ProtocolListRead = decode_json($json);
+		
+		$ProtocolListRead = eval { decode_json($json) };
+		if ($@) {
+			$@ =~ s/\sat\s\.\/FHEM.*//g;
+			readingsSingleUpdate($hash, "state" , "Your file $jsonDoc are not loaded!", 0);	
+			return "ERROR: decode_json failed, invalid json!<br><br>$@\n";	# error if JSON not valid or syntax wrong
+		}
 		
 		## created new DispatchModule List with clientmodule from SD_Device_ProtocolList ##
 		my @List_from_pm;
@@ -1443,13 +1463,13 @@ sub SIGNALduino_TOOL_RAWMSG_Check($$$) {
 	my ( $name, $message, $cmd ) = @_;
 	Log3 $name, 4, "$name: RAWMSG_Check is running for $cmd with $message";
 
-	$message =~ s/[^A-Za-z0-9\-;=]//g;;		# nur zulässige Zeichen erlauben
+	$message =~ s/[^A-Za-z0-9\-;=#\$]//g;;		# nur zulässige Zeichen erlauben
 	Log3 $name, 4, "$name: RAWMSG_Check cleaned message: $message";
 
 	return "ERROR: no attribute value defined" 	if ($message =~ /^1/ && $cmd eq "set");																			# attr without value
 	return "ERROR: wrong RAWMSG - no MU;|MC;|MS; at start" 	if not $message =~ /^(?:MU;|MC;|MS;).*/;												# Start with MU;|MC;|MS;
-	return "ERROR: wrong RAWMSG - D= are not [0-9]" 		if ($message =~ /^(?:MU;|MS;).*/ && not $message =~ /D=[0-9]*;/);		# MU|MS D= with [0-9]
-	return "ERROR: wrong RAWMSG - D= are not [0-9][A-F]" 	if ($message =~ /^(?:MC).*/ && not $message =~ /D=[0-9A-F]*;/);		# MC D= with [0-9A-F]
+	return "ERROR: wrong RAWMSG - D= are not [0-9]" 		if ($message =~ /^(?:MU;|MS;).*/ && not $message =~ /D=[0-9]*;/);	# MU|MS D= with [0-9]
+	return "ERROR: wrong RAWMSG - D= are not [0-9][A-F]" 	if ($message =~ /^(?:MC).*/ && not $message =~ /D=[0-9A-F]*;/);	# MC D= with [0-9A-F]
 	return "ERROR: wrong RAWMSG - End of Line missing ;" 	if not $message =~ /;\Z/;																					# End Line with ;
 	return "";		# check END
 }
