@@ -84,7 +84,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-03-28";
+	$hash->{Version} = "2019-04-10";
 
 	### name of event with limitation ###
 	$hash->{NOTIFYDEV} = "global,TYPE=SIGNALduino";
@@ -544,9 +544,12 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);	# check RAWMSG
 			return "$error" if $error ne "";																# if check RAWMSG failed
-
+			
+			chomp ($RAWMSG);																								# Zeilenende entfernen
+			$RAWMSG =~ s/[^A-Za-z0-9\-;=#\$]//g;;														# nur zulässige Zeichen erlauben
 			$RAWMSG =~ s/;/;;/g;																						# ersetze ; durch ;;
 			Log3 $name, 4, "$name: get $Dummyname raw $RAWMSG";
+			
 			fhem("get $Dummyname raw ".$RAWMSG);
 			$DummyTime = InternalVal($Dummyname, "TIME", 0);								# time if protocol dispatched - 1544377856
 			$return = "$a[0] dispatched" if (not defined $cmd2);
@@ -1841,7 +1844,9 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 	my $name = shift;
 	my $devText = InternalVal($name,"Version","");
 	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
+	my $Dummyname = AttrVal($name,"Dummyname","none");							# Dummyname
 	my $ret;
+	my $button_RAWMSG = "";
 	my $oddeven = "odd";			# for css styling
 
 	if (!$ProtocolListRead) {
@@ -1850,7 +1855,7 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 
 	$ret = "<table class=\"block wide internals wrapcolumns\">";
 	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation from SIGNALduino</caption>";
-	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>dmsg</td> <td>rmsg</td> <td>user</td> </thead>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>dmsg</td> <td>rmsg</td> <td>user</td> <td>dispatch</td> </thead>";
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
@@ -1858,6 +1863,7 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 		my $dmsg = "";
 		my $state = "";
 		my $user = "";
+		my $RAWMSG_info = "";
 		my $RAWMSG = "";
 		my $clientmodule = "";
 		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
@@ -1870,10 +1876,17 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 					$user = $data_element->{$key} if ($key =~ /user/);
 					$state = $data_element->{$key} if ($key =~ /state/);
 					$dmsg = $data_element->{$key} if ($key =~ /dmsg/);
-					$RAWMSG = "x" if ($key =~ /rmsg/);
+					if ($key =~ /rmsg/) {
+						$RAWMSG_info = "x";
+						$RAWMSG = $data_element->{$key};
+						$RAWMSG	=~ s/;+/;;/g;		# ersetze ; durch ;;
+					};
 				}
 				$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-				$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$dmsg</div></td> <td style=\"text-align:center\"><div>$RAWMSG</div></td> <td><div>$user</div></td> </tr>";
+
+				$button_RAWMSG = "<a href='/fhem?cmd=get%20$Dummyname%20raw%20$RAWMSG'>RAW</a>" if ($RAWMSG ne "" && $Dummyname ne "none");
+				
+				$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$dmsg</div></td> <td style=\"text-align:center\"><div>$RAWMSG_info</div></td> <td><div>$user</div></td> <td><div>$button_RAWMSG</div></td> </tr>";
 			}
 		}
 	}
