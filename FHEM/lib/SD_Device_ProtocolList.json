@@ -87,7 +87,7 @@
        "rmsg":"MS;P1=-3882;P2=504;P3=-957;P4=-1949;D=21232424232323242423232323232323232424232323242423242424242323232324232424;CP=2;SP=1;R=249;m=2;"
       },
       {
-       "dmsg":"P7#8210A1F24", "state":"T: 16.1 H: 36 Bat: low", "user":"Ralf9",
+       "dmsg":"P7#8210A1F24", "state":"T: 16.1 H: 36", "user":"Ralf9", "comment":"batteryState: low",
        "rmsg":"MS;P2=-1945;P3=486;P4=-976;P5=-3927;D=35323434343434323434343432343434343234323434343432323232323434323434323434;CP=3;SP=5;R=13;O;m1;"
       }
    ]
@@ -115,14 +115,14 @@
 },
 {"name":"THGR228N", "id":"10", "data": [
       {
-       "dmsg":"501A2D203C801720833E9E", "state":"T: 17.8 H: 32 Bat: ok", "user":"Wetterhexe", "comment":"OSV2",
+       "dmsg":"501A2D203C801720833E9E", "state":"T: 17.8 H: 32 BAT: ok", "user":"Wetterhexe", "comment":"OSV2",
        "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;s1;b1;" 
       }
     ]
 },
 {"name":"THGR810", "id":"10", "data": [
       {
-       "dmsg":"50FA2844DC202070835092", "state":"T: 20.2 H: 37 Bat: ok", "user":"Wetterhexe", "comment":"OSV3", 
+       "dmsg":"50FA2844DC202070835092", "state":"T: 20.2 H: 37 BAT: ok", "user":"Wetterhexe", "comment":"OSV3", 
        "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;s48;b1;" 
       }
     ]

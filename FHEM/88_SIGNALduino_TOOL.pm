@@ -42,6 +42,31 @@ my $jsonDoc = "SD_Device_ProtocolList.json";						# name of file to import / exp
 our $FW_wname;
 
 ################################
+
+my %category = (
+	# keys(model) => values
+	"CUL_FHTTK"      =>	"Door / window contact",
+	"CUL_TCM97001"   =>	"Weather sensors",
+	"CUL_TX"         =>	"Weather sensors",
+	"CUL_WS"         =>	"Weather sensors",
+	"Dooya"          =>	"Shutters / awnings motors",
+	"FHT"            =>	"Heating control",
+	"FS20"           =>	"Remote controls / wall buttons",
+	"Hideki"         =>	"Weather sensors",
+	"IT"             =>	"Remote controls",
+	"OREGON"         =>	"Weather sensors",
+	"RFXX10REC"      =>	"RFXCOM-Receiver",
+	"SD_BELL"        =>	"Door Bells",
+	"SD_Keeloq"      =>	"Remote controls with KeeLoq encoding",
+	"SD_UT"          =>	"Remote controls / wall buttons",
+	"SD_WS"          =>	"Weather sensors",
+	"SD_WS07"        =>	"Weather sensors",
+	"SD_WS09"        =>	"Weather sensors",
+	"SD_WS_Maverick" =>	"Food thermometer",
+	"SOMFY"          =>	"Shutters / awnings motors / doors"
+);
+
+################################
 sub SIGNALduino_TOOL_Initialize($) {
 	my ($hash) = @_;
 
@@ -84,7 +109,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-04-14";
+	$hash->{Version} = "2019-04-16";
 
 	### name of event with limitation ###
 	$hash->{NOTIFYDEV} = "global,TYPE=SIGNALduino";
@@ -388,7 +413,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $msg = $a[1];
 			Log3 $name, 4, "$name: get $Dummyname raw $msg" if (defined $a[1]);
 
-			fhem("get $Dummyname raw $msg");
+			fhem("get $Dummyname raw $msg $FW_CSRF");
 			$DMSG_last = InternalVal($Dummyname, "LASTDMSG", 0);
 			$RAWMSG_last = $a[1];
 			$DummyTime = InternalVal($Dummyname, "TIME", 0);								# time if protocol dispatched - 1544377856
@@ -628,6 +653,16 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		
 		### save new SD_Device_ProtocolList file ###
 		if ($cmd eq "ProtocolList_save_to_file") {
+			my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode($ProtocolListRead);		# lesbares JSON | Sort numerically
+
+			## mod JSON Output via RegEx ...
+			#$json =~ s/^\s+//gsm;
+			#$json =~ s/\n//gsm;
+
+			open(SaveDoc, '>', $path."SD_ProtocolListTEST.json") || return "ERROR: file ($jsonProtList) can not open!";
+				print SaveDoc $json;
+			close(SaveDoc);
+			
 			return "still under development!";
 		}
 
@@ -671,7 +706,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my $list = "TimingsList:noArg Durration_of_Message invert_bitMsg invert_hexMsg change_bin_to_hex change_hex_to_bin change_dec_to_hex change_hex_to_dec reverse_Input ";
 	$list .= "FilterFile:multiple,bitMsg:,bitMsg_invert:,dmsg:,hexMsg:,hexMsg_invert:,MC;,MS;,MU;,RAWMSG:,READredu:,READ:,UserInfo:,$onlyDataName ProtocolList_from_file_SD_ProtocolData.pm:noArg ".
 					"ProtocolList_from_file_SD_Device_ProtocolList.json:noArg All_ClockPulse:noArg All_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
-					"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg" if ($Filename_input ne "");
+					"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg " if ($Filename_input ne "");
+	$list .= "Github_device_documentation_for_README:noArg " if ($ProtocolListRead);
 	my $linecount = 0;
 	my $founded = 0;
 	my $search = "";
@@ -1294,6 +1330,44 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "";
 	}
 
+	## created Wiki Device Documentaion
+	if ($cmd eq "Github_device_documentation_for_README") {
+		my @testet_devices;
+		my @used_clientmodule;
+		my $file = "Github_README.txt";
+
+		for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+			if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} ne "") {
+				my $device = @{$ProtocolListRead}[$i]->{name};
+				my $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "clientmodule" );
+				$clientmodule = "" if (!$clientmodule);
+				if (not grep /$device\s\|/, @testet_devices) {
+					push (@testet_devices, @{$ProtocolListRead}[$i]->{name} . " | " . $clientmodule);
+					push (@used_clientmodule, $clientmodule) if (not grep /$clientmodule$/, @used_clientmodule);				
+				}
+			}
+		}
+
+		my @testet_devices_sorted = sort { lc($a) cmp lc($b) } @testet_devices;				# sorted array of testet_devices_sorted
+		my @used_clientmodule_sorted = sort { lc($a) cmp lc($b) } @used_clientmodule;				# sorted array of testet_devices_sorted
+
+		open(Github_file, ">$path$file");
+			print Github_file "Devices tested\n";
+			print Github_file "======\n";
+			print Github_file "| Name of device or manufacturer | FHEM - clientmodule | Typ of device |\n";
+			print Github_file "| ------------- | ------------- | ------------- |\n";
+
+			foreach (@testet_devices_sorted) {
+				my @clientmoduleSplit = split(/ \| /, $_);
+				my $text = "";
+				$text = $category{$clientmoduleSplit[1]} if (scalar (@clientmoduleSplit) >= 2);
+				print Github_file "| ".$_." | ".$text." |\n";
+			}
+		close(Github_file);
+
+		return "File writing is ready in $path folder.\n\nInformation about the following modules are available:\n@used_clientmodule_sorted";
+	}
+
 	return "Unknown argument $cmd, choose one of $list";
 }
 
@@ -1821,7 +1895,8 @@ sub SIGNALduino_TOOL_FW_getSD_ProtocolData {
 				$user = @{ $ProtocolList[$i]{data} }[$i2]->{user} if (defined @{ $ProtocolList[$i]{data} }[$i2]->{user});
 				if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}) {
 					$RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{rmsg} if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg});
-					$buttons = "<INPUT type=\"reset\" onclick=\"FW_cmd('/fhem?XHR=1&cmd.$name=set $name Dispatch_RAWMSG $RAWMSG $FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
+					$buttons = "<INPUT type=\"reset\" onclick=\"FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
+					#Log3 $name, 3, $buttons;
 				}
 				$ret .= "<tr class=\"$oddeven\"> <td><div>".$ProtocolList[$i]{id}."</div></td> <td><div>".$clientmodule."</div></td> <td><div>".$ProtocolList[$i]{name}."</div></td> <td><div>".@{ $ProtocolList[$i]{data} }[$i2]->{state}."</div></td> <td><div>".$user."</div></td> <td><div>".$buttons."</div></td> </tr>";
 			}
@@ -1884,13 +1959,11 @@ sub SIGNALduino_TOOL_FW_getSD_JSONData {
 					$dmsg = $data_element->{$key} if ($key =~ /dmsg/);
 					$RAWMSG = $data_element->{$key} if ($key =~ /rmsg/)
 				}
+
 				$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-
-				#$buttons = "<a href='http://localhost:8083/fhem?cmd=get%20$Dummyname%20raw%20$RAWMSG'>RAW</a>" if ($RAWMSG ne "" && $Dummyname ne "none"); # OLD - needed token option none
-				#my $buttons="<INPUT type=\"reset\" onclick=\"FW_okDialog('dispatch!');\" value=\"dispatch\" %s/>";
-
-				$buttons = "<INPUT type=\"reset\" onclick=\"FW_cmd('/fhem?XHR=1&cmd.$name=set $name Dispatch_RAWMSG $RAWMSG $FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
-				$buttons.= "<INPUT type=\"reset\" onclick=\"FW_cmd('/fhem?XHR=1&cmd.$name=set $name Dispatch_DMSG $dmsg $FW_CSRF')\" value=\"dmsg\" %s/>" if ($dmsg ne "" && $Dummyname ne "none");
+				$buttons = "<INPUT type=\"reset\" onclick=\"FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
+				$buttons.= "<INPUT type=\"reset\" onclick=\"FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."DMSG%20$dmsg$FW_CSRF')\" value=\"dmsg\" %s/>" if ($dmsg ne "" && $Dummyname ne "none");
+				#Log3 $name, 3, $buttons;
 				$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$dmsg</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>"; #<td style=\"text-align:center\"><div> </div></td>
 			}
 		}
@@ -1923,8 +1996,8 @@ sub SIGNALduino_TOOL_FW_getInfo {
 sub SIGNALduino_TOOL_Notify($$) {
 	my ($hash,$dev_hash) = @_;
 	my $name = $hash->{NAME};																					# own name / hash
-	my $devName = $dev_hash->{NAME};																	# Device that created the events
-	my $Dummyname = AttrVal($name,"Dummyname","none");								# Dummyname
+	my $devName = $dev_hash->{NAME};																		# Device that created the events
+	my $Dummyname = AttrVal($name,"Dummyname","none");									# Dummyname
 	my $addvaltrigger = AttrVal($Dummyname,"addvaltrigger","none");		# attrib addvaltrigger
 
 	return "" if(IsDisabled($name));		# Return without any further action if the module is disabled
@@ -1987,6 +2060,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
 	<ul><li><a name="FilterFile"></a><code>FilterFile</code> - creates a file with the filtered values</li><a name=""></a></ul>
+	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - creates a txt file which can be integrated in Github for documentation.</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file.</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File</li><a name=""></a></ul>
@@ -2084,6 +2158,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp;&rarr; eine Vorauswahl von Suchbegriffen via Checkbox ist m&ouml;glich<br>
 	&emsp;&rarr; die Checkbox Auswahl <i>-ONLY_DATA-</i> filtert nur die Suchdaten einzel aus jeder Zeile anstatt die komplette Zeile mit den gesuchten Daten<br>
 	&emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li><a name=""></a></ul>
+	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - erstellt eine txt-Datei welche in Github zur Dokumentation eingearbeitet werden kann.</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern.</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei</li><a name=""></a></ul>
