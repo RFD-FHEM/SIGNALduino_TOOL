@@ -1,60 +1,69 @@
 [
 {"name":"ABS700", "id":"0", "data": [
       {
-       "dmsg":"s4F038300", "state":"T: 3.3", "user":"SD_Protocol",
+       "dmsg":"s4F038300", "user":"SD_Protocol",
+       "readings": [{"state":"T: 3.3", "battery":"low"}],
        "rmsg":"MS;P1=-7949;P2=492;P3=-1978;P4=-3970;D=21232423232424242423232323232324242423232323232424;CP=2;SP=1;R=245;O;"
       }
    ]
 },
 {"name":"GT-WT-02", "id":"0", "data": [
       {
-       "dmsg":"s5410AC5F9800", "state":"T: 17.2 H: 47", "user":"Ralf9",
+       "dmsg":"s5410AC5F9800", "user":"Ralf9",
+       "readings": [{"state":"T: 17.2 H: 47", "battery":"ok", "channel":"2"}],
        "rmsg":"MS;P1=-4129;P2=550;P3=-2100;P4=-9055;D=2423212321232123232323232123232323212321232121232323212321212121212123232121;CP=2;SP=4;R=241;O;s=4;m1;"
       }
     ]
 },
 {"name":"Prologue", "id":"0", "data": [
       {
-       "dmsg":"s916001A0A000", "state":"T: 2.6", "user":"SD_Protocol",
+       "dmsg":"s916001A0A000", "user":"SD_Protocol",
+       "readings": [{"state":"T: 2.6", "battery":"", "channel":"1"}],
        "rmsg":"MS;P0=-4152;P1=643;P2=-2068;P3=-9066;D=1310121210121212101210101212121212121212121212121010121012121212121012101212;CP=1;SP=3;R=220;O;m2;"
       }
     ]
 },
 {"name":"Ventus W044", "id":"0", "data": [
       {
-       "dmsg":"s8505301CC000", "state":"T: 20.2 H: 38", "user":"Harst",
+       "dmsg":"s8505301CC000", "user":"Harst",
+       "readings": [{"state":"T: 20.2 H: 38", "battery":"ok", "channel":"1"}],
        "rmsg":"MS;P0=-1957;P1=573;P2=-3961;P3=-8913;D=13121010101012101210101010101210121010121210101010101010121212101012121010;CP=1;SP=3;e;m1;"
       }
     ]
 },
 {"name":"Mebus", "id":"0.1", "data": [
       {
-       "dmsg":"sF9700C4000", "state":"T: 1.2", "user":"SD_Protocol",
+       "dmsg":"sF9700C4000", "user":"SD_Protocol",
+       "readings": [{"state":"T: 1.2", "battery":"low", "channel":"1"}],
        "rmsg":"MS;P0=-9690;P3=354;P4=-4662;P5=-2107;D=3034343434343535343534343435353535353535353434353535343535;CP=3;SP=0;R=209;O;m2;"
       }
     ]
 },
 {"name":"Ventus W132", "id":"0.3",  "data": [
      {
-        "dmsg":"sD66EE1603000", "state":"windGuest: 1.2 winddir:0", "user":"dirigent", "comment":"wind",
+        "dmsg":"sD66EE1603000", "user":"dirigent", "comment":"wind",
+        "readings": [{"state":"Wg: 1.2 Wd: N", "battery":"ok", "channel":"1"}],
         "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121212141212121414141412141212141414141414141212;CP=1;SP=3;s6;e;m1;"
      },
      {
-        "dmsg":"sD6680020C000", "state":"windSpeed: 0.8", "user":"dirigent", "comment":"wind",
+        "dmsg":"sD6680020C000", "user":"dirigent", "comment":"wind",
+        "readings": [{"state":"Ws: 0.8", "battery":"ok", "channel":"1"}],
         "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121414141414141414141414141412141414141412121414;CP=1;SP=3;s6;e;m2;"
      }
    ]
 },
 {"name":"Ventus W174", "id":"0.3", "data": [
       {
-       "dmsg":"s336C9C002000", "state":"R: 18.14.25", "user":"andies", "comment":"rain",
+       "dmsg":"s336C9C002000", "user":"andies", "comment":"rain",
+       "readings": [{"state":"R: 14.25", "battery":"ok"}],
        "rmsg":"MS;P3=478;P4=-4052;P5=-2022;P6=-9075;D=536353534343535343435343435343435353435353434343535353535353535353535353435;CP=3;SP=6;R=248;O;m0;"
       }
     ]
 },
 {"name":"Auriol Z31743B", "id":"0.4", "data": [
       {
-       "dmsg":"s248FE4EF0000","state":"T: -2.8", "user":"Ralf9",
+       "dmsg":"s248FE4EF0000", "user":"Ralf9",
+       "readings": [{"state":"T: -2.8"}],
        "rmsg":"MS;P0=-3946;P1=448;P2=-1998;P3=-9309;P4=284;D=131212101212101212101212121010101010101012121012121010101210101010124;CP=1;SP=3;e;m3;"
       }
     ]
@@ -83,18 +92,20 @@
 },
 {"name":"EAS800z", "id":"7", "data": [
       {
-       "dmsg":"P7#6300C6F0B", "state":"T: 19.8 H: 11", "user":"SD_Protocol",
+       "dmsg":"P7#6300C6F0B", "user":"SD_Protocol",
+       "readings": [{"state":"T: 19.8 H: 11", "batteryState":"low", "channel":"1"}],
        "rmsg":"MS;P1=-3882;P2=504;P3=-957;P4=-1949;D=21232424232323242423232323232323232424232323242423242424242323232324232424;CP=2;SP=1;R=249;m=2;"
       },
       {
-       "dmsg":"P7#8210A1F24", "state":"T: 16.1 H: 36", "user":"Ralf9", "comment":"batteryState: low",
+       "dmsg":"P7#8210A1F24", "user":"Ralf9",
+       "readings": [{"state":"T: 16.1 H: 36", "batteryState":"low", "channel":"2"}],
        "rmsg":"MS;P2=-1945;P3=486;P4=-976;P5=-3927;D=35323434343434323434343432343434343234323434343432323232323434323434323434;CP=3;SP=5;R=13;O;m1;"
       }
    ]
 },
 {"name":"Hama TS34A", "id":"7", "data": [
       {
-       "dmsg":"P7#6190D8F3D", "state":"T: 21.6 H: 61 Bat: ok", "user":"HomeAuto_User", "comment":"div. Wetterstationen",
+       "dmsg":"P7#6190D8F3D", "state":"T: 21.6 H: 61", "user":"HomeAuto_User", "comment":"div. Wetterstationen",
        "rmsg":"MS;P2=-2006;P4=-4065;P5=491;P6=-1005;D=54565252565656565252565652565656565252565252565656525252525656525252525652;CP=5;SP=4;R=48;O;m2;e;"
       }
    ]
@@ -129,7 +140,8 @@
 },
 {"name":"Hama TS33C", "id":"12", "data": [
       {
-       "dmsg":"P12#7536BA8A82BFC151AB6401", "state":"T: 18.6 H: 43", "user":"Ralf9", 
+       "dmsg":"P12#7536BA8A82BFC151AB6401", "user":"Ralf9",
+       "readings": [{"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"}],
        "rmsg":"MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7;"
       }
     ]
@@ -172,7 +184,8 @@
 },
 {"name":"THR128", "id":"18", "data": [
       {
-       "dmsg":"500A4D100E001000002100", "state":"T: 10 BAT: ok", "user":"Ralf9", "comment":"OSV1",
+       "dmsg":"500A4D100E001000002100", "user":"Ralf9", "comment":"OSV1",
+       "readings": [{"state":"T: 10 BAT: ok"}],
        "rmsg":"MC;LL=-2486;LH=3348;SL=-1024;SH=1889;D=8FFF7F0F;C=1457;L=32;R=65;s26;b26;"
       }
     ]
@@ -235,11 +248,13 @@
 },
 {"name":"HE800", "id":"35", "data": [
       {
-       "dmsg":"ihD8ED0A1000", "state":"on", "user":"Ralf9", "comment":"Homeeasy Kanal 1",
+       "dmsg":"ihD8ED0A1000", "user":"Ralf9", "comment":"Homeeasy Kanal 1",
+       "readings": [{"state":"on"}],
        "rmsg":"MS;P0=-4906;P3=-992;P4=899;P5=-378;P7=283;D=7073734573734545457373734573734573454545457345734545454573;CP=7;SP=0;R=76;O;m1;"
       },
       {
-       "dmsg":"ihD95E005000", "state":"off", "user":"Ralf9", "comment":"Homeeasy Kanal 1",
+       "dmsg":"ihD95E005000", "user":"Ralf9", "comment":"Homeeasy Kanal 1",
+       "readings": [{"state":"off"}],
        "rmsg":"MS;P2=896;P3=-375;P5=-1005;P6=269;P7=-4850;D=6765652365652323652365236565656523232323232323232323652365;CP=6;SP=7;R=76;e;m1;"
       }
     ]
@@ -278,18 +293,21 @@
 },
 {"name":"Tedsen_SKXxxx", "id":"46", "data": [
       {
-       "dmsg":"P46#ECF20", "state":"Button_1", "user":"drhirn", "model":"Tedsen_SKX2xx", "repeat":"1", "comment":"Geiger Rolladen",
+       "dmsg":"P46#ECF20", "user":"drhirn", "model":"Tedsen_SKX2xx", "repeat":"1", "comment":"Geiger Rolladen",
+       "readings": [{"state":"Button_1", "tristateCode":"1F10110F0"}],
        "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
       },
       {
-       "dmsg":"P46#ECF2C", "state":"Button_6", "user":"self_build", "model":"TEDSEN_SKX6xx", "repeat":"5", "comment":"reconstructed last bit 1",
-       "rmsg":"MU;P0=-32001;P1=2072;P2=-260;P3=326;P4=-2015;P5=-15769;D=01212123412123434121212123434123412151212123412123434121212123434123412151212123412123434121212123434123412151212123412123434121212123434123412151212123412123434121212123434123412151212123412123434121212123434123412151212123412123434121212123434123412151;CP=3;R=37;O;"
+       "dmsg":"P46#ECA2C", "user":"self_build", "model":"TEDSEN_SKX6xx", "repeat":"5", "comment":"reconstructed last bit 1",
+       "readings": [{"state":"Button_6", "tristateCode":"1F10FF0F1"}],
+       "rmsg":"MU;P0=-32001;P1=2072;P2=-260;P3=326;P4=-2015;P5=-15769;D=01212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151;CP=3;R=37;O;"
       }
    ]
 },
 {"name":"ET-733", "id":"47", "data": [
       {
-       "dmsg":"P47#59959A695996A65A9566", "state":"temp-food: 25, temp-bbq: 21", "user":"Papaloewe",
+       "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
+       "readings": [{"temp-bbq":"21", "temp-food":"25"}],
        "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;s17;b17;"
       }
     ]
@@ -311,6 +329,7 @@
 {"name":"TFA 30.3208.0", "id":"58", "data": [
       {
        "dmsg":"W58#45C8142445DB0", "user":"Ralf9", "repeat":"2",
+       "readings": [{"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2"}],
        "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
       }
     ]
@@ -420,7 +439,8 @@
 },
 {"name":"FS20 S6A", "id":"74", "data": [
       {
-       "dmsg":"810b04f70101a0011848000010", "state":"dim100%", "user":"HomeAuto_User",
+       "dmsg":"810b04f70101a0011848000010", "user":"HomeAuto_User",
+       "readings": [{"state":"dim100%"}],
        "rmsg":"MU;P0=31852;P1=-361;P2=441;P3=656;P4=-548;P5=-31948;P6=290;P7=-10392;D=01212121212121212121212134342121212121213421213421212134342134212121213434342134212121212121342134343434212121343434252161616121212121212121213421212134342121212121342121342121212121212121212121212121212134212121213421343434213434213427212121212121212121;CP=2;R=27;O;"
       }
     ]
@@ -577,7 +597,8 @@
 },
 {"name":"", "id":"", "data": [
       {
-       "dmsg":"", "state":"", "user":"", "comment":"",
+       "dmsg":"", "user":"", "comment":"",
+       "readings": [{"state":"", "batteryState":"", "channel":""}],
        "rmsg":""
       }
    ]
