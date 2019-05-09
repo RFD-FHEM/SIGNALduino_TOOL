@@ -81,11 +81,13 @@
 },
 {"name":"ITS-150", "id":"3.1", "data": [
       {
-       "dmsg":"i455414", "state":"off", "user":"Stefan#", "comment":"on off (FF F0)",
+       "dmsg":"i455414", "user":"Stefan#", "comment":"on off (FF F0)",
+       "readings": [{"state":"off"}],
        "rmsg":"MS;P0=-11440;P1=-1121;P2=-416;P5=309;P6=1017;D=150516251515162516251625162516251515151516251625151;CP=5;SP=0;R=66;"
       },
       {
-       "dmsg":"i45FF15", "state":"on", "user":"Stefan#", "comment":"on off (FF F0), Gruppentaste",
+       "dmsg":"i45FF15", "user":"Stefan#", "comment":"on off (FF F0), Gruppentaste",
+       "readings": [{"state":"on"}],
        "rmsg":"MS;P1=309;P2=-1130;P3=1011;P4=-429;P5=-11466;D=15123412121234123412141214121412141212123412341234;CP=1;SP=5;R=38;"
       }
    ]
@@ -105,14 +107,16 @@
 },
 {"name":"Hama TS34A", "id":"7", "data": [
       {
-       "dmsg":"P7#6190D8F3D", "state":"T: 21.6 H: 61", "user":"HomeAuto_User", "comment":"div. Wetterstationen",
+       "dmsg":"P7#6190D8F3D", "user":"HomeAuto_User", "comment":"div. Wetterstationen",
+       "readings": [{"state":"T: 21.6 H: 61", "batteryState":"ok", "channel":"2"}],
        "rmsg":"MS;P2=-2006;P4=-4065;P5=491;P6=-1005;D=54565252565656565252565652565656565252565252565656525252525656525252525652;CP=5;SP=4;R=48;O;m2;e;"
       }
    ]
 },
 {"name":"Hama TS36E", "id":"7", "data": [
       {
-       "dmsg":"P7#4180E2F3B", "state":"T: 22.6 H: 59 Bat: ok", "user":"HomeAuto_User", "comment":"Wetterstationen 1362 22,93,94",
+       "dmsg":"P7#4180E2F3B", "user":"HomeAuto_User", "comment":"Wetterstationen 1362 22,93,94",
+       "readings": [{"state":"T: 22.6 H: 59", "batteryState":"ok", "channel":"1"}],
        "rmsg":"MS;P0=498;P1=-965;P2=-1969;P3=-3900;D=03010201010101010202010101010101010202020101010201020202020101020202010202;CP=0;SP=3;R=0;O;m2;"
       }
    ]
@@ -126,14 +130,16 @@
 },
 {"name":"THGR228N", "id":"10", "data": [
       {
-       "dmsg":"501A2D203C801720833E9E", "state":"T: 17.8 H: 32 BAT: ok", "user":"Wetterhexe", "comment":"OSV2",
+       "dmsg":"501A2D203C801720833E9E", "user":"Wetterhexe", "comment":"OSV2",
+       "readings": [{"state":"T: 17.8 H: 32 BAT: ok"}],
        "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;s1;b1;" 
       }
     ]
 },
 {"name":"THGR810", "id":"10", "data": [
       {
-       "dmsg":"50FA2844DC202070835092", "state":"T: 20.2 H: 37 BAT: ok", "user":"Wetterhexe", "comment":"OSV3", 
+       "dmsg":"50FA2844DC202070835092", "user":"Wetterhexe", "comment":"OSV3",
+       "readings": [{"state":"T: 20.2 H: 37 BAT: ok"}],
        "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;s48;b1;" 
       }
     ]
@@ -162,22 +168,26 @@
 },
 {"name":"Chilitec_22640", "id":"14", "data": [
       {
-       "dmsg":"P14#AA808", "state":"power_on", "user":"privat58",
+       "dmsg":"P14#AA808", "user":"privat58",
+       "readings": [{"state":"power_on"}],
        "rmsg":"MS;P0=988;P1=-384;P2=346;P3=-1026;P4=-4923;D=240123012301230123012323232323232301232323;CP=2;SP=4;R=0;O;m=1;"
       },
       {
-       "dmsg":"P14#AA80C", "state":"brightness_plus", "user":"privat58",
+       "dmsg":"P14#AA80C", "user":"privat58",
+       "readings": [{"state":"brightness_plus"}],
        "rmsg":"MS;P0=-398;P1=974;P3=338;P4=-1034;P6=-4939;D=361034103410341034103434343434343410103434;CP=3;SP=6;R=0;"
       },
       {
-       "dmsg":"P14#AA80A", "state":"flickering_slowly", "user":"privat58",
+       "dmsg":"P14#AA80A", "user":"privat58",
+       "readings": [{"state":"flickering_slowly"}],
        "rmsg":"MS;P1=976;P2=-397;P3=341;P4=-1029;P5=-4940;D=351234123412341234123434343434343412341234;CP=3;SP=5;R=0;"
       }
    ]
 },
 {"name":"Dooya", "id":"16", "data": [
       {
-       "dmsg":"P16#4805B7B133", "state":"closed", "user":"SD_Protocol", "repeat":"1",
+       "dmsg":"P16#4805B7B133", "repeat":"1",
+       "readings": [{"state":"closed"}],
        "rmsg":"MU;P0=-1562;P1=-411;P2=297;P3=-773;P4=668;P5=4754;D=1232341234141234141234141414123414123232341232341412323414150234123234123232323232323234123414123414123414141412341412323234123234141232341415023412323412323232323232323412341412341412341414141234141232323412323414123234142;CP=2;"
       }
    ]
@@ -213,7 +223,8 @@
 },
 {"name":"Conrad S522", "id":"33", "data": [
       {
-       "dmsg":"W33#0501DD80038", "state":"T: 24.2 Bat: ok", "user":"HomeAuto_User",
+       "dmsg":"W33#0501DD80038", "user":"HomeAuto_User",
+       "readings": [{"state":"T: 24.2", "batteryState":"ok", "channel":"1"}],
        "rmsg":"MS;P1=-8035;P2=504;P3=-2027;P4=-3945;D=21232323232324232423232323232323242424232424242324242323232323232323232323232324242423;CP=2;SP=1;R=19;O;m0;"
       }
    ]
@@ -227,7 +238,8 @@
 },
 {"name":"TFA 30.3200", "id":"33.1", "data": [
       {
-       "dmsg":"W33#14C1C594C0C", "state":"T: 18.8 H: 53", "user":"cxxcoder",
+       "dmsg":"W33#14C1C594C0C", "user":"cxxcoder",
+       "readings": [{"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1"}],
        "rmsg":"MS;P1=-7796;P2=745;P3=-1976;P4=-3929;D=21232323242324232324242323232323242424232323242324242323242324232324242323232323232424;CP=2;SP=1;R=30;O;m2;"
       }
    ]
@@ -241,7 +253,8 @@
 },
 {"name":"QUIGG_GT-7000", "id":"34", "data": [
       {
-       "dmsg":"P34#9E4FF", "user":"SD_Protocol", 
+       "dmsg":"P34#9E4FF", "user":"SD_Protocol", "model":"QUIGG_DMV",
+       "readings": [{"state":"Ch1_off"}],
        "rmsg":"MU;P0=-9812;P1=589;P2=-671;P3=1261;P4=-1320;D=012341412323232341412341412323232323232323;CP=3;R=19;"
       }
     ]
@@ -261,7 +274,8 @@
 },
 {"name":"NC-3911-675", "id":"38", "data": [
       {
-       "dmsg":"W38#12A2C5D0C", "state":"T: 20.9 Bat:ok", "user":"Harst", "repeat":"4",
+       "dmsg":"W38#12A2C5D0C", "user":"Harst", "repeat":"4",
+       "readings": [{"state":"T: 20.9", "batteryState":"ok", "channel":"2", "beep":"off"}],
        "rmsg":"MU;P0=-235;P1=496;P2=253;P3=-479;P4=-957;P5=743;P6=-720;CP=2;D=010231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102310231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102;O;"
       }
     ]
@@ -282,11 +296,13 @@
 },
 {"name":"Somfy RTS", "id":"43", "data": [
       {
-       "dmsg":"Ys98DBD153D631BB", "state":"on", "user":"SD_Protocol",
+       "dmsg":"Ys98DBD153D631BB", "user":"SD_Protocol",
+       "readings": [{"parsestate":"on", "received":"40"}],
        "rmsg":"MC;LL=-1405;LH=1269;SL=-723;SH=620;D=98DBD153D631BB;C=669;L=56;R=229;"
       },
       {
-       "dmsg":"Ys81CDCDCBB7DEDD84001D", "state":"on", "user":"kpl", "comment":"TELIS COMPOSIO",
+       "dmsg":"Ys81CDCDCBB7DEDD84001D", "user":"kpl", "comment":"TELIS COMPOSIO",
+       "readings": [{"parsestate":"on", "received":"40"}],
        "rmsg":"MC;LL=-1246;LH=1293;SL=-592;SH=660;D=81CDCDCBB7DEDD84001D;C=631;L=80;"
       }
    ]
@@ -407,7 +423,8 @@
 },
 {"name":"PV-8644", "id":"71", "data": [
       {
-       "dmsg":"W71#589A829FDFF4", "state":"T: 24.2", "user":"SD_Protocol", "comment":"PEARL infactory Poolthermometer",
+       "dmsg":"W71#589A829FDFF4", "user":"SD_Protocol", "comment":"PEARL infactory Poolthermometer",
+       "readings": [{"state":"T: 24.2", "channel":"1"}],
        "rmsg":"MU;P0=1735;P1=-1160;P2=591;P3=-876;D=0123012323010101230101232301230123010101010123012301012323232323232301232323232323232323012301012;CP=2;R=97;"
       }
     ]
@@ -421,7 +438,8 @@
 },
 {"name":"FS20 S8-2", "id":"74", "data": [
       {
-       "dmsg":"810b04f70101a001cf4b010011", "state":"on", "user":"pejonp", "repeat":"2",
+       "dmsg":"810b04f70101a001cf4b010011", "user":"pejonp", "repeat":"2",
+       "readings": [{"state":"on"}],
        "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
       }
     ]
@@ -482,14 +500,16 @@
 },
 {"name":"TFA 30.3222.02, Temp", "id":"85", "data": [
       {
-       "dmsg":"W85#0C45C60124B0554F8", "state":"T: 8.7 H: 85", "user":"Iron-R1", "comment":"Wetterstation TFA 35.1140.01",
+       "dmsg":"W85#0C45C60124B0554F8", "user":"Iron-R1", "comment":"Wetterstation TFA 35.1140.01",
+       "readings": [{"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1"}],
        "rmsg":"MU;P0=-509;P1=474;P2=-260;P3=228;P4=718;P5=-745;D=01212303030303012301230123012301230301212121230454545453030303012123030301230303012301212123030301212303030303030303012303012303012303012301212303030303012301230123012301230301212121212454545453030303012123030301230303012301212123030301212303030303030303;CP=3;R=46;O;"
       }
     ]
 },
 {"name":"TFA 30.3222.02, Wind", "id":"85", "data": [
       {
-       "dmsg":"W85#0C35A602015000C98", "state":"W: 2.1", "user":"Iron-R1", "comment":"Wetterstation TFA 35.1140.01",
+       "dmsg":"W85#0C35A602015000C98", "user":"Iron-R1", "comment":"Wetterstation TFA 35.1140.01",
+       "readings": [{"state":"W: 2.1", "batteryState":"ok", "channel":"1"}],
        "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
       }
     ]
@@ -524,7 +544,8 @@
 },
 {"name":"TFA 30.3221.02, Temp", "id":"89", "data": [
       {
-       "dmsg":"W89#F012333E01", "state":"T: 6.3 H: 62", "user":"Iron-R1", "comment":"Wetterstation TFA 35.1140.01",
+       "dmsg":"W89#F012333E01", "user":"Iron-R1", "comment":"Wetterstation TFA 35.1140.01",
+       "readings": [{"state":"T: 6.3 H: 62", "batteryState":"ok", "channel":"2"}],
        "rmsg":"MU;P0=22960;P1=-893;P2=775;P3=409;P4=-296;P5=182;P6=-513;D=01212121343434345656565656565634565634565656343456563434565634343434345656565656565656342121212134343434565656565656563456563456565634345656343456563434343434565656565656565634212121213434343456565656565656345656345656563434565634345656343434343456565656;CP=5;R=22;O;"
       }
     ]
