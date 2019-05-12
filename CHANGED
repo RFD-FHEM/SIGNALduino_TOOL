@@ -1,5 +1,6 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+12.05.2019 - 88_SIGNALduino_TOOL.pm: revised code | fix PerlWarning | added Check it button | added Github_device_documentation_for_README
 02.05.2019 - SD_Device_ProtocolList.json: add protocol 94 for Atech weather station
 30.04.2019 - 88_SIGNALduino_TOOL.pm: add test function, dmsg in doc | revised JSON Format @Ralf9 variants | dispatch from JSON + PM file at same time revised
                                      function update in JSON revised with button (next step comming update on klick, now only button and close)
