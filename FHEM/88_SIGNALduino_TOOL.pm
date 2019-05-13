@@ -113,7 +113,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
-	$hash->{Version} = "2019-05-12";
+	$hash->{Version} = "2019-05-13";
 
 	readingsSingleUpdate($hash, "state" , "Defined" , 0);
 
@@ -189,7 +189,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		readingsSingleUpdate($hash, "state" , "ready" , 0) if (-d $path && ReadingsVal($name, "state", "none") =~ /^ERROR.*Path.$/);
 
 		## read all .txt to dispatch
-		opendir(DIR,$path) || return "ERROR: directory $path can not open!";
+		opendir(DIR,$path);																		# not need -> || return "ERROR: directory $path can not open!"
 		while( my $directory_value = readdir DIR ){
 		if ($directory_value =~ /^$Filename_Dispatch.*txt/) {
 				$DispatchFile = $directory_value;
@@ -206,8 +206,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		my @userattr_list_new_unsorted = split(",", $userattr_list_new);										# array of all dispatch possibilities
 		my @userattr_list_new_sorted = sort { $a cmp $b } @userattr_list_new_unsorted;			# sorted list of all dispatch possibilities
 
-		$userattr_list_new = "DispatchModule:-,".join( "," , @userattr_list_new_sorted );		# attr value userattr
-		Log3 $name, 5, "$name: Set $cmd - attr userattr=$userattr" if ($cnt_loop == 1);
+		$userattr_list_new = "DispatchModule:-";																						# attr value userattr
+		if (scalar(@userattr_list_new_sorted) != 0) {
+			$userattr_list_new.= ",";
+			$userattr_list_new.= join( "," , @userattr_list_new_sorted );
+		}
 
 		$attr{$name}{userattr} = $userattr_list_new;
 		$attr{$name}{DispatchModule} = "-" if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && not $DispatchModule =~ /^.*\.txt$/);	# set DispatchModule to standard
@@ -693,7 +696,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $value_temp_bbq = "";
 			my $value_temp_food = "";
 
-			open(SaveDoc, '>', $path."SD_ProtocolListTEST.json") || return "ERROR: file ($jsonProtList) can not open!";
+			open(SaveDoc, '>', "./FHEM/lib/SD_ProtocolListTEST.json") || return "ERROR: file ($jsonProtList) can not open!";
 				print SaveDoc "[\n";
 
 				## for max elements ##
@@ -1486,7 +1489,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $json;
 		{
 			local $/; #Enable 'slurp' mode
-			open (LoadDoc, "<", $path.$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
+			open (LoadDoc, "<", "./FHEM/lib/".$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
 				$json = <LoadDoc>;
 			close (LoadDoc);
 		}
@@ -1727,6 +1730,19 @@ sub SIGNALduino_TOOL_Attr() {
 			} else {
 				$attr{$name}{webCmd} = $webCmd;
 			}
+		}
+		
+		### delete dummy
+		if ($attrName eq "Dummyname") {
+			for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG last_DMSG decoded_Protocol_ID line_read message_dispatched message_to_module/) {		# delete reading cmd_raw & cmd_sendMSG
+				readingsDelete($hash,$readingname);
+			}
+			## reset values ##
+			delete $hash->{dispatchDevice} if (defined);
+			delete $hash->{dispatchDeviceTime} if (defined);
+			delete $hash->{dispatchSTATE} if (defined);
+			$jsonDocDifference = 0;
+			readingsSingleUpdate($hash, "state" , "no dispatch possible" , 0);
 		}
 
 		Log3 $name, 3, "$name: $cmd Attributes $attrName";
@@ -2185,14 +2201,14 @@ sub SIGNALduino_TOOL_FW_checkSD_JSONData {
 			}
 		}
 	}
-	
+
 	## overview 1 - no ID found in JSON ##
 	if ($searchID_found == 0) {
 		$ret .= "<tr> <td colspan=\"5\" rowspan=\"1\"> <div>- Protocol ID $searchID is NOT documented</div></td> </tr>";
 	}
 
 	$ret .= "<tr> <td colspan=\"5\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
-	
+
 	## overview 2 - DMSG message ##
 	if ($searchDMSG_found == 0) {
 		$ret .= "<tr><td colspan=\"5\" rowspan=\"1\"> <div>- DMSG $searchDMSG is NOT documented</div></td> </tr>";
@@ -2200,8 +2216,8 @@ sub SIGNALduino_TOOL_FW_checkSD_JSONData {
 	} elsif ($searchDMSG_found == 1) {
 		$ret .= "<tr><td colspan=\"5\" rowspan=\"1\"> <div>- DMSG $searchDMSG is documented on device $searchDMSG_pos with state ".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state}."</div></td> </tr>";
 		$jsonDocDifference = 0;
-	}		
-	
+	}
+
 	$ret .= "<tr> <td colspan=\"5\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 	$ret .= "<tr class=\"even\"; style=\"text-align:left; text-decoration:underline\"> <td style=\"padding:1px 5px 1px 5px\"><div> reading </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> readed JSON </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> dispatch value </div></td></tr>";
 
@@ -2228,19 +2244,18 @@ sub SIGNALduino_TOOL_FW_checkSD_JSONData {
 		
 		if ($key2 !~ /battery$/) {
 			$ret .= "<tr class=\"$oddeven\"><td><div>- $key2</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> -?- </div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".$defs{$hash->{dispatchDevice}}->{READINGS}->{$key2}->{VAL}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> only read from dispatch </div></td> <td><div>&nbsp;</div></td> </tr>";		
+			## Checkbox test
+			#$ret .= "<tr class=\"$oddeven\"><td><div>- $key2</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> -?- </div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".$defs{$hash->{dispatchDevice}}->{READINGS}->{$key2}->{VAL}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> only read from dispatch </div></td> <td><div>&nbsp;</div></td> <td><div><input type=\"checkbox\" name=\"test\" id=\"test\" value=\"test\"> </div></td></tr>";	
 		}
 	}
 
 	$ret .= "<tr> <td colspan=\"5\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
-	
-	if ($jsonDocDifference == 1 && $searchDMSG !~ /Protocol\snot\sdecoded!.*/) {
-		my $var1 = 1;
-		my $var2 = 2;
-		$buttons = "<INPUT type=\"reset\" onclick=\"FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_save_JSONData(".$var1.",".$var2.")}&XHR=1\')\" value=\"update Data\" %s/>";
 
+	if ($jsonDocDifference == 1 && $searchDMSG !~ /Protocol\snot\sdecoded!.*/) {
+		$buttons = "<INPUT type=\"reset\" onclick=\"FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_saveSD_JSONData(&quot;$name&quot;,&quot;$jsonDocDifference&quot;)}&XHR=1\')\" value=\"update_Data\" %s/>";
 		$ret .= "<tr> <td colspan=\"5\" rowspan=\"1\" align=\"center\"> <div>$buttons</div> </td></tr>";
 	}
-	
+
 	$ret .="</tbody></table>";
 
 	return $ret;
@@ -2248,11 +2263,12 @@ sub SIGNALduino_TOOL_FW_checkSD_JSONData {
 }
 
 ################################
-sub SIGNALduino_TOOL_FW_save_JSONData {
-	my $var1 = shift;
-	my $var2 = shift;
+sub SIGNALduino_TOOL_FW_saveSD_JSONData {
+	my $name = shift;
+	my $jsonDocDifference = shift;
+	my $hash = $defs{$name};
 
-	Log3 $var1, 3, "$var1: SIGNALduino_TOOL_FW_saveSD_JSONData is running -> still under develop $var2";
+	Log3 $name, 3, "$name: SIGNALduino_TOOL_FW_saveSD_JSONData is running -> jsonDocDifference:$jsonDocDifference update still under develop";
 	return "still under develop";
 }
 
@@ -2424,9 +2440,10 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp;&rarr; example: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG_last"></a><code>Dispatch_RAWMSG_last</code> - dispatch the last RAW message</li><a name=""></a></ul>
 	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_ProtocolListTEST.json)<br>
-	&emsp;&rarr; only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
-	<ul><li><a name="START"></a><code>START</code> - starts the loop for automatic dispatch</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_ProtocolListTEST.json at ./FHEM/lib directory)<br>
+	&emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
+	<ul><li><a name="START"></a><code>START</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute StartString)<br>
+	&emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear</li><a name=""></a></ul>
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined Sendename (attributes Sendename needed!)<br>
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<a name=""></a>
@@ -2442,12 +2459,13 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
 	<ul><li><a name="FilterFile"></a><code>FilterFile</code> - creates a file with the filtered values</li><a name=""></a></ul>
-	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - creates a txt file which can be integrated in Github for documentation.</li><a name=""></a></ul>
+	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - creates a txt file which can be integrated in Github for documentation.<br>
+	&emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file.</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File</li><a name=""></a></ul>
-	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;signalduino_protocols.hash&gt; to use for import</li><a name=""></a></ul>
+	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
 	<ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li><a name=""></a></ul>
@@ -2474,7 +2492,8 @@ sub SIGNALduino_TOOL_Notify($$) {
 			The classification must be made according to the pattern <code>name (model) , state , RAWMSG;</code>. A designation is mandatory NECESSARY! NO set commands entered automatically.
 			If a module is selected, the detected RAWMSG will be listed with the names in the set list and adjusted the overview "Display readed SD_ProtocolList.json" .</li>
 		<li><a name="Dummyname">Dummyname</a><br>
-			Name of the dummy device which is to trigger the dispatch command.</li>
+			Name of the dummy device which is to trigger the dispatch command.<br>
+			&emsp; <u>note:</u> Only after entering the dummy name is a dispatch via "click" from the overviews possible. The attribute "event logging" is automatically set, which is necessary for the complete evaluation of the messages.</li>
 		<li><a name="Filename_export">Filename_export</a><br>
 			File name of the file in which the new data is stored.</li>
 		<li><a name="Filename_input">Filename_input</a><br>
@@ -2482,7 +2501,8 @@ sub SIGNALduino_TOOL_Notify($$) {
 		<li><a name="MessageNumber">MessageNumber</a><br>
 		Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>START</code>!)</li>
 		<li><a name="Path">Path</a><br>
-			Path of the tool in which the file (s) are stored or read. example: SD_ProtocolList.json | SD_Device_ProtocolList.json (standard is <code>./</code> which corresponds to the directory FHEM)</li>
+			Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined Filename_export - file<br>
+			&emsp; <u>note:</u> default is ./ if the attribute not set, which corresponds to the root directory FHEM</li>
 		<li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
 			Memory 1 for a raw message</li>
 		<li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
@@ -2523,9 +2543,10 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG_last"></a><code>Dispatch_RAWMSG_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
 	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgewählten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_ProtocolListTEST.json)<br>
-	&emsp;&rarr; erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
-	<ul><li><a name="START"></a><code>START</code> - startet die Schleife zum automatischen dispatchen</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
+	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
+	<ul><li><a name="START"></a><code>START</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut StartString definiert wurden)<br>
+	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option</li><a name=""></a></ul>
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender (Attribut Sendename ist notwendig!)<br>
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<br>
@@ -2543,12 +2564,13 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp;&rarr; eine Vorauswahl von Suchbegriffen via Checkbox ist m&ouml;glich<br>
 	&emsp;&rarr; die Checkbox Auswahl <i>-ONLY_DATA-</i> filtert nur die Suchdaten einzel aus jeder Zeile anstatt die komplette Zeile mit den gesuchten Daten<br>
 	&emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li><a name=""></a></ul>
-	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - erstellt eine txt-Datei welche in Github zur Dokumentation eingearbeitet werden kann.</li><a name=""></a></ul>
+	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - erstellt eine txt-Datei welche in Github zur Dokumentation eingearbeitet werden kann.<br>
+	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern.</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei</li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei</li><a name=""></a></ul>
-	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;signalduino_protocols.hash&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
+	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die binäre Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li><a name=""></a></ul>
@@ -2575,7 +2597,8 @@ sub SIGNALduino_TOOL_Notify($$) {
 			Die Einteilung muss jeweils nach dem Muster <code>Bezeichnung (Model) , Zustand , RAWMSG;</code> erfolgen. Eine Bezeichnung ist zwingend NOTWENDIG! Mit dem Wert <code> - </code>werden KEINE Set Befehle automatisch eingetragen. 
 			Bei Auswahl eines Modules, werden die gefundenen RAWMSG mit Bezeichnungen in die Set Liste eingetragen und die &Uuml;bersicht "Display readed SD_ProtocolList.json" auf das jeweilige Modul beschr&auml;nkt.</li>
 		<li><a name="Dummyname">Dummyname</a><br>
-			Name des Dummy-Ger&auml;tes welcher den Dispatch-Befehl ausl&ouml;sen soll.</li>
+			Name des Dummy-Ger&auml;tes welcher den Dispatch-Befehl ausl&ouml;sen soll.<br>
+			&emsp; <u>Hinweis:</u> Nur nach Eingabe dessen ist ein Dispatch via "Klick" aus den Übersichten möglich. Im Dummy wird automatisch das Attribut "eventlogging" gesetzt, welches notwendig zur kompletten Auswertung der Nachrichten ist.</li>
 		<li><a name="Filename_export">Filename_export</a><br>
 			Dateiname der Datei, worin die neuen Daten gespeichert werden.</li>
 		<li><a name="Filename_input">Filename_input</a><br>
@@ -2584,7 +2607,8 @@ sub SIGNALduino_TOOL_Notify($$) {
 			Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
 			<a name="MessageNumberEnd"></a>
 		<li><a name="Path">Path</a><br>
-			Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SD_ProtocolList.json | SD_Device_ProtocolList.json (Standard ist <code>./</code> was dem Verzeichnis FHEM entspricht)</li>
+			Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte Filename_export - Datei<br>
+			&emsp; <u>Hinweis:</u> Standard ist ./ wenn das Attribut nicht gesetzt wurde, was dem Stammverzeichnis FHEM entspricht</li>
 		<li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
 			Speicherplatz 1 für eine Roh-Nachricht</li>
 		<li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
