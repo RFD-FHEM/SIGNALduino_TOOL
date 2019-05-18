@@ -1,5 +1,7 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+18.05.2019 - 88_SIGNALduino_TOOL.pm: revised code | added function delete_Device | CheckIt Button added | JSON remove fix names of readings
+             SD_Device_ProtocolList.json: revised and added point internals
 13.05.2019 - 88_SIGNALduino_TOOL.pm: fix dispatch setlist | revised commandref | set path for JSON fix to lib directory
 12.05.2019 - 88_SIGNALduino_TOOL.pm: revised code | fix PerlWarning | added Check it button | added Github_device_documentation_for_README
 02.05.2019 - SD_Device_ProtocolList.json: add protocol 94 for Atech weather station
