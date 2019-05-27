@@ -1,5 +1,7 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+27.05.2019 - 88_SIGNALduino_TOOL.pm: - revised code for CSRF with JAVA and HTML | added attribut CheckIt_exceptions
+                                     - added check loop for new JSON messsage | added sub for sorted JSON | revised log messages
 18.05.2019 - 88_SIGNALduino_TOOL.pm: revised code | added function delete_Device | CheckIt Button added | JSON remove fix names of readings
              SD_Device_ProtocolList.json: revised and added point internals
 13.05.2019 - 88_SIGNALduino_TOOL.pm: fix dispatch setlist | revised commandref | set path for JSON fix to lib directory
