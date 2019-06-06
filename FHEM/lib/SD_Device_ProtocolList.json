@@ -2,8 +2,8 @@
 {"name":"ABS700", "id":"0", "data": [
     {
       "dmsg":"s4F038300", "user":"SD_Protocol",
-      "internals": {},
-      "readings": {"state":"T: 3.3", "battery":"low"},
+      "internals": {"DEF":"CUL_TCM97001_79", "NAME":"ABS700_79"},
+      "readings": {"state":"T: 3.3", "battery":"low", "mode":"normal", "other":"3.3"},
       "rmsg":"MS;P1=-7949;P2=492;P3=-1978;P4=-3970;D=21232423232424242423232323232324242423232323232424;CP=2;SP=1;R=245;O;"
     }
   ]
@@ -11,17 +11,17 @@
 {"name":"GT-WT-02", "id":"0", "data": [
     {
       "dmsg":"s5410AC5F9800", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "channel":"2"},
+      "internals": {"DEF":"CUL_TCM97001_84", "NAME":"GT_WT_02_84"},
+      "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "channel":"2", "humidity":"47", "mode":"normal", "temperature":"17.2"},
       "rmsg":"MS;P1=-4129;P2=550;P3=-2100;P4=-9055;D=2423212321232123232323232123232323212321232121232323212321212121212123232121;CP=2;SP=4;R=241;O;s=4;m1;"
     }
   ]
 },
 {"name":"Prologue", "id":"0", "data": [
     {
-      "dmsg":"s916001A0A000", "user":"SD_Protocol",
-      "internals": {},
-      "readings": {"state":"T: 2.6", "channel":"1"},
+      "dmsg":"s916001A0A000", "comment":"channel0 right?", "user":"SD_Protocol",
+      "internals": {"DEF":"CUL_TCM97001_145", "NAME":"Prologue_145"},
+      "readings": {"state":"T: 2.6", "battery":"ok", "channel":"0", "mode":"normal", "other":"2.6"},
       "rmsg":"MS;P0=-4152;P1=643;P2=-2068;P3=-9066;D=1310121210121212101210101212121212121212121212121010121012121212121012101212;CP=1;SP=3;R=220;O;m2;"
     }
   ]
@@ -29,8 +29,8 @@
 {"name":"Ventus W044", "id":"0", "data": [
     {
       "dmsg":"s8505301CC000", "user":"Harst",
-      "internals": {},
-      "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "channel":"1"},
+      "internals": {"DEF":"CUL_TCM97001_133", "NAME":"W044_133"},
+      "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "channel":"1", "humidity":"38", "mode":"normal", "temperature":"20.2"},
       "rmsg":"MS;P0=-1957;P1=573;P2=-3961;P3=-8913;D=13121010101012101210101010101210121010121210101010101010121212101012121010;CP=1;SP=3;e;m1;"
     }
   ]
@@ -38,8 +38,8 @@
 {"name":"Mebus", "id":"0.1", "data": [
     {
       "dmsg":"sF9700C4000", "user":"SD_Protocol",
-      "internals": {},
-      "readings": {"state":"T: 1.2", "battery":"low", "channel":"1"},
+      "internals": {"DEF":"CUL_TCM97001_151", "NAME":"Mebus_151"},
+      "readings": {"state":"T: 1.2", "battery":"low", "channel":"1", "mode":"normal", "other":"1.2"},
       "rmsg":"MS;P0=-9690;P3=354;P4=-4662;P5=-2107;D=3034343434343535343534343435353535353535353434353535343535;CP=3;SP=0;R=209;O;m2;"
     }
   ]
@@ -47,14 +47,14 @@
 {"name":"Ventus W132", "id":"0.3", "data": [
     {
       "dmsg":"sD66EE1603000", "comment":"wind", "user":"dirigent",
-      "internals": {},
-      "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "channel":"1"},
+      "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
+      "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2"},
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121212141212121414141412141212141414141414141212;CP=1;SP=3;s6;e;m1;"
     },
     {
       "dmsg":"sD6680020C000", "comment":"wind", "user":"dirigent",
-      "internals": {},
-      "readings": {"state":"Ws: 0.8", "battery":"ok", "channel":"1"},
+      "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
+      "readings": {"state":"Ws: 0.8 ", "battery":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2", "windSpeed":"0.8"},
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121414141414141414141414141412141414141412121414;CP=1;SP=3;s6;e;m2;"
     }
   ]
@@ -62,8 +62,8 @@
 {"name":"Ventus W174", "id":"0.3", "data": [
     {
       "dmsg":"s336C9C002000", "comment":"rain", "user":"andies",
-      "internals": {},
-      "readings": {"state":"R: 14.25", "battery":"ok"},
+      "internals": {"DEF":"CUL_TCM97001_51", "NAME":"W174_51"},
+      "readings": {"state":"R: 14.25", "battery":"ok", "israining":"yes", "rain":"14.25"},
       "rmsg":"MS;P3=478;P4=-4052;P5=-2022;P6=-9075;D=536353534343535343435343435343435353435353434343535353535353535353535353435;CP=3;SP=6;R=248;O;m0;"
     }
   ]
@@ -71,8 +71,8 @@
 {"name":"Auriol Z31743B", "id":"0.4", "data": [
     {
       "dmsg":"s248FE4EF0000", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"T: -2.8"},
+      "internals": {"DEF":"CUL_TCM97001_36", "NAME":"Rubicson_36"},
+      "readings": {"state":"T: -2.8", "other":"-2.8"},
       "rmsg":"MS;P0=-3946;P1=448;P2=-1998;P3=-9309;P4=284;D=131212101212101212101212121010101010101012121012121010101210101010124;CP=1;SP=3;e;m3;"
     }
   ]
@@ -80,14 +80,14 @@
 {"name":"YET100-1", "id":"3", "data": [
     {
       "dmsg":"i5554C0", "comment":"Taste 1 von 8", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"off"},
+      "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
+      "readings": {"state":"off", "protocol":"SBC_FreeTec"},
       "rmsg":"MS;P2=1292;P3=-511;P4=389;P5=-1416;P6=-13975;D=46452345234523452345234523452345452323454545454545;CP=4;SP=6;m2;"
     },
     {
       "dmsg":"i555430", "comment":"Taste 2 von 8", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"on"},
+      "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
+      "readings": {"state":"on", "protocol":"SBC_FreeTec"},
       "rmsg":"MS;P0=387;P1=-1397;P2=1294;P3=-503;P4=-13984;D=04012301230123012301230123012301010101232301010101;CP=0;SP=4;m2;"
     }
   ]
@@ -473,21 +473,21 @@
     }
   ]
 },
-{"name":"WS7053", "id":"67", "data": [
-    {
-      "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "repeat":"1", "user":"elektron-bbs",
-      "internals": {},
-      "readings": {"state":"T: 26.0"},
-      "rmsg":"MU;P0=3381;P1=-672;P2=-4628;P3=1142;P4=-30768;D=010232023202020202023202023202020232023232320232320202020202020202040102320232020202020232020232020202320232323202323202020202020202020;CP=0;R=45;"
-    }
-  ]
-},
 {"name":"Remote control Sender 7054", "id":"67", "data": [
     {
       "dmsg":"TXA0AE734730", "comment":"TX2 Protocol", "user":"HomeAuto_User",
       "internals": {},
       "readings": {"state":"T: 23.4"},
       "rmsg":"MU;P0=3371;P1=-27842;P2=132;P3=1137;P4=-744;P6=-4631;D=340636063606060606063606360636363606063636360606363606360606060606012;CP=3;R=27;"
+    }
+  ]
+},
+{"name":"WS7053", "id":"67", "data": [
+    {
+      "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "repeat":"1", "user":"elektron-bbs",
+      "internals": {},
+      "readings": {"state":"T: 26.0"},
+      "rmsg":"MU;P0=3381;P1=-672;P2=-4628;P3=1142;P4=-30768;D=010232023202020202023202023202020232023232320232320202020202020202040102320232020202020232020232020202320232323202323202020202020202020;CP=0;R=45;"
     }
   ]
 },
@@ -524,15 +524,6 @@
     }
   ]
 },
-{"name":"FS20 S8-2", "id":"74", "data": [
-    {
-      "dmsg":"810b04f70101a001cf4b010011", "repeat":"2", "user":"pejonp",
-      "internals": {},
-      "readings": {"state":"on"},
-      "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
-    }
-  ]
-},
 {"name":"FS20 S4A-2", "id":"74", "data": [
     {
       "dmsg":"810b04f70101a001bf25010011", "user":"HomeAuto_User",
@@ -554,6 +545,15 @@
       "internals": {},
       "readings": {"state":"dim100%"},
       "rmsg":"MU;P0=31852;P1=-361;P2=441;P3=656;P4=-548;P5=-31948;P6=290;P7=-10392;D=01212121212121212121212134342121212121213421213421212134342134212121213434342134212121212121342134343434212121343434252161616121212121212121213421212134342121212121342121342121212121212121212121212121212134212121213421343434213434213427212121212121212121;CP=2;R=27;O;"
+    }
+  ]
+},
+{"name":"FS20 S8-2", "id":"74", "data": [
+    {
+      "dmsg":"810b04f70101a001cf4b010011", "repeat":"2", "user":"pejonp",
+      "internals": {},
+      "readings": {"state":"on"},
+      "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
     }
   ]
 },
