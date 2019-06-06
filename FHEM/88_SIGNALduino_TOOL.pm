@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-03 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-05 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -854,19 +854,22 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		}
 
 		$RAWMSG_last =~ s/;;/;/g;																						# ersetze ; durch ;;
+		$hash->{dispatchOption} = $DispatchOption;
 
 		### for test, for all versions (later can be delete) ###
 		if ($JSON_write_ERRORs eq "yes" && $ProtocolListRead) {
 			if ($hash->{dispatchOption} && $hash->{dispatchOption} =~/ID:(\d{1,}\.?\d?)\s\[(.*)\]/) {
 				if ($1 ne $decoded_Protocol_ID) {
 					my $founded = 0;
-					open(SaveDoc, "./FHEM/lib/SD_Device_ProtocolListERRORs.txt");
-						while (<SaveDoc>) {
-							$founded++ if (grep /$RAWMSG_last/, $_);
-						}
-					close(SaveDoc);
-
-					if ($founded == 0) {
+					
+					## check RAWMSG in file registered
+					if (-e "./FHEM/lib/SD_Device_ProtocolListERRORs.txt") {
+						open(SaveDoc, "./FHEM/lib/SD_Device_ProtocolListERRORs.txt");
+							while (<SaveDoc>) {
+								$founded++ if (grep /$RAWMSG_last/, $_);
+							}
+						close(SaveDoc); 
+					} elsif ($founded == 0) {
 						open(SaveDoc, '>>', "./FHEM/lib/SD_Device_ProtocolListERRORs.txt") || return "ERROR: file ($jsonProtList) can not open!";
 							print SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, "name" )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, "name" ));
 							print SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, "name" ));
@@ -877,7 +880,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			}
 		}
 
-		$hash->{dispatchOption} = $DispatchOption;
 		readingsDelete($hash,"line_read") if ($cmd ne "START");
 
 		readingsBeginUpdate($hash);
@@ -2116,16 +2118,16 @@ function function4(txt) {
       {text:"update", click:function(){
       	var allVals = [];
 				$("#function4 table td input:checkbox:checked").each(function() {
-					allVals.push($(this).attr(\'id\')+\'.\'+$(this).attr(\'name\')+\'.\'+$(this).val());
+					allVals.push($(this).attr(\'id\')+\'|\'+$(this).attr(\'name\')+\'|\'+$(this).val()+"XyZ");
 				})
 				$("#function4 table td input:text").each(function() {
-					allVals.push($(this).attr(\'id\')+\'.\'+$(this).attr(\'name\')+\'.\'+$(this).val());
+					allVals.push($(this).attr(\'id\')+\'|\'+$(this).attr(\'name\')+\'|\'+$(this).val()+"XyZ");
 				})
 
-				/* JavaMod need !!! # is not support -> # = %23 */
-				var allVals = String(allVals).replace("#","%23");
-
-				FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_updateData("'.$name.'","\'+String(allVals)+\'","'.$hash.'")}\');
+				/* JavaMod need !!! not support -> # = %23 | , = %2C .... */
+				allVals = encodeURIComponent(allVals);
+				
+				FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_updateData("'.$name.'","\'+allVals+\'","'.$hash.'")}\');
          $(this).dialog("close");
          $(div).remove();
          location.reload();
@@ -2414,7 +2416,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 	my $modJSON = shift;				# values how checked on from overview
 	my $hash = shift;
 
-	my @array_value = split(",", $modJSON);
+	my @array_value = split(/XyZ,/, $modJSON);
 	my $cnt_data_id_max;
 	my $searchDMSG = ReadingsVal($name, "last_DMSG", "none");
 
@@ -2424,7 +2426,9 @@ sub SIGNALduino_TOOL_FW_updateData {
 	if (defined $pos_array_device && $jsonDocNew == 0) {
 		for (my $i=0;$i<@array_value;$i++){
 			#Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData - $i JavaString = ".$array_value[$i];
-			my @modJSON_split = split /\./, $array_value[$i];
+			my @modJSON_split = split /\|/, $array_value[$i];
+			$modJSON_split[2] =~ s/XyZ//g if ($modJSON_split[2] && $modJSON_split[2] =~ /XyZ$/); ## need!! Java cut with , array elements
+
 			if ($modJSON_split[1] eq "reading") {
 				Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData - $i ".$modJSON_split[1].": ".$modJSON_split[2]." -> ".$defs{$defs{$name}->{dispatchDevice}}->{READINGS}->{$modJSON_split[2]}->{VAL};
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{$modJSON_split[2]} = $defs{$defs{$name}->{dispatchDevice}}->{READINGS}->{$modJSON_split[2]}->{VAL};
@@ -2460,7 +2464,9 @@ sub SIGNALduino_TOOL_FW_updateData {
 
 		## loop all values from dispatch device
 		for (my $i=0;$i<@array_value;$i++) {
-			my @modJSON_split = split /\./, $array_value[$i];
+			my @modJSON_split = split /\|/, $array_value[$i];
+			$modJSON_split[2] =~ s/XyZ//g if ($modJSON_split[2] && $modJSON_split[2] =~ /XyZ$/); ## need!! Java cut with , array elements
+
 			if ($modJSON_split[1] eq "reading") {
 				Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData - $i ".$modJSON_split[1].": ".$modJSON_split[2]." -> ".$defs{$defs{$name}->{dispatchDevice}}->{READINGS}->{$modJSON_split[2]}->{VAL};
 				$readings{$modJSON_split[2]} = $defs{$defs{$name}->{dispatchDevice}}->{READINGS}->{$modJSON_split[2]}->{VAL};
@@ -2636,20 +2642,20 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	return "No file readed in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information." if (!$ProtocolListRead);
 	return "The attribute DispatchModule with value $DispatchModule is set to text files.<br>No filtered overview! Please set a non txt value." if ($DispatchModule =~ /.txt$/);
 
-	$ret = "<table class=\"block wide internals wrapcolumns\">";
+	$ret ="<table class=\"block wide internals wrapcolumns\">";
 	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation from SIGNALduino</caption>";
-	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>batteryinfo</td> <td>user</td> <td>dispatch</td> </thead>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>batteryinfo</td> <td>DEF</td> <td>user</td> <td>dispatch</td> </thead>";
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 		my $RAWMSG = "";
-		my $battery = "";
 		my $clientmodule = "";
 		my $comment = "";
 		my $dmsg = "";
-		my $readings = "";
 		my $state = "";
 		my $user = "";
+		my $battery = "";
+		my $DEF = "";
 		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
 
 		if (@$ProtocolListRead[$i]->{id} ne "") {
@@ -2662,7 +2668,12 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 					if ($key =~ /^readings/) {
 						foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
 							$state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /state/);
-							$battery = "$key: ".@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /battery/);
+							$battery = "&#10003;" if ($key =~ /battery/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} ne "");
+						}
+					}
+					if ($key =~ /^internals/) {
+						foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+							$DEF = "&#10003;" if ($key2 eq "DEF" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne "");
 						}
 					}
 					$RAWMSG = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /rmsg/);
@@ -2674,12 +2685,13 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 				## view all ##
 				if ($DispatchModule eq "-") {
 					$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$battery</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>"; #<td style=\"text-align:center\"><div> </div></td>
+					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$DEF</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 				## for filtre DispatchModule if set attribute ##
 				} elsif ($DispatchModule eq $clientmodule) {
 					$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td><div>$battery</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>"; #<td style=\"text-align:center\"><div> </div></td>
+					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$DEF</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 				}
+				$DEF = "";
 			}
 		}
 	}
