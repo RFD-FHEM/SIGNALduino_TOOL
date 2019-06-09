@@ -94,7 +94,7 @@
 },
 {"name":"ITS-150", "id":"3.1", "data": [
     {
-      "dmsg":"i455414", "comment":"on off (FF F0)", "user":"Stefan#",
+      "dmsg":"i455414", "comment":"on off (FF F0) - UNKNOWNCODE, help me!", "user":"Stefan#",
       "internals": {},
       "readings": {"state":"off"},
       "rmsg":"MS;P0=-11440;P1=-1121;P2=-416;P5=309;P6=1017;D=150516251515162516251625162516251515151516251625151;CP=5;SP=0;R=66;"
@@ -110,14 +110,14 @@
 {"name":"EAS800z", "id":"7", "data": [
     {
       "dmsg":"P7#6300C6F0B", "user":"SD_Protocol",
-      "internals": {},
-      "readings": {"state":"T: 19.8 H: 11", "batteryState":"low", "channel":"1"},
+      "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
+      "readings": {"state":"T: 19.8 H: 11", "batteryState":"low", "channel":"1", "humidity":"11", "temperature":"19.8"},
       "rmsg":"MS;P1=-3882;P2=504;P3=-957;P4=-1949;D=21232424232323242423232323232323232424232323242423242424242323232324232424;CP=2;SP=1;R=249;m=2;"
     },
     {
       "dmsg":"P7#8210A1F24", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"T: 16.1 H: 36", "batteryState":"low", "channel":"2"},
+      "internals": {"DEF":"SD_WS07_TH_2", "NAME":"SD_WS07_TH_2"},
+      "readings": {"state":"T: 16.1 H: 36", "batteryState":"low", "channel":"2", "humidity":"36", "temperature":"16.1"},
       "rmsg":"MS;P2=-1945;P3=486;P4=-976;P5=-3927;D=35323434343434323434343432343434343234323434343432323232323434323434323434;CP=3;SP=5;R=13;O;m1;"
     }
   ]
@@ -125,8 +125,8 @@
 {"name":"Hama TS34A", "id":"7", "data": [
     {
       "dmsg":"P7#6190D8F3D", "comment":"div. Wetterstationen", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"T: 21.6 H: 61", "batteryState":"ok", "channel":"2"},
+      "internals": {"DEF":"SD_WS07_TH_2", "NAME":"SD_WS07_TH_2"},
+      "readings": {"state":"T: 21.6 H: 61", "batteryState":"ok", "channel":"2", "humidity":"61", "temperature":"21.6"},
       "rmsg":"MS;P2=-2006;P4=-4065;P5=491;P6=-1005;D=54565252565656565252565652565656565252565252565656525252525656525252525652;CP=5;SP=4;R=48;O;m2;e;"
     }
   ]
@@ -134,8 +134,8 @@
 {"name":"Hama TS36E", "id":"7", "data": [
     {
       "dmsg":"P7#4180E2F3B", "comment":"Wetterstationen 1362 22,93,94", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"T: 22.6 H: 59", "batteryState":"ok", "channel":"1"},
+      "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
+      "readings": {"state":"T: 22.6 H: 59", "batteryState":"ok", "channel":"1", "humidity":"59", "temperature":"22.6"},
       "rmsg":"MS;P0=498;P1=-965;P2=-1969;P3=-3900;D=03010201010101010202010101010101010202020101010201020202020101020202010202;CP=0;SP=3;R=0;O;m2;"
     }
   ]
@@ -152,17 +152,17 @@
 {"name":"THGR228N", "id":"10", "data": [
     {
       "dmsg":"501A2D203C801720833E9E", "comment":"OSV2", "user":"Wetterhexe",
-      "internals": {},
-      "readings": {"state":"T: 17.8 H: 32 BAT: ok"},
+      "internals": {"DEF":"THGR228N_3c_2", "NAME":"THGR228N_3c_2"},
+      "readings": {"state":"T: 17.8 H: 32 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"32", "temperature":"17.8"},
       "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;s1;b1;"
     }
   ]
 },
 {"name":"THGR810", "id":"10", "data": [
     {
-      "dmsg":"50FA2844DC202070835092", "comment":"OSV3", "user":"Wetterhexe",
-      "internals": {},
-      "readings": {"state":"T: 20.2 H: 37 BAT: ok"},
+      "dmsg":"50FA2844DC202070835092", "comment":"OSV3 (ID52 additionally)", "user":"Wetterhexe",
+      "internals": {"DEF":"THGR810_dc_4", "NAME":"THGR810_dc_4"},
+      "readings": {"state":"T: 20.2 H: 37 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"37", "temperature":"20.2"},
       "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;s48;b1;"
     }
   ]
@@ -179,17 +179,17 @@
 {"name":"TFA 30.3176", "id":"12", "data": [
     {
       "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Wetterstation 35.1101.02", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"T: 23.9 H: 9 Bat: ok"},
+      "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
+      "readings": {"state":"T: 23.9 H: 9", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Dry. Less than 40% RH", "humidity":"9", "package_number":"3", "temperature":"23.9"},
       "rmsg":"MC;LL=-1022;LH=927;SL=-531;SH=442;D=A8EA345AD8BE0A3F6AA3F94;C=486;L=90;R=37;"
     }
   ]
 },
 {"name":"FA22RF", "id":"13.1", "data": [
     {
-      "dmsg":"P13.1#CBFAD2", "repeat":"2", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"Alarm"},
+      "dmsg":"P13.1#CBFAD2", "comment":"(ID63 additionally)", "repeat":"2", "user":"HomeAuto_User",
+      "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
+      "readings": {"state":"Alarm", "lastReceive_ID":"13.1"},
       "rmsg":"MU;P0=-5684;P1=8149;P2=-887;P3=798;P4=-1393;P5=-2746;P6=-19956;D=0123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435353435361234343535343534343434343434353435343435343535343536123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435;CP=3;R=0;"
     }
   ]
@@ -197,20 +197,20 @@
 {"name":"Chilitec_22640", "id":"14", "data": [
     {
       "dmsg":"P14#AA808", "user":"privat58",
-      "internals": {},
-      "readings": {"state":"power_on"},
+      "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
+      "readings": {"state":"power_on", "deviceCode":"1010101010000000"},
       "rmsg":"MS;P0=988;P1=-384;P2=346;P3=-1026;P4=-4923;D=240123012301230123012323232323232301232323;CP=2;SP=4;R=0;O;m=1;"
     },
     {
       "dmsg":"P14#AA80C", "user":"privat58",
-      "internals": {},
-      "readings": {"state":"brightness_plus"},
+      "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
+      "readings": {"state":"brightness_plus", "deviceCode":"1010101010000000"},
       "rmsg":"MS;P0=-398;P1=974;P3=338;P4=-1034;P6=-4939;D=361034103410341034103434343434343410103434;CP=3;SP=6;R=0;"
     },
     {
       "dmsg":"P14#AA80A", "user":"privat58",
-      "internals": {},
-      "readings": {"state":"flickering_slowly"},
+      "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
+      "readings": {"state":"flickering_slowly", "deviceCode":"1010101010000000"},
       "rmsg":"MS;P1=976;P2=-397;P3=341;P4=-1029;P5=-4940;D=351234123412341234123434343434343412341234;CP=3;SP=5;R=0;"
     }
   ]
@@ -227,8 +227,8 @@
 {"name":"THR128", "id":"18", "data": [
     {
       "dmsg":"500A4D100E001000002100", "comment":"OSV1", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"T: 10 BAT: ok"},
+      "internals": {"DEF":"THR128_0e_1", "NAME":"THR128_0e_1"},
+      "readings": {"state":"T: 10 BAT: ok", "battery":"ok", "batteryState":"ok", "temperature":"10"},
       "rmsg":"MC;LL=-2486;LH=3348;SL=-1024;SH=1889;D=8FFF7F0F;C=1457;L=32;R=65;s26;b26;"
     }
   ]
@@ -236,8 +236,8 @@
 {"name":"minify Funksteckdose", "id":"19", "data": [
     {
       "dmsg":"u19#E2CA7C", "comment":"von Dez 2016", "user":"zag-o-mat",
-      "internals": {},
-      "readings": {"state":"must be added"},
+      "internals": {"DEF":"SIGNALduino_unknown_19", "NAME":"SIGNALduino_unknown_19"},
+      "readings": {"state":"E2CA7C"},
       "rmsg":"MU;P0=293;P1=-887;P2=-312;P6=-1900;P7=872;D=6727272010101720172720101720172010172727272720;CP=0;"
     }
   ]
@@ -245,8 +245,8 @@
 {"name":"visivon remote", "id":"24", "data": [
     {
       "dmsg":"u24#9F7DF825029C10", "comment":"von 2015", "user":"sidey",
-      "internals": {},
-      "readings": {"state":"must be added"},
+      "internals": {"DEF":"SIGNALduino_unknown_24", "NAME":"SIGNALduino_unknown_24"},
+      "readings": {"state":"9F7DF825029C10"},
       "rmsg":"MU;P0=132;P1=500;P2=-233;P3=-598;P4=-980;P5=4526;D=012120303030303120303030453120303121212121203121212121203121212121212030303030312030312031203030303030312031203031212120303030303120303030453120303121212121203121212121203121212121212030303030312030312031203030303030312031203031212120303030;CP=0;O;"
     }
   ]
@@ -254,26 +254,26 @@
 {"name":"Pollin ISOTRONIC", "id":"31", "data": [
     {
       "dmsg":"u31#891FE", "user":"kaihs",
-      "internals": {},
-      "readings": {"state":"must be added"},
+      "internals": {"DEF":"SIGNALduino_unknown_31", "NAME":"SIGNALduino_unknown_31"},
+      "readings": {"state":"891FE"},
       "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
     }
   ]
 },
 {"name":"Conrad S522", "id":"33", "data": [
     {
-      "dmsg":"W33#0501DD80038", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"T: 24.2", "batteryState":"ok", "channel":"1"},
+      "dmsg":"W33#0501DD80038", "comment":"(ID 33.2 additionally)", "user":"HomeAuto_User",
+      "internals": {"DEF":"SD_WS_33_T_1", "NAME":"SD_WS_33_T_1"},
+      "readings": {"state":"T: 24.2", "batteryState":"ok", "channel":"1", "temperature":"24.2", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "rmsg":"MS;P1=-8035;P2=504;P3=-2027;P4=-3945;D=21232323232324232423232323232323242424232424242324242323232323232323232323232324242423;CP=2;SP=1;R=19;O;m0;"
     }
   ]
 },
 {"name":"renkforce E0001PA", "id":"33", "data": [
     {
-      "dmsg":"W33#26C6F570804", "comment":"Conrad", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"T: 15.5 H: 44 Bat: ok"},
+      "dmsg":"W33#26C6F570804", "comment":"Conrad (ID 33.2 additionally)", "user":"HomeAuto_User",
+      "internals": {"DEF":"SD_WS_33_TH_2", "NAME":"SD_WS_33_TH_2"},
+      "readings": {"state":"T: 15.5 H: 44", "batteryState":"ok", "channel":"2", "humidity":"44", "temperature":"15.5", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "rmsg":"MS;P0=-7990;P1=485;P3=-2061;P4=-4060;D=10131314131314141314141313131414131414141413141314131414141313131314131313131313131314;CP=1;SP=0;R=4;O;"
     }
   ]
@@ -281,8 +281,8 @@
 {"name":"TFA 30.3200", "id":"33.1", "data": [
     {
       "dmsg":"W33#14C1C594C0C", "user":"cxxcoder",
-      "internals": {},
-      "readings": {"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1"},
+      "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
+      "readings": {"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1", "humidity":"53", "temperature":"18.8", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "rmsg":"MS;P1=-7796;P2=745;P3=-1976;P4=-3929;D=21232323242324232324242323232323242424232323242324242323242324232324242323232323232424;CP=2;SP=1;R=30;O;m2;"
     }
   ]
@@ -298,9 +298,9 @@
 },
 {"name":"QUIGG_GT-7000", "id":"34", "data": [
     {
-      "dmsg":"P34#9E4FF", "model":"QUIGG_DMV", "user":"SD_Protocol",
-      "internals": {},
-      "readings": {"state":"Ch1_off"},
+      "dmsg":"P34#9E4FF", "comment":"(ID31 additionally)", "model":"QUIGG_DMV", "user":"SD_Protocol",
+      "internals": {"DEF":"QUIGG_DMV 9E4", "NAME":"QUIGG_DMV_9E4"},
+      "readings": {"state":"Ch1_off", "deviceCode":"100111100100"},
       "rmsg":"MU;P0=-9812;P1=589;P2=-671;P3=1261;P4=-1320;D=012341412323232341412341412323232323232323;CP=3;R=19;"
     }
   ]
@@ -308,14 +308,14 @@
 {"name":"HE800", "id":"35", "data": [
     {
       "dmsg":"ihD8ED0A1000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"on"},
+      "internals": {"DEF":"HE800 8848 1", "NAME":"IT_HE800_8848_1"},
+      "readings": {"state":"on", "protocol":"HE800"},
       "rmsg":"MS;P0=-4906;P3=-992;P4=899;P5=-378;P7=283;D=7073734573734545457373734573734573454545457345734545454573;CP=7;SP=0;R=76;O;m1;"
     },
     {
       "dmsg":"ihD95E005000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"off"},
+      "internals": {"DEF":"HE800 8848 1", "NAME":"IT_HE800_8848_1"},
+      "readings": {"state":"off", "protocol":"HE800"},
       "rmsg":"MS;P2=896;P3=-375;P5=-1005;P6=269;P7=-4850;D=6765652365652323652365236565656523232323232323232323652365;CP=6;SP=7;R=76;e;m1;"
     }
   ]
@@ -323,8 +323,8 @@
 {"name":"NC-3911-675", "id":"38", "data": [
     {
       "dmsg":"W38#12A2C5D0C", "repeat":"4", "user":"Harst",
-      "internals": {},
-      "readings": {"state":"T: 20.9", "batteryState":"ok", "beep":"off", "channel":"2"},
+      "internals": {"DEF":"SD_WS_38_T_2", "NAME":"SD_WS_38_T_2"},
+      "readings": {"state":"T: 20.9", "batteryState":"ok", "beep":"off", "channel":"2", "temperature":"20.9", "type":"NC-3911"},
       "rmsg":"MU;P0=-235;P1=496;P2=253;P3=-479;P4=-957;P5=743;P6=-720;CP=2;D=010231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102310231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102;O;"
     }
   ]
@@ -332,8 +332,8 @@
 {"name":"X10 Protocol", "id":"39", "data": [
     {
       "dmsg":"29454A847BD700", "repeat":"1", "user":"wherzig",
-      "internals": {},
-      "readings": {"state":"Closed"},
+      "internals": {"DEF":"Sds10a d745 Window", "NAME":"RFXX10REC_d745"},
+      "readings": {"Window":"Closed", "battery":"ok", "delay":"min", "statechange":"Closed"},
       "rmsg":"MU;P0=10530;P1=-2908;P2=533;P3=-598;P4=-1733;P5=767;D=0123242323232423242324232324232423242323232324232323242424242324242424232423242424232501232423232324232423242323242324232423232323242323232424242423242424242324232424242325012324232323242324232423232423242324232323232423232324242424232424242423242324242;CP=2;O;"
     }
   ]
@@ -341,8 +341,8 @@
 {"name":"Pollin_551227", "id":"42", "data": [
     {
       "dmsg":"P42#FE1FF87FE1FF86", "user":"trosenda",
-      "internals": {},
-      "readings": {"state":"must be added"},
+      "internals": {"DEF":"42 FE1FF87", "NAME":"SD_BELL_FE1FF87"},
+      "readings": {"state":"ring"},
       "rmsg":"MU;P0=-491;P1=471;P2=1445;D=0101010101010101010102020202010101010101010101010202020201010101010101010101020202020101010101010101010102020202010101;CP=1;R=67;"
     }
   ]
@@ -380,8 +380,8 @@
 {"name":"ET-733", "id":"47", "data": [
     {
       "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
-      "internals": {},
-      "readings": {"state":"must be added", "temp-bbq":"21", "temp-food":"25"},
+      "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
+      "readings": {"state":"must be added", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
       "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;s17;b17;"
     }
   ]
@@ -407,8 +407,8 @@
 {"name":"TFA 30.3208.0", "id":"58", "data": [
     {
       "dmsg":"W58#45C8142445DB0", "repeat":"2", "user":"Ralf9",
-      "internals": {},
-      "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2"},
+      "internals": {"DEF":"SD_WS_58_TH_2", "NAME":"SD_WS_58_TH_2"},
+      "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2", "humidity":"69", "temperature":"18.9", "type":"TFA 30.3208.0"},
       "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
     }
   ]
@@ -416,8 +416,8 @@
 {"name":"AS2000", "id":"60", "data": [
     {
       "dmsg":"K21380200", "comment":"Series WS2000/WS7000 of various sensors", "state":"T: 23.8", "user":"elektron-bbs",
-      "internals": {},
-      "readings": {"state":"must be added"},
+      "internals": {"DEF":"3", "NAME":"CUL_WS_3"},
+      "readings": {"state":"T: 23.8  H: 0", "DEVFAMILY":"WS300", "DEVTYPE":"S300TH", "humidity":"0", "temperature":"23.8"},
       "rmsg":"MU;P0=140;P1=-152;P2=817;P3=-397;P4=-279;P5=327;P6=-900;D=01232424242424232323235656232323562356232356232323565656562323562356232356232323235623232323562323232356235623565;CP=2;"
     }
   ]
@@ -425,8 +425,8 @@
 {"name":"ASH2000", "id":"60", "data": [
     {
       "dmsg":"K01900146", "comment":"Series WS2000/WS7000 of various sensors", "user":"elektron-bbs",
-      "internals": {},
-      "readings": {"state":"T: 19 H: 46"},
+      "internals": {"DEF":"1", "NAME":"CUL_WS_1"},
+      "readings": {"state":"T: 19.0  H: 46", "DEVFAMILY":"WS300", "DEVTYPE":"S300TH", "humidity":"46", "temperature":"19.0"},
       "rmsg":"MU;P0=-14912;P1=822;P2=-430;P3=343;P4=-898;D=01212121212121212121234341212123412121212341212121234341212343434121212341212121234123434123412123412343434123434341234123;CP=3;"
     }
   ]
@@ -443,13 +443,13 @@
 {"name":"FS10", "id":"61", "data": [
     {
       "dmsg":"P61#0011DC711A0", "comment":"Remote control", "user":"elektron-bbs",
-      "internals": {},
+      "internals": {"DEF":"2_13", "NAME":"FS10_2_13"},
       "readings": {"state":"on"},
       "rmsg":"MU;P0=1776;P1=-410;P2=383;P3=-820;D=01212121212121212121212123212121232323212323232121212323232121212321212123232123212120;CP=2;R=74;"
     },
     {
       "dmsg":"P61#00096E388EC", "comment":"Remote control", "user":"elektron-bbs",
-      "internals": {},
+      "internals": {"DEF":"2_13", "NAME":"FS10_2_13"},
       "readings": {"state":"off"},
       "rmsg":"MU;P0=-27584;P1=446;P2=-349;P3=-755;D=01212121212121212121212121312121312131312131313121212131313121212131212121313131213131;CP=1;"
     }
@@ -467,8 +467,8 @@
 {"name":"WS7035", "id":"66", "data": [
     {
       "dmsg":"TXA08473273C", "comment":"Remote temp transmitter model 7035 (TX2 Protocol)", "repeat":"1", "user":"elektron-bbs",
-      "internals": {},
-      "readings": {"state":"T: 23.2"},
+      "internals": {"DEF":"66", "NAME":"CUL_TX_66"},
+      "readings": {"state":"T: 23.2", "temperature":"23.2"},
       "rmsg":"MU;P0=13312;P1=-2785;P2=4985;P3=1124;P4=-6442;P5=3181;P6=-31980;D=0121345434545454545434545454543454545434343454543434545434545454545454343434545434343434545621213454345454545454345454545434545454343434545434345454345454545454543434345454343434345456212134543454545454543454545454345454543434345454343454543454545454545;CP=3;R=73;O;"
     }
   ]
@@ -476,8 +476,8 @@
 {"name":"Remote control Sender 7054", "id":"67", "data": [
     {
       "dmsg":"TXA0AE734730", "comment":"TX2 Protocol", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"T: 23.4"},
+      "internals": {"DEF":"87", "NAME":"CUL_TX_87"},
+      "readings": {"state":"T: 23.4", "temperature":"23.4"},
       "rmsg":"MU;P0=3371;P1=-27842;P2=132;P3=1137;P4=-744;P6=-4631;D=340636063606060606063606360636363606063636360606363606360606060606012;CP=3;R=27;"
     }
   ]
@@ -485,8 +485,8 @@
 {"name":"WS7053", "id":"67", "data": [
     {
       "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "repeat":"1", "user":"elektron-bbs",
-      "internals": {},
-      "readings": {"state":"T: 26.0"},
+      "internals": {"DEF":"72", "NAME":"CUL_TX_72"},
+      "readings": {"state":"T: 26.0", "temperature":"26.0"},
       "rmsg":"MU;P0=3381;P1=-672;P2=-4628;P3=1142;P4=-30768;D=010232023202020202023202023202020232023232320232320202020202020202040102320232020202020232020232020202320232323202323202020202020202020;CP=0;R=45;"
     }
   ]
@@ -494,14 +494,14 @@
 {"name":"FS20 FHT80TF-2", "id":"70", "data": [
     {
       "dmsg":"T66E5DC01", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"open"},
+      "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
+      "readings": {"state":"Open", "Previous":"Open", "Reliability":"ok", "Window":"Open", "batteryState":"ok"},
       "rmsg":"MU;P0=426;P1=-367;P2=624;P3=-566;P4=-5404;D=0101010101010101010101012301232301012323010123232301012301232323230123232301012301010101010101232301012323012301012304;CP=0;"
     },
     {
       "dmsg":"T66E5DC02", "user":"HomeAuto_User",
-      "internals": {},
-      "readings": {"state":"closed"},
+      "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
+      "readings": {"state":"Closed", "Previous":"Open", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
       "rmsg":"MU;P0=176;P1=-357;P2=428;P4=623;P5=-567;P6=-5160;D=012121212121212121212121214521454521214545212145454521214521454545452145454521214521212121212145214521214545214521452126;CP=2;"
     }
   ]
@@ -526,14 +526,14 @@
 },
 {"name":"FS20 S4A-2", "id":"74", "data": [
     {
-      "dmsg":"810b04f70101a001bf25010011", "user":"HomeAuto_User",
-      "internals": {},
+      "dmsg":"810b04f70101a001BF25010011", "user":"HomeAuto_User",
+      "internals": {"DEF":"bf25 01", "NAME":"FS20_bf2501"},
       "readings": {"state":"on"},
       "rmsg":"MU;P0=381;P1=-413;P2=574;P3=-615;P4=-6428;D=0101010101010101010101012323012323232323232301012301012301232301010101010101232301010123010101230123232323232301010104;CP=0;"
     },
     {
-      "dmsg":"810b04f70101a001bf25010000", "user":"HomeAuto_User",
-      "internals": {},
+      "dmsg":"810b04f70101a001BF25010000", "user":"HomeAuto_User",
+      "internals": {"DEF":"bf25 01", "NAME":"FS20_bf2501"},
       "readings": {"state":"off"},
       "rmsg":"MU;P0=100;P1=-216;P2=-152;P3=577;P4=-412;P5=380;P6=-614;P7=-7296;D=01023454545454545454545454543636543636363636363654543654543654363654545454545454363654545454545454545436363654365436365457;CP=5;"
     }
@@ -550,8 +550,8 @@
 },
 {"name":"FS20 S8-2", "id":"74", "data": [
     {
-      "dmsg":"810b04f70101a001cf4b010011", "repeat":"2", "user":"pejonp",
-      "internals": {},
+      "dmsg":"810b04f70101a001CF4B010011", "repeat":"2", "user":"pejonp",
+      "internals": {"DEF":"cf4b 01", "NAME":"FS20_cf4b01"},
       "readings": {"state":"on"},
       "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
     }
@@ -560,17 +560,32 @@
 {"name":"FS20 S6A", "id":"74.1", "data": [
     {
       "dmsg":"810b04f70101a0011848110011", "user":"HomeAuto_User",
-      "internals": {},
+      "internals": {"DEF":"1848 11", "NAME":"FS20_184811"},
       "readings": {"state":"on"},
       "rmsg":"MS;P1=-406;P2=406;P5=583;P6=-616;P7=-10484;D=2721212121212121212121212156212121565621212121215621215621212121212121562121215621212121562121215621562121215621212121;CP=2;SP=7;R=86;O;"
+    }
+  ]
+},
+{"name":"HX 70372", "id":"79", "data": [
+    {
+      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"8", "user":"Holger-Arnold",
+      "internals": {},
+      "readings": {"state":"ring"},
+      "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
+    },
+    {
+      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"7", "user":"Holger-Arnold",
+      "internals": {},
+      "readings": {"state":"ring"},
+      "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
     }
   ]
 },
 {"name":"EM1000WZ", "id":"80", "data": [
     {
       "dmsg":"E01015B880803008305", "comment":"Energy-Monitor", "user":"Derwelcherichbin",
-      "internals": {},
-      "readings": {"state":"CNT:91 CUM:14.560 5MIN:0.240 TOP:0.170"},
+      "internals": {"DEF":"1", "NAME":"CUL_EM_1"},
+      "readings": {"state":"CNT: 91 CUM: 14.560  5MIN: 0.240  TOP: 0.170", "RAW":"CNT: 91 CUM: 2184  5MIN: 3  TOP: 1411", "cum_day":"CUM_DAY: 0.000 CUM: 14.560 COST: 0.00", "current":"0.24", "current_cnt":"3", "peak":"0.170092133238838", "peak_cnt":"1411", "seqno":"91", "total":"14.56", "total_cnt":"2184", "tsecs":"1559846129"},
       "rmsg":"MU;P1=-417;P2=385;P3=-815;P4=-12058;D=42121212121212121212121212121212121232321212121212121232321212121212121232323212323212321232121212321212123232121212321212121232323212121212121232121212121212121232323212121212123232321232121212121232123232323212321;CP=2;R=87;"
     }
   ]
@@ -587,8 +602,8 @@
 {"name":"Auriol IAN 283582", "id":"84", "data": [
     {
       "dmsg":"W84#033B1FC328", "comment":"Version 06/2017", "state":"T: -6.1 H: 59", "user":"roobbb",
-      "internals": {},
-      "readings": {"state":"must be added"},
+      "internals": {"DEF":"SD_WS_84_TH_2", "NAME":"SD_WS_84_TH_2"},
+      "readings": {"state":"T: -6.1 H: 59", "batteryState":"ok", "channel":"2", "humidity":"59", "sendmode":"auto", "temperature":"-6.1", "type":"Auriol IAN 283582"},
       "rmsg":"MU;P0=595;P1=344;P2=-862;P3=846;P4=244;P5=-602;P7=-251;D=1232323245454545454507074545070707450707454545070707070707074545454507074545074507454540;CP=4;R=4;"
     }
   ]
@@ -605,8 +620,8 @@
 {"name":"TFA 30.3222.02, Temp", "id":"85", "data": [
     {
       "dmsg":"W85#0C45C60124B0554F8", "comment":"Wetterstation TFA 35.1140.01", "user":"Iron-R1",
-      "internals": {},
-      "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1"},
+      "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
+      "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02"},
       "rmsg":"MU;P0=-509;P1=474;P2=-260;P3=228;P4=718;P5=-745;D=01212303030303012301230123012301230301212121230454545453030303012123030301230303012301212123030301212303030303030303012303012303012303012301212303030303012301230123012301230301212121212454545453030303012123030301230303012301212123030301212303030303030303;CP=3;R=46;O;"
     }
   ]
@@ -614,8 +629,8 @@
 {"name":"TFA 30.3222.02, Wind", "id":"85", "data": [
     {
       "dmsg":"W85#0C35A602015000C98", "comment":"Wetterstation TFA 35.1140.01", "user":"Iron-R1",
-      "internals": {},
-      "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1"},
+      "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
+      "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
     }
   ]
@@ -704,32 +719,32 @@
 {"name":"Atech", "id":"94", "data": [
     {
       "dmsg":"W94#0D830661B366C", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
-      "internals": {},
-      "readings": {"state":"T:-14.6"},
+      "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
+      "readings": {"state":"T: -14.6", "temperature":"-14.6", "type":"Atech"},
       "rmsg":"MU;P0=-32001;P1=1525;P2=-303;P3=-7612;P4=-2008;D=01212121212121213141414141212141212141414141412121414141414121214141212141414141212141212141412121412121414121214121;CP=1;"
     },
     {
       "dmsg":"W94#0D830018CCC", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
-      "internals": {},
-      "readings": {"state":"T:-0.4"},
+      "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
+      "readings": {"state":"T: -0.4", "temperature":"-0.4", "type":"Atech"},
       "rmsg":"MU;P0=-32001;P1=1533;P2=-297;P3=-7612;P4=-2005;D=0121212121212121314141414121214121214141414141212141414141414141414141412121414141212141412121414121;CP=1;"
     },
     {
       "dmsg":"W94#0D8000336CC", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
-      "internals": {},
-      "readings": {"state":"T:0.2"},
+      "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
+      "readings": {"state":"T: 0.2", "temperature":"0.2", "type":"Atech"},
       "rmsg":"MU;P0=-32001;P1=1532;P2=-299;P3=-7608;P4=-2005;D=0121212121212121314141414121214121214141414141414141414141414141414141212141412121412121412121414121;CP=1;"
     },
     {
       "dmsg":"W94#0D80180CDB6C", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
-      "internals": {},
-      "readings": {"state":"T:10.2"},
+      "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
+      "readings": {"state":"T: 10.2", "temperature":"10.2", "type":"Atech"},
       "rmsg":"MU;P0=-31292;P1=1529;P2=-300;P3=-7610;P4=-2009;D=012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121;CP=1;"
     },
     {
       "dmsg":"W94#0D8031B60C6C", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
-      "internals": {},
-      "readings": {"state":"T:27"},
+      "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
+      "readings": {"state":"T: 27", "temperature":"27", "type":"Atech"},
       "rmsg":"MU;P0=-31290;P1=1533;P2=-297;P3=-7608;P4=-2006;D=012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121;CP=1;"
     }
   ]

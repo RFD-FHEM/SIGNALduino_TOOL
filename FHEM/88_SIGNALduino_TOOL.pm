@@ -700,6 +700,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $cnt_data_id_max = 0;
 			my $cnt_internals_max = 0;
 			my $cnt_internals = 0;
+			my $cnt_readings = 0;
 
 			### variant - @Ralf9 ###
 			open(SaveDoc, '>', "./FHEM/lib/SD_Device_ProtocolListTEST.json") || return "ERROR: file ($jsonProtList) can not open!";
@@ -715,6 +716,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 					$cnt_data_element_max = 0;
 					$cnt_internals_max = 0;
 					$cnt_internals = 0;
+					$cnt_readings = 0;
 
 					print SaveDoc "\n" if ($i > 0);
 					print SaveDoc '{"name":"'.@$ProtocolListRead[$i]->{name}.'", "id":"'.@$ProtocolListRead[$i]->{id}.'", "data": ['."\n";
@@ -765,14 +767,15 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						print SaveDoc '      "readings": {';
 						if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}) {
 							print SaveDoc '"state":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}.'"' ;
-						} else {
-							print SaveDoc '"state":"must be added"';
+							$cnt_readings++;
 						}
 						
 						foreach my $key (sort keys %{@$ref_data[$i2]}) {
 							if ($key =~ /^readings/) {
 								foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-									print SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state/)
+									$cnt_readings++;
+									print SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings == 1);
+									print SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings > 1);
 								}
 							}						
 						}
@@ -2724,31 +2727,51 @@ sub SIGNALduino_TOOL_Notify($$) {
 	my $devName = $dev_hash->{NAME};																	# Device that created the events
 	my $Dummyname = AttrVal($name,"Dummyname","none");								# Dummyname
 	my $addvaltrigger = AttrVal($Dummyname,"addvaltrigger","none");		# attrib addvaltrigger
-
+	my $ntfy_match;
+	
 	Log3 $name, 5, "$name: SIGNALduino_TOOL_Notify is running";
 	return "" if(IsDisabled($name));		# Return without any further action if the module is disabled
 
 	my $events = deviceEvents($dev_hash,1);
 	return if( !$events );
 
-	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /Decoded/, @{$events}) ) {
+	#Log3 $name, 4, "$name: SIGNALduino_TOOL_Notify - Events: ".Dumper\@{$events};
+
+	## Found manchester Protocol id ...
+	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /manchester\sProtocol\sid/, @{$events})) {
 		$ntfy_match =~ /id\s(\d+.?\d?)/;
+		Log3 $name, 4, "$name: SIGNALduino_TOOL_Notify - ntfy_match check (MC)=$1";
+
 		if ($hash->{helper}->{NTFY_match} eq "-") {
+			$hash->{helper}->{NTFY_match} = $1;
+			$hash->{helper}->{NTFY_match} =~ s/\s+//g;
+			$hash->{helper}->{NTFY_SEARCH_Value_count}++;			# real counter if modul ok
+		}
+		return;
+	}
+	
+	## Decoded matched MS Protocol | Dispatch: u
+	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /Decoded.*dispatch\([12]/, @{$events} ) || ( ($ntfy_match) = grep /Dispatch:\s[uU]/, @{$events}) ) {
+		$ntfy_match =~ /id\s(\d+.?\d?)/ if (grep /Decoded/, $ntfy_match);
+		$ntfy_match =~ /Dispatch:\s[uU](\d+)#/ if (grep /Dispatch:\s[uU].*#/, $ntfy_match);
+		Log3 $name, 4, "$name: SIGNALduino_TOOL_Notify - ntfy_match check (MS|MU|uU)=$1";
+		
+		if ($hash->{helper}->{NTFY_match} && $hash->{helper}->{NTFY_match} eq "-") {
 			$hash->{helper}->{NTFY_match} = $1;
 			$hash->{helper}->{NTFY_match} =~ s/\s+//g;
 			$hash->{helper}->{NTFY_SEARCH_Value_count}++;			# real counter if modul ok
 		} else {
 			my $mod = $1;
 			$mod =~ s/\s+//g;
-			if (not grep /$mod/, $hash->{helper}->{NTFY_match}) {
+			if ($hash->{helper}->{NTFY_match} && (not grep /$mod/, $hash->{helper}->{NTFY_match})) {
 				$hash->{helper}->{NTFY_SEARCH_Value_count}++;		# real counter if modul ok
-				$hash->{helper}->{NTFY_match} .= ", ".$mod ;			
+				$hash->{helper}->{NTFY_match} .= ", ".$mod ;
 			}
 		}
 	}
 
 	## set DMSG if SIGNALduino_TOOL are dispatch
-	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /Dispatch:/, @{$events}) ) {
+	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /Dispatch:.*,\stest/, @{$events}) ) {
 		Log3 $name, 4, "$name: SIGNALduino_TOOL_Notify - START -> $ntfy_match -> from $devName";
 
 		#MU Dispatch: P13.1#CBFAD2, test ungleich: disabled | MC Dispatch: 500A4D3007040600002500, test ungleich: disabled | MS Dispatch: s4F038300, test ungleich: disabled
@@ -2782,6 +2805,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	}
 
 	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /UNKNOWNCODE/, @{$events}) ) {
+		Log3 $name, 4, "$name: SIGNALduino_TOOL_Notify - START -> $ntfy_match -> from $devName";
 		$hash->{dispatchDeviceTime} = FmtDateTime(time());
 		$hash->{dispatchSTATE} = "UNKNOWNCODE, help me!";
 	}

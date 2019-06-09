@@ -1,5 +1,7 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+09.06.2019 - 88_SIGNALduino_TOOL.pm: - fixed wrong spelling and evaluation
+             SD_Device_ProtocolList.json: - added some result values
 06.06.2019 - 88_SIGNALduino_TOOL.pm: - fixed JAVA parameter
              SD_Device_ProtocolList.json: - added internals + readings ID 0, 0.1, 0.3, 0.4, 3 | - id 67, 74 sorted
 03.06.2019 - 88_SIGNALduino_TOOL.pm: - revised code for CSRF | fixed WARNINGS | added attrib JSON_Check_exceptions | rename subs / variables
