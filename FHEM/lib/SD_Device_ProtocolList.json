@@ -359,11 +359,13 @@
 {"name":"Tedsen_SKXxxx", "id":"46", "data": [
     {
       "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "model":"Tedsen_SKX2xx", "repeat":"1", "user":"drhirn",
+      "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
       "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "model":"TEDSEN_SKX6xx", "repeat":"5", "user":"self_build",
+      "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
       "rmsg":"MU;P0=-32001;P1=2072;P2=-260;P3=326;P4=-2015;P5=-15769;D=01212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151;CP=3;R=37;O;"
     }
@@ -557,11 +559,13 @@
 {"name":"HX 70372", "id":"79", "data": [
     {
       "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"8", "user":"Holger-Arnold",
+      "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
     },
     {
-      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"7", "user":"Holger-Arnold",
+      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"7", "user":"Holger-Arnold",
+      "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
     }
@@ -673,19 +677,39 @@
     }
   ]
 },
-{"name":"MD-230R", "id":"91", "data": [
+{"name":"MD-2018R", "id":"91", "data": [
     {
-      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration", "user":"Harst",
-      "readings": {"state":"warning"},
+      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration (ID 63 additionally)", "user":"Harst",
+      "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
+      "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "rmsg":"MU;P0=-817;P1=406;P2=-415;P3=813;P5=-4068;CP=3;D=01232323232323232323010123232323230101232301012323012323230123230123010151012323232323232323230101232323232301012323010123230123232301232301230101510123232323232323232301012323232323010123230101232301232323012323012301015101232323232323232323010123232323;O;"
     }
   ]
 },
-{"name":"MD-230R", "id":"91.1", "data": [
+{"name":"MD-210R", "id":"91", "data": [
+    {
+      "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
+      "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
+      "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
+      "rmsg":"MU;P1=392;P2=-416;P3=804;P4=-822;P5=-4029;P6=-32001;D=151412323412323234141412341414141412341232341414141234123234141412341234141660;CP=1;R=0;"
+    }
+  ]
+},
+{"name":"MD-2018R", "id":"91.1", "data": [
     {
       "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration", "user":"Harst",
-      "readings": {"state":"warning"},
+      "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
+      "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "rmsg":"MS;P0=-420;P1=809;P2=-835;P3=399;P4=-4080;D=34323010101010101010101232301010101012323010123230101230101012301012301232;CP=3;SP=4;s=64;e;m0;"
+    }
+  ]
+},
+{"name":"MD-210R", "id":"91.1", "data": [
+    {
+      "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
+      "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
+      "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
+      "rmsg":"MS;P0=-407;P1=402;P2=-4023;P3=-817;P4=806;D=12131040431040404313131043131313131043104043131313104310404313131043104313;CP=1;SP=2;R=0;m1;"
     }
   ]
 },

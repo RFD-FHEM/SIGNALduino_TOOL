@@ -1,5 +1,6 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+12.06.2019 - SD_Device_ProtocolList.json: - added ID 91 - 91.1 MD-2018R | MD-210R - revised internals
 09.06.2019 - 88_SIGNALduino_TOOL.pm: - fixed wrong spelling and evaluation
              SD_Device_ProtocolList.json: - added some result values
 06.06.2019 - 88_SIGNALduino_TOOL.pm: - fixed JAVA parameter
