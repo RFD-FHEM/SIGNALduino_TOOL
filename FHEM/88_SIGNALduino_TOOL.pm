@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-05 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-10 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,8 +8,8 @@
 #
 ######################################################################
 # Note´s
-# - ... Prototype mismatch: sub main::decode_json ($) vs none ...
-# - Send_RAWMSG last message Button!! nicht 
+# - "update check it" - Kommentar löschen geht nicht
+# - Send_RAWMSG last message Button!! nicht
 ######################################################################
 
 package main;
@@ -741,7 +741,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 						## all values in internals
 						print SaveDoc "\n";
-						print SaveDoc '      "internals": {';
 
 						foreach my $key (sort keys %{@$ref_data[$i2]}) {
 							if ($key =~ /^internals/) {
@@ -751,6 +750,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 									$cnt_internals_max++;
 								}
 								
+								print SaveDoc '      "internals": {' if ($cnt_internals_max != 0);
+
 								foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
 									$cnt_internals++;
 									print SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'", ' if ($cnt_internals != $cnt_internals_max);
@@ -759,12 +760,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 							}						
 						}
 						
-						print SaveDoc '},';
+						if ($cnt_internals_max != 0 && exists @{$ProtocolListRead}[$i]->{data}[$i2]->{internals}) {
+							print SaveDoc '},';
+							print SaveDoc "\n";						
+						}
 						## internals END ##
 
 						## all values in readings
-						print SaveDoc "\n";
-						print SaveDoc '      "readings": {';
+						print SaveDoc '      "readings": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
 						if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}) {
 							print SaveDoc '"state":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}.'"' ;
 							$cnt_readings++;
@@ -779,9 +782,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 								}
 							}						
 						}
-						
-						print SaveDoc '},';
-						print SaveDoc "\n";
+
+						if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/) {
+							print SaveDoc '},';
+							print SaveDoc "\n";						
+						}
 						## readings END ##
 						
 						## values rmsg ##
@@ -2751,7 +2756,10 @@ sub SIGNALduino_TOOL_Notify($$) {
 	}
 	
 	## Decoded matched MS Protocol | Dispatch: u
-	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /Decoded.*dispatch\([12]/, @{$events} ) || ( ($ntfy_match) = grep /Dispatch:\s[uU]/, @{$events}) ) {
+	# Decoded matched MS Protocol id 33.2 dmsg W33#3E23C564824 length 44  RSSI = -87
+	# Decoded matched MU Protocol id 9 dmsg P9#FA3C1BD4400000CA50051 length 84 dispatch(1/4) RSSI = -66
+	
+	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /Decoded.*dispatch\([12]/, @{$events} ) || ( ($ntfy_match) = grep /Decoded\smatched\sMS/, @{$events} ) || ( ($ntfy_match) = grep /Dispatch:\s[uU]/, @{$events}) ) {
 		$ntfy_match =~ /id\s(\d+.?\d?)/ if (grep /Decoded/, $ntfy_match);
 		$ntfy_match =~ /Dispatch:\s[uU](\d+)#/ if (grep /Dispatch:\s[uU].*#/, $ntfy_match);
 		Log3 $name, 4, "$name: SIGNALduino_TOOL_Notify - ntfy_match check (MS|MU|uU)=$1";
