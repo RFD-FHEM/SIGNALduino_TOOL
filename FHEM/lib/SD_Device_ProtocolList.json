@@ -164,6 +164,15 @@
     }
   ]
 },
+{"name":"BRESSER 70-09993", "id":"12", "data": [
+    {
+      "dmsg":"P12#75EFBA4A72BECC504F1801", "user":"HomeAuto_User",
+      "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
+      "readings": {"state":"T: 29.8 H: 52", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Hum. OK. Temp. uncomfortable (>24.9 or <20)", "humidity":"52", "package_number":"1", "temperature":"29.8"},
+      "rmsg":"MC;LL=-1010;LH=938;SL=-519;SH=457;D=A8C2345ADD8E0B99F586F9C;C=487;L=90;R=57;"
+    }
+  ]
+},
 {"name":"Hama TS33C", "id":"12", "data": [
     {
       "dmsg":"P12#7536BA8A82BFC151AB6401", "user":"Ralf9",
@@ -183,7 +192,7 @@
 },
 {"name":"FA22RF", "id":"13.1", "data": [
     {
-      "dmsg":"P13.1#CBFAD2", "comment":"(ID 63 additionally)", "repeat":"2", "user":"HomeAuto_User",
+      "dmsg":"P13.1#CBFAD2", "comment":"(ID 63 additionally)", "repeat":"3", "user":"HomeAuto_User",
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
       "readings": {"state":"Alarm", "lastReceive_ID":"13.1"},
       "rmsg":"MU;P0=-5684;P1=8149;P2=-887;P3=798;P4=-1393;P5=-2746;P6=-19956;D=0123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435353435361234343535343534343434343434353435343435343535343536123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435;CP=3;R=0;"
@@ -326,7 +335,7 @@
 },
 {"name":"X10 Protocol", "id":"39", "data": [
     {
-      "dmsg":"29454A847BD700", "repeat":"1", "user":"wherzig",
+      "dmsg":"29454A847BD700", "repeat":"2", "user":"wherzig",
       "internals": {"DEF":"Sds10a d745 Window", "NAME":"RFXX10REC_d745"},
       "readings": {"Window":"Closed", "battery":"ok", "delay":"min", "statechange":"Closed"},
       "rmsg":"MU;P0=10530;P1=-2908;P2=533;P3=-598;P4=-1733;P5=767;D=0123242323232423242324232324232423242323232324232323242424242324242424232423242424232501232423232324232423242323242324232423232323242323232424242423242424242324232424242325012324232323242324232423232423242324232323232423232324242424232424242423242324242;CP=2;O;"
@@ -389,7 +398,7 @@
 },
 {"name":"Opus_XT300", "id":"50", "data": [
     {
-      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "repeat":"1", "user":"sidey",
+      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "repeat":"2", "user":"sidey",
       "internals": {"DEF":"SD_WS_50_SM_1", "NAME":"SD_WS_50_SM_1"},
       "readings": {"state":"T: 25 H: 5", "channel":"1", "humidity":"5", "temperature":"25", "type":"XT300"},
       "rmsg":"MU;P0=248;P1=-21400;P2=545;P3=-925;P4=1368;P5=-12308;D=01232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343;CP=2;O;"
@@ -603,6 +612,15 @@
       "dmsg":"W84#A64E20D0D7", "comment":"Aldi", "user":"w6s8",
       "readings": {"state":"T: 20.8 H: 78"},
       "rmsg":"MU;P0=11916;P1=-852;P2=856;P3=610;P4=-240;P5=237;P6=-610;D=01212134563456563434565634565634343456565634565656565634345634565656563434563456343430;CP=5;R=254;"
+    }
+  ]
+},
+{"name":"Tecvance TV-4848", "id":"84", "data": [
+    {
+      "dmsg":"W84#5E36012D24", "comment":"Amazon", "user":"HomeAuto_User",
+      "internals": {"DEF":"SD_WS_84_TH_1", "NAME":"SD_WS_84_TH_1"},
+      "readings": {"state":"T: 30.1 H: 54", "batteryState":"ok", "channel":"1", "humidity":"54", "sendmode":"auto", "temperature":"30.1", "type":"Auriol IAN 283582"},
+      "rmsg":"MU;P0=859;P1=-845;P2=-253;P3=240;P4=-598;P5=617;D=45252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345;CP=3;R=63;O;"
     }
   ]
 },
