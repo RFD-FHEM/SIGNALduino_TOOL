@@ -605,6 +605,15 @@
     }
   ]
 },
+{"name":"SA-434-1 mini", "id":"81", "data": [
+    {
+      "dmsg":"P86#604", "comment":"(ID 63,86 additionally)", "repeat":"1", "user":"HomeAuto_User",
+      "internals": {"DEF":"SA_434_1_mini 604", "NAME":"SA_434_1_mini_604"},
+      "readings": {"state":"receive"},
+      "rmsg":"MU;P0=436;P1=-1033;P3=-537;P4=966;P5=-17209;P6=-7015;D=010103434343434341034345034101034343434343410343450341010343434343434103434506;CP=4;R=58;"
+    }
+  ]
+},
 {"name":"RH787T", "id":"83", "data": [
     {
       "dmsg":"P83#077", "comment":"example Westinghouse Deckenventilator Delancey (ID 30 additionally)", "repeat":"7", "user":"zwiebelxxl",
@@ -656,15 +665,6 @@
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
-    }
-  ]
-},
-{"name":"SA-434-1 mini", "id":"86", "data": [
-    {
-      "dmsg":"P86#604", "comment":"(ID 63,81 additionally)", "repeat":"1", "user":"HomeAuto_User",
-      "internals": {"DEF":"SA_434_1_mini 604", "NAME":"SA_434_1_mini_604"},
-      "readings": {"state":"receive"},
-      "rmsg":"MU;P0=436;P1=-1033;P3=-537;P4=966;P5=-17209;P6=-7015;D=010103434343434341034345034101034343434343410343450341010343434343434103434506;CP=4;R=58;"
     }
   ]
 },
