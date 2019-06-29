@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-26 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-28 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,8 +8,7 @@
 #
 ######################################################################
 # Note´s
-# - "update check it" - Kommentar löschen geht nicht
-# - Send_RAWMSG last message Button!! nicht
+# - 
 ######################################################################
 
 package main;
@@ -851,7 +850,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 		### delete device + logfile & plot ###
 		if ($cmd eq "delete_Device") {
-			Log3 $name, 4, "$name: Set $cmd - check (8)";
+			Log3 $name, 4, "$name: Set $cmd - check (9)";
 			return "ERROR: Your device input failed!" if (not defined $a[1]);
 			my $ret = "";
 
@@ -859,31 +858,38 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				readingsDelete($hash,$readingname);
 			}
 
-			## device ##
-			if (exists $defs{$a[1]}) {
-				fhem("delete ".$a[1]);
-				$ret.= "Device ";
+			my $devices_arg;
+			foreach (@a){
+				$devices_arg.= $_."," if($_ ne $cmd);
 			}
 
-			## device_filelog ##
-			if (exists $defs{"FileLog_".$a[1]}) {
-				fhem("delete FileLog_".$a[1]);
-				$ret.= "FileLog ";
+			$devices_arg =~ s/,,/,/g;
+			my @devices = split(",", $devices_arg);
+
+			foreach my $devicedef(@devices){
+				$devicedef =~ s/\s//g;
+
+				## device ##
+				if (exists $defs{$devicedef}) {
+					fhem("delete ".$devicedef);
+					$ret.= $devicedef if (scalar(@devices) == 1);
+					$ret.= $devicedef.", " if (scalar(@devices) > 1);
+				}
+
+				## device_filelog ##
+				fhem("delete FileLog_".$devicedef) if (exists $defs{"FileLog_".$devicedef});
+				## device_SVG ##
+				fhem("delete SVG_".$devicedef) if (exists $defs{"SVG_".$devicedef});
 			}
 
-			## device_SVG ##
-			if (exists $defs{"SVG_".$a[1]}) {
-				fhem("delete SVG_".$a[1]);
-				$ret.= "SVG ";
-			}
-
-			$ret.= "deleted" if ($ret ne "");
+			$ret =~ s/[,]\s$//;
+			$ret.= " deleted" if ($ret ne "");
 
 			delete $hash->{dispatchDevice} if (defined);
 			delete $hash->{dispatchDeviceTime} if (defined);
 			delete $hash->{dispatchSTATE} if (defined);
-			readingsSingleUpdate($hash, "state" , "$ret from ".$a[1], 0) if ($ret ne "");
-			readingsSingleUpdate($hash, "state" , "ERROR: DEF ".$a[1]." NOT found!", 0) if ($ret eq "");
+			readingsSingleUpdate($hash, "state" , $ret, 0) if ($ret ne "");
+			readingsSingleUpdate($hash, "state" , "ERROR: DEF NOT found!", 0) if ($ret eq "");
 
 			return;
 		}
@@ -2404,10 +2410,10 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 		if (defined @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{internals}->{DEF} && $searchDMSG_found == 1) {
 			if (@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{internals}->{DEF} ne $DispatchMemory->{DEF}) {
 				$checked = "checked";
-				$ret .= "<tr class=\"$oddeven\"><td><div>- DEF</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{internals}->{DEF}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><font color=\"#FE2EF7\"><div>".$DispatchMemory."</font></div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> difference detected </div></td> <td><div><input type=\"checkbox\" name=\"internal\" id=\"$searchDMSG\" value=\"DEF\" $checked> </div></td></tr>";					
+				$ret .= "<tr class=\"$oddeven\"><td><div>- DEF</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{internals}->{DEF}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><font color=\"#FE2EF7\"><div>".$DispatchMemory->{NAME}."</font></div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> difference detected </div></td> <td><div><input type=\"checkbox\" name=\"internal\" id=\"$searchDMSG\" value=\"DEF\" $checked> </div></td></tr>";					
 			} else {
 				$checked = "";
-				$ret .= "<tr class=\"$oddeven\"><td><div>- DEF</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{internals}->{DEF}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".$DispatchMemory."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> documented </div></td> <td><div><input type=\"checkbox\" name=\"internal\" id=\"$searchDMSG\" value=\"DEF\" $checked> </div></td></tr>";
+				$ret .= "<tr class=\"$oddeven\"><td><div>- DEF</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{internals}->{DEF}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".$DispatchMemory->{NAME}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> documented </div></td> <td><div><input type=\"checkbox\" name=\"internal\" id=\"$searchDMSG\" value=\"DEF\" $checked> </div></td></tr>";
 			}
 		} else {
 			$checked = "checked";
@@ -2499,7 +2505,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 				if ($textfield_split[1] eq "comment" && $modJSON_split[2]) {
 					@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{comment} = $modJSON_split[2];
 				## comment textfield is clear
-				} elsif ($textfield_split[1] eq "comment" && $modJSON_split[2] eq "") {
+				} elsif ($textfield_split[1] eq "comment" && !$modJSON_split[2]) {
 					delete @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{comment};
 				}
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{repeat} = ReadingsVal($name, "repeats_in_message", 0) if (ReadingsVal($name, "repeats_in_message", 0) > 0);
@@ -2928,7 +2934,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear</li><a name=""></a></ul>
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined Sendename (attributes Sendename needed!)<br>
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device with associated log file or plot if available</li><a name=""></a></ul>
+	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
 	<br>
 
 	<a name="SIGNALduino_TOOL_Get"></a>
@@ -3035,7 +3041,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option</li><a name=""></a></ul>
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender (Attribut Sendename ist notwendig!)<br>
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device mit dazugeh&ouml;rigem Logfile bzw. Plot wenn existent</li><a name=""></a></ul>
+	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
 	<br>
 
 	<a name="SIGNALduino_TOOL_Get"></a>
