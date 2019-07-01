@@ -805,38 +805,38 @@
     }
   ]
 },
-{"name":"MANAX MX-RCS250", "id":"90", "data": [
+{"name":"MANAX RC-10 (MX-RCS250)", "id":"90", "data": [
     {
       "dmsg":"P90#43CB0FA10", "user":"my-engel",
-      "internals": {"DEF":"Manax 43CB", "NAME":"Manax_43CB"},
-      "readings": {"state":"button_A_on", "deviceCode":"0100001111001011"},
+      "internals": {"DEF":"RC_10 43CB_A", "NAME":"RC_10_43CB_A"},
+      "readings": {"state":"on", "deviceCode":"0100001111001011"},
       "rmsg":"MS;P0=-9964;P1=273;P4=-866;P5=792;P6=-343;D=10145614141414565656561414561456561414141456565656561456141414145614;CP=1;SP=0;R=35;O;m2;"
     }
   ]
 },
-{"name":"mumbi RC-10", "id":"90", "data": [
+{"name":"mumbi RC-10 (AFS300-s)", "id":"90", "data": [
     {
       "dmsg":"P90#78690F250", "user":"peterboeckmann",
-      "internals": {"DEF":"Manax 7869", "NAME":"Manax_7869"},
-      "readings": {"state":"button_A_on", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001"},
       "rmsg":"MS;P1=781;P3=-372;P4=251;P5=-903;P6=-10342;D=46451313131345454545131345134545134545454513131313454513454513451345;CP=4;SP=6;O;m1;E;"
     },
     {
       "dmsg":"P90#78690E240", "user":"peterboeckmann",
-      "internals": {"DEF":"Manax 7869", "NAME":"Manax_7869"},
-      "readings": {"state":"button_A_off", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001"},
       "rmsg":"MS;P1=790;P2=-363;P3=257;P4=-896;P5=-10283;D=35341212121234343434121234123434123434343412121234343412343412343434;CP=3;SP=5;O;m2;C;C;"
     },
     {
       "dmsg":"P90#7869042B0", "user":"peterboeckmann",
-      "internals": {"DEF":"Manax 7869", "NAME":"Manax_7869"},
-      "readings": {"state":"button_All_on", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001"},
       "rmsg":"MS;P1=-361;P2=267;P3=-884;P4=792;P5=-10342;D=25234141414123232323414123412323412323232323412323232341234123414123;CP=2;SP=5;O;m2;A;"
     },
     {
       "dmsg":"P90#786908230", "user":"peterboeckmann",
-      "internals": {"DEF":"Manax 7869", "NAME":"Manax_7869"},
-      "readings": {"state":"button_All_off", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001"},
       "rmsg":"MS;P1=-363;P2=789;P3=267;P4=-887;P5=-10332;D=35342121212134343434212134213434213434343421343434343421343434212134;CP=3;SP=5;O;m2;4;"
     }
   ]
