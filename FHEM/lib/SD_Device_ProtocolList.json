@@ -120,6 +120,27 @@
     }
   ]
 },
+{"name":"Auriol AFW 2 A1", "id":"7", "data": [
+    {
+      "dmsg":"P7#B1811AA2C", "comment":"from https://forum.fhem.de/index.php/topic,101682.0.html", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
+      "readings": {"state":"T: 28.2 H: 44", "batteryState":"ok", "channel":"1", "humidity":"44", "sendmode":"auto", "temperature":"28.2"},
+      "rmsg":"MS;P0=494;P1=-1949;P2=-967;P3=-3901;D=03010201010202020101020202020202010202020101020102010201020202010201010202;CP=0;SP=3;R=37;m0;"
+    },
+    {
+      "dmsg":"P7#B180F4A38", "comment":"from https://forum.fhem.de/index.php/topic,101682.0.html", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
+      "readings": {"state":"T: 24.4 H: 56", "batteryState":"ok", "channel":"1", "humidity":"56", "sendmode":"auto", "temperature":"24.4"},
+      "rmsg":"MS;P1=-1940;P2=495;P3=-957;P4=-3878;D=24212321212323232121232323232323232121212123212323212321232323212121232323;CP=2;SP=4;R=20;O;m1;"
+    },
+    {
+      "dmsg":"P7#B1C0FAA49", "comment":"from https://forum.fhem.de/index.php/topic,101682.0.html", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
+      "readings": {"state":"T: 25 H: 73", "batteryState":"ok", "channel":"1", "humidity":"73", "sendmode":"manual", "temperature":"25"},
+      "rmsg":"MS;P1=-1952;P2=495;P3=-966;P4=-3917;D=24212321212323232121212323232323232121212121232123212321232321232321232321;CP=2;SP=4;R=39;O;m2;"
+    }
+  ]
+},
 {"name":"EAS800z", "id":"7", "data": [
     {
       "dmsg":"P7#6300C6F0B", "user":"SD_Protocol",
