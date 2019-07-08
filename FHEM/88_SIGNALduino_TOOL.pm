@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-06-28 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-07-04 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -878,6 +878,23 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 				## device_filelog ##
 				fhem("delete FileLog_".$devicedef) if (exists $defs{"FileLog_".$devicedef});
+				## file delete ##
+				my $directory = AttrVal("global","logfile","./log");
+				$directory =~ /\/(.*)\/fhem/;
+				$directory = "/opt/fhem/".$1;
+
+				opendir (DIR, $directory);
+					while (my $file = readdir(DIR)) {
+						if ($file =~ /^$devicedef/) {
+							#Log3 $name, 5, "$name: Set $cmd - $directory/$file";
+							unlink glob("$directory/$file");
+							if ($ret eq "") {
+								$devices_arg  =~ s/,$//g;
+								$ret = $devices_arg;							
+							}
+						}
+					}
+				closedir(DIR);
 				## device_SVG ##
 				fhem("delete SVG_".$devicedef) if (exists $defs{"SVG_".$devicedef});
 			}
