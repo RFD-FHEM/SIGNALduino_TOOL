@@ -574,6 +574,17 @@
     }
   ]
 },
+{"name":"Medion OR28V", "id":"68", "data": [
+    {
+      "dmsg":"P68#739E0", "comment":"button ok", "user":"HomeAuto_User",
+      "rmsg":"MS;P1=-1746;P2=513;P3=-571;P4=-4612;P5=2801;D=24512321212123232121212323212121212323232323;CP=2;SP=4;R=58;#;#;"
+    },
+    {
+      "dmsg":"P68#E00B0", "comment":"button Vol+", "user":"HomeAuto_User",
+      "rmsg":"MS;P1=-1620;P2=580;P3=-549;P4=-4561;P5=2812;D=24512121212323232323232323232123212123232323;CP=2;SP=4;R=69;O;m2;#;#;"
+    }
+  ]
+},
 {"name":"HS1-868-BS", "id":"69", "data": [
     {
       "dmsg":"P69#00F62A9C01C", "comment":"(ID 8,63 additionally)", "user":"SD_Protocol",
