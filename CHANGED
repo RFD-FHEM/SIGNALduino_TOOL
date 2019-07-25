@@ -1,5 +1,6 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+25.07.2019 - 88_SIGNALduino_TOOL.pm: added new function delete_unused_Logfiles & delete_unused_Plots | extension overview attributes
 08.07.2019 - 88_SIGNALduino_TOOL.pm: added delete logfile if device deleted
              SD_Device_ProtocolList.json: - added more information ID 90 | revised comment ID 70,73
 29.06.2019 - 88_SIGNALduino_TOOL.pm: fixed command "delete_Device" + revised commandref | fixed delete comment | fixed overview (no right value)
