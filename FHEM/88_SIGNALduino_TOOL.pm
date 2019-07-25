@@ -728,9 +728,17 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $cnt_internals_max = 0;
 			my $cnt_internals = 0;
 			my $cnt_readings = 0;
+			my $cnt_attributes = 0;
 
-			### variant - @Ralf9 ###
-			open(SaveDoc, '>', "./FHEM/lib/SD_Device_ProtocolListTEST.json") || return "ERROR: file ($jsonProtList) can not open!";
+			## backup last file ##
+			open(SaveDoc, '<', "./FHEM/lib/SD_Device_ProtocolList.json") || return "ERROR: file ($jsonProtList) can not open!";
+				open(Backup, '>', "./FHEM/lib/SD_Device_ProtocolListBackup.json") || return "ERROR: file (SD_Device_ProtocolListBackup.json) can not open!";
+					print Backup <SaveDoc>;
+				close(Backup);
+			close(SaveDoc);
+			
+			## write new data ##
+			open(SaveDoc, '>', "./FHEM/lib/SD_Device_ProtocolList.json") || return "ERROR: file ($jsonProtList) can not open!";
 				print SaveDoc "[\n";
 
 				## for max elements ##
@@ -758,12 +766,13 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 					my $ref_data = @{$ProtocolListRead}[$i]->{data};
 					for (my $i2=0;$i2<@$ref_data;$i2++) {
+						$cnt_attributes = 0;
 						print SaveDoc '      ' if ($i2 != 0);
 						print SaveDoc '"dmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}.'",';
 
 						## all values behind dmsg except readings, internals, rmsg, dmsg
 						foreach my $key (sort keys %{@$ref_data[$i2]}) {
-							print SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",' if ($key !~ /^readings/ && $key !~ /^internals/ && $key !~ /^rmsg/ && $key !~ /^dmsg/);
+							print SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",' if ($key !~ /^readings/ && $key !~ /^internals/ && $key !~ /^rmsg/ && $key !~ /^dmsg/ && $key !~ /^attributes/);
 						}
 
 						## all values in internals
@@ -812,10 +821,29 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 						if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/) {
 							print SaveDoc '},';
-							print SaveDoc "\n";						
+							print SaveDoc "\n";
 						}
 						## readings END ##
-						
+
+						## all values in attributes
+						foreach my $key (sort keys %{@$ref_data[$i2]}) {
+							if ($key =~ /^attributes/) {
+								print SaveDoc '      "attributes": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
+
+								foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+									$cnt_attributes++;
+									print SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes == 1);
+									print SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes > 1);
+								}
+							}						
+						}
+
+						if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/ && $cnt_attributes >= 1) {
+							print SaveDoc '},';
+							print SaveDoc "\n";
+						}
+						## attributes END ##
+
 						## values rmsg ##
 						print SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
 						print SaveDoc "\n";
@@ -2349,7 +2377,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 	my $JSON_exceptions = AttrVal($name,"JSON_Check_exceptions","noInside");
 	my $Dummyname = AttrVal($name,"Dummyname","none");
 
-	Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check is running";
+	Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check is running (button -> Check it)";
 	return "No data to check in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information." if (!$ProtocolListRead);
 
 	if (!$hash->{dispatchSTATE}) {
@@ -2574,7 +2602,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 	my $cnt_data_id_max;
 	my $searchDMSG = ReadingsVal($name, "last_DMSG", "none");
 
-	Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData is running";
+	Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData is running (button -> update)";
 
 	### device is find in JSON ###
 	if (defined $pos_array_device && $jsonDocNew == 0) {
@@ -2615,12 +2643,18 @@ sub SIGNALduino_TOOL_FW_updateData {
 
 				@{$ProtocolListRead}[$pos_array_device]->{name} = $modJSON_split[2] if ($textfield_split[1] eq "devicename");
 			}
+			
+			if ($modJSON_split[1] eq "attributes") {
+				Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData - $i ".$modJSON_split[1].": ".$modJSON_split[2]." -> ".AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
+				@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{attributes}->{$modJSON_split[2]} = AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
+			}
 		}
 		Log3 $name, 4, "$name: ".@{$ProtocolListRead}[$pos_array_device]->{name}." with DMSG $searchDMSG is found and values are updated!";
 	### device is NOT in JSON ###
 	} else {
 		Log3 $name, 4, "$name: ".InternalVal($name,"dispatchDevice","")." with DMSG $searchDMSG is NOT found and values are new writing in memory!";
 
+		my %attributes;
 		my %internals;
 		my %readings;
 		my $cnt_data_element_max = 0;
@@ -2661,6 +2695,11 @@ sub SIGNALduino_TOOL_FW_updateData {
 					$user = $modJSON_split[2] if($modJSON_split[2]);
 					$user = "unknown" if(!$modJSON_split[2]);
 				}
+			}
+			
+			if ($modJSON_split[1] eq "attributes") {
+				Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_updateData - $i ".$modJSON_split[1].": ".$modJSON_split[2]." -> ".AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
+				$attributes{$modJSON_split[2]} = AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
 			}
 		}
 
@@ -2714,6 +2753,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 																								user => $user,
 																								internals => { %internals },
 																								readings => { %readings },
+																								attributes => { %attributes },										# ggf need check
 																								rmsg => ReadingsVal($name, "last_MSG", "none")
 																							}
 																						]
@@ -2744,6 +2784,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{user} = $user if ($user ne "unknown");
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{internals} = \%internals;
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{readings} = \%readings;
+				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{attributes} = \%attributes;
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{rmsg} = ReadingsVal($name, "last_MSG", "none");
 			}
 		}
