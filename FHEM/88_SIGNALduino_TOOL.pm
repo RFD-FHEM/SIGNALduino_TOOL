@@ -991,8 +991,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				## loop - defined user gplot´s ##
 				foreach my $d (sort keys %defs) {
 					if(defined($defs{$d}) && defined($defs{$d}{TYPE}) && $defs{$d}{TYPE} eq "SVG") {
-						if (not grep /$d/, @apache_gplotlist) {
-							push (@apache_gplotlist,$d.".gplot");
+						my $SVG = $defs{$d}{GPLOTFILE};
+						if (not grep /$SVG/, @apache_gplotlist) {
+							push (@apache_gplotlist,$SVG.".gplot");
 						}
 					}
 				}
@@ -1809,7 +1810,7 @@ sub SIGNALduino_TOOL_Attr() {
 
 			### set new webCmd & cmdIcon ###
 			my $attrNameNr	= substr($attrName,-1);
-			$webCmd .= ":$attrName";
+			$webCmd .= ":$attrName" if (not grep /$attrName/, $webCmd);
 			$cmdIcon .= " $attrName:remotecontrol/black_btn_$attrNameNr";
 			$attr{$name}{webCmd} = $webCmd;
 			$attr{$name}{cmdIcon} = $cmdIcon;
@@ -1935,7 +1936,7 @@ sub SIGNALduino_TOOL_Attr() {
 			if ($cmdIcon ne "") {
 				my $attrNameNr	= substr($attrName,-1);
 				my $regexvalue = $attrName.":remotecontrol/black_btn_".$attrNameNr;
-				$cmdIcon =~ s/$regexvalue//g;
+				$cmdIcon =~ s/\s$regexvalue//g;
 				if ($cmdIcon ne "") {
 					$attr{$name}{cmdIcon} = $cmdIcon;
 				} else {
@@ -2332,7 +2333,6 @@ function pushed_button(value,methode,typ,name) {
 ################################
 sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
 	my $name = shift;
-	my $devText = InternalVal($name,"Version","");
 	my $Dummyname = AttrVal($name,"Dummyname","none");		# Dummyname
 	my $RAWMSG = "";
 	my $buttons = "";
@@ -2343,7 +2343,7 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
 	return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolData.pm</code><br> to read this information." if (!@ProtocolList);
 
 	$ret = "<table class=\"block wide internals wrapcolumns\">";
-	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation in SD_ProtocolData.pm</caption>";
+	$ret .="<caption id=\"SD_protoCaption\">List of message documentation in SD_ProtocolData.pm</caption>";
 	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>comment or state of rmsg</td> <td>user</td> <td>dispatch</td> </thead>";
 	$ret .="<tbody>";
 
@@ -2839,7 +2839,6 @@ sub SIGNALduino_TOOL_by_numbre {
 ################################
 sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	my $name = shift;
-	my $devText = InternalVal($name,"Version","");
 	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
 	my $Dummyname = AttrVal($name,"Dummyname","none");							# Dummyname
 	my $DispatchModule = AttrVal($name,"DispatchModule","-");				# DispatchModule List
@@ -2853,19 +2852,20 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	return "The attribute DispatchModule with value $DispatchModule is set to text files.<br>No filtered overview! Please set a non txt value." if ($DispatchModule =~ /.txt$/);
 
 	$ret ="<table class=\"block wide internals wrapcolumns\">";
-	$ret .="<caption id=\"SD_protoCaption\">Version: $devText | List of message documentation from SIGNALduino</caption>";
-	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>batteryinfo</td> <td>DEF</td> <td>user</td> <td>dispatch</td> </thead>";
+	$ret .="<caption id=\"SD_protoCaption\">List of message documentation from SD_Device_ProtocolList.json</caption>";
+	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>DEF</td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+		my $DEF = "";
 		my $RAWMSG = "";
+		my $battery = "";
 		my $clientmodule = "";
 		my $comment = "";
 		my $dmsg = "";
+		my $model = "";
 		my $state = "";
 		my $user = "";
-		my $battery = "";
-		my $DEF = "";
 		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
 
 		if (@$ProtocolListRead[$i]->{id} ne "") {
@@ -2886,6 +2886,11 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 							$DEF = "&#10003;" if ($key2 eq "DEF" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne "");
 						}
 					}
+					if ($key =~ /^attributes/) {
+						foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+							$model = "&#10003;" if ($key =~ /^model/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{attributes}{$key} ne "");
+						}
+					}
 					$RAWMSG = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /rmsg/);
 				}
 				$buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','rmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
@@ -2895,11 +2900,11 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 				## view all ##
 				if ($DispatchModule eq "-") {
 					$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$DEF</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 				## for filtre DispatchModule if set attribute ##
 				} elsif ($DispatchModule eq $clientmodule) {
 					$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
-					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$DEF</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 				}
 				$DEF = "";
 			}
