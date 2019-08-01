@@ -587,6 +587,30 @@
     }
   ]
 },
+{"name":"OR28V_1", "id":"68", "data": [
+    {
+      "dmsg":"P68#618C0", "comment":"Medion OR28V RF Vista Remote Control", "user":"elektron-bbs",
+      "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
+      "readings": {"state":"channel_minus", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"OR28V"},
+      "rmsg":"MS;P1=545;P2=-552;P4=-1652;P6=-4400;P7=2746;D=16741214141212121214141212121414121212121212;CP=1;SP=6;m2;"
+    },
+    {
+      "dmsg":"P68#608B0", "comment":"Medion OR28V RF Vista Remote Control", "user":"elektron-bbs",
+      "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
+      "readings": {"state":"channel_plus", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"OR28V"},
+      "rmsg":"MS;P1=532;P2=-562;P3=-1666;P4=2544;P6=-4412;D=16431213131212121212131212121312131312121212;CP=1;SP=6;"
+    },
+    {
+      "dmsg":"P68#57820", "comment":"Medion OR28V RF Vista Remote Control", "user":"elektron-bbs",
+      "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
+      "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"OR28V"},
+      "rmsg":"MS;P0=-544;P1=556;P2=-1653;P3=-4388;P4=2758;D=13421012101210121212121010101010121010101010;CP=1;SP=3;m2;"
+    }
+  ]
+},
 {"name":"HS1-868-BS", "id":"69", "data": [
     {
       "dmsg":"P69#00F62A9C01C", "comment":"(ID 8,63 additionally)", "user":"SD_Protocol",
