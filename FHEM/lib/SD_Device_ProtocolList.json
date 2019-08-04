@@ -177,7 +177,7 @@
 {"name":"WH3080", "id":"9", "data": [
     {
       "dmsg":"P9#FF7C845508D87403", "comment":"reconstructed bit 1", "user":"Ralf9",
-      "_internals": {"DEF":"WH1080", "NAME":"WH1080"},
+      "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"UV: 4 Lux: 57970 ", "Lux":"57970", "UV":"4", "id":"200"},
       "rmsg":"MU;P0=-1424;P1=1417;P2=-1058;P3=453;P4=-24774;P6=288;P7=-788;D=01212121232343232323232323232123232323232121232121212123212121232123212321232121212123212121232321232321212121232323212321212121212121212323467323232323232323212323232323212123212121212321212123212321232123212121212321212123232123232121212123232321232121;CP=3;R=247;O;"
     }
@@ -576,16 +576,25 @@
 },
 {"name":"Medion OR28V", "id":"68", "data": [
     {
-      "dmsg":"P68#739E0", "comment":"button ok", "user":"HomeAuto_User",
+      "dmsg":"P68#618C0", "comment":"Vista Remote Control", "user":"elektron-bbs",
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
-      "readings": {"state":"ok"},
-      "rmsg":"MS;P1=-1746;P2=513;P3=-571;P4=-4612;P5=2801;D=24512321212123232121212323212121212323232323;CP=2;SP=4;R=58;#;#;"
+      "readings": {"state":"channel_minus", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"OR28V"},
+      "rmsg":"MS;P1=545;P2=-552;P4=-1652;P6=-4400;P7=2746;D=16741214141212121214141212121414121212121212;CP=1;SP=6;m2;"
     },
     {
-      "dmsg":"P68#E00B0", "comment":"channel_plus", "user":"HomeAuto_User",
+      "dmsg":"P68#608B0", "comment":"Vista Remote Control", "user":"elektron-bbs",
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
-      "readings": {"state":"channel_plus"},
-      "rmsg":"MS;P1=-1620;P2=580;P3=-549;P4=-4561;P5=2812;D=24512121212323232323232323232123212123232323;CP=2;SP=4;R=69;O;m2;#;#;"
+      "readings": {"state":"channel_plus", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"OR28V"},
+      "rmsg":"MS;P1=532;P2=-562;P3=-1666;P4=2544;P6=-4412;D=16431213131212121212131212121312131312121212;CP=1;SP=6;"
+    },
+    {
+      "dmsg":"P68#57820", "comment":"Vista Remote Control", "user":"elektron-bbs",
+      "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
+      "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"OR28V"},
+      "rmsg":"MS;P0=-544;P1=556;P2=-1653;P3=-4388;P4=2758;D=13421012101210121212121010101010121010101010;CP=1;SP=3;m2;"
     }
   ]
 },
@@ -750,7 +759,7 @@
 },
 {"name":"Sempre 92596/65395", "id":"84", "data": [
     {
-      "dmsg":"W84#A64D20D570", "comment":"Aldi", "user":"w6s8",
+      "dmsg":"W84#A64D20D570", "comment":"Aldi (ID 40 additionally)", "user":"w6s8",
       "internals": {"DEF":"SD_WS_84_TH_3", "NAME":"SD_WS_84_TH_3"},
       "readings": {"state":"T: 21.3 H: 77", "batteryState":"ok", "channel":"3", "humidity":"77", "sendmode":"auto", "temperature":"21.3", "type":"Auriol IAN 283582, TV-4848"},
       "rmsg":"MU;P0=-30004;P1=815;P2=-910;P3=599;P4=-263;P5=234;P6=-621;D=0121212345634565634345656345656343456345656345656565656343456345634563456343434565656;CP=5;R=5;"
@@ -759,7 +768,7 @@
 },
 {"name":"Tecvance TV-4848", "id":"84", "data": [
     {
-      "dmsg":"W84#5E36012D24", "comment":"Amazon", "user":"HomeAuto_User",
+      "dmsg":"W84#5E36012D24", "comment":"Amazon (ID 63 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_84_TH_1", "NAME":"SD_WS_84_TH_1"},
       "readings": {"state":"T: 30.1 H: 54", "batteryState":"ok", "channel":"1", "humidity":"54", "sendmode":"auto", "temperature":"30.1", "type":"Auriol IAN 283582"},
       "rmsg":"MU;P0=859;P1=-845;P2=-253;P3=240;P4=-598;P5=617;D=45252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345;CP=3;R=63;O;"
@@ -793,20 +802,37 @@
     }
   ]
 },
+{"name":"RADEMACHER RP-S1-HS-RF11", "id":"88", "data": [
+    {
+      "dmsg":"P88#C2C85435F9C284E18", "comment":"encoded, button one", "user":"D3ltorohd",
+      "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"one", "repeat_message":"no", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "rmsg":"MS;P1=385;P2=-375;P3=-3756;P4=-745;P5=766;P6=-15000;D=131414525252521452141452521452525252145214521452525252141452145214141414141452521414145252525214521452525252145252141414525252521414561212121212121212121212;CP=1;SP=3;R=54;O;s=36;m0;"
+    },
+    {
+      "dmsg":"P88#7EFDFFDDF9C284E4C", "comment":"encoded, button two", "user":"D3ltorohd",
+      "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"two", "repeat_message":"yes", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "rmsg":"MS;P1=735;P2=-375;P3=377;P4=-752;P6=-3748;D=3612343434343434123434343434341234343434343434343434341234343412343434343434121234343412121212341234121212123412123434341212341212343;CP=3;SP=6;R=42;e;m1;"
+    }
+  ]
+},
 {"name":"Roto TX-nM-HCS", "id":"88", "data": [
     {
-      "dmsg":"P88#9451E57890EAFEF24", "comment":"encoded", "user":"bruen985",
+      "dmsg":"P88#9451E57890EAFEF24", "comment":"encoded, button up", "user":"bruen985",
       "internals": {"DEF":"F7F5709", "NAME":"SD_Keeloq_F7F5709"},
-      "readings": {"state":"Please change your model via attribut!", "button":"0100", "serial_receive":"F7F5709", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "readings": {"state":"receive", "batteryState":"ok", "button":"up", "repeat_message":"yes", "serial_receive":"F7F5709", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"Roto"},
       "rmsg":"MS;P0=-16052;P1=363;P2=-437;P3=-4001;P4=-829;P5=755;D=131452521452145252521452145252521414141452521452145214141414525252145252145252525214141452145214521414141414141452141414145252145252101212121212121212121212;CP=1;SP=3;R=51;O;m1;"
     }
   ]
 },
 {"name":"Waeco MA650-TX", "id":"88", "data": [
     {
-      "dmsg":"P88#55D6D6EFCD9422044", "comment":"encoded", "user":"elektron-bbs",
+      "dmsg":"P88#55D6D6EFCD9422044", "comment":"encoded, button blue", "user":"elektron-bbs",
       "internals": {"DEF":"04429B3", "NAME":"SD_Keeloq_04429B3"},
-      "readings": {"state":"Please change your model via attribut!", "button":"0010", "serial_receive":"04429B3", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "readings": {"state":"receive", "batteryState":"ok", "button":"blue", "repeat_message":"yes", "serial_receive":"04429B3", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"Waeco_MA650_TX"},
       "rmsg":"MS;P1=-425;P2=348;P3=-3925;P4=748;P5=-816;P6=-15724;D=234125412541254125252541254125254125254125412525412525254125252525252541412525412525414125412541414141254141412541414141414125414141262121212121212121212121;CP=2;SP=3;R=12;O;m1;"
     }
   ]
