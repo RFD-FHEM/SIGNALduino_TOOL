@@ -248,12 +248,14 @@
       "dmsg":"P14#AA80C", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"brightness_plus", "deviceCode":"1010101010000000"},
+      "attributes": {"model":"Chilitec_22640"},
       "rmsg":"MS;P0=-398;P1=974;P3=338;P4=-1034;P6=-4939;D=361034103410341034103434343434343410103434;CP=3;SP=6;R=0;"
     },
     {
       "dmsg":"P14#AA80A", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"flickering_slowly", "deviceCode":"1010101010000000"},
+      "attributes": {"model":"Chilitec_22640"},
       "rmsg":"MS;P1=976;P2=-397;P3=341;P4=-1029;P5=-4940;D=351234123412341234123434343434343412341234;CP=3;SP=5;R=0;"
     }
   ]
@@ -299,6 +301,7 @@
       "dmsg":"P29#FBE", "comment":"remote control for example Westinghouse airfan (ID 30 additionally)", "repeat":"3", "user":"gadget",
       "internals": {"DEF":"Buttons_five E", "NAME":"Buttons_five_E"},
       "readings": {"state":"fan_off", "deviceCode":"1110 (off|off|off|on)"},
+      "attributes": {"model":"Buttons_five"},
       "rmsg":"MU;P0=250;P1=-492;P2=166;P3=-255;P4=491;P5=-8588;D=052121212121234121212121234521212121212341212121212345212121212123412121212123452121212121234121212121234;CP=0;"
     }
   ]
@@ -362,6 +365,7 @@
       "dmsg":"P34#9E4FF", "comment":"(ID 31 additionally)", "model":"QUIGG_DMV", "user":"SD_Protocol",
       "internals": {"DEF":"QUIGG_DMV 9E4", "NAME":"QUIGG_DMV_9E4"},
       "readings": {"state":"Ch1_off", "deviceCode":"100111100100"},
+      "attributes": {"model":"QUIGG_DMV"},
       "rmsg":"MU;P0=-9812;P1=589;P2=-671;P3=1261;P4=-1320;D=012341412323232341412341412323232323232323;CP=3;R=19;"
     }
   ]
@@ -445,19 +449,21 @@
       "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "model":"Tedsen_SKX2xx", "repeat":"1", "user":"drhirn",
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
+      "attributes": {"model":"Tedsen_SKX2xx"},
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
       "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "model":"TEDSEN_SKX6xx", "repeat":"5", "user":"self_build",
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
+      "attributes": {"model":"Tedsen_SKX6xx"},
       "rmsg":"MU;P0=-32001;P1=2072;P2=-260;P3=326;P4=-2015;P5=-15769;D=01212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151;CP=3;R=37;O;"
     }
   ]
 },
 {"name":"ET-733", "id":"47", "data": [
     {
-      "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
+      "dmsg":"P47#59959A695996A65A9566", "comment":"no reading state exist", "user":"Papaloewe",
       "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
       "readings": {"Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
       "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;s17;b17;"
@@ -749,6 +755,7 @@
       "dmsg":"P83#077", "comment":"example Westinghouse Deckenventilator Delancey (ID 30 additionally)", "repeat":"7", "user":"zwiebelxxl",
       "internals": {"DEF":"RH787T 0", "NAME":"RH787T_0"},
       "readings": {"state":"1_fan_minimum_speed", "deviceCode":"0000 (on|on|on|on)"},
+      "attributes": {"model":"RH787T"},
       "rmsg":"MU;P0=388;P1=-112;P2=267;P3=-378;P5=585;P6=-693;P7=-11234;D=0123035353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262;CP=2;R=43;O;"
     }
   ]
@@ -812,12 +819,14 @@
       "dmsg":"P88#C2C85435F9C284E18", "comment":"encoded, button one", "user":"D3ltorohd",
       "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
       "readings": {"state":"receive", "batteryState":"low", "button":"one", "repeat_message":"no", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"RP_S1_HS_RF11"},
       "rmsg":"MS;P1=385;P2=-375;P3=-3756;P4=-745;P5=766;P6=-15000;D=131414525252521452141452521452525252145214521452525252141452145214141414141452521414145252525214521452525252145252141414525252521414561212121212121212121212;CP=1;SP=3;R=54;O;s=36;m0;"
     },
     {
       "dmsg":"P88#7EFDFFDDF9C284E4C", "comment":"encoded, button two", "user":"D3ltorohd",
       "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
       "readings": {"state":"receive", "batteryState":"low", "button":"two", "repeat_message":"yes", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"RP_S1_HS_RF11"},
       "rmsg":"MS;P1=735;P2=-375;P3=377;P4=-752;P6=-3748;D=3612343434343434123434343434341234343434343434343434341234343412343434343434121234343412121212341234121212123412123434341212341212343;CP=3;SP=6;R=42;e;m1;"
     }
   ]
@@ -855,7 +864,8 @@
     {
       "dmsg":"P90#43CB0FA10", "comment":"button A", "user":"my-engel",
       "internals": {"DEF":"RC_10 43CB_A", "NAME":"RC_10_43CB_A"},
-      "readings": {"state":"on", "deviceCode":"0100001111001011"},
+      "readings": {"state":"on", "deviceCode":"0100001111001011", "x_n4":"0000", "x_n5-8_on":"1111101000010"},
+      "attributes": {"model":"RC_10"},
       "rmsg":"MS;P0=-9964;P1=273;P4=-866;P5=792;P6=-343;D=10145614141414565656561414561456561414141456565656561456141414145614;CP=1;SP=0;R=35;O;m2;"
     }
   ]
@@ -864,25 +874,29 @@
     {
       "dmsg":"P90#78690F250", "comment":"button A", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
-      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"1111001001010"},
+      "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=781;P3=-372;P4=251;P5=-903;P6=-10342;D=46451313131345454545131345134545134545454513131313454513454513451345;CP=4;SP=6;O;m1;E;"
     },
     {
       "dmsg":"P90#78690E240", "comment":"button A", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
-      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1110001001000", "x_n5-8_on":"1111001001010"},
+      "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=790;P2=-363;P3=257;P4=-896;P5=-10283;D=35341212121234343434121234123434123434343412121234343412343412343434;CP=3;SP=5;O;m2;C;C;"
     },
     {
       "dmsg":"P90#7869042B0", "comment":"button all", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
-      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"0100001010110"},
+      "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=-361;P2=267;P3=-884;P4=792;P5=-10342;D=25234141414123232323414123412323412323232323412323232341234123414123;CP=2;SP=5;O;m2;A;"
     },
     {
       "dmsg":"P90#786908230", "comment":"button all", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
-      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1000001000110", "x_n5-8_on":"0100001010110"},
+      "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=-363;P2=789;P3=267;P4=-887;P5=-10332;D=35342121212134343434212134213434213434343421343434343421343434212134;CP=3;SP=5;O;m2;4;"
     }
   ]
@@ -928,6 +942,7 @@
       "dmsg":"P93#16F610EF0", "comment":"ESTO Lighting GmbH, remote control (ID 90 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"KL_RF01 16F6", "NAME":"KL_RF01_16F6"},
       "readings": {"state":"light_color_cold_white", "deviceCode":"0001011011110110"},
+      "attributes": {"model":"KL_RF01"},
       "rmsg":"MS;P1=376;P4=-1200;P5=1170;P6=-409;P7=-12224;D=17141414561456561456565656145656141414145614141414565656145656565614;CP=1;SP=7;R=231;e;m0;"
     }
   ]
