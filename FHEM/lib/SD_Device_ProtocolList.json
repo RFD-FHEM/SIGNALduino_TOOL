@@ -903,9 +903,10 @@
 },
 {"name":"MD-2018R", "id":"91", "data": [
     {
-      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration (ID 63 additionally)", "user":"Harst",
+      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration (ID 63 additionally)", "repeat":"1", "user":"Harst",
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
+      "attributes": {"model":"MD_2018R"},
       "rmsg":"MU;P0=-817;P1=406;P2=-415;P3=813;P5=-4068;CP=3;D=01232323232323232323010123232323230101232301012323012323230123230123010151012323232323232323230101232323232301012323010123230123232301232301230101510123232323232323232301012323232323010123230101232301232323012323012301015101232323232323232323010123232323;O;"
     }
   ]
@@ -915,6 +916,7 @@
       "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
+      "attributes": {"model":"MD_210R"},
       "rmsg":"MU;P1=392;P2=-416;P3=804;P4=-822;P5=-4029;P6=-32001;D=151412323412323234141412341414141412341232341414141234123234141412341234141660;CP=1;R=0;"
     }
   ]
@@ -924,6 +926,7 @@
       "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration", "user":"Harst",
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
+      "attributes": {"model":"MD_2018R"},
       "rmsg":"MS;P0=-420;P1=809;P2=-835;P3=399;P4=-4080;D=34323010101010101010101232301010101012323010123230101230101012301012301232;CP=3;SP=4;s=64;e;m0;"
     }
   ]
@@ -933,6 +936,7 @@
       "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
+      "attributes": {"model":"MD_210R"},
       "rmsg":"MS;P0=-407;P1=402;P2=-4023;P3=-817;P4=806;D=12131040431040404313131043131313131043104043131313104310404313131043104313;CP=1;SP=2;R=0;m1;"
     }
   ]
