@@ -828,10 +828,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						## all values in attributes
 						foreach my $key (sort keys %{@$ref_data[$i2]}) {
 							if ($key =~ /^attributes/) {
-								print SaveDoc '      "attributes": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
-
 								foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
 									$cnt_attributes++;
+									print SaveDoc '      "attributes": {' if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
 									print SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes == 1);
 									print SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes > 1);
 								}
@@ -2458,14 +2457,14 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 
 	## overview 1 - no ID found in JSON ##
 	if ($searchID_found == 0) {
-		$ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>- Protocol ID $searchID is NOT documented</div></td> </tr>";
+		$ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>- Protocol ID $searchID is <font color=\"#FF0000\"> NOT </font> documented</div></td> </tr>";
 	}
 
 	$ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 
 	## overview 2 - DMSG message ##
 	if ($searchDMSG_found == 0) {
-		$ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is NOT documented</div></td> </tr>";
+		$ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is <font color=\"#FF0000\"> NOT </font> documented</div></td> </tr>";
 		$jsonDocNew = 1;
 		$pos_array_device = 0;		# reset, DMSG not found -> new empty
 		$pos_array_data = 0;			# reset, DMSG not found -> new empty
