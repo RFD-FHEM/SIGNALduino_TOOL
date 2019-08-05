@@ -3,7 +3,8 @@
     {
       "dmsg":"s4F038300", "user":"SD_Protocol",
       "internals": {"DEF":"CUL_TCM97001_79", "NAME":"ABS700_79"},
-      "readings": {"state":"T: 3.3", "battery":"low", "mode":"normal", "other":"3.3"},
+      "readings": {"state":"T: 3.3", "battery":"low", "batteryState":"low", "mode":"normal", "other":"3.3", "temperature":"3.3"},
+      "attributes": {"model":"ABS700"},
       "rmsg":"MS;P1=-7949;P2=492;P3=-1978;P4=-3970;D=21232423232424242423232323232324242423232323232424;CP=2;SP=1;R=245;O;"
     }
   ]
@@ -12,7 +13,8 @@
     {
       "dmsg":"s5410AC5F9800", "user":"Ralf9",
       "internals": {"DEF":"CUL_TCM97001_84", "NAME":"GT_WT_02_84"},
-      "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "channel":"2", "humidity":"47", "mode":"normal", "temperature":"17.2"},
+      "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "batteryState":"ok", "channel":"2", "humidity":"47", "mode":"normal", "temperature":"17.2"},
+      "attributes": {"model":"GT_WT_02"},
       "rmsg":"MS;P1=-4129;P2=550;P3=-2100;P4=-9055;D=2423212321232123232323232123232323212321232121232323212321212121212123232121;CP=2;SP=4;R=241;O;s=4;m1;"
     }
   ]
@@ -21,7 +23,8 @@
     {
       "dmsg":"s916001A0A000", "comment":"channel 0 right?", "user":"SD_Protocol",
       "internals": {"DEF":"CUL_TCM97001_145", "NAME":"Prologue_145"},
-      "readings": {"state":"T: 2.6", "battery":"ok", "channel":"0", "mode":"normal", "other":"2.6"},
+      "readings": {"state":"T: 2.6", "battery":"ok", "batteryState":"ok", "channel":"0", "mode":"normal", "other":"2.6", "temperature":"2.6"},
+      "attributes": {"model":"Prologue"},
       "rmsg":"MS;P0=-4152;P1=643;P2=-2068;P3=-9066;D=1310121210121212101210101212121212121212121212121010121012121212121012101212;CP=1;SP=3;R=220;O;m2;"
     }
   ]
@@ -30,7 +33,8 @@
     {
       "dmsg":"s8505301CC000", "user":"Harst",
       "internals": {"DEF":"CUL_TCM97001_133", "NAME":"W044_133"},
-      "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "channel":"1", "humidity":"38", "mode":"normal", "temperature":"20.2"},
+      "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"38", "mode":"normal", "temperature":"20.2"},
+      "attributes": {"model":"W044"},
       "rmsg":"MS;P0=-1957;P1=573;P2=-3961;P3=-8913;D=13121010101012101210101010101210121010121210101010101010121212101012121010;CP=1;SP=3;e;m1;"
     }
   ]
@@ -39,7 +43,8 @@
     {
       "dmsg":"sF9700C4000", "user":"SD_Protocol",
       "internals": {"DEF":"CUL_TCM97001_151", "NAME":"Mebus_151"},
-      "readings": {"state":"T: 1.2", "battery":"low", "channel":"1", "mode":"normal", "other":"1.2"},
+      "readings": {"state":"T: 1.2", "battery":"low", "batteryState":"low", "channel":"1", "mode":"normal", "other":"1.2", "temperature":"1.2"},
+      "attributes": {"model":"Mebus"},
       "rmsg":"MS;P0=-9690;P3=354;P4=-4662;P5=-2107;D=3034343434343535343534343435353535353535353434353535343535;CP=3;SP=0;R=209;O;m2;"
     }
   ]
@@ -48,13 +53,15 @@
     {
       "dmsg":"sD66EE1603000", "comment":"wind", "user":"dirigent",
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
-      "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2"},
+      "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2"},
+      "attributes": {"model":"W132"},
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121212141212121414141412141212141414141414141212;CP=1;SP=3;s6;e;m1;"
     },
     {
       "dmsg":"sD6680020C000", "comment":"wind", "user":"dirigent",
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
-      "readings": {"state":"Ws: 0.8 ", "battery":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2", "windSpeed":"0.8"},
+      "readings": {"state":"Ws: 0.8 ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2", "windSpeed":"0.8"},
+      "attributes": {"model":"W132"},
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121414141414141414141414141412141414141412121414;CP=1;SP=3;s6;e;m2;"
     }
   ]
@@ -63,7 +70,8 @@
     {
       "dmsg":"s336C9C002000", "comment":"rain", "user":"andies",
       "internals": {"DEF":"CUL_TCM97001_51", "NAME":"W174_51"},
-      "readings": {"state":"R: 14.25", "battery":"ok", "israining":"yes", "rain":"14.25"},
+      "readings": {"state":"R: 14.25", "battery":"ok", "batteryState":"ok", "israining":"yes", "rain":"14.25"},
+      "attributes": {"model":"W174"},
       "rmsg":"MS;P3=478;P4=-4052;P5=-2022;P6=-9075;D=536353534343535343435343435343435353435353434343535353535353535353535353435;CP=3;SP=6;R=248;O;m0;"
     }
   ]
@@ -72,7 +80,8 @@
     {
       "dmsg":"s248FE4EF0000", "user":"Ralf9",
       "internals": {"DEF":"CUL_TCM97001_36", "NAME":"Rubicson_36"},
-      "readings": {"state":"T: -2.8", "other":"-2.8"},
+      "readings": {"state":"T: -2.8", "other":"-2.8", "temperature":"-2.8"},
+      "attributes": {"model":"Rubicson"},
       "rmsg":"MS;P0=-3946;P1=448;P2=-1998;P3=-9309;P4=284;D=131212101212101212101212121010101010101012121012121010101210101010124;CP=1;SP=3;e;m3;"
     }
   ]
@@ -97,12 +106,14 @@
       "dmsg":"iD8E80A", "comment":"from amazon or ebay", "user":"HomeAuto_User",
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
       "readings": {"state":"open", "protocol":"EV1527"},
+      "attributes": {"model":"itswitch_CHN"},
       "rmsg":"MS;P1=-478;P2=1360;P3=468;P4=-1366;P5=-14045;D=35212134212134343421212134213434343434343421342134;CP=3;SP=5;R=30;O;m2;4;"
     },
     {
       "dmsg":"iD8E80E", "comment":"from amazon or ebay", "user":"HomeAuto_User",
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
       "readings": {"state":"closed", "protocol":"EV1527"},
+      "attributes": {"model":"itswitch_CHN"},
       "rmsg":"MS;P1=-474;P2=1373;P3=455;P4=-1367;P5=-14044;D=35212134212134343421212134213434343434343421212134;CP=3;SP=5;R=37;O;m2;"
     }
   ]
@@ -229,9 +240,10 @@
 },
 {"name":"FA22RF", "id":"13.1", "data": [
     {
-      "dmsg":"P13.1#CBFAD2", "comment":"(ID 63 additionally)", "repeat":"3", "user":"HomeAuto_User",
+      "dmsg":"P13.1#CBFAD2", "repeat":"3", "user":"HomeAuto_User",
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
-      "readings": {"state":"Alarm", "lastReceive_ID":"13.1"},
+      "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13.1"},
+      "attributes": {"model":"FA22RF"},
       "rmsg":"MU;P0=-5684;P1=8149;P2=-887;P3=798;P4=-1393;P5=-2746;P6=-19956;D=0123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435353435361234343535343534343434343434353435343435343535343536123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435;CP=3;R=0;"
     }
   ]
@@ -326,9 +338,10 @@
 },
 {"name":"Conrad S522", "id":"33", "data": [
     {
-      "dmsg":"W33#0501DD80038", "comment":"(ID 33.2 additionally)", "user":"HomeAuto_User",
+      "dmsg":"W33#0501DD80038", "comment":"(ID 33.2,51 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_33_T_1", "NAME":"SD_WS_33_T_1"},
       "readings": {"state":"T: 24.2", "batteryState":"ok", "channel":"1", "temperature":"24.2", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "attributes": {"model":"S522"},
       "rmsg":"MS;P1=-8035;P2=504;P3=-2027;P4=-3945;D=21232323232324232423232323232323242424232424242324242323232323232323232323232324242423;CP=2;SP=1;R=19;O;m0;"
     }
   ]
@@ -743,9 +756,10 @@
 },
 {"name":"SA-434-1 mini", "id":"81", "data": [
     {
-      "dmsg":"P86#604", "comment":"(ID 63,86 additionally)", "repeat":"1", "user":"HomeAuto_User",
+      "dmsg":"P81#604", "comment":"(ID 63,86 additionally)", "repeat":"1", "user":"HomeAuto_User",
       "internals": {"DEF":"SA_434_1_mini 604", "NAME":"SA_434_1_mini_604"},
       "readings": {"state":"receive"},
+      "attributes": {"model":"SA_434_1_mini"},
       "rmsg":"MU;P0=436;P1=-1033;P3=-537;P4=966;P5=-17209;P6=-7015;D=010103434343434341034345034101034343434343410343450341010343434343434103434506;CP=4;R=58;"
     }
   ]
@@ -988,19 +1002,22 @@
     {
       "dmsg":"P95#7709F5DE09F60", "comment":"Garden Lights remote control", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
-      "readings": {"state":"Group_1_on", "deviceCode":"7709F5DE"},
+      "readings": {"state":"Group_1_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
+      "attributes": {"model":"Techmar"},
       "rmsg":"MU;P0=-972;P1=526;P2=-335;P3=-666;D=01213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131;CP=1;R=44;O;"
     },
     {
-      "dmsg":"P95#7709F5DE11EE4", "comment":"Garden Lights remote control (repeat 2 different)", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE11EE0", "comment":"Garden Lights remote control", "repeat":"1", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
-      "readings": {"state":"Group_5_on"},
+      "readings": {"state":"Group_5_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
+      "attributes": {"model":"Techmar"},
       "rmsg":"MU;P0=-651;P1=530;P2=-345;P3=-969;D=01212121312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212101312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212121312101010121010101212121210121210101010101;CP=1;R=24;O;"
     },
     {
-      "dmsg":"P95#7709F5DE02FD8", "comment":"Garden Lights remote control (repeat 2 different)", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE02FD0", "comment":"Garden Lights remote control (ID 63 additionally)", "repeat":"1", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
-      "readings": {"state":"Group_8_off"},
+      "readings": {"state":"Group_8_off", "LastAction":"receive", "deviceCode":"7709F5DE"},
+      "attributes": {"model":"Techmar"},
       "rmsg":"MU;P0=538;P1=-329;P2=-653;P3=-964;D=01020301020202010202020101010102010102020202020102010202020102020202010101010101010201020202020202010202010301020202010202020101010102010102020202020102010202020102020202010101010101010201020202020202010201010301020202010202020101010102010102020202020102;CP=0;R=19;O;"
     }
   ]
