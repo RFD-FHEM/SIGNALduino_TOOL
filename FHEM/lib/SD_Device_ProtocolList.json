@@ -821,10 +821,18 @@
 },
 {"name":"JaroLift TDRCT 04W", "id":"87", "data": [
     {
-      "dmsg":"P87#ABBC9819000065F200", "comment":"encoded (ID 88 additionally)", "user":"bismosa",
+      "dmsg":"P87#ABBC9819000065F200", "comment":"encoded - 4Ch remote with serialEnd 00 (ID 88 additionally)", "user":"bismosa",
       "internals": {"DEF":"FA6000", "NAME":"SD_Keeloq_FA6000"},
       "readings": {"state":"receive", "button":"stop", "channel":"1", "channel_control":"< 9", "last_digits":"encrypted", "serial_receive":"FA6000", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"JaroLift"},
       "rmsg":"MS;P1=1518;P2=-416;P3=370;P4=-3988;P5=-822;P6=793;P7=-16228;D=34356235623562353535623535353562623562623535626262626262353562623562626262626262626262626262626262623535626235623535353535626235626262626262626267123232323232323232323232;CP=3;SP=4;R=243;O;m2;"
+    },
+    {
+      "dmsg":"P87#F096BB6B804C654200", "comment":"encoded - 4Ch remote without serialEnd 00 (ID 88 additionally)", "user":"thorschtn",
+      "internals": {"DEF":"2A6320", "NAME":"SD_Keeloq_2A6320"},
+      "readings": {"state":"receive", "button":"stop", "channel":"2", "channel_control":"< 9", "last_digits":"encrypted", "serial_receive":"2A6320", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"JaroLift"},
+      "rmsg":"MS;P0=-408;P1=-16408;P2=407;P3=1588;P4=-826;P6=-4290;P7=793;D=26242424247070707024707024702424702470242424702424702424702470242424707070707070707024707024247070702424707024702470247070707024707070707070707071342424242424242424;CP=2;SP=6;R=34;O;s=24;m0;"
     }
   ]
 },
