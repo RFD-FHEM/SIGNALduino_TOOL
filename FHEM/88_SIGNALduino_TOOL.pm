@@ -2179,8 +2179,7 @@ sub SIGNALduino_TOOL_HTMLrefresh($$) {
 	my ( $name, $cmd ) = @_;
 	Log3 $name, 4, "$name: SIGNALduino_TOOL_HTMLrefresh is running after $cmd";
 
-	### fix needed, reload on same site - only Firefox ###
-	FW_directNotify("#FHEMWEB:$FW_wname", "location.reload('true')", "");		# reload Browserseite
+	FW_directNotify("FILTER=$name", "#FHEMWEB:$FW_wname", "location.reload('true')", "");		# reload Browserseite
 	return 0;
 }
 
