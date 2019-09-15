@@ -495,9 +495,9 @@
 },
 {"name":"ET-733", "id":"47", "data": [
     {
-      "dmsg":"P47#59959A695996A65A9566", "comment":"no reading state exist", "user":"Papaloewe",
+      "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
       "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
-      "readings": {"Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
+      "readings": {"state":"Food: 25 BBQ: 21", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType":"normal", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
       "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;s17;b17;"
     }
   ]
