@@ -1,5 +1,31 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+15.09.2019 - SD_Device_ProtocolList.json: - added PIR JCHENG SECURITY & VLOXO wireless dorbell
+30.08.2019 - 88_SIGNALduino_TOOL.pm: fixed SIGNALduino_TOOL_HTMLrefresh
+08.08.2019 - 88_SIGNALduino_TOOL.pm: fixed wrong dispatch DEF on CheckIt
+05.08.2019 - 88_SIGNALduino_TOOL.pm: fixed JSON write attributes
+             SD_Device_ProtocolList.json: - added SCS Sentinel PR3-4207-002
+04.08.2019 - 88_SIGNALduino_TOOL.pm: fixed overview model & state
+29.07.2019 - 88_SIGNALduino_TOOL.pm: fix delete_unused_Plots | added overview model
+25.07.2019 - 88_SIGNALduino_TOOL.pm: added new function delete_unused_Logfiles & delete_unused_Plots | extension overview attributes
+08.07.2019 - 88_SIGNALduino_TOOL.pm: added delete logfile if device deleted
+             SD_Device_ProtocolList.json: - added more information ID 90 | revised comment ID 70,73
+29.06.2019 - 88_SIGNALduino_TOOL.pm: fixed command "delete_Device" + revised commandref | fixed delete comment | fixed overview (no right value)
+             SD_Device_ProtocolList.json: - added BRESSER 70-09993 & Tecvance TV-4848
+28.06.2019 - 88_SIGNALduino_TOOL.pm: fixed notify check, delete internals if message not unique, added repeats information
+18.06.2019 - SD_Device_ProtocolList.json: - added door/window contact CHN, revised ID 74,84,90
+14.06.2019 - SD_Device_ProtocolList.json: - added BRESSER 70-09993 & Tecvance TV-4848
+12.06.2019 - 88_SIGNALduino_TOOL.pm: fixed writing JSON structur & notify check
+             SD_Device_ProtocolList.json: - added ID 91 - 91.1 MD-2018R | MD-210R - revised internals
+09.06.2019 - 88_SIGNALduino_TOOL.pm: - fixed wrong spelling and evaluation
+             SD_Device_ProtocolList.json: - added some result values
+06.06.2019 - 88_SIGNALduino_TOOL.pm: - fixed JAVA parameter
+             SD_Device_ProtocolList.json: - added internals + readings ID 0, 0.1, 0.3, 0.4, 3 | - id 67, 74 sorted
+03.06.2019 - 88_SIGNALduino_TOOL.pm: - revised code for CSRF | fixed WARNINGS | added attrib JSON_Check_exceptions | rename subs / variables
+27.05.2019 - 88_SIGNALduino_TOOL.pm: - revised code for CSRF with JAVA and HTML | added attribut CheckIt_exceptions
+                                     - added check loop for new JSON messsage | added sub for sorted JSON | revised log messages
+18.05.2019 - 88_SIGNALduino_TOOL.pm: revised code | added function delete_Device | CheckIt Button added | JSON remove fix names of readings
+             SD_Device_ProtocolList.json: revised and added point internals
 13.05.2019 - 88_SIGNALduino_TOOL.pm: fix dispatch setlist | revised commandref | set path for JSON fix to lib directory
 12.05.2019 - 88_SIGNALduino_TOOL.pm: revised code | fix PerlWarning | added Check it button | added Github_device_documentation_for_README
 02.05.2019 - SD_Device_ProtocolList.json: add protocol 94 for Atech weather station
