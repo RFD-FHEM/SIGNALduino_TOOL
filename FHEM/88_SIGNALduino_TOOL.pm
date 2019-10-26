@@ -110,7 +110,7 @@ sub SIGNALduino_TOOL_Define($$) {
 	if ( $init_done == 1 ) {
 		### Check SIGNALduino min one definded ###
 		my $Device_count = 0;
-		foreach my $d (sort keys %defs) {
+		foreach my $d (keys %defs) {
 			if(defined($defs{$d}) && $defs{$d}{TYPE} eq "SIGNALduino") {
 				$Device_count++;
 			}
@@ -124,7 +124,7 @@ sub SIGNALduino_TOOL_Define($$) {
 		## set dummy - if system ONLY ONE dummy ##
 		if (not $attr{$name}{Dummyname}) {
 			my @dummy = ();
-			foreach my $d (sort keys %defs) {
+			foreach my $d (keys %defs) {
 				if(defined($defs{$d}) && $defs{$d}{TYPE} eq "SIGNALduino" && $defs{$d}{DeviceName} eq "none") {
 					push(@dummy,$d);
 				}
