@@ -1383,10 +1383,10 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		}
 		close InputFile;
 
+		return "ERROR: no ".substr($cmd,10)." found!" if ($founded == 0);
 		readingsSingleUpdate($hash, "line_read" , $linecount, 0);
-		readingsSingleUpdate($hash, "state" , substr($cmd,4)." calculated", 0);
+		readingsSingleUpdate($hash, "state" , substr($cmd,10)." calculated", 0);
 
-		return "ERROR: no ".substr($cmd,4)." found!" if ($founded == 0);
 		$value = $ClockPulse/$founded if ($cmd eq "InputFile_ClockPulse");
 		$value = $SyncPulse/$founded if ($cmd eq "InputFile_SyncPulse");
 
@@ -1398,7 +1398,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		$valuepercentmin = sprintf "%.0f", abs((($min*100)/$value)-100);
 		$valuepercentmax = sprintf "%.0f", abs((($max*100)/$value)-100);
 
-		return substr($cmd,4)." &Oslash; are ".$value." at $founded readed values!\nmin: $min (- $valuepercentmin%) | max: $max (+ $valuepercentmax%)";
+		return substr($cmd,10)." &Oslash; are ".$value." at $founded readed values!\nmin: $min (- $valuepercentmin%) | max: $max (+ $valuepercentmax%)";
 	}
 
 	## read information from InputFile and search ClockPulse or SyncPulse with tol ##
@@ -3123,7 +3123,8 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 <a name="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
-	The module is for the support of developers of the SIGNALduino project. It includes various functions for calculation / filtering / dispatchen / conversion and much more.<br><br><br>
+	The module is for the support of developers of the SIGNALduino project. It includes various functions for calculation / filtering / dispatchen / conversion and much more.<br>
+	<i>All commands marked with <code><font color="red">*</font color></code> depend on attributes. The attributes have been given the same label.</i><br><br>
 
 	<b>Define</b><br>
 	<ul><code>define &lt;NAME&gt; SIGNALduino_TOOL</code><br><br>
@@ -3141,8 +3142,8 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
 	&emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
 	<ul><li><a name="START"></a><code>START</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute StartString)<br>
-	&emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear</li><a name=""></a></ul>
-	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined Sendename (attribute IODev needed!) Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition.<br>
+	&emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
@@ -3157,15 +3158,15 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
-	<ul><li><a name="FilterFile"></a><code>FilterFile</code> - creates a file with the filtered values</li><a name=""></a></ul>
+	<ul><li><a name="FilterFile"></a><code>FilterFile</code> - creates a file with the filtered values <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
 	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - creates a txt file which can be integrated in Github for documentation.<br>
 	&emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - calculates the average of the ClockPulse from Input_File</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - calculates the average of the SyncPulse from Input_File</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file.</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File</li><a name=""></a></ul>
+	<ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - calculates the average of the ClockPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - calculates the average of the SyncPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file. <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
@@ -3174,7 +3175,7 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	<ul><li><a name="invert_bitMsg"></a><code>invert_bitMsg</code> - invert your bitMsg</li><a name=""></a></ul>
 	<ul><li><a name="invert_hexMsg"></a><code>invert_hexMsg</code> - invert your RAWMSG</li><a name=""></a></ul>
 	<ul><li><a name="reverse_Input"></a><code>reverse_Input</code> - reverse your input<br>
-	&emsp;&rarr; example: 1234567 turns 7654321</li><a name=""></a></ul></li><a name=""></a></ul>
+	&emsp;&rarr; example: 1234567 turns 7654321</li><a name=""></a></ul>
 	<ul><li><a name="search_disable_Devices"></a><code>search_disable_Devices</code> - lists all devices that are disabled</li><a name=""></a></ul>
 	<ul><li><a name="search_ignore_Devices"></a><code>search_ignore_Devices</code> - lists all devices that have been set to ignore</li><a name=""></a></ul>
 	<br><br>
@@ -3188,8 +3189,6 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	
 	<b>Attributes</b>
 	<ul>
-		<li><a name="disable ">disable</a><br>
-			Disables the Notify function of the device. (will be set automatically)</li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
 			Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>START</code>!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
@@ -3200,11 +3199,11 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 			Name of the dummy device which is to trigger the dispatch command.<br>
 			&emsp; <u>note:</u> Only after entering the dummy name is a dispatch via "click" from the overviews possible. The attribute "event logging" is automatically set, which is necessary for the complete evaluation of the messages.</li>
 		<li><a name="Filename_export">Filename_export</a><br>
-			File name of the file in which the new data is stored.</li>
+			File name of the file in which the new data is stored. <font color="red">*2</font color></li>
 		<li><a name="Filename_input">Filename_input</a><br>
-			File name of the file containing the input entries.</li>
+			File name of the file containing the input entries. <font color="red">*1</font color></li>
 		<li><a name="IODev">IODev</a><br>
-			Name of the initialized device, which is used for direct transmission.</li>
+			Name of the initialized device, which is used for direct transmission. <font color="red">*3</font color></li>
 		<li><a name="IODev_Repeats">IODev_Repeats</a><br>
 			Numbre of repeats to send. (Depending on the message type, the number of repeats can vary to correctly detect the signal!)</li>
 		<li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
@@ -3223,6 +3222,10 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 		<li><a name="StartString">StartString</a><br>
 			The attribute is necessary for the <code> set START</code> option. It search the start of the dispatch command.<br>
 			There are 3 options: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
+		<li><a name="cmdIcon ">cmdIcon</a><br>
+			Replaces commands from the webCmd attribute with icons. When deleting the attribute, the user only sees the commands as text. (is automatically set when defining the module)</li>
+		<li><a name="disable ">disable</a><br>
+			Disables the Notify function of the device. (will be set automatically)</li>
 		<li><a name="userattr">userattr</a><br>
 			Is an automatic attribute that reflects detected Dispatch files. It is self-created and necessary for processing. Each modified value is automatically overwritten by the TOOL!</li>
 	</ul>
@@ -3235,7 +3238,8 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 <a name="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
-	Das Modul ist zur Hilfestellung für Entwickler des SIGNALduino Projektes. Es beinhaltet verschiedene Funktionen zur Berechnung / Filterung / Dispatchen / Wandlung und vieles mehr.<br><br><br>
+	Das Modul ist zur Hilfestellung für Entwickler des SIGNALduino Projektes. Es beinhaltet verschiedene Funktionen zur Berechnung / Filterung / Dispatchen / Wandlung und vieles mehr.<br>
+	<i>Alle mit <code><font color="red">*</font color></code> versehen Befehle sind abhängig von Attributen. Die Attribute wurden mit der selben Kennzeichnung versehen.</i><br><br>
 
 	<b>Define</b><br>
 	<ul><code>define &lt;NAME&gt; SIGNALduino_TOOL</code><br><br>
@@ -3253,8 +3257,8 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
 	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
 	<ul><li><a name="START"></a><code>START</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut StartString definiert wurden)<br>
-	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option</li><a name=""></a></ul>
-	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code>- sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender (Attribut IODev ist notwendig!) Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung.<br>
+	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code>- sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
@@ -3269,18 +3273,18 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
 	&emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; Beispiel 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
-	<ul><li><a name="FilterFile"></a><code>FilterFile</code> - erstellt eine Datei mit den gefilterten Werten<br>
+	<ul><li><a name="FilterFile"></a><code>FilterFile</code> - erstellt eine Datei mit den gefilterten Werten <font color="red">*1</font color> <font color="red">*2</font color><br>
 	&emsp;&rarr; eine Vorauswahl von Suchbegriffen via Checkbox ist m&ouml;glich<br>
 	&emsp;&rarr; die Checkbox Auswahl <i>-ONLY_DATA-</i> filtert nur die Suchdaten einzel aus jeder Zeile anstatt die komplette Zeile mit den gesuchten Daten<br>
 	&emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li><a name=""></a></ul>
 	<ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - erstellt eine txt-Datei welche in Github zur Dokumentation eingearbeitet werden kann.<br>
 	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern.</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei</li><a name=""></a></ul>
-	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei</li><a name=""></a></ul>
+	<ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern. <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
@@ -3303,8 +3307,6 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	
 	<b>Attributes</b>
 	<ul>
-		<li><a name="disable ">disable</a><br>
-			Schaltet die NotifyFunktion des Devices ab. (wird automatisch gesetzt)</li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
 			Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
@@ -3315,11 +3317,11 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 			Name des Dummy-Ger&auml;tes welcher den Dispatch-Befehl ausl&ouml;sen soll.<br>
 			&emsp; <u>Hinweis:</u> Nur nach Eingabe dessen ist ein Dispatch via "Klick" aus den Übersichten möglich. Im Dummy wird automatisch das Attribut "eventlogging" gesetzt, welches notwendig zur kompletten Auswertung der Nachrichten ist.</li>
 		<li><a name="Filename_export">Filename_export</a><br>
-			Dateiname der Datei, worin die neuen Daten gespeichert werden.</li>
+			Dateiname der Datei, worin die neuen Daten gespeichert werden. <font color="red">*2</font color></li>
 		<li><a name="Filename_input">Filename_input</a><br>
-			Dateiname der Datei, welche die Input-Eingaben enth&auml;lt.</li>
+			Dateiname der Datei, welche die Input-Eingaben enth&auml;lt. <font color="red">*1</font color></li>
 		<li><a name="IODev">IODev</a><br>
-			Name des initialisierten Device, welches zum direkten senden genutzt wird.</li>
+			Name des initialisierten Device, welches zum direkten senden genutzt wird. <font color="red">*3</font color></li>
 		<li><a name="IODev_Repeats">IODev_Repeats</a><br>
 			Anzahl der Sendewiederholungen. (Je nach Nachrichtentyp, kann die Anzahl der Repeats variieren zur richtigen Erkennung des Signales!)</li>
 		<li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
@@ -3339,6 +3341,10 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 		<li><a name="StartString">StartString</a><br>
 			Das Attribut ist notwendig für die <code> set START</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
 			Es gibt 3 M&ouml;glichkeiten: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
+		<li><a name="cmdIcon ">cmdIcon</a><br>
+			Ersetzt Kommandos aus dem Attribut webCmd durch Icons. Beim löschen des Attributes sieht der Benutzer nur die Kommandos als Text. (wird automatisch gesetzt beim definieren des Modules)</li>
+		<li><a name="disable ">disable</a><br>
+			Schaltet die NotifyFunktion des Devices ab. (wird automatisch gesetzt)</li>
 		<li><a name="userattr">userattr</a><br>
 			Ist ein automatisches Attribut welches die erkannten Dispatch Dateien wiedergibt. Es wird selbst erstellt und ist notwendig für die Verarbeitung. Jeder modifizierte Wert wird durch das TOOL automatisch im Durchlauf &uuml;berschrieben!</li>
 	</ul>
