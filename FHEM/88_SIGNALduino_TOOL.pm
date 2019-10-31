@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-10-25 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-10-31 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -40,7 +40,6 @@ my $Filename_Dispatch = "SIGNALduino_TOOL_Dispatch_";		# name file to read input
 my $NameDispatchSet = "Dispatch_";											# name of setlist value´s to dispatch
 my $jsonDoc = "SD_Device_ProtocolList.json";						# name of file to import / export
 my $jsonDocNew = 0;																			# marker for script function, new emtpy need
-my $jsonProtList = "SD_ProtocolList.json";							# name of file to export information from doc rmsg ProtocolList
 my $pos_array_data;																			# position of difference in data part from value
 my $pos_array_device;																		# position of difference in array over all
 
@@ -147,7 +146,7 @@ sub SIGNALduino_TOOL_Shutdown($$) {
 	my $name = $hash->{NAME};
 
 	Log3 $name, 5, "$name: sub Shutdown are running!";
-	for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG last_DMSG decoded_Protocol_ID line_read message_dispatched message_to_module repeats_in_message/) {		# delete reading cmd_raw & cmd_sendMSG
+	for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG last_DMSG decoded_Protocol_ID line_read message_dispatched message_to_module message_dispatch_repeats/) {		# delete reading cmd_raw & cmd_sendMSG
 		readingsDelete($hash,$readingname);
 	}
 	return undef;
@@ -177,7 +176,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	my $DummyMSGCNTvalue = 0;																		# value DummynameMSGCNT before - DummynameMSGCNT
 	my $DummyTime = 0;																					# to set DummyTime after dispatch
 	my $NameSendSet = "Send_";																	# name of setlist value´s to send
-	my $Sender_repeats = AttrVal($name,"IODev_Repeats",1);			# Senderepeats
+	my $IODev_Repeats = AttrVal($name,"IODev_Repeats",1);			  # Repeats of IODev
 	my $Sendername = AttrVal($name,"IODev","none");				      # Sendername to direct send command
 	my $cmd_raw;																								# cmd_raw to view for user
 	my $cmd_sendMSG;																						# cmd_sendMSG to view for user
@@ -354,7 +353,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		Log3 $name, 5, "$name: Set $cmd - Filename_input=$file RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd";
 
 		### delete readings ###
-		for my $readingname (qw/last_MSG message_to_module message_dispatched last_DMSG decoded_Protocol_ID line_read repeats_in_message/) {
+		for my $readingname (qw/last_MSG message_to_module message_dispatched last_DMSG decoded_Protocol_ID line_read message_dispatch_repeats/) {
 			readingsDelete($hash,$readingname);
 		}
 
@@ -362,7 +361,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		for my $internalname (qw/dispatchDeviceTime dispatchDevice dispatchSTATE/) {
 			delete $hash->{$internalname} if ($hash->{$internalname});
 		}
-		delete $hash->{helper}->{NTFY_repeatcount} if ($hash->{helper}->{NTFY_repeatcount});
+		delete $hash->{helper}->{NTFY_dispatchcount} if ($hash->{helper}->{NTFY_dispatchcount});
 
 		$hash->{helper}->{NTFY_SEARCH_Value_count} = 0;
 		$hash->{helper}->{NTFY_match} = "-";
@@ -694,15 +693,15 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$RAWMSG = $1 if ($RAWMSG =~ /^(.*;D=\d+?;).*/);					# cut ab ;CP=
 
 			if (substr($RAWMSG,0,2) eq "MU") {
-				$RAWMSG = "SR;R=$Sender_repeats".substr($RAWMSG,2,length($RAWMSG)-2); # testes with repeat 1
+				$RAWMSG = "SR;R=$IODev_Repeats".substr($RAWMSG,2,length($RAWMSG)-2); # testes with repeat 1
 			} elsif (substr($RAWMSG,0,2) eq "MS") {
-				$RAWMSG = "SR;R=$Sender_repeats".substr($RAWMSG,2,length($RAWMSG)-2); # testes with repeat 4
+				$RAWMSG = "SR;R=$IODev_Repeats".substr($RAWMSG,2,length($RAWMSG)-2); # testes with repeat 4
 			} elsif (substr($RAWMSG,0,2) eq "MC") {
 				# NOT checked
 				#MC;LL=-417;LH=438;SL=-224;SH=213;D=238823B1001F8;C=215;L=49;R=48;
 				#SC;R=5;SR;R=1;P0=1500;P1=-215;D=01;SM;R=1;C=215;D=47104762003F;
 				#set sduino_IP raw 
-				$RAWMSG = "SM;R=$Sender_repeats".substr($RAWMSG,2,length($RAWMSG)-2);
+				$RAWMSG = "SM;R=$IODev_Repeats".substr($RAWMSG,2,length($RAWMSG)-2);
 			}
 
 			$RAWMSG =~ s/;+/;/g;
@@ -729,14 +728,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $cnt_attributes = 0;
 
 			## backup last file ##
-			open(SaveDoc, '<', "./FHEM/lib/SD_Device_ProtocolList.json") || return "ERROR: file ($jsonProtList) can not open!";
-				open(Backup, '>', "./FHEM/lib/SD_Device_ProtocolListBackup.json") || return "ERROR: file (SD_Device_ProtocolListBackup.json) can not open!";
+			open(SaveDoc, '<', "./FHEM/lib/$jsonDoc") || return "ERROR: file ($jsonDoc) can not open!";
+				open(Backup, '>', "./FHEM/lib/$jsonDoc"."Backup.json") || return "ERROR: file ($jsonDoc"."Backup.json) can not open!";
 					print Backup <SaveDoc>;
 				close(Backup);
 			close(SaveDoc);
 
 			## write new data ##
-			open(SaveDoc, '>', "./FHEM/lib/SD_Device_ProtocolList.json") || return "ERROR: file ($jsonProtList) can not open!";
+			open(SaveDoc, '>', "./FHEM/lib/$jsonDoc") || return "ERROR: file ($jsonDoc) can not open!";
 				print SaveDoc "[\n";
 
 				## for max elements ##
@@ -1030,7 +1029,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 							}
 						close(SaveDoc); 
 					} elsif ($founded == 0) {
-						open(SaveDoc, '>>', "./FHEM/lib/SD_Device_ProtocolListERRORs.txt") || return "ERROR: file ($jsonProtList) can not open!";
+						open(SaveDoc, '>>', "./FHEM/lib/SD_Device_ProtocolListERRORs.txt") || return "ERROR: file (SD_Device_ProtocolListERRORs.txt) can not open!";
 							print SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, "name" )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, "name" ));
 							print SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, "name" ));
 							print SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);						
@@ -1051,7 +1050,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		readingsBulkUpdate($hash, "last_DMSG" , $DMSG_last) if ($DMSG_last ne "none");
 		readingsBulkUpdate($hash, "line_read" , $count1+1) if ($cmd eq "START");
 		readingsBulkUpdate($hash, "message_dispatched" , $count3) if (defined $count3);
-		readingsBulkUpdate($hash, "repeats_in_message" , $hash->{helper}->{NTFY_repeatcount}) if ($hash->{helper}->{NTFY_repeatcount});
+		readingsBulkUpdate($hash, "message_dispatch_repeats" , $hash->{helper}->{NTFY_dispatchcount}) if ($hash->{helper}->{NTFY_dispatchcount});
 		readingsBulkUpdate($hash, "message_to_module" , $DummyMSGCNTvalue) if (defined $DummyMSGCNTvalue && $cmd ne $NameDispatchSet."DMSG");
 		readingsEndUpdate($hash, 1);
 
@@ -2134,12 +2133,12 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read($$$$) {
 	close InputFile;
 
 	#### JSON write to file | not file for changed ####
-	if (-e $path.$jsonProtList) {
+	if (-e $path.$jsonDoc) {
 		$return = "you already have a JSON file! only information are readed!";
 	} else {
 		my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);		# lesbares JSON | Sort numerically
 
-		open(SaveDoc, '>', $path.$jsonProtList) || return "ERROR: file ($jsonProtList) can not open!";
+		open(SaveDoc, '>', $path.$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
 			print SaveDoc $json;
 		close(SaveDoc);
 		$return = "JSON file created!";
@@ -2635,7 +2634,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 				} elsif ($textfield_split[1] eq "comment" && !$modJSON_split[2]) {
 					delete @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{comment};
 				}
-				@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{repeat} = ReadingsVal($name, "repeats_in_message", 0) if (ReadingsVal($name, "repeats_in_message", 0) > 0);
+				@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{dispatch_repeats} = ReadingsVal($name, "message_dispatch_repeats", 0) if (ReadingsVal($name, "message_dispatch_repeats", 0) > 0);
 				## user textfield not clear
 				if ($textfield_split[1] eq "user" && $modJSON_split[2] && $modJSON_split[2] ne "") {
 					@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{user} = $modJSON_split[2];
@@ -2783,7 +2782,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 				
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{dmsg} = ReadingsVal($name, "last_DMSG", "none");
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{comment} = $comment if ($comment ne "");
-				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{repeat} = ReadingsVal($name, "repeats_in_message", 0) if (ReadingsVal($name, "repeats_in_message", 0) > 0);
+				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{dispatch_repeats} = ReadingsVal($name, "message_dispatch_repeats", 0) if (ReadingsVal($name, "message_dispatch_repeats", 0) > 0);
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{user} = $user if ($user ne "unknown");
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{internals} = \%internals;
 				@{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{readings} = \%readings;
@@ -2817,7 +2816,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 	$ProtocolListRead = eval { decode_json($output) };
 
 	# ## for test ##
-	# open(SaveDoc, '>', "./FHEM/lib/SD_Device_ProtocolList_TestWrite.json") || return "ERROR: file ($jsonProtList) can not open!";
+	# open(SaveDoc, '>', "./FHEM/lib/$jsonDoc"."_TestWrite.json") || return "ERROR: file ($jsonDoc) can not open!";
 		# print SaveDoc $output;
 	# close(SaveDoc);
 
@@ -2993,7 +2992,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 			$repeatcount =~ /Decoded.*dispatch\((\d+)/;
 			$repeatcount = ($1 * 1) - 1;
 			if ($repeatcount > 0) {
-				$hash->{helper}->{NTFY_repeatcount} = $repeatcount;
+				$hash->{helper}->{NTFY_dispatchcount} = $repeatcount;
 				Log3 $name, 4, "$name: Notify - ntfy_match check repeat=$repeatcount";
 			}
 		}
