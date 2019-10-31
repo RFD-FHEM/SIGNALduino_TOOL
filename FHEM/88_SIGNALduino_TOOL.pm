@@ -146,9 +146,8 @@ sub SIGNALduino_TOOL_Shutdown($$) {
 	my $name = $hash->{NAME};
 
 	Log3 $name, 5, "$name: sub Shutdown are running!";
-	for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG last_DMSG decoded_Protocol_ID line_read message_dispatched message_to_module message_dispatch_repeats/) {		# delete reading cmd_raw & cmd_sendMSG
-		readingsDelete($hash,$readingname);
-	}
+	SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,line_read,message_dispatched,message_to_module,message_dispatch_repeats");
+
 	return undef;
 }
 
@@ -353,14 +352,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		Log3 $name, 5, "$name: Set $cmd - Filename_input=$file RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd";
 
 		### delete readings ###
-		for my $readingname (qw/last_MSG message_to_module message_dispatched last_DMSG decoded_Protocol_ID line_read message_dispatch_repeats/) {
-			readingsDelete($hash,$readingname);
-		}
+		SIGNALduino_TOOL_deleteReadings($hash,"last_MSG,message_to_module,message_dispatched,last_DMSG,decoded_Protocol_ID,line_read,message_dispatch_repeats");
 
 		### reset Internals ###
-		for my $internalname (qw/dispatchDeviceTime dispatchDevice dispatchSTATE/) {
-			delete $hash->{$internalname} if ($hash->{$internalname});
-		}
+		SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
+
 		delete $hash->{helper}->{NTFY_dispatchcount} if ($hash->{helper}->{NTFY_dispatchcount});
 
 		$hash->{helper}->{NTFY_SEARCH_Value_count} = 0;
@@ -729,7 +725,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			## backup last file ##
 			open(SaveDoc, '<', "./FHEM/lib/$jsonDoc") || return "ERROR: file ($jsonDoc) can not open!";
-				open(Backup, '>', "./FHEM/lib/$jsonDoc"."Backup.json") || return "ERROR: file ($jsonDoc"."Backup.json) can not open!";
+				open(Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5)."Backup.json") || return "ERROR: file (".substr($jsonDoc,0,-5)."Backup.json) can not open!";
 					print Backup <SaveDoc>;
 				close(Backup);
 			close(SaveDoc);
@@ -878,9 +874,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			Log3 $name, 4, "$name: Set $cmd - check (9)";
 			return "ERROR: Your device input failed!" if (not defined $a[1]);
 
-			for my $readingname (qw/cmd_raw cmd_sendMSG/) {
-				readingsDelete($hash,$readingname);
-			}
+			SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG");
 
 			my $devices_arg;
 			foreach (@a){
@@ -918,9 +912,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$return.= " deleted" if ($return ne "");
 			$return = "no device deleted (no existing definition)" if ($return eq "");
 
-			for my $internalname (qw/dispatchDeviceTime dispatchDevice dispatchSTATE/) {
-				delete $hash->{$internalname} if ($hash->{$internalname});
-			}
+			SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
 
 			$count3 = undef;								# message_dispatched
 			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
@@ -1022,14 +1014,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 					my $founded = 0;
 
 					## check RAWMSG in file registered
-					if (-e "./FHEM/lib/SD_Device_ProtocolListERRORs.txt") {
-						open(SaveDoc, "./FHEM/lib/SD_Device_ProtocolListERRORs.txt");
+					if (-e "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt") {
+						open(SaveDoc, "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt");
 							while (<SaveDoc>) {
 								$founded++ if (grep /$RAWMSG_last/, $_);
 							}
 						close(SaveDoc); 
 					} elsif ($founded == 0) {
-						open(SaveDoc, '>>', "./FHEM/lib/SD_Device_ProtocolListERRORs.txt") || return "ERROR: file (SD_Device_ProtocolListERRORs.txt) can not open!";
+						open(SaveDoc, '>>', "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt") || return "ERROR: file (".substr($jsonDoc,0,-5)."ERRORs.txt) can not open!";
 							print SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, "name" )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, "name" ));
 							print SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, "name" ));
 							print SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);						
@@ -1103,14 +1095,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my @Zeilen = ();
 
 	if ($cmd ne "?") {
-		for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG last_DMSG decoded_Protocol_ID message_to_module message_dispatched line_read/) {
-			readingsDelete($hash,$readingname);
-		}
-
-		for my $internalname (qw/dispatchDeviceTime dispatchDevice dispatchOption dispatchSTATE/) {
-			delete $hash->{$internalname} if ($hash->{$internalname});
-		}
-
+		SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,message_to_module,message_dispatched,message_dispatch_repeats,line_read");
+		SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchOption,dispatchSTATE");
 		SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."RAWMSG_last");
 	}
 
@@ -1303,9 +1289,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		}
 		close InputFile;
 
-		for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG message_dispatched message_to_module/) {		# delete reading cmd_raw & cmd_sendMSG
-			readingsDelete($hash,$readingname);
-		}
+		SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,message_dispatched,message_to_module");
 
 		readingsSingleUpdate($hash, "line_read" , $linecount, 0);
 		readingsSingleUpdate($hash, "state" , "data filtered", 0);
@@ -1389,9 +1373,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		$value = $ClockPulse/$founded if ($cmd eq "InputFile_ClockPulse");
 		$value = $SyncPulse/$founded if ($cmd eq "InputFile_SyncPulse");
 
-		for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG message_dispatched message_to_module/) {		# delete reading cmd_raw & cmd_sendMSG
-			readingsDelete($hash,$readingname);
-		}
+		SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,message_dispatched,message_to_module");
 
 		$value = sprintf "%.0f", $value;	## round value
 		$valuepercentmin = sprintf "%.0f", abs((($min*100)/$value)-100);
@@ -1947,13 +1929,9 @@ sub SIGNALduino_TOOL_Attr() {
 
 		### delete dummy
 		if ($attrName eq "Dummyname") {
-			for my $readingname (qw/cmd_raw cmd_sendMSG last_MSG last_DMSG decoded_Protocol_ID line_read message_dispatched message_to_module/) {		# delete reading cmd_raw & cmd_sendMSG
-				readingsDelete($hash,$readingname);
-			}
 			## reset values ##
-			for my $internalname (qw/dispatchDeviceTime dispatchDevice dispatchSTATE/) {
-				delete $hash->{$internalname} if ($hash->{$internalname});
-			}
+			SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,line_read,message_dispatched,message_to_module");
+			SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
 
 			$jsonDocNew = 0;
 			readingsSingleUpdate($hash, "state" , "no dispatch possible" , 0);
@@ -2133,15 +2111,17 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read($$$$) {
 	close InputFile;
 
 	#### JSON write to file | not file for changed ####
+	## !!! format JSON need revised to SD_Device_ProtocolList.json format !!! ##
+	### ONLY prepared ###
 	if (-e $path.$jsonDoc) {
 		$return = "you already have a JSON file! only information are readed!";
 	} else {
 		my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);		# lesbares JSON | Sort numerically
 
-		open(SaveDoc, '>', $path.$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
+		open(SaveDoc, '>', $path."SD_ProtocolData.json") || return "ERROR: file (SD_ProtocolData.json) can not open!";
 			print SaveDoc $json;
 		close(SaveDoc);
-		$return = "JSON file created!";
+		$return = "JSON file created from ProtocolData!";
 	}
 
 	## created new DispatchModule List with clientmodule from SD_ProtocolData ##
@@ -3103,6 +3083,32 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 						split(" ", $cmdIcon);
 	$mod{$arg} = $cnt++;
 	$attr{$name}{cmdIcon} = join(" ", sort keys %mod);
+}
+
+################################
+sub SIGNALduino_TOOL_deleteReadings($$) {
+	my ( $hash, $readingname ) = @_;
+	my $name = $hash->{NAME};
+	my @readings = split(",", $readingname);
+
+	Log3 $name, 4, "$name: deleteReading is running";
+
+	for (@readings) {
+		readingsDelete($hash,$_);
+	}
+}
+
+################################
+sub SIGNALduino_TOOL_deleteInternals($$) {
+	my ( $hash, $internalname ) = @_;
+	my $name = $hash->{NAME};
+	my @internal = split(",", $internalname);
+
+	Log3 $name, 4, "$name: deleteInternals is running";
+
+	for (@internal) {
+		delete $hash->{$_} if ($hash->{$_});
+	}
 }
 
 # Eval-Rückgabewert für erfolgreiches

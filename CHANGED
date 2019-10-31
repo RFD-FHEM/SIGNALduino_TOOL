@@ -1,6 +1,7 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
-31.10.2019 - 88_SIGNALduino_TOOL.pm: - category repeat rename to dispatch_repeats
+31.10.2019 - 88_SIGNALduino_TOOL.pm: - added new sub´s SIGNALduino_TOOL_deleteReadings,SIGNALduino_TOOL_deleteInternals
+                                     - category repeat rename to dispatch_repeats
                                      - remove varible $jsonProtList | rename variables
                                      - rename repeats_in_message to reading message_dispatch_repeats
         SD_Device_ProtocolList.json: - category repeat rename to dispatch_repeats
