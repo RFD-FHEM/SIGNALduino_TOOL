@@ -1818,8 +1818,11 @@ sub SIGNALduino_TOOL_Attr() {
 
 		### name of initialized sender to work with this tool
 		if ($attrName eq "Path") {
-			## need FIX - test path exist ##
-			return "ERROR: wrong value! $attrName must end with /" if (not $attrValue =~ /^.*\/$/);
+			if (-d $attrValue) {
+				return "ERROR: wrong value! $attrName must end with /" if (not $attrValue =~ /^.*\/$/);
+			} else {
+				return "ERROR: $attrName $attrValue not exist!";
+			}
 		}
 
 		### name of initialized sender to work with this tool
