@@ -249,7 +249,7 @@
 },
 {"name":"FA22RF", "id":"13.1", "data": [
     {
-      "dmsg":"P13.1#CBFAD2", "repeat":"3", "user":"HomeAuto_User",
+      "dmsg":"P13.1#CBFAD2", "dispatch_repeats":"3", "user":"HomeAuto_User",
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13.1"},
       "attributes": {"model":"FA22RF"},
@@ -283,7 +283,7 @@
 },
 {"name":"Dooya", "id":"16", "data": [
     {
-      "dmsg":"P16#4805B7B132", "comment":"(ID 40,72 additionally)", "repeat":"1", "user":"SD_Protocol",
+      "dmsg":"P16#4805B7B132", "comment":"(ID 40,72 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"0100100000000101101101111011_1", "NAME":"Dooya_0100100000000101101101111011_1"},
       "readings": {"state":"closed", "exact":"closed", "parsestate":"on", "position":"200"},
       "rmsg":"MU;P0=-1562;P1=-411;P2=297;P3=-773;P4=668;P5=4754;D=1232341234141234141234141414123414123232341232341412323414150234123234123232323232323234123414123414123414141412341412323234123234141232341415023412323412323232323232323412341412341412341414141234141232323412323414123234142;CP=2;"
@@ -319,7 +319,7 @@
 },
 {"name":"HT12e", "id":"29", "data": [
     {
-      "dmsg":"P29#FBE", "comment":"remote control for example Westinghouse airfan (ID 30 additionally)", "repeat":"3", "user":"gadget",
+      "dmsg":"P29#FBE", "comment":"remote control for example Westinghouse airfan (ID 30 additionally)", "dispatch_repeats":"3", "user":"gadget",
       "internals": {"DEF":"Buttons_five E", "NAME":"Buttons_five_E"},
       "readings": {"state":"fan_off", "deviceCode":"1110 (off|off|off|on)"},
       "attributes": {"model":"Buttons_five"},
@@ -347,7 +347,7 @@
 },
 {"name":"VLOXO", "id":"32", "data": [
     {
-      "dmsg":"P32#7ED403", "comment":"wireless dorbell (ID 40,62,63 additionally)", "repeat":"3", "user":"schwatter",
+      "dmsg":"P32#7ED403", "comment":"wireless dorbell (ID 40,62,63 additionally)", "dispatch_repeats":"3", "user":"schwatter",
       "internals": {"DEF":"32 7ED403", "NAME":"SD_BELL_7ED403"},
       "readings": {"state":"ring"},
       "attributes": {"model":"FreeTec_PE-6946"},
@@ -428,7 +428,7 @@
 },
 {"name":"NC-3911-675", "id":"38", "data": [
     {
-      "dmsg":"W38#12A2C5D0C", "repeat":"4", "user":"Harst",
+      "dmsg":"W38#12A2C5D0C", "dispatch_repeats":"4", "user":"Harst",
       "internals": {"DEF":"SD_WS_38_T_2", "NAME":"SD_WS_38_T_2"},
       "readings": {"state":"T: 20.9", "batteryState":"ok", "beep":"off", "channel":"2", "temperature":"20.9", "type":"NC-3911"},
       "rmsg":"MU;P0=-235;P1=496;P2=253;P3=-479;P4=-957;P5=743;P6=-720;CP=2;D=010231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102310231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102;O;"
@@ -437,7 +437,7 @@
 },
 {"name":"X10 Protocol", "id":"39", "data": [
     {
-      "dmsg":"29454A847BD700", "repeat":"2", "user":"wherzig",
+      "dmsg":"29454A847BD700", "dispatch_repeats":"2", "user":"wherzig",
       "internals": {"DEF":"Sds10a d745 Window", "NAME":"RFXX10REC_d745"},
       "readings": {"Window":"Closed", "battery":"ok", "delay":"min", "statechange":"Closed"},
       "rmsg":"MU;P0=10530;P1=-2908;P2=533;P3=-598;P4=-1733;P5=767;D=0123242323232423242324232324232423242323232324232323242424242324242424232423242424232501232423232324232423242323242324232423232323242323232424242423242424242324232424242325012324232323242324232423232423242324232323232423232324242424232424242423242324242;CP=2;O;"
@@ -478,14 +478,14 @@
 },
 {"name":"Tedsen_SKXxxx", "id":"46", "data": [
     {
-      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "model":"Tedsen_SKX2xx", "repeat":"1", "user":"drhirn",
+      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "model":"Tedsen_SKX2xx", "dispatch_repeats":"1", "user":"drhirn",
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
       "attributes": {"model":"Tedsen_SKX2xx"},
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
-      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "model":"TEDSEN_SKX6xx", "repeat":"5", "user":"self_build",
+      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "model":"TEDSEN_SKX6xx", "dispatch_repeats":"5", "user":"self_build",
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
       "attributes": {"model":"Tedsen_SKX6xx"},
@@ -504,14 +504,14 @@
 },
 {"name":"QUIGG_GT-9000", "id":"49", "data": [
     {
-      "dmsg":"U49#8B2DB0", "comment":"(ID 5,27 additionally)", "repeat":"3", "user":"TiEr92",
+      "dmsg":"U49#8B2DB0", "comment":"(ID 5,27 additionally)", "dispatch_repeats":"3", "user":"TiEr92",
       "rmsg":"MU;P0=-563;P1=479;P2=991;P3=-423;P4=361;P5=-1053;P6=3008;P7=-7110;D=2345454523452323454523452323452323452323454545456720151515201520201515201520201520201520201515151567201515152015202015152015202015202015202015151515672015151520152020151520152020152020152020151515156720151515201520201515201520201520201520201515151;CP=1;R=21;"
     }
   ]
 },
 {"name":"Opus_XT300", "id":"50", "data": [
     {
-      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "repeat":"1", "user":"sidey",
+      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey",
       "internals": {"DEF":"SD_WS_50_SM_1", "NAME":"SD_WS_50_SM_1"},
       "readings": {"state":"T: 25 H: 5", "channel":"1", "humidity":"5", "temperature":"25", "type":"XT300"},
       "rmsg":"MU;P0=248;P1=-21400;P2=545;P3=-925;P4=1368;P5=-12308;D=01232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343;CP=2;O;"
@@ -529,7 +529,7 @@
 },
 {"name":"TFA 30.3208.0", "id":"58", "data": [
     {
-      "dmsg":"W58#45C8142445DB0", "repeat":"2", "user":"Ralf9",
+      "dmsg":"W58#45C8142445DB0", "dispatch_repeats":"2", "user":"Ralf9",
       "internals": {"DEF":"SD_WS_58_TH_2", "NAME":"SD_WS_58_TH_2"},
       "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2", "humidity":"69", "temperature":"18.9", "type":"TFA 30.3208.0"},
       "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
@@ -580,7 +580,7 @@
 },
 {"name":"Clarus_Switch", "id":"62", "data": [
     {
-      "dmsg":"i415703", "comment":"Unknown code i415703, help me! (ID 32,63 additionally)", "repeat":"3", "user":"SD_Protocol",
+      "dmsg":"i415703", "comment":"Unknown code i415703, help me! (ID 32,63 additionally)", "dispatch_repeats":"3", "user":"SD_Protocol",
       "readings": {"state":"must be added"},
       "rmsg":"MU;P0=-5893;P4=-634;P5=498;P6=-257;P7=116;D=45656567474747474745656707456747474747456745674567456565674747474747456567074567474747474567456745674565656747474747474565670745674747474745674567456745656567474747474745656707456747474747456745674567456565674747474747456567074567474747474567456745674567;CP=7;O;"
     }
@@ -588,7 +588,7 @@
 },
 {"name":"WS7035", "id":"66", "data": [
     {
-      "dmsg":"TXA08473273C", "comment":"Remote temp transmitter model 7035 (TX2 Protocol)", "repeat":"1", "user":"elektron-bbs",
+      "dmsg":"TXA08473273C", "comment":"Remote temp transmitter model 7035 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"66", "NAME":"CUL_TX_66"},
       "readings": {"state":"T: 23.2", "temperature":"23.2"},
       "rmsg":"MU;P0=13312;P1=-2785;P2=4985;P3=1124;P4=-6442;P5=3181;P6=-31980;D=0121345434545454545434545454543454545434343454543434545434545454545454343434545434343434545621213454345454545454345454545434545454343434545434345454345454545454543434345454343434345456212134543454545454543454545454345454543434345454343454543454545454545;CP=3;R=73;O;"
@@ -606,7 +606,7 @@
 },
 {"name":"WS7053", "id":"67", "data": [
     {
-      "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "repeat":"1", "user":"elektron-bbs",
+      "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"72", "NAME":"CUL_TX_72"},
       "readings": {"state":"T: 26.0", "temperature":"26.0"},
       "rmsg":"MU;P0=3381;P1=-672;P2=-4628;P3=1142;P4=-30768;D=010232023202020202023202023202020232023232320232320202020202020202040102320232020202020232020232020202320232323202323202020202020202020;CP=0;R=45;"
@@ -639,7 +639,7 @@
 },
 {"name":"HS1-868-BS", "id":"69", "data": [
     {
-      "dmsg":"P69#00F62A9C01C", "comment":"(ID 8,63 additionally)", "repeat":"1", "user":"SD_Protocol",
+      "dmsg":"P69#00F62A9C01C", "comment":"(ID 8,63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"HS1_868_BS F62A9C01C", "NAME":"HS1_868_BS_F62A9C01C"},
       "readings": {"state":"receive", "deviceCode":"1111011000101010100111000000"},
       "attributes": {"model":"HS1_868_BS"},
@@ -649,7 +649,7 @@
 },
 {"name":"HSM4", "id":"69", "data": [
     {
-      "dmsg":"P69#00E6BE9107C", "comment":"(ID 8,63 additionally)", "repeat":"1", "user":"SD_Protocol",
+      "dmsg":"P69#00E6BE9107C", "comment":"(ID 8,63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"HSM4 E6BE910", "NAME":"HSM4_E6BE910"},
       "readings": {"state":"button_1", "deviceCode":"1110011010111110100100010000"},
       "attributes": {"model":"HSM4"},
@@ -716,7 +716,7 @@
 },
 {"name":"FS20 S8-2", "id":"74", "data": [
     {
-      "dmsg":"810b04f70101a001CF4B010011", "repeat":"2", "user":"pejonp",
+      "dmsg":"810b04f70101a001CF4B010011", "dispatch_repeats":"2", "user":"pejonp",
       "internals": {"DEF":"cf4b 01", "NAME":"FS20_cf4b01"},
       "readings": {"state":"on"},
       "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
@@ -751,13 +751,13 @@
 },
 {"name":"HX 70372", "id":"79", "data": [
     {
-      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"8", "user":"Holger-Arnold",
+      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "dispatch_repeats":"8", "user":"Holger-Arnold",
       "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
     },
     {
-      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "repeat":"7", "user":"Holger-Arnold",
+      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "dispatch_repeats":"7", "user":"Holger-Arnold",
       "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
@@ -775,7 +775,7 @@
 },
 {"name":"SA-434-1 mini", "id":"81", "data": [
     {
-      "dmsg":"P81#604", "comment":"(ID 63,86 additionally)", "repeat":"1", "user":"HomeAuto_User",
+      "dmsg":"P81#604", "comment":"(ID 63,86 additionally)", "dispatch_repeats":"1", "user":"HomeAuto_User",
       "internals": {"DEF":"SA_434_1_mini 604", "NAME":"SA_434_1_mini_604"},
       "readings": {"state":"receive"},
       "attributes": {"model":"SA_434_1_mini"},
@@ -785,7 +785,7 @@
 },
 {"name":"RH787T", "id":"83", "data": [
     {
-      "dmsg":"P83#077", "comment":"example Westinghouse Deckenventilator Delancey (ID 30 additionally)", "repeat":"7", "user":"zwiebelxxl",
+      "dmsg":"P83#077", "comment":"example Westinghouse Deckenventilator Delancey (ID 30 additionally)", "dispatch_repeats":"7", "user":"zwiebelxxl",
       "internals": {"DEF":"RH787T 0", "NAME":"RH787T_0"},
       "readings": {"state":"1_fan_minimum_speed", "deviceCode":"0000 (on|on|on|on)"},
       "attributes": {"model":"RH787T"},
@@ -975,7 +975,7 @@
 },
 {"name":"MD-2018R", "id":"91", "data": [
     {
-      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration (ID 63 additionally)", "repeat":"1", "user":"Harst",
+      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration (ID 63 additionally)", "dispatch_repeats":"1", "user":"Harst",
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
@@ -1065,14 +1065,14 @@
       "rmsg":"MU;P0=-972;P1=526;P2=-335;P3=-666;D=01213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131;CP=1;R=44;O;"
     },
     {
-      "dmsg":"P95#7709F5DE11EE0", "comment":"Garden Lights remote control", "repeat":"1", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE11EE0", "comment":"Garden Lights remote control", "dispatch_repeats":"1", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_5_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
       "rmsg":"MU;P0=-651;P1=530;P2=-345;P3=-969;D=01212121312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212101312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212121312101010121010101212121210121210101010101;CP=1;R=24;O;"
     },
     {
-      "dmsg":"P95#7709F5DE02FD0", "comment":"Garden Lights remote control (ID 63 additionally)", "repeat":"1", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE02FD0", "comment":"Garden Lights remote control (ID 63 additionally)", "dispatch_repeats":"1", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_8_off", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
