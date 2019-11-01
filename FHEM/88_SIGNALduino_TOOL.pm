@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-10-31 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-11-01 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -862,9 +862,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				print SaveDoc "]\n";
 			close(SaveDoc);
 
-			delete $hash->{dispatchDevice} if (defined);
-			delete $hash->{dispatchDeviceTime} if (defined);
-			delete $hash->{dispatchSTATE} if (defined);
+			SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
 
 			return "your file SD_ProtocolList.json are saved";
 		}
@@ -1057,8 +1055,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		## not correct dispatchDevice dispatchSTATE if more protocols ##
 		if ( (ReadingsVal($name, "message_to_module", "0") =~ /^\d+$/) && (ReadingsVal($name, "message_to_module", "0") > 1) ) {
 			Log3 $name, 4, "$name: Set $cmd - Internals not right | more than one decoded_Protocol_ID";
-			delete $hash->{dispatchDevice} if ($hash->{dispatchDevice});
-			delete $hash->{dispatchSTATE} if ($hash->{dispatchSTATE});
+			SIGNALduino_TOOL_deleteInternals($hash,"dispatchDevice,dispatchSTATE");
 		}
 
 		delete $hash->{helper}->{option} if ($hash->{helper}->{option});
