@@ -1,15 +1,26 @@
 dist: xenial
+language: perl
+perl:
+- '5.26@cover'
 env:
   global: 
     secure: DX0VaaEKL1Fo3KsewnOudb93VO1zkh0VFUOhCETv6OSauuENJIVZshZQMOWY+1saskuW9XS3sjbWcpc9tNKF0d8tWNHQl6/OvheAbJfk1T3h00aDHpAa5Xa/6HQmv0cVR1mSu9AwHO9wMlmBPd6z9DgxGHAytx8kJGGNPbohgjPwlv7dFXSpsh6BLUdl43f6G1ZF0DhaQJ2q0iRn/odo35F6ELalzIaRktt1gbw81yw7IsAelGpKweC9PIzgVRv8ddvv+gTKMXrCYogf7c/VsN2/Urid2gRflM/gi9GPx5XwksaCBVLQf3YQEVaePixxdoXmBp5a519I03XyTkL4VVmMvLJ1j5KtjoVQB4jI5OM0qbYQeSprzoDOJY00RdF1PalY8Gqq/yJbXyCGNlyg88bwWHzFWYPoUVFKPqKjeTJcS5XNKrA8WZ6K3xJEBJuC8OzSIqj7E858H3Ky/wpoPZ/5/yD40Yd7NYhcQ6hg86DvQdr9/UsCrz8Ozk2tcOGVaNXqpjks2u9miirKXDa1JFIKRIxsLSifUP7MpgHAXvYOOzZEfyGMz8sJ53Ryybxcm84EmxS0Up2L7A+nBVlbh8PV4ADaVWu0luY/bVs0OwannnMXUD0QW7vlrL98zSZN74tE3R9FhQN7awltk3azyCUHk57PyFC4vXGPatbasJM=
+cache:
+   directories:
+      - $HOME/perl5
 git:
   depth: false
 before_install:
+- eval $(curl https://travis-perl.github.io/init) --perl --always-upgrade-modules
 - git config --global user.email "travis@travis-ci.org"
 - git config --global user.name "Travis CI"
 - git config --global push.default simple
 - git remote set-url origin https://${GH_API_KEY}@github.com/RFD-FHEM/SIGNALduino_TOOL.git
-script:
+install:
+ - cpanm Test2::Suite JSON --notest 
+script: 
+- prove -lr --ext=.pl t
+after_success:
 - ./build_controls_list.sh
 - git commit -m "Travis automatic update controls file. Build (${TRAVIS_BUILD_NUMBER})
   [skip ci]" ./controls_SD_TOOL.txt || true
