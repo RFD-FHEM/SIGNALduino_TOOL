@@ -29,7 +29,7 @@ BEGIN {
  
 
 ###
-###  Tests könnten vermutlich mittels "Array Builder" auf korrekten Syntax vereinfacht werden
+###  Tests koennten vermutlich mittels "Array Builder" auf korrekten Syntax vereinfacht werden
 ###  https://metacpan.org/pod/Test2::Tools::Compare#ARRAY-BUILDER
 ###
 for (my $i=0;$i<@{$ProtocolListRead};$i++) {
