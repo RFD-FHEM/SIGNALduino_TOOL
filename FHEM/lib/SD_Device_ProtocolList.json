@@ -1080,40 +1080,6 @@
     }
   ]
 },
-{"name":"SD_BELL_024DB5", "id":"96", "data": [
-    {
-      "dmsg":"P96#47024DB54B", "comment":"Grothe_Mistral_SE_01", "user":"elektron-bbs",
-      "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
-      "readings": {"state":"ring"},
-      "attributes": {"model":"Grothe_Mistral_SE_01"},
-      "rmsg":"MC;LL=-409;LH=448;SL=-172;SH=262;D=238126DAA58;C=215;L=41;R=238;"
-    },
-    {
-      "dmsg":"P96#47824DB5CB", "comment":"Grothe_Mistral_SE_01", "user":"elektron-bbs",
-      "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
-      "readings": {"state":"Alarm"},
-      "attributes": {"model":"Grothe_Mistral_SE_01"},
-      "rmsg":"MC;LL=-415;LH=454;SL=-200;SH=226;D=23C126DAE58;C=215;L=41;R=246;"
-    }
-  ]
-},
-{"name":"SD_BELL_104762", "id":"96", "data": [
-    {
-      "dmsg":"P96#47104762003F", "comment":"Grothe_Mistral_SE_03", "user":"elektron-bbs",
-      "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
-      "readings": {"state":"ring", "batteryState":"ok"},
-      "attributes": {"model":"Grothe_Mistral_SE_03"},
-      "rmsg":"MC;LL=-439;LH=419;SL=-221;SH=212;D=238823B1001F8;C=215;L=49;R=69;"
-    },
-    {
-      "dmsg":"P96#47904762803F", "comment":"Grothe_Mistral_SE_03", "user":"elektron-bbs",
-      "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
-      "readings": {"state":"Alarm", "batteryState":"ok"},
-      "attributes": {"model":"Grothe_Mistral_SE_03"},
-      "rmsg":"MC;LL=-430;LH=418;SL=-216;SH=226;D=23C823B1401F8;C=214;L=49;R=53;"
-    }
-  ]
-},
 {"name":"", "id":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
