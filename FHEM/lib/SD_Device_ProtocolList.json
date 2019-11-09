@@ -518,6 +518,30 @@
     }
   ]
 },
+{"name":"SD_WS_53_TH_1", "id":"53", "data": [
+    {
+      "dmsg":"W53#0700DF7A4E0", "comment":"Lidl AURIOL AHFL 433 B2 IAN 314695", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_53_TH_1", "NAME":"SD_WS_53_TH_1"},
+      "readings": {"state":"T: 22.3 H: 61", "batteryState":"ok", "channel":"1", "humidity":"61", "temperature":"22.3", "type":"Auriol IAN 314695"},
+      "rmsg":"MS;P1=608;P2=-2074;P3=-4138;P4=-9138;D=14121212121213131312121212121212121313121313131313121313131312131212131212131313121212;CP=1;SP=4;R=0;O;m1;"
+    },
+    {
+      "dmsg":"W53#0700F2764A4", "comment":"Lidl AURIOL AHFL 433 B2 IAN 314695", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_53_TH_1", "NAME":"SD_WS_53_TH_1"},
+      "readings": {"state":"T: 24.2 H: 59", "batteryState":"ok", "channel":"1", "humidity":"59", "temperature":"24.2", "type":"Auriol IAN 314695"},
+      "rmsg":"MS;P1=611;P2=-2075;P3=-4160;P4=-9134;D=14121212121213131312121212121212121313131312121312121313131213131212131212131213121213;CP=1;SP=4;R=0;O;m2;"
+    }
+  ]
+},
+{"name":"SD_WS_53_TH_2", "id":"53", "data": [
+    {
+      "dmsg":"W53#0710B88C4CC", "comment":"Lidl AURIOL AHFL 433 B2 IAN 314695", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_53_TH_2", "NAME":"SD_WS_53_TH_2"},
+      "readings": {"state":"T: 18.4 H: 70", "batteryState":"ok", "channel":"2", "humidity":"70", "temperature":"18.4", "type":"Auriol IAN 314695"},
+      "rmsg":"MS;P0=606;P1=-2075;P2=-4136;P3=-9066;D=03010101010102020201010102010101010201020202010101020101010202010101020101020201010202;CP=0;SP=3;R=0;O;m2;"
+    }
+  ]
+},
 {"name":"m-e doorbell", "id":"57", "data": [
     {
       "dmsg":"P57#2AA4A7", "comment":"radio gong transmitter for FG- and Basic-Serie", "user":"rippi46",
