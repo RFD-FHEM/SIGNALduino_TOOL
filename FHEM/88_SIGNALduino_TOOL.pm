@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-11-01 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-11-11 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -182,7 +182,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	my $cnt_loop = 0;																						# Counter for numbre of setLoop
 	my $file = AttrVal($name,"Filename_input","");							# Filename
 	my $messageNumber = AttrVal($name,"MessageNumber",0);				# MessageNumber
-	my $path = AttrVal($name,"Path","./");											# Path | # Path if not define
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");					# Path | # Path if not define
 	my $string1pos = AttrVal($name,"StartString","");						# String to find Pos
 	my $userattr = AttrVal($name,"userattr","-");								# userattr value
 	my $webCmd = AttrVal($name,"webCmd","");										# webCmd value from attr
@@ -381,14 +381,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (MessageNumber) !!! <<<-- #####" if ($count1 == 0 && $messageNumber != 0);
 
 						my $string = $content[$count1];
-						$string =~ s/[^A-Za-z0-9\-;=]//g;;			# nur zulässige Zeichen erlauben
+						$string =~ s/[^A-Za-z0-9\-;=#]//g;;			# nur zulässige Zeichen erlauben
 
 						my $pos = index($string,$string1pos);		# check string welcher gesucht wird
 						my $pos2 = index($string,"D=");					# check string D= exists
 						my $pos3 = index($string,"D=;");				# string D=; for check ERROR Input
 						my $lastpos = substr($string,-1);				# for check END of line;
 
-						if ((index($string,("MU;")) >= 0 ) or (index($string,("MS;")) >= 0 ) or (index($string,("MC;")) >= 0 )) {
+						if (index($string,($string1pos)) >= 0 && substr($string,0,1) ne "#") { # All lines with # are skipped!
 							$count2++;
 							Log3 $name, 4, "$name: readed Line ($count2) | $content[$count1]"." |END|";																		# Ausgabe
 							Log3 $name, 5, "$name: Zeile ".($count1+1)." Poscheck string1pos=$pos D=$pos2 D=;=$pos3 lastpos=$lastpos";		# Ausgabe
@@ -1077,7 +1077,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my $Filename_input = AttrVal($name,"Filename_input","");				# Filename
 	my $Filename_export = AttrVal($name,"Filename_export","");			# Filename for export
 	my $webCmd = AttrVal($name,"webCmd","");												# webCmd value from attr
-	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");							# Path | # Path if not define
 	my $onlyDataName = "-ONLY_DATA-";
 	my $list = "TimingsList:noArg Durration_of_Message invert_bitMsg invert_hexMsg change_bin_to_hex change_hex_to_bin change_dec_to_hex change_hex_to_dec reverse_Input "
 						."ProtocolList_from_file_SD_ProtocolData.pm:noArg ProtocolList_from_file_SD_Device_ProtocolList.json:noArg search_disable_Devices:noArg search_ignore_Devices:noArg ";
@@ -1782,7 +1782,7 @@ sub SIGNALduino_TOOL_Attr() {
 	my $typ = $hash->{TYPE};
 	my $webCmd = AttrVal($name,"webCmd","");										# webCmd value from attr
 	my $cmdIcon = AttrVal($name,"cmdIcon","");									# webCmd value from attr
-	my $path = AttrVal($name,"Path","./");											# Path | # Path if not define
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");					# Path | # Path if not define
 	my $Filename_input = AttrVal($name,"Filename_input","");
 	my $DispatchModule = AttrVal($name,"DispatchModule","-");		# DispatchModule List
 	my @Zeilen = ();
@@ -2821,7 +2821,7 @@ sub SIGNALduino_TOOL_by_numbre {
 ################################
 sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	my $name = shift;
-	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");							# Path | # Path if not define
 	my $Dummyname = AttrVal($name,"Dummyname","none");							# Dummyname
 	my $DispatchModule = AttrVal($name,"DispatchModule","-");				# DispatchModule List
 	my $ret;
@@ -2901,7 +2901,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 ################################
 sub SIGNALduino_TOOL_FW_SD_ProtocolData_Info {
 	my $name = shift;
-	my $path = AttrVal($name,"Path","./");													# Path | # Path if not define
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");								# Path | # Path if not define
 	my $ret;
 
 	Log3 $name, 4, "$name: FW_SD_ProtocolData_Info is running";
@@ -3189,7 +3189,9 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	<ul><li><code>Display doc SD_ProtocolData.pm</code> - displays all read information from the SD_ProtocolData.pm file with the option to dispatch it</a></ul>
 	<ul><li><code>Display Information all Protocols</code> - displays an overview of all protocols</a></ul>
 	<ul><li><code>Display readed SD_ProtocolList.json</code> -  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></ul>
-	<ul><li><code>Check it</code> - after a successful dispatch, this item appears to compare the sensor data with the JSON information</a></ul>
+	<ul><li><code>Check it</code> - after a successful dispatch, this item appears to compare the sensor data with the JSON information<br>
+	<small><u>note:</u></small> Only if a protocol number appears in Reading <code>decoded_Protocol_ID</code> then the dispatch is to be clearly assigned.<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If there are several values ​​in the reading, the point <code>Check it</code> does not appear! In that case please deactivate the redundant IDs and use again.</a></ul>
 	<br><br>
 	
 	<b>Attributes</b>
@@ -3217,7 +3219,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 		Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>START</code>!)</li>
 		<li><a name="Path">Path</a><br>
 			Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined Filename_export - file<br>
-			&emsp; <u>note:</u> default is ./ if the attribute not set, which corresponds to the root directory FHEM</li>
+			&emsp; <u>note:</u> default is ./FHEM/SD_TOOL/ if the attribute not set.</li>
 		<li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
 			Memory 1 for a raw message</li>
 		<li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
@@ -3307,7 +3309,9 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	<ul><li><code>Display doc SD_ProtocolData.pm</code> - zeigt alle ausgelesenen Informationen aus der SD_ProtocolData.pm Datei an mit der Option, diese zu Dispatchen</a></ul>
 	<ul><li><code>Display Information all Protocols</code> - zeigt eine Gesamtübersicht der Protokolle an</a></ul>
 	<ul><li><code>Display readed SD_ProtocolList.json</code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></ul>
-	<ul><li><code>Check it</code> - nach einem erfolgreichen Dispatch erscheint dieser Punkt um die Sensordaten mit den JSON Informationen zu vergleichen</a></ul>
+	<ul><li><code>Check it</code> - nach einem erfolgreichen und eindeutigen Dispatch erscheint dieser Punkt um die Sensordaten mit den JSON Informationen zu vergleichen<br>
+	<small><u>Hinweis:</u></small> Nur wenn im Reading <code>decoded_Protocol_ID</code> eine Protokollnummer erscheint, so ist der Dispatch eindeutig zuzuordnen.<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sollten mehrere Werte in dem Reading stehen, so erscheint der Punkt <code>Check it</code> NICHT! In dem Fall deaktivieren Sie bitte die &uuml;berflüssigen ID´s und dispatchen Sie erneut.</a></ul>
 	<br><br>
 	
 	<b>Attributes</b>
@@ -3336,7 +3340,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 			<a name="MessageNumberEnd"></a>
 		<li><a name="Path">Path</a><br>
 			Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte Filename_export - Datei<br>
-			&emsp; <u>Hinweis:</u> Standard ist ./ wenn das Attribut nicht gesetzt wurde, was dem Stammverzeichnis FHEM entspricht</li>
+			&emsp; <u>Hinweis:</u> Standard ist ./FHEM/SD_TOOL/ wenn das Attribut nicht gesetzt wurde.</li>
 		<li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
 			Speicherplatz 1 für eine Roh-Nachricht</li>
 		<li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
