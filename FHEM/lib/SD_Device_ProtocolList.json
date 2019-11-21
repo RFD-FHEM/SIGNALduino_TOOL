@@ -495,14 +495,14 @@
 },
 {"name":"Tedsen_SKXxxx", "id":"46", "data": [
     {
-      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "model":"Tedsen_SKX2xx", "dispatch_repeats":"1", "user":"drhirn",
+      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "dispatch_repeats":"1", "model":"Tedsen_SKX2xx", "user":"drhirn",
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
       "attributes": {"model":"Tedsen_SKX2xx"},
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
-      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "model":"TEDSEN_SKX6xx", "dispatch_repeats":"5", "user":"self_build",
+      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"5", "model":"TEDSEN_SKX6xx", "user":"self_build",
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
       "attributes": {"model":"Tedsen_SKX6xx"},
@@ -535,24 +535,24 @@
     }
   ]
 },
-{"name":"SD_WS_53_TH_1", "id":"53", "data": [
+{"name":"AURIOL AHFL 433 B2", "id":"53", "data": [
     {
-      "dmsg":"W53#0700DF7A4E0", "comment":"Lidl AURIOL AHFL 433 B2 IAN 314695", "user":"elektron-bbs",
+      "dmsg":"W53#0700DF7A4E0", "comment":"CH1, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_53_TH_1", "NAME":"SD_WS_53_TH_1"},
       "readings": {"state":"T: 22.3 H: 61", "batteryState":"ok", "channel":"1", "humidity":"61", "temperature":"22.3", "type":"Auriol IAN 314695"},
       "rmsg":"MS;P1=608;P2=-2074;P3=-4138;P4=-9138;D=14121212121213131312121212121212121313121313131313121313131312131212131212131313121212;CP=1;SP=4;R=0;O;m1;"
     },
     {
-      "dmsg":"W53#0700F2764A4", "comment":"Lidl AURIOL AHFL 433 B2 IAN 314695", "user":"elektron-bbs",
+      "dmsg":"W53#0700F2764A4", "comment":"CH1, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_53_TH_1", "NAME":"SD_WS_53_TH_1"},
       "readings": {"state":"T: 24.2 H: 59", "batteryState":"ok", "channel":"1", "humidity":"59", "temperature":"24.2", "type":"Auriol IAN 314695"},
       "rmsg":"MS;P1=611;P2=-2075;P3=-4160;P4=-9134;D=14121212121213131312121212121212121313131312121312121313131213131212131212131213121213;CP=1;SP=4;R=0;O;m2;"
     }
   ]
 },
-{"name":"SD_WS_53_TH_2", "id":"53", "data": [
+{"name":"AURIOL AHFL 433 B2", "id":"53", "data": [
     {
-      "dmsg":"W53#0710B88C4CC", "comment":"Lidl AURIOL AHFL 433 B2 IAN 314695", "user":"elektron-bbs",
+      "dmsg":"W53#0710B88C4CC", "comment":"CH2, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_53_TH_2", "NAME":"SD_WS_53_TH_2"},
       "readings": {"state":"T: 18.4 H: 70", "batteryState":"ok", "channel":"2", "humidity":"70", "temperature":"18.4", "type":"Auriol IAN 314695"},
       "rmsg":"MS;P0=606;P1=-2075;P2=-4136;P3=-9066;D=03010101010102020201010102010101010201020202010101020101010202010101020101020201010202;CP=0;SP=3;R=0;O;m2;"
@@ -792,13 +792,13 @@
 },
 {"name":"HX 70372", "id":"79", "data": [
     {
-      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "dispatch_repeats":"8", "user":"Holger-Arnold",
+      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"8", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "user":"Holger-Arnold",
       "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
     },
     {
-      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "dispatch_repeats":"7", "user":"Holger-Arnold",
+      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "dispatch_repeats":"7", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "user":"Holger-Arnold",
       "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
@@ -1066,31 +1066,31 @@
 },
 {"name":"Atech", "id":"94", "data": [
     {
-      "dmsg":"W94#0D830661B366C", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
+      "dmsg":"W94#0D830661B366C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: -14.6", "temperature":"-14.6", "type":"Atech"},
       "rmsg":"MU;P0=-32001;P1=1525;P2=-303;P3=-7612;P4=-2008;D=01212121212121213141414141212141212141414141412121414141414121214141212141414141212141212141412121412121414121214121;CP=1;"
     },
     {
-      "dmsg":"W94#0D830018CCC", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
+      "dmsg":"W94#0D830018CCC", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: -0.4", "temperature":"-0.4", "type":"Atech"},
       "rmsg":"MU;P0=-32001;P1=1533;P2=-297;P3=-7612;P4=-2005;D=0121212121212121314141414121214121214141414141212141414141414141414141412121414141212141412121414121;CP=1;"
     },
     {
-      "dmsg":"W94#0D8000336CC", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
+      "dmsg":"W94#0D8000336CC", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 0.2", "temperature":"0.2", "type":"Atech"},
       "rmsg":"MU;P0=-32001;P1=1532;P2=-299;P3=-7608;P4=-2005;D=0121212121212121314141414121214121214141414141414141414141414141414141212141412121412121412121414121;CP=1;"
     },
     {
-      "dmsg":"W94#0D80180CDB6C", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
+      "dmsg":"W94#0D80180CDB6C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "dispatch_repeats":"1", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 10.2", "temperature":"10.2", "type":"Atech"},
       "rmsg":"MU;P0=-31292;P1=1529;P2=-300;P3=-7610;P4=-2009;D=012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121;CP=1;"
     },
     {
-      "dmsg":"W94#0D8031B60C6C", "comment":"Temp sensor Id: 0C", "user":"Kreidler1221",
+      "dmsg":"W94#0D8031B60C6C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "dispatch_repeats":"1", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 27", "temperature":"27", "type":"Atech"},
       "rmsg":"MU;P0=-31290;P1=1533;P2=-297;P3=-7608;P4=-2006;D=012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121;CP=1;"
@@ -1121,16 +1121,16 @@
     }
   ]
 },
-{"name":"SD_BELL_024DB5", "id":"96", "data": [
+{"name":"Grothe_Mistral_SE_01", "id":"96", "data": [
     {
-      "dmsg":"P96#47024DB54B", "comment":"Grothe_Mistral_SE_01", "user":"elektron-bbs",
+      "dmsg":"P96#47024DB54B", "comment":"SD_BELL_024DB5", "user":"elektron-bbs",
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
       "rmsg":"MC;LL=-409;LH=448;SL=-172;SH=262;D=238126DAA58;C=215;L=41;R=238;"
     },
     {
-      "dmsg":"P96#47824DB5CB", "comment":"Grothe_Mistral_SE_01", "user":"elektron-bbs",
+      "dmsg":"P96#47824DB5CB", "comment":"SD_BELL_024DB5", "user":"elektron-bbs",
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"Alarm"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
@@ -1138,16 +1138,16 @@
     }
   ]
 },
-{"name":"SD_BELL_104762", "id":"96", "data": [
+{"name":"Grothe_Mistral_SE_03", "id":"96", "data": [
     {
-      "dmsg":"P96#47104762003F", "comment":"Grothe_Mistral_SE_03", "user":"elektron-bbs",
+      "dmsg":"P96#47104762003F", "comment":"SD_BELL_104762", "user":"elektron-bbs",
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"ring", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
       "rmsg":"MC;LL=-439;LH=419;SL=-221;SH=212;D=238823B1001F8;C=215;L=49;R=69;"
     },
     {
-      "dmsg":"P96#47904762803F", "comment":"Grothe_Mistral_SE_03", "user":"elektron-bbs",
+      "dmsg":"P96#47904762803F", "comment":"SD_BELL_104762", "user":"elektron-bbs",
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"Alarm", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
