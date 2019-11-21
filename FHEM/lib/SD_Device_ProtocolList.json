@@ -142,14 +142,17 @@
 },
 {"name":"AURIOL_174", "id":"6", "data": [
     {
-      "dmsg":"sAEFFE7F1A000", "comment":"14_CUL_TCM97001.pm is under development, no data available", "user":"elektron-bbs",
-      "readings": {},
-      "attributes": {"model":"AURIOL"},
+      "dmsg":"sAEFFE7F1A000", "comment":"14_CUL_TCM97001.pm is under development", "user":"elektron-bbs",
+      "internals": {"DEF":"CUL_TCM97001_174", "NAME":"AURIOL_174"},
+      "readings": {"state":"T: 22.9 H: 24", "battery":"ok", "batteryState":"ok", "humidity":"24", "mode":"normal", "temperature":"22.9", "trend":"falling"},
+      "attributes": {"model":"TCM218943"},
       "rmsg":"MS;P0=-970;P1=254;P3=-1983;P4=-8045;D=14101310131010101310101010101010101010101313101010101010101313131010131013;CP=1;SP=4;"
     },
     {
-      "dmsg":"sAEEFE8F1C000", "comment":"14_CUL_TCM97001.pm is under development, no data available", "user":"elektron-bbs",
-      "readings": {},
+      "dmsg":"sAEEFE8F1C000", "comment":"14_CUL_TCM97001.pm is under development", "user":"elektron-bbs",
+      "internals": {"DEF":"CUL_TCM97001_174", "NAME":"AURIOL_174"},
+      "readings": {"state":"T: 22.7 H: 23", "battery":"ok", "batteryState":"ok", "humidity":"23", "mode":"forced", "temperature":"22.7", "trend":"falling"},
+      "attributes": {"model":"TCM218943"},
       "rmsg":"MS;P0=-2054;P1=236;P2=-1032;P3=-7760;D=13121012101212121012121210121212121212121012101010121212121010101212121010;CP=1;SP=3;"
     }
   ]
