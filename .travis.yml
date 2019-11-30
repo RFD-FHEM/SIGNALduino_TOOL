@@ -20,9 +20,3 @@ install:
  - cpanm Test2::Suite JSON --notest 
 script: 
 - prove -lr --ext=.pl t
-after_success:
-- ./build_controls_list.sh
-- git commit -m "Travis automatic update controls file. Build (${TRAVIS_BUILD_NUMBER})
-  [skip ci]" ./controls_SD_TOOL.txt || true
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [[ $TRAVIS_JOB_NUMBER == *.1 ]]; then
-  git push origin HEAD:$TRAVIS_BRANCH ; fi
