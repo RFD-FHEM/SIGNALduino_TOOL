@@ -896,6 +896,30 @@
     }
   ]
 },
+{"name":"Novy 840029", "id":"86", "data": [
+    {
+      "dmsg":"P86#555", "comment":"(ID 63,81 additionally)", "user":"Garfonso",
+      "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
+      "readings": {"state":"speed_plus", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840029"},
+      "rmsg":"MU;P0=22808;P1=-24232;P2=701;P3=-765;P4=357;P5=-15970;P7=-406;D=012345472347234723472347234723454723472347234723472347234547234723472347234723472345472347234723472347234723454723472347234723472347234;CP=4;R=39;"
+    },
+    {
+      "dmsg":"P86#556", "comment":"(ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
+      "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
+      "readings": {"state":"speed_minus", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840029"},
+      "rmsg":"MU;P0=-8032;P1=364;P2=-398;P3=700;P4=-760;P5=-15980;D=0123412341234123412341412351234123412341234123414123512341234123412341234141235123412341234123412341412351234123412341234123414123;CP=1;R=40;"
+    },
+    {
+      "dmsg":"P86#5574C", "comment":"(ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
+      "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
+      "readings": {"state":"power_on_off", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840029"},
+      "rmsg":"MU;P0=-756;P1=718;P2=354;P3=-395;P4=-16056;D=01020202310231310202423102310231023102310202023102313102024231023102310231023102020231023131020242310231023102310231020202310231310202;CP=2;R=41;"
+    }
+  ]
+},
 {"name":"JaroLift TDRCT 04W", "id":"87", "data": [
     {
       "dmsg":"P87#ABBC9819000065F200", "comment":"encoded - 4Ch remote with serialEnd 00 (ID 88 additionally)", "user":"bismosa",

@@ -1,6 +1,6 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
-30.11.2019 - SD_Device_ProtocolList.json: - added KRINNER Lumix, CAME TOP 432EV
+30.11.2019 - SD_Device_ProtocolList.json: - added KRINNER Lumix, CAME TOP 432EV, Novy 840029
 01.11.2019 - 88_SIGNALduino_TOOL.pm: - added test, attribute path value exist or not exist
 31.10.2019 - 88_SIGNALduino_TOOL.pm: - added new sub´s SIGNALduino_TOOL_deleteReadings,SIGNALduino_TOOL_deleteInternals
                                      - category repeat rename to dispatch_repeats
