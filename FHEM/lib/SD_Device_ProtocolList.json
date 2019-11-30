@@ -879,6 +879,23 @@
     }
   ]
 },
+{"name":"CAME TOP 432EV", "id":"86", "data": [
+    {
+      "dmsg":"P86#EEE", "comment":"(ID 81 additionally)", "user":"andies, andreasloe",
+      "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
+      "readings": {"state":"left_button", "deviceCode":"11101110"},
+      "attributes": {"model":"CAME_TOP_432EV"},
+      "rmsg":"MU;P0=-322;P1=136;P2=-15241;P3=288;P4=-735;P6=723;D=0123434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430;CP=3;R=27;"
+    },
+    {
+      "dmsg":"P86#EED", "comment":"(ID 81 additionally)", "dispatch_repeats":"5", "user":"andies, andreasloe",
+      "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
+      "readings": {"state":"right_button", "deviceCode":"11101110"},
+      "attributes": {"model":"CAME_TOP_432EV"},
+      "rmsg":"MU;P0=-15281;P1=293;P2=-745;P3=-319;P4=703;P5=212;P6=152;P7=-428;D=01212121342121213421213421012121213421212134212134210121212134212121342121342101212121342121213421213421012121213421212134212134210121243134212121342121342101252526742121213425213421012121213421212134212134210121212134212;CP=1;R=23;"
+    }
+  ]
+},
 {"name":"JaroLift TDRCT 04W", "id":"87", "data": [
     {
       "dmsg":"P87#ABBC9819000065F200", "comment":"encoded - 4Ch remote with serialEnd 00 (ID 88 additionally)", "user":"bismosa",
