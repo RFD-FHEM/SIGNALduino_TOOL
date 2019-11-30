@@ -627,6 +627,15 @@
     }
   ]
 },
+{"name":"HomeEasy HE_EU", "id":"65", "data": [
+    {
+      "dmsg":"ihC78F366DC8F2E58000", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/230", "user":"unknown",
+      "internals": {"DEF":"1100011110001111001101100110110111001000111100 0 1001011", "NAME":"IT_11000111100011110011011001101101110010001111001001011"},
+      "readings": {"state":"on", "mode":"single", "protocol":"HE_EU", "unit":"1001011"},
+      "rmsg":"MS;P1=231;P2=-1336;P4=-312;P5=-8920;D=15121214141412121212141414121212121414121214121214141212141212141212121414121414141212121214141214121212141412141212;CP=1;SP=5;"
+    }
+  ]
+},
 {"name":"WS7035", "id":"66", "data": [
     {
       "dmsg":"TXA08473273C", "comment":"Remote temp transmitter model 7035 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
@@ -722,6 +731,24 @@
     }
   ]
 },
+{"name":"Siro shutter", "id":"72", "data": [
+    {
+      "dmsg":"P72#5B41708154", "comment":"decode as MU (ID 16,40 additionally)", "user":"Dr.Smag, Byte09",
+      "internals": {"DEF":"5B417081", "NAME":"Siro_5B417081"},
+      "readings": {"state":"notAvaible", "ActionTrigger":"remote", "batteryState":"unknown", "motor-term":"Function is not available without set runtime attribute, please define"},
+      "rmsg":"MU;P0=-760;P1=334;P2=693;P3=-399;P4=-8942;P5=4796;P6=-1540;D=01010102310232310101010102310232323101010102310101010101023102323102323102323102310101010102310232323101010102310101010101023102310231023102456102310232310232310231010101010231023232310101010231010101010102310231023102310245610231023231023231023101010101;CP=1;R=45;O;"
+    }
+  ]
+},
+{"name":"Siro shutter", "id":"72.1", "data": [
+    {
+      "dmsg":"P72#5B4170811E", "comment":"decode as MS", "user":"Dr.Smag",
+      "internals": {"DEF":"5B417081", "NAME":"Siro_5B417081"},
+      "readings": {"state":"0", "ActionTrigger":"remote", "BetweentActionTime":"57", "aktActionFinish":"0", "aktEndAction":"0", "aktRunningAction":"noAction", "aktTimeAction":"0", "batteryState":"unknown", "motor-term":"0", "pct":"0", "position":"0"},
+      "rmsg":"MS;P0=4803;P1=-1522;P2=333;P3=-769;P4=699;P5=-393;P6=-9190;D=2601234523454523454523452323232323452345454523232323452323232323234523232345454545;CP=2;SP=6;R=61;"
+    }
+  ]
+},
 {"name":"FHT80b", "id":"73", "data": [
     {
       "dmsg":"810c04xx0909a00117400000B600", "comment":"(ID 63 additionally)", "user":"HomeAuto_User",
@@ -802,6 +829,16 @@
       "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
+    }
+  ]
+},
+{"name":"HX 70372", "id":"79", "data": [
+    {
+      "dmsg":"P79#3FC", "comment":"(ID 63 additionally)", "dispatch_repeats":"6", "user":"rcmcronny",
+      "internals": {"DEF":"79 3FC", "NAME":"SD_BELL_3FC"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
+      "rmsg":"MU;P0=-421;P1=344;P2=-699;P4=659;P6=-5203;P7=259;D=1612121040404040404040421216121210404040404040404212161212104040404040404042121612121040404040404040421216121210404040404040404272761212104040404040404042121612121040404040404040421216121210404040404040404212167272104040404040404042721612127040404040404;CP=4;R=0;O;"
     }
   ]
 },
