@@ -1,7 +1,3 @@
-2019-12-01 - update.yml
-
-- use master branch of  fhem-controls-actions
-- commit controls and changed it if there was a change on json or pm files since last automatic commit
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
 30.11.2019 - SD_Device_ProtocolList.json: - added BOSCH SF01 01319004, KRINNER Lumix, CAME TOP 432EV, Novy 840029
