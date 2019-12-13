@@ -1826,7 +1826,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					$return = "CC110x_Register_comparison:\n- found $differences difference(s)\n\n";
 					$return.= "               old -> new , command\n";
 				}
-				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex($ccregnames[$i]) + $ccreg_offset).$CC110x_Register_new[$i];
+				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register_new[$i];
 			}
 		}
 
