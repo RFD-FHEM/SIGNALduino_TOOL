@@ -1,5 +1,6 @@
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
+13.12.2019 - 88_SIGNALduino_TOOL.pm: - added command CC110x_Register_comparison
 30.11.2019 - SD_Device_ProtocolList.json: - added BOSCH SF01 01319004, KRINNER Lumix, CAME TOP 432EV, Novy 840029
                                           - added HomeEasy HE_EU, Siro shutter, added new HX 70372
 01.11.2019 - 88_SIGNALduino_TOOL.pm: - added test, attribute path value exist or not exist

@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-11-11 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-13 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -12,6 +12,7 @@
 ######################################################################
 # Note´s
 # - check send RAWMSG from sender
+# - implement module with package
 ######################################################################
 
 package main;
@@ -87,7 +88,9 @@ sub SIGNALduino_TOOL_Initialize($) {
   $hash->{FW_detailFn}				= "SIGNALduino_TOOL_FW_Detail";
 	$hash->{FW_deviceOverview}	= 1;
 	$hash->{AttrList}						=	"disable Dummyname Filename_input Filename_export MessageNumber Path StartString:MU;,MC;,MS; DispatchMax comment"
-															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3 IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20 JSON_Check_exceptions JSON_write_ERRORs:no,yes";
+															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3 IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20"
+															." JSON_Check_exceptions JSON_write_ERRORs:no,yes"
+															." CC110x_Register_old:textField-long CC110x_Register_new:textField-long";
 }
 
 ################################
@@ -117,8 +120,8 @@ sub SIGNALduino_TOOL_Define($$) {
 		return "ERROR: You can use this TOOL only with a definded SIGNALduino!" if ($Device_count == 0);
 
 		### Attributes ###
-		$attr{$name}{room}		= "SIGNALduino_un" if ( not exists($attr{$name}{room}) );				# set room, if only undef --> new def
-		SIGNALduino_TOOL_add_cmdIcon($hash,"START:remotecontrol/black_btn_PS3Start Dispatch_RAWMSG_last:remotecontrol/black_btn_BACKDroid") if ( not exists($attr{$name}{cmdIcon}) );		# set Icon
+		CommandAttr($hash,"$name room SIGNALduino_un") if ( not exists($attr{$name}{room}) );				                                                                                   # set room, if only undef --> new def
+		SIGNALduino_TOOL_add_cmdIcon($hash,"START:remotecontrol/black_btn_PS3Start $NameDispatchSet"."last:remotecontrol/black_btn_BACKDroid") if ( not exists($attr{$name}{cmdIcon}) );  # set Icon
 
 		## set dummy - if system ONLY ONE dummy ##
 		if (not $attr{$name}{Dummyname}) {
@@ -128,7 +131,7 @@ sub SIGNALduino_TOOL_Define($$) {
 					push(@dummy,$d);
 				}
 			}
-			$attr{$name}{Dummyname} = $dummy[0] if (scalar(@dummy) == 1);
+			CommandAttr($hash,"$name Dummyname $dummy[0]") if (scalar(@dummy) == 1);
 		}
 	}
 
@@ -145,7 +148,7 @@ sub SIGNALduino_TOOL_Shutdown($$) {
 	my ($hash) = @_;
 	my $name = $hash->{NAME};
 
-	Log3 $name, 5, "$name: sub Shutdown are running!";
+	Log3 $name, 5, "$name: Shutdown are running!";
 	SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,line_read,message_dispatched,message_to_module,message_dispatch_repeats");
 
 	return undef;
@@ -191,14 +194,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 	my $setList = "";
 	$setList = $NameDispatchSet."DMSG ".$NameDispatchSet."RAWMSG"." delete_Device delete_unused_Logfiles:noArg delete_unused_Plots:noArg";
-	$setList .= " ".$NameDispatchSet."RAWMSG_last:noArg "  if ($RAWMSG_last ne "none");
+	$setList .= " ".$NameDispatchSet."last:noArg "  if ($RAWMSG_last ne "none" || $DMSG_last ne "none");
 	$setList .= " START:noArg" if (AttrVal($name,"Filename_input","") ne "");
 	$setList .= " RAWMSG_M1:noArg" if (AttrVal($name,"RAWMSG_M1","") ne "");
 	$setList .= " RAWMSG_M2:noArg" if (AttrVal($name,"RAWMSG_M2","") ne "");
 	$setList .= " RAWMSG_M3:noArg" if (AttrVal($name,"RAWMSG_M3","") ne "");
 	$setList .= " ".$NameSendSet."RAWMSG" if ($Sendername ne "none");
 
-	SIGNALduino_TOOL_delete_webCmd($hash,"Dispatch_RAWMSG_last") if (($RAWMSG_last eq "none" && $DMSG_last eq "none") && (AttrVal($name, "webCmd", undef) && (AttrVal($name, "webCmd", undef) =~ /$NameDispatchSet?RAWMSG_last/)));
+	SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."last") if (($RAWMSG_last eq "none" && $DMSG_last eq "none") && (AttrVal($name, "webCmd", undef) && (AttrVal($name, "webCmd", undef) =~ /$NameDispatchSet?last/)));
 
 	#### list userattr reload new ####
 	if ($cmd eq "?") {
@@ -225,20 +228,21 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		my $userattr_list = join(",", @modeltyp);																		        # sorted list of dispatch txt files
 		my $userattr_list_new = $userattr_list.",".$ProtocolList_setlist;										# list of all dispatch possibilities
 
-		my @userattr_list_new_unsorted = split(",", $userattr_list_new);										# array of all dispatch possibilities
-		my @userattr_list_new_sorted = sort { $a cmp $b } @userattr_list_new_unsorted;			# sorted list of all dispatch possibilities
+		my @userattr_list_new_array = split(",", $userattr_list_new);                       # array unsorted of all dispatch possibilities
+		@userattr_list_new_array = sort { $a cmp $b } @userattr_list_new_array;             # array sorted of all dispatch possibilities
 
 		$userattr_list_new = "DispatchModule:-";																						# attr value userattr
-		if (scalar(@userattr_list_new_sorted) != 0) {
+		if (scalar(@userattr_list_new_array) != 0) {
 			$userattr_list_new.= ",";
-			$userattr_list_new.= join( "," , @userattr_list_new_sorted );
+			$userattr_list_new.= join( "," , @userattr_list_new_array );
 		}
 		### END ###
 
-		$attr{$name}{userattr} = $userattr_list_new;
-		$attr{$name}{DispatchModule} = "-" if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && not $DispatchModule =~ /^.*\.txt$/);	# set DispatchModule to standard
+		## attributes automatic to standard or new value ##
+		$attr{$name}{userattr} = $userattr_list_new if ( (not exists $attr{$name}{userattr}) || ($userattr ne $userattr_list_new) );
+		$attr{$name}{DispatchModule} = "-" if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && not $DispatchModule =~ /^.*\.txt$/);
 
-		delete $hash->{dispatchOption} if (!$ProtocolListRead && !@ProtocolList && $cmd !~ //);
+		SIGNALduino_TOOL_deleteInternals($hash,"dispatchOption") if (!$ProtocolListRead && !@ProtocolList && $cmd !~ //);
 
 		if ($DispatchModule ne "-") {
 			my $count = 0;
@@ -434,7 +438,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		}
 
 		### BUTTON - letzte message benutzen ###
-		if ($cmd eq $NameDispatchSet."RAWMSG_last") {
+		if ($cmd eq $NameDispatchSet."last") {
 			Log3 $name, 4, "$name: Set $cmd - check (2) -> BUTTON last";
 			###	DMSG - letzte DMSG_last benutzen, da webCmd auf RAWMSG_last gesetzt
 			if ($DMSG_last ne "none" && $RAWMSG_last eq "none") {
@@ -445,8 +449,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 				## to start notify loop ##
 				if ( (not exists($attr{$name}{disable})) || $attr{$name}{disable} ne "0" ) {
+					CommandAttr($hash,"$name disable 0");				                  # Every change creates an event for fhem.save
 					Log3 $name, 4, "$name: Set $cmd - set attribute disable to 0";
-					$attr{$name}{disable} = "0";			
 				}
 			### RAMSGs
 			} else {
@@ -584,8 +588,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			## to start notify loop ##
 			if ( (not exists($attr{$name}{disable})) || ((time() - $DummyTime) > 2) ) {
+				CommandAttr($hash,"$name disable 0");				                  # Every change creates an event for fhem.save
 				Log3 $name, 4, "$name: Set $cmd - set attribute disable to 0";
-				$attr{$name}{disable} = "0" ;			
+			}
+
+			### set attribut for events in dummy
+			if (AttrVal($Dummyname,"eventlogging","none") eq "none" || AttrVal($Dummyname,"eventlogging","none") == 0) {
+				CommandAttr($hash,"$Dummyname eventlogging 1");				        # Every change creates an event for fhem.save
+				Log3 $name, 4, "$name: Set $cmd - set attribute eventlogging to 1";
 			}
 
 			Log3 $name, 4, "$name: get $Dummyname raw $msg" if (defined $a[1]);
@@ -1048,8 +1058,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 		## to end notify loop ##
 		if ( (not exists($attr{$name}{disable})) || $attr{$name}{disable} ne "1" ) {
+			CommandAttr($hash,"$name disable 1");				                  # Every change creates an event for fhem.save
 			Log3 $name, 4, "$name: Set attribute disable to 1 for Notify";
-			$attr{$name}{disable} = "1";			
 		}
 
 		## not correct dispatchDevice dispatchSTATE if more protocols ##
@@ -1062,7 +1072,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 		if (($RAWMSG_last ne "none" || $DMSG_last ne "none") && $cmd ne "?") {
 			Log3 $name, 4, "$name: Set $cmd - check (last)";
-			SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet."RAWMSG_last");
+			SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet."last");
 		}
 
 		return;
@@ -1085,6 +1095,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					"InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
 					"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg " if ($Filename_input ne "");
 	$list .= "Github_device_documentation_for_README:noArg " if ($ProtocolListRead);
+	$list .= "CC110x_Register_comparison:noArg " if (AttrVal($name,"CC110x_Register_old", undef) && AttrVal($name,"CC110x_Register_new", undef));
 	my $linecount = 0;
 	my $founded = 0;
 	my $search = "";
@@ -1094,7 +1105,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	if ($cmd ne "?") {
 		SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,message_to_module,message_dispatched,message_dispatch_repeats,line_read");
 		SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchOption,dispatchSTATE");
-		SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."RAWMSG_last");
+		SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."last");
 	}
 
 	## create one list in csv format to import in other program ##
@@ -1772,6 +1783,56 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return $return;
 	}
 
+	## compares 2 CC110x registers (SIGNALduino short format) ##
+	if ($cmd eq "CC110x_Register_comparison") {	
+		my $CC110x_Register_old = AttrVal($name,"CC110x_Register_old","");			# Register default
+		my $CC110x_Register_new = AttrVal($name,"CC110x_Register_new","");			# Register new wanted
+		my $return = "The two registers have no differences.";
+
+		return "ERROR: your CC110x_Register_old start now with text ccreg 00:" if ($CC110x_Register_old !~ /^ccreg\s00:\s/);
+		return "ERROR: your CC110x_Register_new start now with text ccreg 00:" if ($CC110x_Register_new !~ /^ccreg\s00:\s/);
+
+		$CC110x_Register_old =~ s/ccreg\s\d0:\s|\s+$//g;
+		$CC110x_Register_old =~ s/\n/ /g;
+		$CC110x_Register_new =~ s/ccreg\s\d0:\s|\s+$//g;
+		$CC110x_Register_new =~ s/\n/ /g;
+
+		return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
+		return "ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
+
+		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
+		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
+
+		my @CC110x_Register_old = split(/ /, $CC110x_Register_old);
+		my @CC110x_Register_new = split(/ /, $CC110x_Register_new);
+		return "ERROR: The registers have different lengths. Please check your values." if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old));
+
+		my $differences = 0;
+		my $ccreg_offset = 2;
+		my @ccregnames = (
+			"00 IOCFG2  ","01 IOCFG1  ","02 IOCFG0  ","03 FIFOTHR ","04 SYNC1   ","05 SYNC0   ",
+			"06 PKTLEN  ","07 PKTCTRL1","08 PKTCTRL0","09 ADDR    ","0A CHANNR  ","0B FSCTRL1 ",
+			"0C FSCTRL0 ","0D FREQ2   ","0E FREQ1   ","0F FREQ0   ","10 MDMCFG4 ","11 MDMCFG3 ",
+			"12 MDMCFG2 ","13 MDMCFG1 ","14 MDMCFG0 ","15 DEVIATN ","16 MCSM2   ","17 MCSM1   ",
+			"18 MCSM0   ","19 FOCCFG  ","1A BSCFG   ","1B AGCCTRL2","1C AGCCTRL1","1D AGCCTRL0",
+			"1E WOREVT1 ","1F WOREVT0 ","20 WORCTRL ","21 FREND1  ","22 FREND0  ","23 FSCAL3  ",
+			"24 FSCAL2  ","25 FSCAL1  ","26 FSCAL0  ","27 RCCTRL1 ","28 RCCTRL0 ","29 FSTEST  ",
+			"2A PTEST   ","2B AGCTEST ","2C TEST2   ","2D TEST1   ","2E TEST0   " );
+
+		for(my $i=0;$i<=$#CC110x_Register_old;$i++) {
+			if ($CC110x_Register_old[$i] ne $CC110x_Register_new[$i]) {
+				$differences++;
+				if ($differences == 1) {
+					$return = "CC110x_Register_comparison:\n- found $differences difference(s)\n\n";
+					$return.= "               old -> new , command\n";
+				}
+				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex($ccregnames[$i]) + $ccreg_offset).$CC110x_Register_new[$i];
+			}
+		}
+
+		return $return;
+	}
+
 	return "Unknown argument $cmd, choose one of $list";
 }
 
@@ -1809,11 +1870,6 @@ sub SIGNALduino_TOOL_Attr() {
 				}
 			}
 			return "ERROR: Your $attrName is wrong!\n\nDevices to use: \n- ".join("\n- ",@dummy) if (not grep /^$attrValue$/, @dummy);
-
-			### set attribut for events in dummy
-			if (AttrVal($attrValue,"eventlogging","none") eq "none" || AttrVal($attrValue,"eventlogging","none") == 0) {
-				$attr{$attrValue}{eventlogging} = 1;
-			}
 		}
 
 		### name of initialized sender to work with this tool
@@ -1908,10 +1964,10 @@ sub SIGNALduino_TOOL_Attr() {
 
 			return "Your Attributes $attrName must defined!" if ($attrValue eq "1");
 		} elsif ($attrName eq "DispatchModule" && $attrValue eq "-") {
-			delete $hash->{dispatchOption} if (defined $hash->{dispatchOption});
+			SIGNALduino_TOOL_deleteInternals($hash,"dispatchOption");
 		}
 
-		Log3 $name, 3, "$name: set Attributes $attrName to $attrValue";
+		Log3 $name, 4, "$name: Set attribute $attrName to $attrValue";
 	}
 
 
@@ -1937,7 +1993,7 @@ sub SIGNALduino_TOOL_Attr() {
 			readingsSingleUpdate($hash, "state" , "no dispatch possible" , 0);
 		}
 
-		Log3 $name, 3, "$name: $cmd Attributes $attrName";
+		Log3 $name, 3, "$name: $cmd attribute $attrName";
 	}
 
 }
@@ -2170,7 +2226,7 @@ sub SIGNALduino_TOOL_FW_Detail($@) {
 	$ret .="<td><a href='#button2' id='button2'>Display Information all Protocols</a></td>";
 	$ret .="<td><a href='#button3' id='button3'>Display readed SD_ProtocolList.json</a></td>";
 
-	if ($ProtocolListRead && $hash->{dispatchSTATE} && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ && $hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
+	if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ && $hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
 		$ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
 	}
 
@@ -2921,7 +2977,6 @@ sub SIGNALduino_TOOL_Notify($$) {
 	my $name = $hash->{NAME};																					# own name / hash
 	my $devName = $dev_hash->{NAME};																	# Device that created the events
 	my $Dummyname = AttrVal($name,"Dummyname","none");								# Dummyname
-	my $addvaltrigger = AttrVal($Dummyname,"addvaltrigger","none");		# attrib addvaltrigger
 	my $ntfy_match;
 
 	return "" if(IsDisabled($name));		# Return without any further action if the module is disabled
@@ -3129,6 +3184,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 <h3>SIGNALduino_TOOL</h3>
 <ul>
 	The module is for the support of developers of the SIGNALduino project. It includes various functions for calculation / filtering / dispatchen / conversion and much more.<br>
+	To use the full range of functions of the tool, you need a defined SIGNALduino dummy. With this device, the attribute eventlogging is set active.<br>
 	<i>All commands marked with <code><font color="red">*</font color></code> depend on attributes. The attributes have been given the same label.</i><br><br>
 
 	<b>Define</b><br>
@@ -3142,7 +3198,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	&emsp;&rarr; example: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
 	&emsp;&rarr; example: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-	<ul><li><a name="Dispatch_RAWMSG_last"></a><code>Dispatch_RAWMSG_last</code> - dispatch the last RAW message</li><a name=""></a></ul>
+	<ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - dispatch the last RAW message</li><a name=""></a></ul>
 	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
 	&emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
@@ -3158,8 +3214,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 
 	<a name="SIGNALduino_TOOL_Get"></a>
 	<b>Get</b>
-	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - compares two CC110x registers <font color="red">*4</font color></li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
@@ -3172,6 +3227,8 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
@@ -3196,6 +3253,10 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	
 	<b>Attributes</b>
 	<ul>
+		<li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
+			Set CC110x register value in SIGNALduino short form <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
+		<li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
+			Is CC110x register value in SIGNALduino short form <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
 			Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>START</code>!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
@@ -3229,12 +3290,15 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 		<li><a name="StartString">StartString</a><br>
 			The attribute is necessary for the <code> set START</code> option. It search the start of the dispatch command.<br>
 			There are 3 options: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
-		<li><a name="cmdIcon ">cmdIcon</a><br>
+		<li><a href="#cmdIcon">cmdIcon</a><br>
 			Replaces commands from the webCmd attribute with icons. When deleting the attribute, the user only sees the commands as text. (is automatically set when defining the module)</li>
-		<li><a name="disable ">disable</a><br>
-			Disables the Notify function of the device. (will be set automatically)</li>
-		<li><a name="userattr">userattr</a><br>
+		<li><a href="#disable">disable</a><br>
+			Disables the Notify function of the device. (will be set automatically)<br>
+			&emsp; <u>note:</u> For each dispatch, this attribute is set or redefined.</li>
+		<li><a href="#userattr">userattr</a><br>
 			Is an automatic attribute that reflects detected Dispatch files. It is self-created and necessary for processing. Each modified value is automatically overwritten by the TOOL!</li>
+		<li><a href="#webCmd">webCmd</a><br>
+			(is automatically set by the module)</li>
 	</ul>
 	<br>
 =end html
@@ -3246,6 +3310,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 <h3>SIGNALduino_TOOL</h3>
 <ul>
 	Das Modul ist zur Hilfestellung für Entwickler des SIGNALduino Projektes. Es beinhaltet verschiedene Funktionen zur Berechnung / Filterung / Dispatchen / Wandlung und vieles mehr.<br>
+	Um den vollen Funktionsumfang des Tools zu nutzen, ben&ouml;tigen Sie einen definierten SIGNALduino Dummy. Bei diesem Device wird das Attribut eventlogging aktiv gesetzt.<br>
 	<i>Alle mit <code><font color="red">*</font color></code> versehen Befehle sind abhängig von Attributen. Die Attribute wurden mit der selben Kennzeichnung versehen.</i><br><br>
 
 	<b>Define</b><br>
@@ -3259,7 +3324,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	&emsp;&rarr; Beispiel: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-	<ul><li><a name="Dispatch_RAWMSG_last"></a><code>Dispatch_RAWMSG_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
+	<ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
 	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgewählten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
 	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
@@ -3275,8 +3340,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 
 	<a name="SIGNALduino_TOOL_Get"></a>
 	<b>Get</b>
-	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - vergleicht 2 CC110x Register <font color="red">*4</font color></li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
 	&emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; Beispiel 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
@@ -3292,6 +3356,8 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
@@ -3316,6 +3382,10 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	
 	<b>Attributes</b>
 	<ul>
+		<li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
+			Soll CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
+		<li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
+			Ist CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
 			Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
@@ -3350,12 +3420,15 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 		<li><a name="StartString">StartString</a><br>
 			Das Attribut ist notwendig für die <code> set START</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
 			Es gibt 3 M&ouml;glichkeiten: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
-		<li><a name="cmdIcon ">cmdIcon</a><br>
+		<li><a href="#cmdIcon">cmdIcon</a><br>
 			Ersetzt Kommandos aus dem Attribut webCmd durch Icons. Beim löschen des Attributes sieht der Benutzer nur die Kommandos als Text. (wird automatisch gesetzt beim definieren des Modules)</li>
-		<li><a name="disable ">disable</a><br>
-			Schaltet die NotifyFunktion des Devices ab. (wird automatisch gesetzt)</li>
-		<li><a name="userattr">userattr</a><br>
+		<li><a href="#disable">disable</a><br>
+			Schaltet die NotifyFunktion des Devices ab. (wird automatisch gesetzt)<br>
+			&emsp; <u>Hinweis:</u> Bei jedem Dispatch wird dieses Attribut gesetzt bzw. neu definiert.</li>
+		<li><a href="#userattr">userattr</a><br>
 			Ist ein automatisches Attribut welches die erkannten Dispatch Dateien wiedergibt. Es wird selbst erstellt und ist notwendig für die Verarbeitung. Jeder modifizierte Wert wird durch das TOOL automatisch im Durchlauf &uuml;berschrieben!</li>
+		<li><a href="#webCmd">webCmd</a><br>
+			(wird automatisch gesetzt vom Modul)</li>
 	</ul>
 	<br>
 </ul>
