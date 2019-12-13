@@ -1270,6 +1270,7 @@
 {"name":"", "id":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
+      "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
       "rmsg":""
     }
