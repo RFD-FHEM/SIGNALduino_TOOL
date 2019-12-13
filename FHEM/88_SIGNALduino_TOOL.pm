@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 13115 2019-11-12 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-13 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -88,7 +88,9 @@ sub SIGNALduino_TOOL_Initialize($) {
   $hash->{FW_detailFn}				= "SIGNALduino_TOOL_FW_Detail";
 	$hash->{FW_deviceOverview}	= 1;
 	$hash->{AttrList}						=	"disable Dummyname Filename_input Filename_export MessageNumber Path StartString:MU;,MC;,MS; DispatchMax comment"
-															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3 IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20 JSON_Check_exceptions JSON_write_ERRORs:no,yes";
+															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3 IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20"
+															." JSON_Check_exceptions JSON_write_ERRORs:no,yes"
+															." CC110x_Register_old:textField-long CC110x_Register_new:textField-long";
 }
 
 ################################
@@ -1093,6 +1095,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					"InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
 					"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg " if ($Filename_input ne "");
 	$list .= "Github_device_documentation_for_README:noArg " if ($ProtocolListRead);
+	$list .= "CC110x_Register_comparison:noArg " if (AttrVal($name,"CC110x_Register_old", undef) && AttrVal($name,"CC110x_Register_new", undef));
 	my $linecount = 0;
 	my $founded = 0;
 	my $search = "";
@@ -1780,6 +1783,56 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return $return;
 	}
 
+	## compares 2 CC110x registers (SIGNALduino short format) ##
+	if ($cmd eq "CC110x_Register_comparison") {	
+		my $CC110x_Register_old = AttrVal($name,"CC110x_Register_old","");			# Register default
+		my $CC110x_Register_new = AttrVal($name,"CC110x_Register_new","");			# Register new wanted
+		my $return = "The two registers have no differences.";
+
+		return "ERROR: your CC110x_Register_old start now with text ccreg 00:" if ($CC110x_Register_old !~ /^ccreg\s00:\s/);
+		return "ERROR: your CC110x_Register_new start now with text ccreg 00:" if ($CC110x_Register_new !~ /^ccreg\s00:\s/);
+
+		$CC110x_Register_old =~ s/ccreg\s\d0:\s|\s+$//g;
+		$CC110x_Register_old =~ s/\n/ /g;
+		$CC110x_Register_new =~ s/ccreg\s\d0:\s|\s+$//g;
+		$CC110x_Register_new =~ s/\n/ /g;
+
+		return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
+		return "ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
+
+		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
+		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
+
+		my @CC110x_Register_old = split(/ /, $CC110x_Register_old);
+		my @CC110x_Register_new = split(/ /, $CC110x_Register_new);
+		return "ERROR: The registers have different lengths. Please check your values." if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old));
+
+		my $differences = 0;
+		my $ccreg_offset = 2;
+		my @ccregnames = (
+			"00 IOCFG2  ","01 IOCFG1  ","02 IOCFG0  ","03 FIFOTHR ","04 SYNC1   ","05 SYNC0   ",
+			"06 PKTLEN  ","07 PKTCTRL1","08 PKTCTRL0","09 ADDR    ","0A CHANNR  ","0B FSCTRL1 ",
+			"0C FSCTRL0 ","0D FREQ2   ","0E FREQ1   ","0F FREQ0   ","10 MDMCFG4 ","11 MDMCFG3 ",
+			"12 MDMCFG2 ","13 MDMCFG1 ","14 MDMCFG0 ","15 DEVIATN ","16 MCSM2   ","17 MCSM1   ",
+			"18 MCSM0   ","19 FOCCFG  ","1A BSCFG   ","1B AGCCTRL2","1C AGCCTRL1","1D AGCCTRL0",
+			"1E WOREVT1 ","1F WOREVT0 ","20 WORCTRL ","21 FREND1  ","22 FREND0  ","23 FSCAL3  ",
+			"24 FSCAL2  ","25 FSCAL1  ","26 FSCAL0  ","27 RCCTRL1 ","28 RCCTRL0 ","29 FSTEST  ",
+			"2A PTEST   ","2B AGCTEST ","2C TEST2   ","2D TEST1   ","2E TEST0   " );
+
+		for(my $i=0;$i<=$#CC110x_Register_old;$i++) {
+			if ($CC110x_Register_old[$i] ne $CC110x_Register_new[$i]) {
+				$differences++;
+				if ($differences == 1) {
+					$return = "CC110x_Register_comparison:\n- found $differences difference(s)\n\n";
+					$return.= "               old -> new , command\n";
+				}
+				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex($ccregnames[$i]) + $ccreg_offset).$CC110x_Register_new[$i];
+			}
+		}
+
+		return $return;
+	}
+
 	return "Unknown argument $cmd, choose one of $list";
 }
 
@@ -1914,7 +1967,7 @@ sub SIGNALduino_TOOL_Attr() {
 			SIGNALduino_TOOL_deleteInternals($hash,"dispatchOption");
 		}
 
-		Log3 $name, 3, "$name: Set attribute $attrName to $attrValue";
+		Log3 $name, 4, "$name: Set attribute $attrName to $attrValue";
 	}
 
 
@@ -3161,8 +3214,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 
 	<a name="SIGNALduino_TOOL_Get"></a>
 	<b>Get</b>
-	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - compares two CC110x registers <font color="red">*4</font color></li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
@@ -3175,6 +3227,8 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
@@ -3199,6 +3253,10 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	
 	<b>Attributes</b>
 	<ul>
+		<li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
+			Set CC110x register value in SIGNALduino short form <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
+		<li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
+			Is CC110x register value in SIGNALduino short form <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
 			Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>START</code>!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
@@ -3282,8 +3340,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 
 	<a name="SIGNALduino_TOOL_Get"></a>
 	<b>Get</b>
-	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
-	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - vergleicht 2 CC110x Register <font color="red">*4</font color></li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
 	&emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
 	&emsp;&rarr; Beispiel 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
@@ -3299,6 +3356,8 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	<ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
+	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
@@ -3323,6 +3382,10 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	
 	<b>Attributes</b>
 	<ul>
+		<li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
+			Soll CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
+		<li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
+			Ist CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
 			Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
