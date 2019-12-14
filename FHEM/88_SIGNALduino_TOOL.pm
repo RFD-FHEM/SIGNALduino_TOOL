@@ -121,7 +121,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 		### Attributes ###
 		CommandAttr($hash,"$name room SIGNALduino_un") if ( not exists($attr{$name}{room}) );				                                                                                   # set room, if only undef --> new def
-		SIGNALduino_TOOL_add_cmdIcon($hash,"START:remotecontrol/black_btn_PS3Start $NameDispatchSet"."last:remotecontrol/black_btn_BACKDroid") if ( not exists($attr{$name}{cmdIcon}) );  # set Icon
+		SIGNALduino_TOOL_add_cmdIcon($hash,"$NameDispatchSet"."file:remotecontrol/black_btn_PS3Start $NameDispatchSet"."last:remotecontrol/black_btn_BACKDroid") if ( not exists($attr{$name}{cmdIcon}) );  # set Icon
 
 		## set dummy - if system ONLY ONE dummy ##
 		if (not $attr{$name}{Dummyname}) {
@@ -195,7 +195,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	my $setList = "";
 	$setList = $NameDispatchSet."DMSG ".$NameDispatchSet."RAWMSG"." delete_Device delete_unused_Logfiles:noArg delete_unused_Plots:noArg";
 	$setList .= " ".$NameDispatchSet."last:noArg "  if ($RAWMSG_last ne "none" || $DMSG_last ne "none");
-	$setList .= " START:noArg" if (AttrVal($name,"Filename_input","") ne "");
+	$setList .= " $NameDispatchSet"."file:noArg" if (AttrVal($name,"Filename_input","") ne "");
 	$setList .= " RAWMSG_M1:noArg" if (AttrVal($name,"RAWMSG_M1","") ne "");
 	$setList .= " RAWMSG_M2:noArg" if (AttrVal($name,"RAWMSG_M2","") ne "");
 	$setList .= " RAWMSG_M3:noArg" if (AttrVal($name,"RAWMSG_M3","") ne "");
@@ -370,7 +370,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		return "ERROR: no Dummydevice with Attributes (Dummyname) defined!" if ($Dummyname eq "none");
 
 		### Liste von RAWMSG´s dispatchen ###
-		if ($cmd eq "START") {
+		if ($cmd eq $NameDispatchSet."file") {
 			Log3 $name, 4, "$name: Set $cmd - check (1)";
 			return "ERROR: no StartString is defined in Attributes!" if ($string1pos eq "");
 
@@ -982,13 +982,13 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			}
 		}
 
-		readingsDelete($hash,"line_read") if ($cmd ne "START");
+		readingsDelete($hash,"line_read") if ($cmd ne $NameDispatchSet."file");
 
 		readingsBeginUpdate($hash);
 		readingsBulkUpdate($hash, "state" , $return);
 		readingsBulkUpdate($hash, "cmd_raw" , $cmd_raw) if (defined $cmd_raw);
 		readingsBulkUpdate($hash, "cmd_sendMSG" , $cmd_sendMSG) if (defined $cmd_sendMSG);
-		readingsBulkUpdate($hash, "decoded_Protocol_ID" , $decoded_Protocol_ID) if (defined $decoded_Protocol_ID && $cmd ne $NameDispatchSet."DMSG" && $cmd ne "START");
+		readingsBulkUpdate($hash, "decoded_Protocol_ID" , $decoded_Protocol_ID) if (defined $decoded_Protocol_ID && $cmd ne $NameDispatchSet."DMSG" && $cmd ne $NameDispatchSet."file");
 		readingsBulkUpdate($hash, "last_MSG" , $RAWMSG_last) if ($RAWMSG_last ne "none");
 		readingsBulkUpdate($hash, "last_DMSG" , $DMSG_last) if ($DMSG_last ne "none");
 		readingsBulkUpdate($hash, "message_dispatched" , $count3) if (defined $count3);
@@ -1870,7 +1870,7 @@ sub SIGNALduino_TOOL_Attr() {
 			open (FileCheck,"<$path$attrValue") || return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist);
 			close FileCheck;
 
-			SIGNALduino_TOOL_add_webCmd($hash,"START");
+			SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet."file");
 		}
 
 		### dispatch from file with line check
@@ -1922,7 +1922,7 @@ sub SIGNALduino_TOOL_Attr() {
 
 		### delete file for input
 		if ($attrName eq "Filename_input") {
-			SIGNALduino_TOOL_delete_webCmd($hash,"START");
+			SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."file");
 		}
 
 		### delete dummy
@@ -3259,12 +3259,12 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 	&emsp;&rarr; example: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
 	&emsp;&rarr; example: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
+	<ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute StartString)<br>
+	&emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - dispatch the last RAW message</li><a name=""></a></ul>
 	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
 	&emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
-	<ul><li><a name="START"></a><code>START</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute StartString)<br>
-	&emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
@@ -3319,7 +3319,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 		<li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
 			Is CC110x register value in SIGNALduino short form <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
-			Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>START</code>!)</li>
+			Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
 			A selection of modules that have been automatically detected. It looking for files in the pattern <code>SIGNALduino_TOOL_Dispatch_xxx.txt</code> in which the RAWMSGs with model designation and state are stored.
 			The classification must be made according to the pattern <code>name (model) , state , RAWMSG;</code>. A designation is mandatory NECESSARY! NO set commands entered automatically.
@@ -3338,7 +3338,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 		<li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
 			A list of words that are automatically passed by using <code>Check it</code>. This is for self-made READINGS to not import into the JSON list.</li>
 		<li><a name="MessageNumber">MessageNumber</a><br>
-		Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>START</code>!)</li>
+		Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
 		<li><a name="Path">Path</a><br>
 			Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined Filename_export - file<br>
 			&emsp; <u>note:</u> default is ./FHEM/SD_TOOL/ if the attribute not set.</li>
@@ -3349,7 +3349,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 		<li><a name="RAWMSG_M3">RAWMSG_M3</a><br>
 			Memory 3 for a raw message</li>
 		<li><a name="StartString">StartString</a><br>
-			The attribute is necessary for the <code> set START</code> option. It search the start of the dispatch command.<br>
+			The attribute is necessary for the <code>set Dispatch_file</code> option. It search the start of the dispatch command.<br>
 			There are 3 options: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
 		<li><a href="#cmdIcon">cmdIcon</a><br>
 			Replaces commands from the webCmd attribute with icons. When deleting the attribute, the user only sees the commands as text. (is automatically set when defining the module)</li>
@@ -3385,13 +3385,13 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 	&emsp;&rarr; Beispiel: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
 	&emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
+	<ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut StartString definiert wurden)<br>
+	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
 	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgewählten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
 	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
-	<ul><li><a name="START"></a><code>START</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut StartString definiert wurden)<br>
-	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
-	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code>- sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
+	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
@@ -3448,7 +3448,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 		<li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
 			Ist CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
 		<li><a name="DispatchMax">DispatchMax</a><br>
-			Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
+			Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
 		<li><a name="DispatchModule">DispatchModule</a><br>
 			Eine Auswahl an Modulen, welche automatisch erkannt wurden. Gesucht wird jeweils nach Dateien im Muster <code>SIGNALduino_TOOL_Dispatch_xxx.txt</code> worin die RAWMSG´s mit Modelbezeichnung und Zustand gespeichert sind. 
 			Die Einteilung muss jeweils nach dem Muster <code>Bezeichnung (Model) , Zustand , RAWMSG;</code> erfolgen. Eine Bezeichnung ist zwingend NOTWENDIG! Mit dem Wert <code> - </code>werden KEINE Set Befehle automatisch eingetragen. 
@@ -3467,7 +3467,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 		<li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
 			Eine Liste mit W&ouml;rtern, welche beim pr&uuml;fen mit <code>Check it</code> automatisch &uuml;bergangen werden. Das ist f&uuml;r selbst erstellte READINGS gedacht um diese nicht in die JSON Liste zu importieren.</li>
 		<li><a name="MessageNumber">MessageNumber</a><br>
-			Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>START</code> ber&uuml;cksichtigt!)</li>
+			Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
 			<a name="MessageNumberEnd"></a>
 		<li><a name="Path">Path</a><br>
 			Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte Filename_export - Datei<br>
@@ -3479,7 +3479,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 		<li><a name="RAWMSG_M3">RAWMSG_M3</a><br>
 			Speicherplatz 3 für eine Roh-Nachricht</li>
 		<li><a name="StartString">StartString</a><br>
-			Das Attribut ist notwendig für die <code> set START</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
+			Das Attribut ist notwendig für die <code> set Dispatch_file</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
 			Es gibt 3 M&ouml;glichkeiten: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
 		<li><a href="#cmdIcon">cmdIcon</a><br>
 			Ersetzt Kommandos aus dem Attribut webCmd durch Icons. Beim löschen des Attributes sieht der Benutzer nur die Kommandos als Text. (wird automatisch gesetzt beim definieren des Modules)</li>
