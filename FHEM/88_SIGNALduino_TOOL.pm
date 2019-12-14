@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-13 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-14 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -374,67 +374,10 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			Log3 $name, 4, "$name: Set $cmd - check (1)";
 			return "ERROR: no StartString is defined in Attributes!" if ($string1pos eq "");
 
-			(my $error, my @content) = FileRead($path.$file);		# check file open
-			$count1 = "-1" if (defined $error);									# file can´t open
-
-			if (not defined $error) {
-				if ($string1pos ne "") {
-					for ($count1 = 0;$count1<@content;$count1++){		# loop to read file in array
-						Log3 $name, 3, "$name: #####################################################################" if ($count1 == 0);
-						Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (max dispatch=$DispatchMax) !!! <<<-- #####" if ($count1 == 0 && $messageNumber == 0);
-						Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (MessageNumber) !!! <<<-- #####" if ($count1 == 0 && $messageNumber != 0);
-
-						my $string = $content[$count1];
-						$string =~ s/[^A-Za-z0-9\-;=#]//g;;			# nur zulässige Zeichen erlauben
-
-						my $pos = index($string,$string1pos);		# check string welcher gesucht wird
-						my $pos2 = index($string,"D=");					# check string D= exists
-						my $pos3 = index($string,"D=;");				# string D=; for check ERROR Input
-						my $lastpos = substr($string,-1);				# for check END of line;
-
-						if (index($string,($string1pos)) >= 0 && substr($string,0,1) ne "#") { # All lines with # are skipped!
-							$count2++;
-							Log3 $name, 4, "$name: readed Line ($count2) | $content[$count1]"." |END|";																		# Ausgabe
-							Log3 $name, 5, "$name: Zeile ".($count1+1)." Poscheck string1pos=$pos D=$pos2 D=;=$pos3 lastpos=$lastpos";		# Ausgabe
-						}
-
-						if ($pos >= 0 && $pos2 > 1 && $pos3 == -1 && $lastpos eq ";") {				# check if search in array value
-							$string = substr($string,$pos,length($string)-$pos);
-							$string =~ s/;+/;/g;		# ersetze ;+ durch ;
-
-							### dispatch all ###
-							if ($count3 <= $DispatchMax && $messageNumber == 0) {
-								Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";			# Ausgabe
-								Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1)." ist ungueltig " if ($lastpos ne ";");
-
-								CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
-								$count3++;
-								if ($count3 == $DispatchMax) { last; }		# stop loop
-
-							} elsif ($count2 == $messageNumber) {
-								Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";			# Ausgabe
-								Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1)." ist ungueltig " if ($lastpos ne ";");
-
-								CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
-								$count3 = 1;
-								last;																			# stop loop
-							}
-						}
-					}
-
-					Log3 $name, 3, "$name: ### -->>> no message to Dispatch found !!! <<<-- ###" if ($count3 == 0);
-					Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is STOPPED !!! <<<-- #####";
-					Log3 $name, 3, "$name: ####################################################";
-
-					$return = "dispatched" if ($count3 > 0);
-					$return = "no dispatched -> MessageNumber or StartString not found!" if ($count3 == 0);
-				} else {
-					$return = "no StartString";
-				}
-			} else {
-				$return = $error;
-				Log3 $name, 3, "$name: FileRead=$error";		# Ausgabe
-			}
+			readingsSingleUpdate($hash, "state", "Dispatch all RAMSG´s in the background are started",1);
+			$hash->{helper}->{start_time} = time();
+			$hash->{helper}{RUNNING_PID} = BlockingCall("SIGNALduino_TOOL_nonBlock_Start", $name."|".$cmd."|".$path."|".$file."|".$count1."|".$count2."|".$count3."|".$Dummyname."|".$string1pos."|".$DispatchMax."|".$messageNumber, "SIGNALduino_TOOL_nonBlock_StartDone", 90 , "SIGNALduino_TOOL_nonBlock_abortFn", $hash) unless(exists($hash->{helper}{RUNNING_PID}));
+			return undef;
 		}
 
 		### BUTTON - letzte message benutzen ###
@@ -1048,7 +991,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		readingsBulkUpdate($hash, "decoded_Protocol_ID" , $decoded_Protocol_ID) if (defined $decoded_Protocol_ID && $cmd ne $NameDispatchSet."DMSG" && $cmd ne "START");
 		readingsBulkUpdate($hash, "last_MSG" , $RAWMSG_last) if ($RAWMSG_last ne "none");
 		readingsBulkUpdate($hash, "last_DMSG" , $DMSG_last) if ($DMSG_last ne "none");
-		readingsBulkUpdate($hash, "line_read" , $count1+1) if ($cmd eq "START");
 		readingsBulkUpdate($hash, "message_dispatched" , $count3) if (defined $count3);
 		readingsBulkUpdate($hash, "message_dispatch_repeats" , $hash->{helper}->{NTFY_dispatchcount}) if ($hash->{helper}->{NTFY_dispatchcount});
 		readingsBulkUpdate($hash, "message_to_module" , $DummyMSGCNTvalue) if (defined $DummyMSGCNTvalue && $cmd ne $NameDispatchSet."DMSG");
@@ -3113,9 +3055,9 @@ sub SIGNALduino_TOOL_delete_cmdIcon($$) {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
 	my $cmdIcon = AttrVal($name,"cmdIcon",undef);
-	
+
 	Log3 $name, 4, "$name: delete_cmdIcon is running with arg $arg";
-	
+
 	if ($cmdIcon) {
 		my %mod = map { ($_ => 1) }
 							grep { $_ !~ m/^$arg(:.+)?$/ }
@@ -3131,7 +3073,7 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 	my $name = $hash->{NAME};
 	my $cnt = 0;
 	my $cmdIcon = AttrVal($name,"cmdIcon","");
-	
+
 	Log3 $name, 4, "$name: add_cmdIcon is running with arg $arg";
 
 	my %mod = map { ($_ => $cnt++) }
@@ -3164,6 +3106,125 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 	for (@internal) {
 		delete $hash->{$_} if ($hash->{$_});
 	}
+}
+
+#####################
+sub SIGNALduino_TOOL_nonBlock_Start($) {
+	my ($string) = @_;
+	my ($name, $cmd, $path, $file, $count1, $count2, $count3, $Dummyname, $string1pos, $DispatchMax, $messageNumber) = split("\\|", $string);
+	my $return;
+	my $msg = "";
+	my $hash = $defs{$name};
+	my $DummyMSGCNT_old = InternalVal($Dummyname, "MSGCNT", 0);
+
+	Log3 $name, 4, "$name: nonBlock_Start is running";
+
+	(my $error, my @content) = FileRead($path.$file);		# check file open
+	$count1 = "-1" if (defined $error);									# file can´t open
+
+	if (not defined $error) {
+		for ($count1 = 0;$count1<@content;$count1++){		 # loop to read file in array
+			Log3 $name, 3, "$name: #####################################################################" if ($count1 == 0);
+			Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (max dispatch=$DispatchMax) !!! <<<-- #####" if ($count1 == 0 && $messageNumber == 0);
+			Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (MessageNumber) !!! <<<-- #####" if ($count1 == 0 && $messageNumber != 0);
+
+			my $string = $content[$count1];
+			$string =~ s/[^A-Za-z0-9\-;=#]//g;;			# nur zulässige Zeichen erlauben
+
+			my $pos = index($string,$string1pos);		# check string welcher gesucht wird
+			my $pos2 = index($string,"D=");					# check string D= exists
+			my $pos3 = index($string,"D=;");				# string D=; for check ERROR Input
+			my $lastpos = substr($string,-1);				# for check END of line;
+
+			if (index($string,($string1pos)) >= 0 && substr($string,0,1) ne "#") { # All lines with # are skipped!
+				$count2++;
+				Log3 $name, 4, "$name: readed Line ($count2) | $content[$count1]"." |END|";																		# Ausgabe
+				Log3 $name, 5, "$name: Zeile ".($count1+1)." Poscheck string1pos=$pos D=$pos2 D=;=$pos3 lastpos=$lastpos";		# Ausgabe
+			}
+
+			if ($pos >= 0 && $pos2 > 1 && $pos3 == -1 && $lastpos eq ";") {				# check if search in array value
+				$string = substr($string,$pos,length($string)-$pos);
+				$string =~ s/;+/;/g;		# ersetze ;+ durch ;
+
+				### dispatch all ###
+				if ($count3 <= $DispatchMax && $messageNumber == 0) {
+					Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";			# Ausgabe
+					Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1)." ist ungueltig " if ($lastpos ne ";");
+
+					CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
+					$count3++;
+					if ($count3 == $DispatchMax) { last; }		# stop loop
+
+				} elsif ($count2 == $messageNumber) {
+					Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";			# Ausgabe
+					Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1)." ist ungueltig " if ($lastpos ne ";");
+
+					CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
+					$count3 = 1;
+					last;																			# stop loop
+				}
+			}
+		}
+
+		Log3 $name, 3, "$name: ### -->>> no message to Dispatch found !!! <<<-- ###" if ($count3 == 0);
+		Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is STOPPED !!! <<<-- #####";
+		Log3 $name, 3, "$name: ####################################################";
+
+		$msg = "finished, all RAMSG´s are dispatched" if ($count3 > 0);
+		$msg = "finished, no RAMSG´s dispatched -> MessageNumber or StartString $string1pos not found!" if ($count3 == 0);
+	} else {
+		$msg = $error;
+		Log3 $name, 3, "$name: FileRead=$error";		# Ausgabe
+	}
+
+	if ($msg =~ /^finished.*/) {
+		$msg.= " (".(time()-$hash->{helper}->{start_time})." second)";
+		delete($hash->{helper}->{start_time});
+	}
+
+	my $DummyMSGCNTvalue = InternalVal($Dummyname, "MSGCNT", 0) - $DummyMSGCNT_old;
+	$return = $name."|".$cmd."|".$count1."|".$count3."|".$msg."|".$Dummyname."|".$DummyMSGCNTvalue;
+
+	return $return;
+}
+
+#####################
+sub SIGNALduino_TOOL_nonBlock_StartDone($) {
+	my ($string) = @_;
+	my ($name, $cmd, $count1, $count3, $msg, $Dummyname, $DummyMSGCNTvalue) = split("\\|", $string);
+	my $hash = $defs{$name};
+
+	Log3 $name, 4, "$name: nonBlock_StartDone is running";
+	delete($hash->{helper}{RUNNING_PID});
+
+	FW_directNotify("FILTER=$name", "#FHEMWEB:WEB", "location.reload('true')", "");		            # reload Webseite
+	InternalTimer(gettimeofday()+2, "SIGNALduino_TOOL_readingsSingleUpdate_later", "$name/:/$msg");
+
+	readingsBeginUpdate($hash);
+	readingsBulkUpdate($hash, "line_read" , $count1+1) if ($count1 != -1);
+	readingsBulkUpdate($hash, "message_dispatched" , $count3) if (defined $count3 && $count1 ne "-1");
+	readingsBulkUpdate($hash, "message_to_module" , $DummyMSGCNTvalue);
+	readingsEndUpdate($hash, 1);
+}
+
+#####################
+sub SIGNALduino_TOOL_nonBlock_abortFn($) {
+	my ($hash) = @_;
+	my $name = $hash->{NAME};
+	delete($hash->{helper}{RUNNING_PID});
+
+	Log3 $name, 4, "$name: nonBlock_abortFn running";
+	readingsSingleUpdate($hash, "state", "timeout nonBlock function",1);
+}
+
+#####################
+sub SIGNALduino_TOOL_readingsSingleUpdate_later {
+	my ($param) = @_;
+	my ($name,$txt) = split("/:/", $param);
+	my $hash = $defs{$name};
+
+	Log3 $name, 4, "$name: readingsSingleUpdate_later running";
+	readingsSingleUpdate($hash, "state", $txt,1);
 }
 
 # Eval-Rückgabewert für erfolgreiches
