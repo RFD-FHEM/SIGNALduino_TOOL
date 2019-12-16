@@ -5,7 +5,7 @@
       "internals": {"DEF":"CUL_TCM97001_79", "NAME":"ABS700_79"},
       "readings": {"state":"T: 3.3", "battery":"low", "batteryState":"low", "mode":"normal", "other":"3.3", "temperature":"3.3"},
       "attributes": {"model":"ABS700"},
-      "module": "CUL_TCM97100,  
+      "module": "CUL_TCM97100",  
       "rmsg":"MS;P1=-7949;P2=492;P3=-1978;P4=-3970;D=21232423232424242423232323232324242423232323232424;CP=2;SP=1;R=245;O;"
     }
   ]
