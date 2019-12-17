@@ -429,6 +429,16 @@
     }
   ]
 },
+{"name":"TR_502MSV_FF", "id":"34", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P34#FFFEE", "comment":"model under development, reception only! https://github.com/RFD-FHEM/RFFHEM/issues/716", "dispatch_repeats":"3", "user":"codeartisan-de",
+      "internals": {"DEF":"TR_502MSV FF", "NAME":"TR_502MSV_FF"},
+      "readings": {"state":"Ch1_on", "deviceCode":"11111111", "unknown_bits":"1111"},
+      "attributes": {"model":"TR_502MSV"},
+      "rmsg":"MU;P0=4192;P1=-663;P2=1325;P3=-1320;P4=668;P5=-9905;D=01212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541;CP=2;R=71;O;"
+    }
+  ]
+},
 {"name":"HE800", "id":"35", "module":"IT", "data": [
     {
       "dmsg":"ihD8ED0A1000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
@@ -1174,6 +1184,16 @@
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
       "rmsg":"MU;P1=392;P2=-416;P3=804;P4=-822;P5=-4029;P6=-32001;D=151412323412323234141412341414141412341232341414141234123234141412341234141660;CP=1;R=0;"
+    }
+  ]
+},
+{"name":"MD_2003R_FCC17E", "id":"91", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P91#FCC17E1CA", "comment":"Atlantic's - gas (ID 63 additionally)", "user":"Harst",
+      "internals": {"DEF":"MD_2003R FCC17E", "NAME":"MD_2003R_FCC17E"},
+      "readings": {"state":"normal", "batteryState":"ok", "contact":"no Alarm", "deviceTyp":"gas", "keepalive":"periodically"},
+      "attributes": {"model":"MD_2003R"},
+      "rmsg":"MU;P0=-164;P1=378;P2=-813;P3=-429;P4=764;P5=-3929;D=0121212134342121343434343421342121212121213434343421212134342134213451212121212121343421213434343434213421212121212134343434212121343421342134512121212121213434212134343434342134212121212121343434342121213434213421345121212121212134342121343434343421342;CP=1;R=0;O;"
     }
   ]
 },

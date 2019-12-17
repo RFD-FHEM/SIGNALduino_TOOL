@@ -1,26 +1,7 @@
-2019-12-17 - Update SD_Device_ProtocolList.json
-
-- added device Unitec_47031_95, SF01_01319004_A150
-- added module ID 49
-2019-12-17 - fix & feature
-
-- fix button "Check IT" https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/35
-- added module information https://github.com/RFD-FHEM/SIGNALduino_TOOL/pull/34#issuecomment-566647574
-2019-12-17 - Merge pull request #34 from RFD-FHEM/pre_addModule
-
-Add module to some tests
-2019-12-17 - Update update.yml (#36)
-
-* Update update.yml
-
-Checkout all commits instead of only the last one to fix timestamps in controls file
-
-* Automaitc updated controls and CHANGED
-2019-12-17 - Update update.yml
-
-Checkout all commits instead of only the last one to fix timestamps in controls file
-# Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
-# Do not insert empty lines here, update check depends on it.
+2019-12-17 - SD_Device_ProtocolList.json: - added device Unitec_47031_95, SF01_01319004_A150
+                                          - added module ID 49
+                                          - fix button "Check IT" https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/35
+                                          - added module information https://github.com/RFD-FHEM/SIGNALduino_TOOL/pull/34#issuecomment-566647574
 14.12.2019 - 88_SIGNALduino_TOOL.pm: - revised cmd START (dispatch from file) to nonBlocking
                                      - rename cmd START to Dispatch_file, revised commandref
 13.12.2019 - 88_SIGNALduino_TOOL.pm: - added command CC110x_Register_comparison
