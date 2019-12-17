@@ -1,3 +1,7 @@
+2019-12-17 - fix & feature
+
+- fix button "Check IT" https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/35
+- added module information https://github.com/RFD-FHEM/SIGNALduino_TOOL/pull/34#issuecomment-566647574
 2019-12-17 - Merge pull request #34 from RFD-FHEM/pre_addModule
 
 Add module to some tests
