@@ -1,3 +1,6 @@
+2019-12-17 - Update update.yml
+
+Checkout all commits instead of only the last one to fix timestamps in controls file
 # Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
 # Do not insert empty lines here, update check depends on it.
 14.12.2019 - 88_SIGNALduino_TOOL.pm: - revised cmd START (dispatch from file) to nonBlocking
