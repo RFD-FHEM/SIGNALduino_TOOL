@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-14 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-17 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -586,13 +586,13 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$ID_preamble = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, "preamble" ) if ($decoded_Protocol_ID ne "nothing");
 			$DMSG_last = InternalVal($Dummyname, "LASTDMSG", "-") if (!$DMSG_last);
 			my $rawData = $DMSG_last;
-			$rawData =~ s/$ID_preamble//g;					# cut preamble
+			$rawData =~ s/$ID_preamble//g if ($ID_preamble);	# cut preamble
 			my $hlen = length($rawData);
 			my $blen = $hlen * 4;
 			my $bitData = unpack("B$blen", pack("H$hlen", $rawData));
 
 			my $DummyDMSG = $DMSG_last;
-			$DummyDMSG =~ s/#/#0x/g;								# ersetze # durch #0x
+			$DummyDMSG =~ s/#/#0x/g;								          # ersetze # durch #0x
 
 			Log3 $name, 5, "$name: Dummyname_Time=$DummyTime time=".time()." diff=".(time()-$DummyTime)." DMSG=$DummyDMSG rawData=$rawData";
 
@@ -698,9 +698,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 					$cnt_internals_max = 0;
 					$cnt_internals = 0;
 					$cnt_readings = 0;
+					my $clientmodule = "";
+					$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
 
 					print SaveDoc "\n" if ($i > 0);
-					print SaveDoc '{"name":"'.@$ProtocolListRead[$i]->{name}.'", "id":"'.@$ProtocolListRead[$i]->{id}.'", "data": ['."\n";
+					print SaveDoc '{"name":"'.@$ProtocolListRead[$i]->{name}.'", "id":"'.@$ProtocolListRead[$i]->{id}.'", "module":"'.$clientmodule.'", "data": ['."\n";
 					print SaveDoc "    {\n";
 					print SaveDoc "      ";
 
@@ -2929,10 +2931,10 @@ sub SIGNALduino_TOOL_Notify($$) {
 
 	#Log3 $name, 4, "$name: Notify - Events: ".Dumper\@{$events};
 
-	## Found manchester Protocol id ...
+	## ... Parse_MC, Found manchester Protocol id .. clock ... RSSI -47.5 -> ...
 	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /manchester\sProtocol\sid/, @{$events})) {
 		$ntfy_match =~ /id\s(\d+.?\d?)/;
-		Log3 $name, 4, "$name: Notify - ntfy_match check (MC)=$1";
+		Log3 $name, 4, "$name: Notify - ntfy_match check, mark MC with id $1";
 
 		if ($hash->{helper}->{NTFY_match} eq "-") {
 			$hash->{helper}->{NTFY_match} = $1;
@@ -2942,20 +2944,26 @@ sub SIGNALduino_TOOL_Notify($$) {
 		return;
 	}
 
-	# Decoded matched MS Protocol | Dispatch: u
-	# Decoded matched MS Protocol id 33.2 dmsg W33#3E23C564824 length 44  RSSI = -87
-	# Decoded matched MU Protocol id 9 dmsg P9#FA3C1BD4400000CA50051 length 84 dispatch(1/4) RSSI = -66
+	# ... Parse_MU, Decoded matched MU Protocol id .. dmsg ... length ... dispatch(1/4) RSSI = ...
+	# ... Parse_MS, Decoded matched MS Protocol id .. dmsg ... length ...  RSSI = ...
+	# ... Dispatch, u....., test ungleich: disabled
 
-	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /Decoded.*dispatch\(\d+/, @{$events} ) || ( ($ntfy_match) = grep /Decoded\smatched\sMS/, @{$events} ) || ( ($ntfy_match) = grep /Dispatch:\s[uU]/, @{$events}) ) {
+	if ($devName eq $Dummyname && 
+			( ($ntfy_match) = grep /Parse_.*Decoded\smatched\sMU.*dispatch\(\d+/, @{$events} ) ||
+			( ($ntfy_match) = grep /Parse_.*Decoded\smatched\sMS/, @{$events} ) ||
+			( ($ntfy_match) = grep /Dispatch,\s[uU]/, @{$events}) ) {
+
 		$ntfy_match =~ /id\s(\d+.?\d?)/ if (grep /Decoded/, $ntfy_match);
-		$ntfy_match =~ /Dispatch:\s[uU](\d+)#/ if (grep /Dispatch:\s[uU].*#/, $ntfy_match);
-		Log3 $name, 4, "$name: Notify - ntfy_match check (MS|MU|uU)=$1";
+		$ntfy_match =~ /Dispatch,\s[uU](\d+)#/ if (grep /Dispatch,\s[uU].*#/, $ntfy_match);
+		Log3 $name, 4, "$name: Notify - ntfy_match check, mark MS|MU|uU with id $1";
 
 		if ($hash->{helper}->{NTFY_match} && $hash->{helper}->{NTFY_match} eq "-") {
+			Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v1";
 			$hash->{helper}->{NTFY_match} = $1;
 			$hash->{helper}->{NTFY_match} =~ s/\s+//g;
 			$hash->{helper}->{NTFY_SEARCH_Value_count}++;			# real counter if modul ok
 		} else {
+			Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v2";
 			my $mod = $1;
 			$mod =~ s/\s+//g;
 			if ($hash->{helper}->{NTFY_match} && (not grep /$mod/, $hash->{helper}->{NTFY_match})) {
@@ -2964,23 +2972,34 @@ sub SIGNALduino_TOOL_Notify($$) {
 			}
 		}
 
+		# ... Parse_MU, Decoded matched MU Protocol id .. dmsg ... length ... dispatch(1/4) RSSI = ...
+
 		if ( ($ntfy_match) = grep /Decoded.*dispatch\((\d+)/, @{$events} ) {
+			Log3 $name, 4, "$name: Notify - ntfy_match check, found mark Decoded & dispatch(decimal)";
 			my $repeatcount = $ntfy_match;
 			$repeatcount =~ /Decoded.*dispatch\((\d+)/;
 			$repeatcount = ($1 * 1) - 1;
 			if ($repeatcount > 0) {
 				$hash->{helper}->{NTFY_dispatchcount} = $repeatcount;
-				Log3 $name, 4, "$name: Notify - ntfy_match check repeat=$repeatcount";
+				Log3 $name, 4, "$name: Notify - ntfy_match check, repeat=$repeatcount";
 			}
 		}
 	}
 
-	## set DMSG if SIGNALduino_TOOL are dispatch
-	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /Dispatch:.*,\stest/, @{$events}) ) {
-		Log3 $name, 5, "$name: Notify - event: $ntfy_match -> from $devName";
+	## MU
+	#... Dispatch, W94#0D8000336CC, test ungleich: disabled
+	#... Dispatch, W94#0D8000336CC,  dispatch
+	## MC
+	#... Dispatch, P96#47024DB54B, test ungleich: disabled
+	#... Dispatch, P96#47024DB54B, -83 dB, dispatch
+	## MS
+	# ... Dispatch, s4F038300, test ungleich: disabled
+	# ... Dispatch, s4F038300, -79.5 dB, dispatch
 
-		#MU Dispatch: P13.1#CBFAD2, test ungleich: disabled | MC Dispatch: 500A4D3007040600002500, test ungleich: disabled | MS Dispatch: s4F038300, test ungleich: disabled
-		$ntfy_match =~ s/.*Dispatch:\s//g;
+	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /Dispatch,.*,\stest/, @{$events}) ) {
+		Log3 $name, 4, "$name: Notify - event: $ntfy_match -> from $devName";
+
+		$ntfy_match =~ s/.*Dispatch,\s//g;
 		$ntfy_match =~ s/,\s.*//g;
 		Log3 $name, 4, "$name: Notify - START with ntfy_match $ntfy_match by event of $devName";
 
@@ -2991,7 +3010,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 	## search DMSG in all events if search defined
 	if ( (my ($ntfy_match) = grep /DMSG/, @{$events}) && (not grep /Dropped/, @{$events}) && $hash->{helper}->{NTFY_SEARCH_Value} ) {
 		$ntfy_match =~ s/.*DMSG:?\s//g;
-		Log3 $name, 5, "$name: Notify - search ntfy_match $ntfy_match | Device from events:$devName | name:$name";
+		Log3 $name, 4, "$name: Notify - search ntfy_match $ntfy_match | Device from events:$devName | name:$name";
 
 		if ( $hash->{helper}->{NTFY_SEARCH_Value} eq $ntfy_match && $devName ne "$name") {
 			Log3 $name, 4, "$name: Notify - FOUND ntfy_match $ntfy_match by event of $devName | SEARCH_Value verified!";
