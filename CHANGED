@@ -1,5 +1,18 @@
-# Add changes at the top of the list. Keep it in ASCII, and 80-char wide.
-# Do not insert empty lines here, update check depends on it.
+2019-12-17 - Update SD_Device_ProtocolList.json
+- revised wrong values
+2019-12-17 - added doc
+- added doc MD_2003R_FCC17E, TR_502MSV_FF
+
+2019-12-17 - SD_Device_ProtocolList.json: - added device Unitec_47031_95, SF01_01319004_A150
+                                          - added module ID 49
+                                          - fix button "Check IT" https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/35
+                                          - added module information https://github.com/RFD-FHEM/SIGNALduino_TOOL/pull/34#issuecomment-566647574
+14.12.2019 - 88_SIGNALduino_TOOL.pm: - revised cmd START (dispatch from file) to nonBlocking
+                                     - rename cmd START to Dispatch_file, revised commandref
+13.12.2019 - 88_SIGNALduino_TOOL.pm: - added command CC110x_Register_comparison
+30.11.2019 - SD_Device_ProtocolList.json: - added BOSCH SF01 01319004, KRINNER Lumix, CAME TOP 432EV, Novy 840029
+                                          - added HomeEasy HE_EU, Siro shutter, added new HX 70372
+01.11.2019 - 88_SIGNALduino_TOOL.pm: - added test, attribute path value exist or not exist
 31.10.2019 - 88_SIGNALduino_TOOL.pm: - added new sub´s SIGNALduino_TOOL_deleteReadings,SIGNALduino_TOOL_deleteInternals
                                      - category repeat rename to dispatch_repeats
                                      - remove varible $jsonProtList | rename variables

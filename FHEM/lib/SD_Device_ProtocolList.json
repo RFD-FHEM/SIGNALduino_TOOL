@@ -1181,7 +1181,7 @@
     {
       "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
-      "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
+      "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
       "rmsg":"MU;P1=392;P2=-416;P3=804;P4=-822;P5=-4029;P6=-32001;D=151412323412323234141412341414141412341232341414141234123234141412341234141660;CP=1;R=0;"
     }
@@ -1211,7 +1211,7 @@
     {
       "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
-      "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "contact_extern":"closed", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
+      "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
       "rmsg":"MS;P0=-407;P1=402;P2=-4023;P3=-817;P4=806;D=12131040431040404313131043131313131043104043131313104310404313131043104313;CP=1;SP=2;R=0;m1;"
     }
