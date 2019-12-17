@@ -1,10 +1,11 @@
 [
-{"name":"ABS700", "id":"0", "data": [
+{"name":"ABS700", "id":"0", "module": "CUL_TCM97100", "data": [
     {
       "dmsg":"s4F038300", "user":"SD_Protocol",
       "internals": {"DEF":"CUL_TCM97001_79", "NAME":"ABS700_79"},
       "readings": {"state":"T: 3.3", "battery":"low", "batteryState":"low", "mode":"normal", "other":"3.3", "temperature":"3.3"},
       "attributes": {"model":"ABS700"},
+        
       "rmsg":"MS;P1=-7949;P2=492;P3=-1978;P4=-3970;D=21232423232424242423232323232324242423232323232424;CP=2;SP=1;R=245;O;"
     }
   ]
@@ -334,7 +335,7 @@
     }
   ]
 },
-{"name":"HT12e", "id":"29", "data": [
+{"name":"HT12e", "id":"29","module": "SD_UT", "data": [
     {
       "dmsg":"P29#FBE", "comment":"remote control for example Westinghouse airfan (ID 30 additionally)", "dispatch_repeats":"3", "user":"gadget",
       "internals": {"DEF":"Buttons_five E", "NAME":"Buttons_five_E"},
@@ -933,7 +934,7 @@
     }
   ]
 },
-{"name":"CAME TOP 432EV", "id":"86", "data": [
+{"name":"CAME TOP 432EV", "id":"86", "module" : "SD_UT", "data": [
     {
       "dmsg":"P86#EEE", "comment":"(ID 81 additionally)", "user":"andies, andreasloe",
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
