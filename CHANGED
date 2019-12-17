@@ -1,3 +1,6 @@
+2019-12-17 - added doc
+
+- added doc MD_2003R_FCC17E, TR_502MSV_FF
 2019-12-17 - SD_Device_ProtocolList.json: - added device Unitec_47031_95, SF01_01319004_A150
                                           - added module ID 49
                                           - fix button "Check IT" https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/35
