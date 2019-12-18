@@ -1140,28 +1140,28 @@
     {
       "dmsg":"P90#78690F250", "comment":"button A", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
-      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"1111001001010"},
+      "readings": {"state":"on", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"1111001001010"},
       "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=781;P3=-372;P4=251;P5=-903;P6=-10342;D=46451313131345454545131345134545134545454513131313454513454513451345;CP=4;SP=6;O;m1;E;"
     },
     {
       "dmsg":"P90#78690E240", "comment":"button A", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
-      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1110001001000", "x_n5-8_on":"1111001001010"},
+      "readings": {"state":"off", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1110001001000"},
       "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=790;P2=-363;P3=257;P4=-896;P5=-10283;D=35341212121234343434121234123434123434343412121234343412343412343434;CP=3;SP=5;O;m2;C;C;"
     },
     {
       "dmsg":"P90#7869042B0", "comment":"button all", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
-      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"0100001010110"},
+      "readings": {"state":"on", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"0100001010110"},
       "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=-361;P2=267;P3=-884;P4=792;P5=-10342;D=25234141414123232323414123412323412323232323412323232341234123414123;CP=2;SP=5;O;m2;A;"
     },
     {
       "dmsg":"P90#786908230", "comment":"button all", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
-      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1000001000110", "x_n5-8_on":"0100001010110"},
+      "readings": {"state":"off", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1000001000110"},
       "attributes": {"model":"RC_10"},
       "rmsg":"MS;P1=-363;P2=789;P3=267;P4=-887;P5=-10332;D=35342121212134343434212134213434213434343421343434343421343434212134;CP=3;SP=5;O;m2;4;"
     }
