@@ -429,11 +429,11 @@
     }
   ]
 },
-{"name":"TR_502MSV_FF", "id":"34", "module":"SD_UT", "data": [
+{"name":"TR_502MSV_FFF", "id":"34", "module":"SD_UT", "data": [
     {
-      "dmsg":"P34#FFFEE", "comment":"model under development, reception only! https://github.com/RFD-FHEM/RFFHEM/issues/716", "dispatch_repeats":"3", "user":"codeartisan-de",
-      "internals": {"DEF":"TR_502MSV FF", "NAME":"TR_502MSV_FF"},
-      "readings": {"state":"Ch1_on", "deviceCode":"11111111", "unknown_bits":"1111"},
+      "dmsg":"P34#FFFEE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/716", "user":"codeartisan-de",
+      "internals": {"DEF":"TR_502MSV FFF", "NAME":"TR_502MSV_FFF"},
+      "readings": {"state":"Ch1_on", "deviceCode":"111111111111"},
       "attributes": {"model":"TR_502MSV"},
       "rmsg":"MU;P0=4192;P1=-663;P2=1325;P3=-1320;P4=668;P5=-9905;D=01212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541;CP=2;R=71;O;"
     }
