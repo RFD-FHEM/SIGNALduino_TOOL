@@ -993,6 +993,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 					CommandSet($hash, "$IODev_CC110x_Register raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register[$i]);
 				}
 
+				CommandSet($hash, "$IODev_CC110x_Register reset");
+
 				$decoded_Protocol_ID = undef;
 				$count3 = undef;
 				$DummyMSGCNTvalue = undef;
