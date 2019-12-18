@@ -988,12 +988,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				my @CC110x_Register = split(/ /, $CC110x_Register_value);
 
 				for(my $i=0;$i<=$#CC110x_Register;$i++) {
-					Log3 $name, 5, "$name: set $cmd - write Register 0x".$ccregnames[$i]." with command, set $IODev_CC110x_Register raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register[$i];
-					## ToDo - Check RegisterValue difference ##
-					CommandSet($hash, "$IODev_CC110x_Register raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register[$i]);
+					my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset);
+					$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset)) == 1);
+					## ToDo - Check RegisterValue difference ??? ##
+					CommandSet($hash, "$IODev_CC110x_Register raw W".$adress.$CC110x_Register[$i]);
 				}
-
-				CommandSet($hash, "$IODev_CC110x_Register reset");
 
 				$decoded_Protocol_ID = undef;
 				$count3 = undef;
@@ -1805,7 +1804,9 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					$return = "CC110x_Register_comparison:\n- found difference(s)\n\n";
 					$return.= "               old -> new , command\n";
 				}
-				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register_new[$i]."\n";
+				my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset);
+				$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset)) == 1);
+				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".$adress.$CC110x_Register_new[$i]."\n";
 			}
 		}
 
