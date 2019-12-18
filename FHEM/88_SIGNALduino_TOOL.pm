@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-17 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-18 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -49,6 +49,19 @@ my $FW_SD_ProtocolData_get = 0;                         # loaded check for java
 
 ################################
 
+my $ccreg_offset = 2;
+my @ccregnames = (
+	"00 IOCFG2  ","01 IOCFG1  ","02 IOCFG0  ","03 FIFOTHR ","04 SYNC1   ","05 SYNC0   ",
+	"06 PKTLEN  ","07 PKTCTRL1","08 PKTCTRL0","09 ADDR    ","0A CHANNR  ","0B FSCTRL1 ",
+	"0C FSCTRL0 ","0D FREQ2   ","0E FREQ1   ","0F FREQ0   ","10 MDMCFG4 ","11 MDMCFG3 ",
+	"12 MDMCFG2 ","13 MDMCFG1 ","14 MDMCFG0 ","15 DEVIATN ","16 MCSM2   ","17 MCSM1   ",
+	"18 MCSM0   ","19 FOCCFG  ","1A BSCFG   ","1B AGCCTRL2","1C AGCCTRL1","1D AGCCTRL0",
+	"1E WOREVT1 ","1F WOREVT0 ","20 WORCTRL ","21 FREND1  ","22 FREND0  ","23 FSCAL3  ",
+	"24 FSCAL2  ","25 FSCAL1  ","26 FSCAL0  ","27 RCCTRL1 ","28 RCCTRL0 ","29 FSTEST  ",
+	"2A PTEST   ","2B AGCTEST ","2C TEST2   ","2D TEST1   ","2E TEST0   " );
+
+################################
+
 my %category = (
 	# keys(model) => values
 	"CUL_EM"         =>	"Energy monitoring",
@@ -88,7 +101,8 @@ sub SIGNALduino_TOOL_Initialize($) {
   $hash->{FW_detailFn}				= "SIGNALduino_TOOL_FW_Detail";
 	$hash->{FW_deviceOverview}	= 1;
 	$hash->{AttrList}						=	"disable Dummyname Filename_input Filename_export MessageNumber Path StartString:MU;,MC;,MS; DispatchMax comment"
-															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3 IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20"
+															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3"
+															." IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20"
 															." JSON_Check_exceptions JSON_write_ERRORs:no,yes"
 															." CC110x_Register_old:textField-long CC110x_Register_new:textField-long";
 }
@@ -199,6 +213,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	$setList .= " RAWMSG_M1:noArg" if (AttrVal($name,"RAWMSG_M1","") ne "");
 	$setList .= " RAWMSG_M2:noArg" if (AttrVal($name,"RAWMSG_M2","") ne "");
 	$setList .= " RAWMSG_M3:noArg" if (AttrVal($name,"RAWMSG_M3","") ne "");
+	$setList .= " CC110x_Register_new:no,yes CC110x_Register_old:no,yes" if (AttrVal($name,"IODev_CC110x_Register",undef) && AttrVal($name,"CC110x_Register_new",undef) && AttrVal($name,"CC110x_Register_old",undef));
+
 	$setList .= " ".$NameSendSet."RAWMSG" if ($Sendername ne "none");
 
 	SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."last") if (($RAWMSG_last eq "none" && $DMSG_last eq "none") && (AttrVal($name, "webCmd", undef) && (AttrVal($name, "webCmd", undef) =~ /$NameDispatchSet?last/)));
@@ -901,6 +917,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$DummyMSGCNTvalue = undef;			# message_to_module
 		}
 
+		## old unsed Plots delete ##
 		if ($cmd eq "delete_unused_Plots") {
 			Log3 $name, 4, "$name: Set $cmd - check (11)";
 
@@ -955,6 +972,35 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$count3 = undef;								# message_dispatched
 			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
 			$DummyMSGCNTvalue = undef;			# message_to_module
+		}
+
+		## CC110x_Register switch ##
+		if ($cmd =~ /^CC110x_Register_/) {
+			if ($cmd2 eq "yes") {
+				my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
+				my $CC110x_Register_value = AttrVal($name,$cmd,undef);
+				$CC110x_Register_value =~ s/ccreg\s\d0:\s|\s+$//g;
+				$CC110x_Register_value =~ s/\n/ /g;
+
+				return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_value !~ /^[0-9A-F\s]+$/);
+				Log3 $name, 4, "$name: set $cmd - write your Register from IODev $IODev_CC110x_Register";
+
+				my @CC110x_Register = split(/ /, $CC110x_Register_value);
+
+				for(my $i=0;$i<=$#CC110x_Register;$i++) {
+					Log3 $name, 5, "$name: set $cmd - write Register 0x".$ccregnames[$i]." with command, set $IODev_CC110x_Register raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register[$i];
+					## ToDo - Check RegisterValue difference ##
+					CommandSet($hash, "$IODev_CC110x_Register raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register[$i]);
+				}
+
+				$decoded_Protocol_ID = undef;
+				$count3 = undef;
+				$DummyMSGCNTvalue = undef;
+				$return = "$cmd was written on IODev $IODev_CC110x_Register"
+			} else {
+
+				return;
+			}
 		}
 
 		$RAWMSG_last =~ s/;;/;/g if ($RAWMSG_last ne "none");
@@ -1733,9 +1779,6 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $CC110x_Register_new = AttrVal($name,"CC110x_Register_new","");			# Register new wanted
 		my $return = "The two registers have no differences.";
 
-		return "ERROR: your CC110x_Register_old start now with text ccreg 00:" if ($CC110x_Register_old !~ /^ccreg\s00:\s/);
-		return "ERROR: your CC110x_Register_new start now with text ccreg 00:" if ($CC110x_Register_new !~ /^ccreg\s00:\s/);
-
 		$CC110x_Register_old =~ s/ccreg\s\d0:\s|\s+$//g;
 		$CC110x_Register_old =~ s/\n/ /g;
 		$CC110x_Register_new =~ s/ccreg\s\d0:\s|\s+$//g;
@@ -1752,25 +1795,15 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "ERROR: The registers have different lengths. Please check your values." if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old));
 
 		my $differences = 0;
-		my $ccreg_offset = 2;
-		my @ccregnames = (
-			"00 IOCFG2  ","01 IOCFG1  ","02 IOCFG0  ","03 FIFOTHR ","04 SYNC1   ","05 SYNC0   ",
-			"06 PKTLEN  ","07 PKTCTRL1","08 PKTCTRL0","09 ADDR    ","0A CHANNR  ","0B FSCTRL1 ",
-			"0C FSCTRL0 ","0D FREQ2   ","0E FREQ1   ","0F FREQ0   ","10 MDMCFG4 ","11 MDMCFG3 ",
-			"12 MDMCFG2 ","13 MDMCFG1 ","14 MDMCFG0 ","15 DEVIATN ","16 MCSM2   ","17 MCSM1   ",
-			"18 MCSM0   ","19 FOCCFG  ","1A BSCFG   ","1B AGCCTRL2","1C AGCCTRL1","1D AGCCTRL0",
-			"1E WOREVT1 ","1F WOREVT0 ","20 WORCTRL ","21 FREND1  ","22 FREND0  ","23 FSCAL3  ",
-			"24 FSCAL2  ","25 FSCAL1  ","26 FSCAL0  ","27 RCCTRL1 ","28 RCCTRL0 ","29 FSTEST  ",
-			"2A PTEST   ","2B AGCTEST ","2C TEST2   ","2D TEST1   ","2E TEST0   " );
 
 		for(my $i=0;$i<=$#CC110x_Register_old;$i++) {
 			if ($CC110x_Register_old[$i] ne $CC110x_Register_new[$i]) {
 				$differences++;
 				if ($differences == 1) {
-					$return = "CC110x_Register_comparison:\n- found $differences difference(s)\n\n";
+					$return = "CC110x_Register_comparison:\n- found difference(s)\n\n";
 					$return.= "               old -> new , command\n";
 				}
-				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register_new[$i];
+				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset).$CC110x_Register_new[$i]."\n";
 			}
 		}
 
@@ -1909,6 +1942,18 @@ sub SIGNALduino_TOOL_Attr() {
 			return "Your Attributes $attrName must defined!" if ($attrValue eq "1");
 		} elsif ($attrName eq "DispatchModule" && $attrValue eq "-") {
 			SIGNALduino_TOOL_deleteInternals($hash,"dispatchOption");
+		}
+
+		### set CC110x_Register´s
+		if ($attrName eq "CC110x_Register_old" || $attrName eq "CC110x_Register_new") {
+			return "ERROR: your $attrName start not with text ccreg 00:" if ($attrValue !~ /^ccreg\s00:\s/);
+			return "ERROR: your $attrName has wrong values (only ccreg preamble, A-F, 0-9)" if ($attrValue !~ /^[\dA-Fa-f:\sreg]+$/);
+			return "ERROR: your $attrName has wrong values (only ccreg preamble, A-F, 0-9)" if ($attrValue =~ /s-zS-Z.;/);
+		}
+
+		### check IODev for CC110x_Register exist and SIGNALduino
+		if ($attrName eq "IODev_CC110x_Register") {
+			return "ERROR: $attrValue is not definded or is not TYPE SIGNALduino" if not (defined($defs{$attrValue}) && $defs{$attrValue}{TYPE} eq "SIGNALduino");
 		}
 
 		Log3 $name, 4, "$name: Set attribute $attrName to $attrValue";
@@ -3274,6 +3319,8 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 
 	<a name="SIGNALduino_TOOL_Set"></a>
 	<b>Set</b>
+	<ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute <font color="red">*5</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute <font color="red">*5</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - a finished DMSG from modul to dispatch (without SIGNALduino processing!)<br>
 	&emsp;&rarr; example: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
@@ -3352,6 +3399,8 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 			File name of the file containing the input entries. <font color="red">*1</font color></li>
 		<li><a name="IODev">IODev</a><br>
 			Name of the initialized device, which is used for direct transmission. <font color="red">*3</font color></li>
+		<li><a name="IODev_CC110x_Register">IODev_CC110x_Register</a><br>
+			Name of the initialized device, which has the CC110x for writing the register values. <font color="red">*5</font color></li>
 		<li><a name="IODev_Repeats">IODev_Repeats</a><br>
 			Numbre of repeats to send. (Depending on the message type, the number of repeats can vary to correctly detect the signal!)</li>
 		<li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
@@ -3400,6 +3449,8 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 
 	<a name="SIGNALduino_TOOL_Set"></a>
 	<b>Set</b>
+	<ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new <font color="red">*5</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old <font color="red">*5</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - eine fertige DMSG vom Modul welche dispatch werden soll (ohne SIGNALduino Verarbeitung!)<br>
 	&emsp;&rarr; Beispiel: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
@@ -3481,6 +3532,8 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 			Dateiname der Datei, welche die Input-Eingaben enth&auml;lt. <font color="red">*1</font color></li>
 		<li><a name="IODev">IODev</a><br>
 			Name des initialisierten Device, welches zum direkten senden genutzt wird. <font color="red">*3</font color></li>
+		<li><a name="IODev_CC110x_Register">IODev_CC110x_Register</a><br>
+			Name des initialisierten Device, welches den CC110x zum schreiben der Registerwerte besitzt. <font color="red">*5</font color></li>
 		<li><a name="IODev_Repeats">IODev_Repeats</a><br>
 			Anzahl der Sendewiederholungen. (Je nach Nachrichtentyp, kann die Anzahl der Repeats variieren zur richtigen Erkennung des Signales!)</li>
 		<li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
