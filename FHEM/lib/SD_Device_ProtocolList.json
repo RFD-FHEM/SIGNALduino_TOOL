@@ -334,6 +334,23 @@
     }
   ]
 },
+{"name":"xavax_DAAB", "id":"26", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P26#DAAB255487", "comment":"xavax 00111939 Funksteckdosen Set", "user":"elektron-bbs",
+      "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
+      "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"DAAB"},
+      "attributes": {"model":"xavax"},
+      "rmsg":"MU;P0=412;P1=-534;P2=-1356;P3=-20601;P4=3360;P5=-3470;D=01020102010201020201010201010201020102010201020101020101010102020203010145020201020201020102010201020102020101020101020102010201020102010102010101010202020301014502020102020102010201020102010202010102010102010201020102010201010201010101020202030101450202;CP=0;R=0;O;"
+    },
+    {
+      "dmsg":"P26#DAAB255478", "comment":"xavax 00111939 Funksteckdosen Set", "user":"elektron-bbs",
+      "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
+      "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"DAAB"},
+      "attributes": {"model":"xavax"},
+      "rmsg":"MU;P0=-3504;P1=416;P2=-1356;P3=-535;P4=-20816;P5=3324;D=01212131212131213121312131213121213131213131213121312131213121313131212121213131314131350121213121213121312131213121312121313121313121312131213121312131313121212121313131413135012121312121312131213121312131212131312131312131213121312131213131312121212131;CP=1;R=50;O;"
+    }
+  ]
+},
 {"name":"HT12e", "id":"29", "module":"SD_UT", "data": [
     {
       "dmsg":"P29#FBE", "comment":"remote control for example Westinghouse airfan (ID 30 additionally)", "dispatch_repeats":"3", "user":"gadget",
