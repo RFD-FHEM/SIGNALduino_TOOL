@@ -325,6 +325,23 @@
     }
   ]
 },
+{"name":"RCnoName20_17E9", "id":"20", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P20#17E911B0", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
+      "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"17E9"},
+      "attributes": {"model":"RCnoName20"},
+      "rmsg":"MS;P0=-740;P2=686;P3=-283;P5=229;P6=-7889;D=5650505023502323232323235023505023505050235050502323502323505050;CP=5;SP=6;R=67;O;m2;"
+    },
+    {
+      "dmsg":"P20#17E90508", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
+      "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"17E9"},
+      "attributes": {"model":"RCnoName20"},
+      "rmsg":"MS;P1=-754;P2=213;P4=681;P5=-283;P6=-7869;D=2621212145214545454545452145212145212121212145214521212121452121;CP=2;SP=6;R=69;O;m2;"
+    }
+  ]
+},
 {"name":"visivon remote", "id":"24", "module":"", "data": [
     {
       "dmsg":"u24#9F7DF825029C10", "comment":"von 2015", "user":"sidey",
