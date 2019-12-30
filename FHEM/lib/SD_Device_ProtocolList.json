@@ -325,7 +325,7 @@
     }
   ]
 },
-{"name":"RCnoName20_17E9", "id":"20", "module":"SD_UT", "data": [
+{"name":"RCnoName20", "id":"20", "module":"SD_UT", "data": [
     {
       "dmsg":"P20#17E911B0", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
       "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
@@ -351,16 +351,16 @@
     }
   ]
 },
-{"name":"xavax_DAAB", "id":"26", "module":"SD_UT", "data": [
+{"name":"xavax", "id":"26", "module":"SD_UT", "data": [
     {
-      "dmsg":"P26#DAAB255487", "comment":"xavax 00111939 Funksteckdosen Set", "user":"elektron-bbs",
+      "dmsg":"P26#DAAB255487", "comment":"model 00111939 - Funksteckdosen Set", "user":"elektron-bbs",
       "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
       "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"DAAB"},
       "attributes": {"model":"xavax"},
       "rmsg":"MU;P0=412;P1=-534;P2=-1356;P3=-20601;P4=3360;P5=-3470;D=01020102010201020201010201010201020102010201020101020101010102020203010145020201020201020102010201020102020101020101020102010201020102010102010101010202020301014502020102020102010201020102010202010102010102010201020102010201010201010101020202030101450202;CP=0;R=0;O;"
     },
     {
-      "dmsg":"P26#DAAB255478", "comment":"xavax 00111939 Funksteckdosen Set", "user":"elektron-bbs",
+      "dmsg":"P26#DAAB255478", "comment":"model 00111939 - Funksteckdosen Set", "user":"elektron-bbs",
       "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
       "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"DAAB"},
       "attributes": {"model":"xavax"},
@@ -378,9 +378,9 @@
     }
   ]
 },
-{"name":"Unitec_47031_95", "id":"30", "module":"SD_UT", "data": [
+{"name":"Unitec_47031", "id":"30", "module":"SD_UT", "data": [
     {
-      "dmsg":"P30#955", "comment":"model is under development (ID 63,83 additionally)", "dispatch_repeats":"3", "user":"Dr.E.Witz",
+      "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"3", "user":"Dr.E.Witz",
       "internals": {"DEF":"Unitec_47031 95", "NAME":"Unitec_47031_95"},
       "readings": {"state":"1", "System-Housecode":"10010101 (on|off|off|on|off|on|off|on)", "Usersystem":"Unitec 47121", "Zone":"010 (off|on|off) - Zone 3"},
       "attributes": {"model":"Unitec_47031"},
