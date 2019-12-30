@@ -1,3 +1,8 @@
+2019-12-30 - Update 88_SIGNALduino_TOOL.pm
+
+- fix PERL WARNING $path
+- revised cmd CC110x_Register_ new/old for cmd SIGNALduino cc1101_reg
+- revised FilterFile
 2019-12-26 - add xavax (#39)
 
 add xavax to SD_Device_ProtocolList.json
