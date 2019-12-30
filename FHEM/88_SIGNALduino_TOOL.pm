@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-18 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2019-12-30 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,7 +8,7 @@
 # Github - RFD-FHEM
 # https://github.com/RFD-FHEM/SIGNALduino_TOOL
 #
-# 2018 | 2019 - HomeAuto_User & elektron-bbs
+# 2018 | 2019 | 2020 - HomeAuto_User & elektron-bbs
 ######################################################################
 # Note´s
 # - check send RAWMSG from sender
@@ -228,16 +228,20 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		readingsSingleUpdate($hash, "state" , "ERROR: $path not found! Please check Attributes Path." , 0) if not (-d $path);
 		readingsSingleUpdate($hash, "state" , "ready" , 0) if (-d $path && ReadingsVal($name, "state", "none") =~ /^ERROR.*Path.$/);
 
-		## read all .txt to dispatch
-		opendir(DIR,$path);																		# not need -> || return "ERROR: directory $path can not open!"
-		while( my $directory_value = readdir DIR ){
-		if ($directory_value =~ /^$Filename_Dispatch.*txt/) {
-				$DispatchFile = $directory_value;
-				$DispatchFile =~ s/$Filename_Dispatch//;
-				push(@modeltyp,$DispatchFile);
-			}
+		## read all .txt to dispatch from path
+		if (-d $path) {
+			opendir(DIR,$path);
+				while( my $directory_value = readdir DIR ){
+					if ($directory_value =~ /^$Filename_Dispatch.*txt/) {
+						$DispatchFile = $directory_value;
+						$DispatchFile =~ s/$Filename_Dispatch//;
+						push(@modeltyp,$DispatchFile);
+					}
+				}
+			close DIR;
+		} else {
+			mkdir($path);
 		}
-		close DIR;
 
 		### value userattr from all txt files ### 
 		@modeltyp = sort { lc($a) cmp lc($b) } @modeltyp;													          # sort array of dispatch txt files
@@ -986,13 +990,15 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				Log3 $name, 4, "$name: set $cmd - write your Register from IODev $IODev_CC110x_Register";
 
 				my @CC110x_Register = split(/ /, $CC110x_Register_value);
+				my $command;
 
 				for(my $i=0;$i<=$#CC110x_Register;$i++) {
-					my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset);
-					$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset)) == 1);
-					## ToDo - Check RegisterValue difference ??? ##
-					CommandSet($hash, "$IODev_CC110x_Register raw W".$adress.$CC110x_Register[$i]);
+					my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)));
+					$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)))) == 1);
+					$command.= $adress.$CC110x_Register[$i]." ";
 				}
+				$command = substr($command,0,-1);
+				CommandSet($hash, "$IODev_CC110x_Register cc1101_reg $command");
 
 				$decoded_Protocol_ID = undef;
 				$count3 = undef;
@@ -1082,9 +1088,9 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my $onlyDataName = "-ONLY_DATA-";
 	my $list = "TimingsList:noArg Durration_of_Message invert_bitMsg invert_hexMsg change_bin_to_hex change_hex_to_bin change_dec_to_hex change_hex_to_dec reverse_Input "
 						."ProtocolList_from_file_SD_ProtocolData.pm:noArg ProtocolList_from_file_SD_Device_ProtocolList.json:noArg search_disable_Devices:noArg search_ignore_Devices:noArg ";
-	$list .= "FilterFile:multiple,bitMsg:,bitMsg_invert:,dmsg:,hexMsg:,hexMsg_invert:,MC;,MS;,MU;,RAWMSG:,READredu:,READ:,UserInfo:,$onlyDataName ".
-					"InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
-					"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg " if ($Filename_input ne "");
+	$list .= 	"FilterFile:multiple,bitMsg:,bitMsg_invert:,dmsg:,hexMsg:,hexMsg_invert:,msg:,MC;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,UserInfo:,$onlyDataName ".
+						"InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
+						"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg " if ($Filename_input ne "");
 	$list .= "Github_device_documentation_for_README:noArg " if ($ProtocolListRead);
 	$list .= "CC110x_Register_comparison:noArg " if (AttrVal($name,"CC110x_Register_old", undef) && AttrVal($name,"CC110x_Register_new", undef));
 	my $linecount = 0;
