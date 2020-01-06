@@ -3961,8 +3961,8 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 
 	<a name="SIGNALduino_TOOL_Set"></a>
 	<b>Set</b>
-	<ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute <font color="red">*5</font color></li><a name=""></a></ul>
-	<ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute <font color="red">*5</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute on IODev from attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute on IODev from attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - a finished DMSG from modul to dispatch (without SIGNALduino processing!)<br>
 	&emsp;&rarr; example: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
@@ -3983,7 +3983,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 
 	<a name="SIGNALduino_TOOL_Get"></a>
 	<b>Get</b>
-	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - compares two CC110x registers <font color="red">*4</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - compares two CC110x registers from attribute CC110x_Register_new & CC110x_Register_old  <font color="red">*4</font color></li><a name=""></a></ul>
 	<ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - evaluates the register from the attribute IODev_CC110x_Register and outputs it in a file <font color="red">*6</font color></li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
 	&emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
@@ -4092,8 +4092,8 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 
 	<a name="SIGNALduino_TOOL_Set"></a>
 	<b>Set</b>
-	<ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new <font color="red">*5</font color></li><a name=""></a></ul>
-	<ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old <font color="red">*5</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new in das IODev vom Attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old in das IODev vom Attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - eine fertige DMSG vom Modul welche dispatch werden soll (ohne SIGNALduino Verarbeitung!)<br>
 	&emsp;&rarr; Beispiel: W51#087A4DB973</li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
@@ -4114,7 +4114,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 
 	<a name="SIGNALduino_TOOL_Get"></a>
 	<b>Get</b>
-	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - vergleicht 2 CC110x Register <font color="red">*4</font color></li><a name=""></a></ul>
+	<ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - vergleicht die CC110x Register aus dem Attribut CC110x_Register_new & CC110x_Register_old <font color="red">*4</font color></li><a name=""></a></ul>
 	<ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - wertet das Register vom Attribute IODev_CC110x_Register aus und gibt es in einer Datei aus <font color="red">*6</font color></li><a name=""></a></ul>
 	<ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
 	&emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
