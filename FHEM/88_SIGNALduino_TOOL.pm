@@ -3950,7 +3950,16 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 <a name="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
-	The module is for the support of developers of the SIGNALduino project. It includes various functions for calculation / filtering / dispatchen / conversion and much more.<br>
+	The module is for the support of developers of the SIGNALduino project.<br>
+	It includes various functions, among others
+	<ul><li>Averaging ClockPulse / SyncPulse</li></ul>
+	<ul><li>Filters text content from a file</li></ul>
+	<ul><li>Determine total duration of a RAWMSG</li></ul>
+	<ul><li>various mathematical conversions</li></ul>
+	<ul><li>various dispatch variants</li></ul>
+	<ul><li>Search for / delete devices</li></ul>
+	<ul><li>Creation of TimingsList of all SIGNALduino protocols</li></ul>
+	<ul><li>and much more ...</li></ul><br>
 	To use the full range of functions of the tool, you need a defined SIGNALduino dummy. With this device, the attribute eventlogging is set active.<br>
 	<i>All commands marked with <code><font color="red">*</font color></code> depend on attributes. The attributes have been given the same label.</i><br><br>
 
@@ -4081,7 +4090,16 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 <a name="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
-	Das Modul ist zur Hilfestellung für Entwickler des SIGNALduino Projektes. Es beinhaltet verschiedene Funktionen zur Berechnung / Filterung / Dispatchen / Wandlung und vieles mehr.<br>
+	Das Modul ist zur Hilfestellung für Entwickler des SIGNALduino Projektes.<br>
+	Es beinhaltet verschiedene Funktionen, unter anderem
+	<ul><li>Durchschnittsberechnung ClockPulse / SyncPulse</li></ul>
+	<ul><li>Filter von Textinhalten aus einer Datei</li></ul>
+	<ul><li>Ermittlung Gesamtdauer einer RAWMSG</li></ul>
+	<ul><li>diverse mathematischen Umrechungen</li></ul>
+	<ul><li>diverse Dispatchvarianten</li></ul>
+	<ul><li>Suche von / löschen von Devices</li></ul>
+	<ul><li>Erstellung TimingsList der aller SIGNALduino Protokolle</li></ul>
+	<ul><li>und vieles mehr ...</li></ul><br>
 	Um den vollen Funktionsumfang des Tools zu nutzen, ben&ouml;tigen Sie einen definierten SIGNALduino Dummy. Bei diesem Device wird das Attribut eventlogging aktiv gesetzt.<br>
 	<i>Alle mit <code><font color="red">*</font color></code> versehen Befehle sind abhängig von Attributen. Die Attribute wurden mit der selben Kennzeichnung versehen.</i><br><br>
 
