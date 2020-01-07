@@ -1056,7 +1056,7 @@
     {
       "dmsg":"W84#5E36012D24", "comment":"Amazon (ID 63 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_84_TH_1", "NAME":"SD_WS_84_TH_1"},
-      "readings": {"state":"T: 30.1 H: 54", "batteryState":"ok", "channel":"1", "humidity":"54", "sendmode":"auto", "temperature":"30.1", "type":"Auriol IAN 283582"},
+      "readings": {"state":"T: 30.1 H: 54", "batteryState":"ok", "channel":"1", "humidity":"54", "sendmode":"auto", "temperature":"30.1", "type":"Auriol IAN 283582, TV-4848"},
       "rmsg":"MU;P0=859;P1=-845;P2=-253;P3=240;P4=-598;P5=617;D=45252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345;CP=3;R=63;O;"
     }
   ]
