@@ -285,14 +285,14 @@
     {
       "dmsg":"P12#75EFBA4A72BECC504F1801", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
-      "readings": {"state":"T: 29.8 H: 52", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Hum. OK. Temp. uncomfortable (>24.9 or <20)", "humidity":"52", "package_number":"1", "temperature":"29.8"},
+      "readings": {"state":"T: 29.6 H: 54", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Hum. OK. Temp. uncomfortable (>24.9 or <20)", "humidity":"54", "package_number":"3", "temperature":"29.6"},
       "rmsg":"MC;LL=-1010;LH=938;SL=-519;SH=457;D=A8C2345ADD8E0B99F586F9C;C=487;L=90;R=57;"
     }
   ]
 },
 {"name":"Hama TS33C", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#7536BA8A82BFC151AB6401", "user":"Ralf9",
+      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode", "user":"Ralf9",
       "readings": {"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"},
       "rmsg":"MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7;"
     }
@@ -456,24 +456,21 @@
     }
   ]
 },
-{"name":"SD_WS_27_TH_2", "id":"27", "module":"SD_WS", "data": [
+{"name":"EFTH-800", "id":"27", "module":"SD_WS", "data": [
     {
-      "dmsg":"W27#113C49B04806", "comment":"EuroChron weatherstation EFTH-800", "user":"elektron-bbs",
+      "dmsg":"W27#113C49B04806", "comment":"EuroChron weatherstation EFTH-800 / Channel 2 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_2", "NAME":"SD_WS_27_TH_2"},
       "readings": {"state":"T: 15.5 H: 48", "batteryState":"ok", "channel":"2", "humidity":"48", "temperature":"15.5", "type":"EFTH-800"},
       "rmsg":"MU;P0=-224;P1=258;P2=-487;P3=505;P4=-4884;P5=743;P6=-718;D=0121212301212303030301212123012123012123030123030121212121230121230121212121212121230301214565656561212123012121230121230303030121212301212301212303012303012121212123012123012121212121212123030121;CP=1;R=53;"
-    }
-  ]
-},
-{"name":"SD_WS_27_TH_3", "id":"27", "module":"SD_WS", "data": [
+    },
     {
-      "dmsg":"W27#21D442607679", "comment":"EuroChron weatherstation EFTH-800", "user":"elektron-bbs",
+      "dmsg":"W27#21D442607679", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
       "readings": {"state":"T: 3.8 H: 76", "batteryState":"ok", "channel":"3", "humidity":"76", "temperature":"3.8", "type":"EFTH-800"},
       "rmsg":"MU;P0=-241;P1=251;P2=-470;P3=500;P4=-4868;P5=743;P6=-718;D=012121212303030123012301212123012121212301212303012121212121230303012303012123030303012123014565656561212301212121230303012301230121212301212121230121230301212121212123030301230301212303030301212301;CP=1;R=23;"
     },
     {
-      "dmsg":"W27#21D4435075DE", "comment":"EuroChron weatherstation EFTH-800", "user":"elektron-bbs",
+      "dmsg":"W27#21D4435075DE", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
       "readings": {"state":"T: 5.3 H: 75", "batteryState":"ok", "channel":"3", "humidity":"75", "temperature":"5.3", "type":"EFTH-800"},
       "rmsg":"MU;P0=-240;P1=253;P2=-487;P3=489;P4=-4860;P5=746;P6=-725;D=012121212303030123012301212123012121212303012301230121212121230303012301230303012303030301214565656561212301212121230303012301230121212301212121230301230123012121212123030301230123030301230303030121;CP=1;R=19;"
