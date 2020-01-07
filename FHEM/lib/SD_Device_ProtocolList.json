@@ -1038,7 +1038,7 @@
     {
       "dmsg":"W84#033B1FC328", "comment":"Version 06/2017", "state":"T: -6.1 H: 59", "user":"roobbb",
       "internals": {"DEF":"SD_WS_84_TH_2", "NAME":"SD_WS_84_TH_2"},
-      "readings": {"state":"T: -6.1 H: 59", "batteryState":"ok", "channel":"2", "humidity":"59", "sendmode":"auto", "temperature":"-6.1", "type":"Auriol IAN 283582"},
+      "readings": {"state":"T: -6.1 H: 59", "batteryState":"ok", "channel":"2", "humidity":"59", "sendmode":"auto", "temperature":"-6.1", "type":"Auriol IAN 283582, TV-4848"},
       "rmsg":"MU;P0=595;P1=344;P2=-862;P3=846;P4=244;P5=-602;P7=-251;D=1232323245454545454507074545070707450707454545070707070707074545454507074545074507454540;CP=4;R=4;"
     }
   ]
