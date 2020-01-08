@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-06 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-08 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -217,7 +217,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	$setList .= " RAWMSG_M2:noArg" if (AttrVal($name,"RAWMSG_M2","") ne "");
 	$setList .= " RAWMSG_M3:noArg" if (AttrVal($name,"RAWMSG_M3","") ne "");
 	$setList .= " CC110x_Register_new:no,yes CC110x_Register_old:no,yes" if (AttrVal($name,"IODev_CC110x_Register",undef) && AttrVal($name,"CC110x_Register_new",undef) && AttrVal($name,"CC110x_Register_old",undef));
-
 	$setList .= " ".$NameSendSet."RAWMSG" if ($Sendername ne "none");
 
 	SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."last") if (($RAWMSG_last eq "none" && $DMSG_last eq "none") && (AttrVal($name, "webCmd", undef) && (AttrVal($name, "webCmd", undef) =~ /$NameDispatchSet?last/)));
@@ -369,7 +368,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		}
 
 		### for SD_Device_ProtocolList | new empty and save file
-		if ($ProtocolListRead) {
+		if ($ProtocolListRead && InternalVal($name, "STATE", undef) =~ /^RAWMSG dispatched/) {
 			$setList .= " ProtocolList_save_to_file:noArg";
 		}
 	}
@@ -390,7 +389,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		$hash->{helper}->{NTFY_match} = "-";
 		$DispatchOption = "-" if (not defined $hash->{helper}->{option});
 
-		return "ERROR: no Dummydevice with Attributes (Dummyname) defined!" if ($Dummyname eq "none");
+		return "ERROR: no Dummydevice with Attributes (Dummyname) defined!" if ($Dummyname eq "none" && $cmd !~ /delete_/);
 
 		### Liste von RAWMSG´s dispatchen ###
 		if ($cmd eq $NameDispatchSet."file") {
@@ -1872,6 +1871,7 @@ sub SIGNALduino_TOOL_Attr() {
 					push(@dummy,$d);
 				}
 			}
+			return "ERROR: Your $attrName is not found!\n\nNo Dummy defined on this system." if (scalar(@dummy) == 0);
 			return "ERROR: Your $attrName is wrong!\n\nDevices to use: \n- ".join("\n- ",@dummy) if (not grep /^$attrValue$/, @dummy);
 		}
 
@@ -2948,7 +2948,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 				}
 				$buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','rmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
 				$buttons.= "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','dmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."DMSG%20$dmsg$FW_CSRF')\" value=\"dmsg\" %s/>" if ($dmsg ne "" && $Dummyname ne "none");
-				$buttons = "not allowed" if ($Dummyname eq "none");
+				$buttons = "no attrib Dummyname" if ($Dummyname eq "none");
 
 				## view all ##
 				if ($DispatchModule eq "-") {
