@@ -647,6 +647,15 @@
     }
   ]
 },
+{"name":"Bresser Temeo Trend", "id":"44", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W44#D12160652EDE9F9B10", "comment":"", "user":"unknown",
+      "internals": {"DEF":"BresserTemeo_1", "NAME":"BresserTemeo_1"},
+      "readings": {"state":"T: 3.2 H: 68", "batteryState":"ok", "channel":"1", "humidity":"68", "temperature":"3.2", "type":"BresserTemeo"},
+      "rmsg":"MU;P0=32001;P1=-1939;P2=1967;P3=3896;P4=-3895;D=01213424242124212121242121242121212124212424212121212121242421212421242121242124242421242421242424242124212124242424242421212424212424212121242121212;CP=2;R=39;"
+    }
+  ]
+},
 {"name":"Revolt", "id":"45", "module":"Revolt", "data": [
     {
       "dmsg":"r49E7E800443204F4500E04", "comment":"", "user":"SD_Protocol",
