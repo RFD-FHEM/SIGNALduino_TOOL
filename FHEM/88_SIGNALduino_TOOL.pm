@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-08 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-10 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -985,7 +985,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			if ($cmd2 eq "yes") {
 				my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
 				my $CC110x_Register_value = AttrVal($name,$cmd,undef);
-				$CC110x_Register_value =~ s/ccreg\s\d0:\s|\s+$//g;
+				$CC110x_Register_value =~ s/ccreg:(\s+)?//g;
 				$CC110x_Register_value =~ s/\n/ /g;
 
 				return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_value !~ /^[0-9A-F\s]+$/);
@@ -1007,7 +1007,6 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				$DummyMSGCNTvalue = undef;
 				$return = "$cmd was written on IODev $IODev_CC110x_Register"
 			} else {
-
 				return;
 			}
 		}
@@ -1790,16 +1789,16 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $CC110x_Register_new = AttrVal($name,"CC110x_Register_new","");			# Register new wanted
 		my $return = "The two registers have no differences.";
 
-		$CC110x_Register_old =~ s/ccreg\s\d0:\s|\s+$//g;
+		$CC110x_Register_old =~ s/ccreg:(\s+)?//g;
 		$CC110x_Register_old =~ s/\n/ /g;
-		$CC110x_Register_new =~ s/ccreg\s\d0:\s|\s+$//g;
+		$CC110x_Register_new =~ s/ccreg:(\s+)?//g;
 		$CC110x_Register_new =~ s/\n/ /g;
-
-		return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
-		return "ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
 
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
+
+		return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
+		return "ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
 
 		my @CC110x_Register_old = split(/ /, $CC110x_Register_old);
 		my @CC110x_Register_new = split(/ /, $CC110x_Register_new);
@@ -1972,7 +1971,7 @@ sub SIGNALduino_TOOL_Attr() {
 
 		### set CC110x_Register´s
 		if ($attrName eq "CC110x_Register_old" || $attrName eq "CC110x_Register_new") {
-			return "ERROR: your $attrName start not with text ccreg 00:" if ($attrValue !~ /^ccreg\s00:\s/);
+			return "ERROR: your $attrName start not with text ccreg:" if ($attrValue !~ /^ccreg:\s/);
 			return "ERROR: your $attrName has wrong values (only ccreg preamble, A-F, 0-9)" if ($attrValue !~ /^[\dA-Fa-f:\sreg]+$/);
 			return "ERROR: your $attrName has wrong values (only ccreg preamble, A-F, 0-9)" if ($attrValue =~ /s-zS-Z.;/);
 		}
@@ -3950,7 +3949,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 <a name="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
-	The module is for the support of developers of the SIGNALduino project.<br>
+	The module is for the support of developers of the <a href="https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34" target="_blank">SIGNALduino project</a>.<br>
 	It includes various functions, among others
 	<ul><li>Averaging ClockPulse / SyncPulse</li></ul>
 	<ul><li>Filters text content from a file</li></ul>
@@ -4090,7 +4089,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 <a name="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
-	Das Modul ist zur Hilfestellung für Entwickler des SIGNALduino Projektes.<br>
+	Das Modul ist zur Hilfestellung für Entwickler des <a href="https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34" target="_blank">SIGNALduino Projektes</a>.<br>
 	Es beinhaltet verschiedene Funktionen, unter anderem
 	<ul><li>Durchschnittsberechnung ClockPulse / SyncPulse</li></ul>
 	<ul><li>Filter von Textinhalten aus einer Datei</li></ul>
