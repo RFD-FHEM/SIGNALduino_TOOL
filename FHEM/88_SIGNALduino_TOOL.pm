@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-10 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-11 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -27,6 +27,7 @@ use JSON::PP qw( );
 use HttpUtils;
 
 use lib::SD_Protocols;
+sub SIGNALduino_Get_Callback($$$);
 
 #$| = 1;		#Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
@@ -1824,14 +1825,12 @@ sub SIGNALduino_TOOL_Get($$$@) {
 
 	## to evaluate the CC110x registers ##
 	if ($cmd eq "CC110x_Register_read") {
-		# 868.000 MHz - ASK/OOK - sync D391
-		#my $registerstring = "0D 2E 2D 07 D3 91 3D 04 32 00 00 06 00 21 62 76 17 C4 30 23 B9 00 07 00 18 14 6C 07 00 90 87 6B F8 56 11 EF 0B 3D 1F 41 00 59 7F 37 88 31 0B";
-		# 868.302 MHz - GFSK - sync D391
-		#my $registerstring = "0D 2E 2D 47 D3 91 3D 04 32 00 00 06 00 21 65 6F F9 F4 18 23 B9 40 07 00 18 14 6C 07 00 91 87 6B F8 56 11 EF 2D 12 1F 41 00 59 7F 3F 88 31 0B";
-		# 868.300 MHz - 2-FSK - sync 2DD4
-		my $registerstring = "01 2E 46 02 2D D4 FF 00 02 00 00 06 00 21 65 6A 89 5C 06 22 F8 56 07 00 18 16 6C 43 68 91 87 6B F8 B6 10 ED 2A 15 11 41 00 59 7F 3E 88 31 0B";
-		SIGNALduino_TOOL_cc1101read_Full($registerstring,$IODev_CC110x_Register,$path);
-		return "TESTOUTPUT, still in development\n\nThe $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
+		if (exists &{SIGNALduino_Get_Callback}) {
+			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,"ccreg 99");
+			return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
+		} else {
+			return "ERROR: Your SIGNALduino modul is not compatible.\n\nPlease update with command: update all https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/controls_signalduino.txt";
+		}
 	}
 
 	return "Unknown argument $cmd, choose one of $list";
@@ -3321,6 +3320,26 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 ###############################################
 ### Funktionen für cmd CC110x_Register_read ###
 ###############################################
+sub SIGNALduino_TOOL_cc1101read_cb {
+	my ($hash, @a) = @_;
+	my $name = $hash->{NAME};
+	my $CC110x_Register;
+	my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");
+
+	Log3 $name, 4, "$name: SIGNALduino_TOOL_cc1101read_cb running";
+	Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - uC answer: $a[0]";
+
+	$CC110x_Register = $a[0];
+	$CC110x_Register =~ s/\s?ccreg\s\d{2}:\s//g;
+	Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - data: $CC110x_Register";
+
+	SIGNALduino_TOOL_cc1101read_Full($CC110x_Register,$IODev_CC110x_Register,$path);
+
+	return undef;
+}
+
+#####################
 sub SIGNALduino_TOOL_cc1101read_header($) {
 	my $text = shift;
 	$text = " ".$text." ";
