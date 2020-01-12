@@ -1,5 +1,8 @@
 2020-01-12 - Update 88_SIGNALduino_TOOL.pm
 
+- fix useroutput search_disable_Devices & search_ignore_Devices
+2020-01-12 - Update 88_SIGNALduino_TOOL.pm
+
 - fix cmd search_ignore_Devices
 2020-01-11 - Update 88_SIGNALduino_TOOL.pm
 
