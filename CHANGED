@@ -1,3 +1,6 @@
+2020-01-12 - Update 88_SIGNALduino_TOOL.pm
+
+- fix cmd search_ignore_Devices
 2020-01-11 - Update 88_SIGNALduino_TOOL.pm
 
 - added function to read cc1101Register from IODev and writes evaluated data to a file
