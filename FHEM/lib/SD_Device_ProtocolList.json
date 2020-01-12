@@ -1293,6 +1293,30 @@
     }
   ]
 },
+{"name":"enjoy motors HS-8", "id":"88", "module":"SD_Keeloq", "data": [
+    {
+      "dmsg":"P88#31EB8B8A008B48058", "comment":"encoded, button up, Mod. = GFSK", "user":"plin",
+      "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"up", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"enjoy_motors_HS"},
+      "rmsg":"MS;P1=399;P2=-421;P3=-4034;P4=800;P5=-815;P6=-15516;D=1342421515424242151515154215421515154242421542151515424242154215424242424242424242154242421542151542154242154242424242424242154215161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
+    },
+    {
+      "dmsg":"P88#54F58AA3008B48038", "comment":"encoded, button down, Mod. = GFSK", "user":"plin",
+      "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"down", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"enjoy_motors_HS"},
+      "rmsg":"MS;P1=415;P2=-400;P3=-4034;P4=810;P5=-803;P6=-15468;D=1342154215421542421515151542154215154242421542154215421542424215154242424242424242154242421542151542154242154242424242424242421515161212121212121212121212;CP=1;SP=3;R=84;O;m2;"
+    },
+    {
+      "dmsg":"P88#CBDA84D2008B48018", "comment":"encoded, button stop, Mod. = GFSK", "user":"plin",
+      "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"stop", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"enjoy_motors_HS"},
+      "rmsg":"MS;P1=417;P2=-400;P3=-4032;P4=-789;P5=811;P6=-15540;D=1314145252145214141414521414521452145252525214525214145214525214525252525252525252145252521452141452145252145252525252525252525214161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
+    }
+  ]
+},
 {"name":"TFA 30.3221.02, Temp", "id":"89", "module":"SD_WS", "data": [
     {
       "dmsg":"W89#F012333E01", "comment":"Wetterstation TFA 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
