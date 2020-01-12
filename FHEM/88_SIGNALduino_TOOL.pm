@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-11 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-12 21:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1779,9 +1779,19 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	
 	## search all ignore devices on system ##
 	if ($cmd eq "search_ignore_Devices") {
-		my $return = CommandList($hash,"a:ignore=1");
-		return "no device ignored!" if ($return eq "");
-		return $return;
+		## CommandList view not ignore devices
+		my @ignored = ();
+		my $return = "";
+
+		foreach my $d (sort keys %defs) {
+			push(@ignored,$d) if(defined($defs{$d}) && AttrVal($d,"ignore",undef) && AttrVal($d,"ignore",undef) eq "1");
+		}
+		return "no ignored devices found!" if (scalar(@ignored) == 0);
+
+		foreach (@ignored) {
+			$return.= "\n- $_"
+		}
+		return "$cmd found the following devices:\n".$return;
 	}
 
 	## compares 2 CC110x registers (SIGNALduino short format) ##
