@@ -1772,9 +1772,10 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	
 	## search all disable devices on system ##
 	if ($cmd eq "search_disable_Devices") {
-		my $return = CommandList($hash,"a:disable=1");
+		my $return = "";
+		$return = CommandList($hash,"a:disable=1");
 		return "no device disabled!" if ($return eq "");
-		return $return;
+		return "$cmd found the following devices:\n\n$return";
 	}
 	
 	## search all ignore devices on system ##
@@ -1789,7 +1790,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "no ignored devices found!" if (scalar(@ignored) == 0);
 
 		foreach (@ignored) {
-			$return.= "\n- $_"
+			$return.= "\n$_"
 		}
 		return "$cmd found the following devices:\n".$return;
 	}
