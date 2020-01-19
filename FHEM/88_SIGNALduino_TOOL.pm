@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-12 21:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-19 23:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -595,7 +595,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$DispatchOption = "DMSG from set command" if ($DispatchOption eq "-");
 			$RAWMSG_last = "none";
 			$DMSG_last = $a[1];
-			$cmd_sendMSG = "set $Dummyname sendMSG $DMSG_last#R5";
+			$cmd_sendMSG = "set $Dummyname sendMsg $DMSG_last#R5";
 			$return = "DMSG dispatched";
 			$count3 = 1;
 		}
@@ -629,7 +629,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				$decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{$Dummyname."_Protocol_ID"} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname);
 				$decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{LASTDMSGID} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} eq $Dummyname);
 				$DummyMSGCNTvalue = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, "clientmodule" );
-				$cmd_sendMSG = "set $Dummyname sendMSG $DummyDMSG#R5";
+				$cmd_sendMSG = "set $Dummyname sendMsg $DummyDMSG#R5";
 				$cmd_raw = "D=$bitData";
 			} elsif ($DummyMSGCNTvalue > 1) {
 				Log3 $name, 4, "$name: Set $cmd - check (7.2)";
@@ -642,7 +642,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 				$decoded_Protocol_ID = $hash->{helper}->{NTFY_match};
 				$cmd_raw = "not clearly definable";
-				$cmd_sendMSG = "set $Dummyname sendMSG $DummyDMSG#R5 (check Data !!!)";
+				$cmd_sendMSG = "set $Dummyname sendMsg $DummyDMSG#R5 (check Data !!!)";
 				$DMSG_last = "not clearly definable!";
 			} elsif ($DummyMSGCNTvalue == 0) {
 				Log3 $name, 4, "$name: Set $cmd - check (7.3)";
@@ -1836,7 +1836,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 
 	## to evaluate the CC110x registers ##
 	if ($cmd eq "CC110x_Register_read") {
-		if (exists &{SIGNALduino_Get_Callback}) {
+		if (exists &SIGNALduino_Get_Callback) {
 			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,"ccreg 99");
 			return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
 		} else {
