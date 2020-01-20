@@ -50,6 +50,8 @@ my $pos_array_device;																		# position of difference in array over al
 my $FW_SD_Device_ProtocolList_get = 0;                  # loaded check for java
 my $FW_SD_ProtocolData_get = 0;                         # loaded check for java
 
+my $SIGNALduino_TOOL_NAME;                              # to better work with TOOL in subs, if return a other HASH
+
 ################################
 
 my $ccreg_offset = 2;
@@ -1837,6 +1839,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	## to evaluate the CC110x registers ##
 	if ($cmd eq "CC110x_Register_read") {
 		if (exists &SIGNALduino_Get_Callback) {
+			$SIGNALduino_TOOL_NAME = $name;
 			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,"ccreg 99");
 			return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
 		} else {
@@ -3332,21 +3335,21 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 ### Funktionen für cmd CC110x_Register_read ###
 ###############################################
 sub SIGNALduino_TOOL_cc1101read_cb {
+	## $hash from dev, how register read !!!! ##
 	my ($hash, @a) = @_;
-	my $name = $hash->{NAME};
-	my $CC110x_Register;
-	my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
+	my $IODev_CC110x_Register = $hash->{NAME};
+
+	my $name = $SIGNALduino_TOOL_NAME;                   # name SIGNALduino_TOOL from globale variable
 	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");
 
 	Log3 $name, 4, "$name: SIGNALduino_TOOL_cc1101read_cb running";
 	Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - uC answer: $a[0]";
 
-	$CC110x_Register = $a[0];
+	my $CC110x_Register = $a[0];
 	$CC110x_Register =~ s/\s?ccreg\s\d{2}:\s//g;
 	Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - data: $CC110x_Register";
 
 	SIGNALduino_TOOL_cc1101read_Full($CC110x_Register,$IODev_CC110x_Register,$path);
-
 	return undef;
 }
 
