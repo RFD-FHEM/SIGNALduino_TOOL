@@ -1,3 +1,6 @@
+2020-01-25 - Update SD_Device_ProtocolList.json
+
+- added WH2315
 2020-01-20 - Update 88_SIGNALduino_TOOL.pm
 
 - fix (return hash is from readed dev)
