@@ -263,6 +263,21 @@
     }
   ]
 },
+{"name":"WH2315", "id":"9", "module":"SD_WS09", "data": [
+    {
+      "dmsg":"P9#FEE7E2AA049E81F0", "comment":"Lux & UV RAWMSG with length 64 (module PERL WARNING)", "user":"rob",
+      "internals": {"DEF":"WH1080", "NAME":"WH1080"},
+      "readings": {"state":"UV: 1 Lux: 15136 ", "Lux":"15136", "UV":"1", "id":"63"},
+      "rmsg":"MU;P0=-10108;P1=495;P2=-1050;P3=1496;P4=-27564;P5=372;CP=1;R=245;D=012121212121212321212123232121212121212323232123212321232123212323232323232123232123232121212123212323232323232121212121232323450;e;"
+    },
+    {
+      "dmsg":"P9#FF5BA39C8C020403C60822", "comment":"Temp,Hum,Rain,Wind RAWMSG with length 88 (ID 42 additionally)", "user":"rob",
+      "internals": {"DEF":"WH1080", "NAME":"WH1080"},
+      "readings": {"state":"T: 6.2  H: 70  Ws:0.3  Wg:0.7 m/s Wd: E  R: 144.9", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"70", "id":"221", "rain":"144.9", "rain_total":"144.9", "temperature":"6.2", "windDirection":"4", "windDirectionAverage":"90", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"0.7", "windGust_fts":"2.3", "windGust_kmh":"2.5", "windGust_kn":"1.4", "windGust_mph":"1.6", "windSpeed":"0.3", "windSpeed_fts":"1.0", "windSpeed_kmh":"1.1", "windSpeed_kn":"0.6", "windSpeed_mph":"0.7"},
+      "rmsg":"MU;P0=-32001;P1=481;P2=-990;P3=1450;CP=1;R=244;D=012121212121212123212321212321212123212323232121212323212121232321232323212123232323232323232123232323232321232323232323232321212121232323212123232323232123232323232123232321;e;"
+    }
+  ]
+},
 {"name":"WH3080", "id":"9", "module":"SD_WS09", "data": [
     {
       "dmsg":"P9#FF7C845508D87403", "comment":"reconstructed bit 1", "user":"Ralf9",
