@@ -1,3 +1,8 @@
+2020-02-02 - Update SD_Device_ProtocolList.json
+
+- revised WH2315, PERL WARNING are fixed
+- revised doc Novy 840029
+- added model Novy 840039
 2020-01-25 - Update SD_Device_ProtocolList.json
 
 - added WH2315
