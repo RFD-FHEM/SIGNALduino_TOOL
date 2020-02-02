@@ -265,9 +265,9 @@
 },
 {"name":"WH2315", "id":"9", "module":"SD_WS09", "data": [
     {
-      "dmsg":"P9#FEE7E2AA049E81F0", "comment":"Lux & UV RAWMSG with length 64 (module PERL WARNING)", "user":"rob",
+      "dmsg":"P9#FEE7E2AA049E81F0", "comment":"Lux & UV RAWMSG with length 64", "user":"rob",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
-      "readings": {"state":"UV: 1 Lux: 15136 ", "Lux":"15136", "UV":"1", "id":"63"},
+      "readings": {"state":"UV: 1 Lux: 344 "},
       "rmsg":"MU;P0=-10108;P1=495;P2=-1050;P3=1496;P4=-27564;P5=372;CP=1;R=245;D=012121212121212321212123232121212121212323232123212321232123212323232323232123232123232121212123212323232323232121212121232323450;e;"
     },
     {
@@ -1163,25 +1163,49 @@
 },
 {"name":"Novy 840029", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#555", "comment":"(ID 63,81 additionally)", "user":"Garfonso",
+      "dmsg":"P86#555", "comment":"hex_lengh 3 (ID 63,81 additionally)", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_plus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=22808;P1=-24232;P2=701;P3=-765;P4=357;P5=-15970;P7=-406;D=012345472347234723472347234723454723472347234723472347234547234723472347234723472345472347234723472347234723454723472347234723472347234;CP=4;R=39;"
     },
     {
-      "dmsg":"P86#556", "comment":"(ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
+      "dmsg":"P86#556", "comment":"hex_lengh 3 (ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_minus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=-8032;P1=364;P2=-398;P3=700;P4=-760;P5=-15980;D=0123412341234123412341412351234123412341234123414123512341234123412341234141235123412341234123412341412351234123412341234123414123;CP=1;R=40;"
     },
     {
-      "dmsg":"P86#5574C", "comment":"(ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
+      "dmsg":"P86#5574C", "comment":"hex_lengh 5 (ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"power_on_off", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=-756;P1=718;P2=354;P3=-395;P4=-16056;D=01020202310231310202423102310231023102310202023102313102024231023102310231023102020231023131020242310231023102310231020202310231310202;CP=2;R=41;"
+    }
+  ]
+},
+{"name":"Novy 840039", "id":"86", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P86#556F8", "comment":"hex_lengh 5", "user":"Devirex",
+      "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
+      "readings": {"state":"ambient_light_on", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840039"},
+      "rmsg":"MU;P0=-9524;P1=364;P2=-414;P3=669;P4=-755;P5=-16076;CP=1;R=83;D=0123412341234123412341412341414141412351234123412341234123414123414141414123;e;w=0;"
+    },
+    {
+      "dmsg":"P86#555", "comment":"hex_lengh 3 (ID 81 additionally)", "user":"Devirex",
+      "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
+      "readings": {"state":"fan_plus", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840039"},
+      "rmsg":"MU;P0=388;P1=-756;P2=264;P3=-399;P4=683;P5=-16082;CP=0;R=67;D=0123410341034103410341050341034103410341034103410;e;w=0;"
+    },
+    {
+      "dmsg":"P86#5574C", "comment":"hex_lengh 5", "dispatch_repeats":"1", "user":"Devirex",
+      "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
+      "readings": {"state":"power_on_off", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840039"},
+      "rmsg":"MU;P0=-749;P1=378;P2=-456;P3=684;P4=-16081;D=01230101012301232301014123012301230123012301010123012323010141230123012301230123010101230123230101412;CP=1;R=66;"
     }
   ]
 },
