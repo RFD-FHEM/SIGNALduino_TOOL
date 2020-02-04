@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-01-19 23:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-04 23:17:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -15,6 +15,7 @@
 # Note´s
 # - check send RAWMSG from sender
 # - implement module with package
+# - button CheckIt function, now search only at same DMSG (check of device or attrib?)
 ######################################################################
 
 package main;
@@ -212,8 +213,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 	my $JSON_write_ERRORs = AttrVal($name,"JSON_write_ERRORs","no");
 
-	my $setList = "";
-	$setList = $NameDispatchSet."DMSG ".$NameDispatchSet."RAWMSG"." delete_Device delete_unused_Logfiles:noArg delete_unused_Plots:noArg";
+	my $setList = $NameDispatchSet."DMSG ".$NameDispatchSet."RAWMSG"." ".
+								"delete_Device delete_room_with_all_Devices delete_unused_Logfiles:noArg delete_unused_Plots:noArg";
 	$setList .= " ".$NameDispatchSet."last:noArg "  if ($RAWMSG_last ne "none" || $DMSG_last ne "none");
 	$setList .= " $NameDispatchSet"."file:noArg" if (AttrVal($name,"Filename_input","") ne "");
 	$setList .= " RAWMSG_M1:noArg" if (AttrVal($name,"RAWMSG_M1","") ne "");
@@ -897,7 +898,18 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$DummyMSGCNTvalue = undef;			# message_to_module
 		}
 
-		## old unsed logfile delete ##		
+		## delete all device in room ##
+		if ($cmd eq "delete_room_with_all_Devices") {
+			Log3 $name, 2, "$name: cmd $cmd, for room $a[1]";
+			CommandDelete($hash, "room=$a[1]"),
+			$return = "all devices delete on room $a[1]";
+
+			$count3 = undef;								# message_dispatched
+			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
+			$DummyMSGCNTvalue = undef;			# message_to_module
+		}
+
+		## old unsed logfile delete ##
 		if ($cmd eq "delete_unused_Logfiles") {
 			Log3 $name, 4, "$name: Set $cmd - check (10)";
 			my $directory = AttrVal("global","logdir","./log");
@@ -1005,8 +1017,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				$command = substr($command,0,-1);
 				CommandSet($hash, "$IODev_CC110x_Register cc1101_reg $command");
 
-				$decoded_Protocol_ID = undef;
 				$count3 = undef;
+				$decoded_Protocol_ID = undef;
 				$DummyMSGCNTvalue = undef;
 				$return = "$cmd was written on IODev $IODev_CC110x_Register"
 			} else {
@@ -1091,14 +1103,18 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");							# Path | # Path if not define
 	my $onlyDataName = "-ONLY_DATA-";
 	my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
-	my $list = "TimingsList:noArg Durration_of_Message invert_bitMsg invert_hexMsg change_bin_to_hex change_hex_to_bin change_dec_to_hex change_hex_to_dec reverse_Input "
-						."ProtocolList_from_file_SD_ProtocolData.pm:noArg ProtocolList_from_file_SD_Device_ProtocolList.json:noArg search_disable_Devices:noArg search_ignore_Devices:noArg ";
-	$list .= 	"FilterFile:multiple,bitMsg:,bitMsg_invert:,dmsg:,hexMsg:,hexMsg_invert:,msg:,MC;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,UserInfo:,$onlyDataName ".
-						"InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ".
-						"InputFile_doublePulse:noArg InputFile_length_Datapart:noArg " if ($Filename_input ne "");
-	$list .= "Github_device_documentation_for_README:noArg " if ($ProtocolListRead);
-	$list .= "CC110x_Register_comparison:noArg " if (AttrVal($name,"CC110x_Register_old", undef) && AttrVal($name,"CC110x_Register_new", undef));
-	$list .= "CC110x_Register_read:noArg" if ($IODev_CC110x_Register);
+	my $list = 	"Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg ".
+							"ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg UnitTests_to_local:noArg ".
+							"change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec ".
+							"invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg ".
+							"search_ignore_Devices:noArg ";
+	$list .= 	"FilterFile:multiple,DMSG:,Decoded,MC;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,".
+						"bitMsg_invert:,hexMsg:,hexMsg_invert:,msg:,UserInfo:,$onlyDataName ".
+						"InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg ".
+						"InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse " if ($Filename_input ne "");
+	$list .=	"Github_device_documentation_for_README:noArg " if ($ProtocolListRead);
+	$list .=	"CC110x_Register_comparison:noArg " if (AttrVal($name,"CC110x_Register_old", undef) && AttrVal($name,"CC110x_Register_new", undef));
+	$list .=	"CC110x_Register_read:noArg " if ($IODev_CC110x_Register);
 	my $linecount = 0;
 	my $founded = 0;
 	my $search = "";
@@ -1845,6 +1861,11 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		} else {
 			return "ERROR: Your SIGNALduino modul is not compatible.\n\nPlease update with command: update all https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/controls_signalduino.txt";
 		}
+	}
+
+	## search all UnitTests from SIGNALduino DEV - project and define it an local system ##
+	if ($cmd eq "UnitTests_to_local") {
+		return "development";
 	}
 
 	return "Unknown argument $cmd, choose one of $list";
@@ -4018,6 +4039,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
+	<ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - deletes the specified room with all devices</li><a name=""></a></ul>
 	<ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - deletes logfiles from the system of devices that no longer exist</li><a name=""></a></ul>
 	<ul><li><a name="delete_unused_Plots"></a><code>delete_unused_Plots</code> - deletes plots from the system of devices that no longer exist</li><a name=""></a></ul>
 	<br>
@@ -4158,6 +4180,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
+	<ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - l&ouml;scht den angegebenen Raum mit allen Ger&auml;ten</li><a name=""></a></ul>
 	<ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - l&ouml;scht Logfiles von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
 	<ul><li><a name="delete_unused_Plots"></a><code>delete_unused_Plots</code> - l&ouml;scht Plots von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
 	<br>
