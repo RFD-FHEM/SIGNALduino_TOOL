@@ -1,3 +1,8 @@
+2020-02-04 - Update 88_SIGNALduino_TOOL.pm
+
+- added set cmd delete_room_with_all_Devices
+- revised commandref
+- fix getlist
 2020-02-02 - Update SD_Device_ProtocolList.json
 
 - revised WH2315, PERL WARNING are fixed
