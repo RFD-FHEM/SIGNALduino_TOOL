@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-04 23:17:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-06 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -9,7 +9,6 @@
 # https://github.com/RFD-FHEM/SIGNALduino_TOOL
 #
 # 2018 | 2019 | 2020 - HomeAuto_User & elektron-bbs
-#
 #	2020 - SIGNALduino_TOOL_cc1101read Zuarbeit @plin
 ######################################################################
 # Note´s
@@ -44,18 +43,21 @@ my $DispatchMemory;
 my $Filename_Dispatch = "SIGNALduino_TOOL_Dispatch_";		# name file to read input for dispatch
 my $NameDispatchSet = "Dispatch_";											# name of setlist value´s to dispatch
 my $jsonDoc = "SD_Device_ProtocolList.json";						# name of file to import / export
-my $jsonDocNew = 0;																			# marker for script function, new emtpy need
 my $pos_array_data;																			# position of difference in data part from value
 my $pos_array_device;																		# position of difference in array over all
-
-my $FW_SD_Device_ProtocolList_get = 0;                  # loaded check for java
-my $FW_SD_ProtocolData_get = 0;                         # loaded check for java
 
 my $SIGNALduino_TOOL_NAME;                              # to better work with TOOL in subs, if return a other HASH
 
 ################################
 
-my $ccreg_offset = 2;
+use constant {
+	CCREG_OFFSET => 2,
+	FHEM_SVN_gplot_URL => "https://svn.fhem.de/fhem/trunk/fhem/www/gplot/",
+	TIMEOUT_HttpUtils => 3,
+	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",
+	UNITTESTS_RAWFILE_URL => "https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/",
+};
+
 my @ccregnames = (
 	"00 IOCFG2  ","01 IOCFG1  ","02 IOCFG0  ","03 FIFOTHR ","04 SYNC1   ","05 SYNC0   ",
 	"06 PKTLEN  ","07 PKTCTRL1","08 PKTCTRL0","09 ADDR    ","0A CHANNR  ","0B FSCTRL1 ",
@@ -100,6 +102,7 @@ sub SIGNALduino_TOOL_Initialize($) {
 	my ($hash) = @_;
 
 	$hash->{DefFn}							=	"SIGNALduino_TOOL_Define";
+	$hash->{UndefFn}						= "SIGNALduino_TOOL_Undef";
 	$hash->{SetFn}							=	"SIGNALduino_TOOL_Set";
 	$hash->{ShutdownFn}					= "SIGNALduino_TOOL_Shutdown";
 	$hash->{AttrFn}							=	"SIGNALduino_TOOL_Attr";
@@ -222,6 +225,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	$setList .= " RAWMSG_M3:noArg" if (AttrVal($name,"RAWMSG_M3","") ne "");
 	$setList .= " CC110x_Register_new:no,yes CC110x_Register_old:no,yes" if (AttrVal($name,"IODev_CC110x_Register",undef) && AttrVal($name,"CC110x_Register_new",undef) && AttrVal($name,"CC110x_Register_old",undef));
 	$setList .= " ".$NameSendSet."RAWMSG" if ($Sendername ne "none");
+	$setList .= " UnitTest_define:".$hash->{helper}->{UnitTests_from_SIGNALduino} if (exists $hash->{helper}->{UnitTests_from_SIGNALduino} && $Dummyname ne "none");
 
 	SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet."last") if (($RAWMSG_last eq "none" && $DMSG_last eq "none") && (AttrVal($name, "webCmd", undef) && (AttrVal($name, "webCmd", undef) =~ /$NameDispatchSet?last/)));
 
@@ -946,8 +950,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			my $Http_err 	= "";
 			my $Http_data = "";
 
-			($Http_err, $Http_data) = HttpUtils_BlockingGet({ url			=> "https://svn.fhem.de/fhem/trunk/fhem/www/gplot/",
-																												timeout	=> 3,
+			($Http_err, $Http_data) = HttpUtils_BlockingGet({ url			=> FHEM_SVN_gplot_URL,
+																												timeout	=> TIMEOUT_HttpUtils,
 																												method	=> "GET",		# Lesen von Inhalten
 																											});
 			#### HTTP Requests #### END ####
@@ -1023,6 +1027,54 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				$return = "$cmd was written on IODev $IODev_CC110x_Register"
 			} else {
 				return;
+			}
+		}
+
+		## available UnitTests to define ##
+		if ($cmd eq "UnitTest_define") {
+			return "ERROR: argument testfile is failed" if (!$a[1]);
+			return "ERROR: testfile $a[1] is not support" if ($a[1] !~ /\.txt$/);
+			return "ERROR: testfile $a[1] is not available" if (not grep /$a[1]/, $hash->{helper}->{UnitTests_from_SIGNALduino});
+
+			#### HTTP Requests #### Start ####
+			my $Http_err 	= "";
+			my $Http_data = "";
+
+			($Http_err, $Http_data) = HttpUtils_BlockingGet({ url			=> UNITTESTS_RAWFILE_URL.$a[1],
+																												timeout	=> TIMEOUT_HttpUtils,
+																												method	=> "GET",		# Lesen von Inhalten
+																											});
+			#### HTTP Requests #### END ####
+
+			if ($Http_err ne "") {
+				readingsSingleUpdate($hash, "state" , "cmd $cmd - need Internet or website are down!", 0);
+				Log3 $name, 2, "$name: $cmd failed, need Internet or website are down! ";
+				return;
+			} elsif ($Http_data ne "") {
+				my @apache_split = split (/\n/,$Http_data);
+				my $apache_testfile = "";
+
+				## loop - push lines ##
+				foreach (@apache_split) {
+					if ($_ =~ /defmod\s.*\sUnitTest\s(.*)\s/) {
+						$_ =~ s/$1/$Dummyname/g;
+					}
+					$apache_testfile.= $_."\n";
+				}
+				Log3 $name, 5, "$name: $cmd $a[1] used code: $apache_testfile";
+				my $UnitTestName = $1 if ($apache_testfile =~ /defmod\s(.*)\sUnitTest\s/);
+				$apache_testfile =~ s/;/;;/g;
+				$apache_testfile =~ s/^defmod\s//g;
+
+				my $ret;
+				$ret = CommandDefine(undef, $apache_testfile);
+				if ($ret) {
+					Log3 $name, 2, "$name: $cmd $a[1], ERROR: $ret";
+				} else {
+					CommandAttr($hash,"$UnitTestName verbose 0");
+					CommandAttr($hash,"$UnitTestName disable 1");
+					return "UnitTest $a[1] is defined on your system";
+				}
 			}
 		}
 
@@ -1104,7 +1156,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	my $onlyDataName = "-ONLY_DATA-";
 	my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
 	my $list = 	"Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg ".
-							"ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg UnitTests_to_local:noArg ".
+							"ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg UnitTests_from_SIGNALduino:noArg ".
 							"change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec ".
 							"invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg ".
 							"search_ignore_Devices:noArg ";
@@ -1680,8 +1732,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 
 	## read information from SD_ProtocolData.pm in memory ##
 	if ($cmd eq "ProtocolList_from_file_SD_ProtocolData.pm") {
-		$FW_SD_ProtocolData_get = 1;
-		$attr{$name}{DispatchModule} = "-";										# to set standard
+		$hash->{helper}{FW_SD_ProtocolData_get} = 1;    # need in java, check reload need
+		$attr{$name}{DispatchModule} = "-";							# to set standard
 		my $return = SIGNALduino_TOOL_SD_ProtocolData_read($name,$cmd,$path,$Filename_input);
 		readingsSingleUpdate($hash, "state" , "$return", 0);
 		if ($ProtocolListRead) {
@@ -1696,7 +1748,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	## read information from SD_Device_ProtocolList.json in JSON format ##
 	if ($cmd eq "ProtocolList_from_file_SD_Device_ProtocolList.json") {
 		Log3 $name, 4, "$name: Get $cmd - check (11)";
-		$FW_SD_Device_ProtocolList_get = 1; # need in java
+		$hash->{helper}{FW_SD_Device_ProtocolList_get} = 1; # need in java, check reload need
 
 		my $json;
 		{
@@ -1843,8 +1895,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					$return = "CC110x_Register_comparison:\n- found difference(s)\n\n";
 					$return.= "               old -> new , command\n";
 				}
-				my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset);
-				$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + $ccreg_offset)) == 1);
+				my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)) + CCREG_OFFSET);
+				$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + CCREG_OFFSET)) == 1);
 				$return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".$adress.$CC110x_Register_new[$i]."\n";
 			}
 		}
@@ -1864,8 +1916,37 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	}
 
 	## search all UnitTests from SIGNALduino DEV - project and define it an local system ##
-	if ($cmd eq "UnitTests_to_local") {
-		return "development";
+	if ($cmd eq "UnitTests_from_SIGNALduino") {
+		#### HTTP Requests #### Start ####
+		my $Http_err 	= "";
+		my $Http_data = "";
+
+		($Http_err, $Http_data) = HttpUtils_BlockingGet({ url			=> UNITTESTS_FROM_SIGNALduino_URL,
+																											timeout	=> TIMEOUT_HttpUtils,
+																											method	=> "GET",		# Lesen von Inhalten
+																										});
+		#### HTTP Requests #### END ####
+
+		if ($Http_err ne "") {
+			readingsSingleUpdate($hash, "state" , "cmd $cmd - need Internet or website are down!", 0);
+			Log3 $name, 2, "$name: $cmd failed, need Internet or website are down! ";
+			return;
+		} elsif ($Http_data ne "") {
+			my @apache_split = split (/\n/,$Http_data);
+			my @apache_testlist;
+
+			## loop - push tests ##
+			foreach (@apache_split) {
+				if ($_ =~ /title=".*txt" id=".*">(.*txt)<\/a>/) {
+					Log3 $name, 5, "$name: $cmd, found $1";
+					$_ =~ /.*href=".*">(.*)<\/a>.*/;
+					push (@apache_testlist, $1);
+				}
+			}
+			$hash->{helper}->{UnitTests_from_SIGNALduino} = join ("," , @apache_testlist) if (scalar(@apache_testlist) >= 1);
+		}
+		readingsSingleUpdate($hash, "state" , "$cmd retrieved successfully. Set command UnitTest_define available" , 0);
+		SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
 	}
 
 	return "Unknown argument $cmd, choose one of $list";
@@ -2037,13 +2118,26 @@ sub SIGNALduino_TOOL_Attr() {
 			SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,line_read,message_dispatched,message_to_module");
 			SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
 
-			$jsonDocNew = 0;
+			$hash->{helper}->{JSON_new_entry} = 0; # marker for script function, new emtpy need
 			readingsSingleUpdate($hash, "state" , "no dispatch possible" , 0);
 		}
 
 		Log3 $name, 3, "$name: $cmd attribute $attrName";
 	}
 
+}
+
+################################
+sub SIGNALduino_TOOL_Undef($$) {
+	my ($hash, $name) = @_;
+	delete($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}})
+		if(defined($hash->{DEF}) && defined($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}}));
+
+	foreach my $value (qw(FW_SD_Device_ProtocolList_get FW_SD_ProtocolData_get JSON_new_entry NTFY_SEARCH_Time NTFY_SEARCH_Value NTFY_SEARCH_Value_count NTFY_dispatchcount NTFY_match RUNNING_PID UnitTests_from_SIGNALduino decoded_Protocol_ID option start_time)) {
+		delete $hash->{helper}{$value} if(defined($hash->{helper}{$value}));
+	}
+
+	return undef;
 }
 
 ################################
@@ -2266,6 +2360,9 @@ sub SIGNALduino_TOOL_FW_Detail($@) {
 
 	Log3 $name, 5, "$name: FW_Detail is running";
 
+	$hash->{helper}{FW_SD_Device_ProtocolList_get} = 0 if (!$hash->{helper}{FW_SD_Device_ProtocolList_get});
+	$hash->{helper}{FW_SD_ProtocolData_get} = 0 if (!$hash->{helper}{FW_SD_ProtocolData_get});
+
 	my $ret = "<div class='makeTable wide'><span>Info menu</span>
 	<table class='block wide' id='SIGNALduinoInfoMenue' nm='$hash->{NAME}' class='block wide'>
 	<tr class='even'>";
@@ -2318,7 +2415,7 @@ function SD_DocuListWindow(txt) {
         
 				/* check reload need? */
 				var comparison = "0";
-				var load = "'.$FW_SD_ProtocolData_get.'";
+				var load = "'.$hash->{helper}{FW_SD_ProtocolData_get}.'";
 				if (comparison != load) {location.reload();};
       }}]
 	});
@@ -2341,7 +2438,7 @@ function function2(txt) {
 
 				/* check reload need? */
 				var comparison = "0";
-				var load = "'.$FW_SD_ProtocolData_get.'";
+				var load = "'.$hash->{helper}{FW_SD_ProtocolData_get}.'";
 				if (comparison != load) {location.reload();};
       }}]
 	});
@@ -2364,7 +2461,7 @@ function function3(txt) {
 				
 				/* check reload need? */
 				var comparison = "0";
-				var load = "'.$FW_SD_Device_ProtocolList_get.'";
+				var load = "'.$hash->{helper}{FW_SD_Device_ProtocolList_get}.'";
 				if (comparison != load) {location.reload();};
       }}]
 	});
@@ -2552,11 +2649,11 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 	## overview 2 - DMSG message ##
 	if ($searchDMSG_found == 0) {
 		$ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is <font color=\"#FF0000\"> NOT </font> documented</div></td> </tr>";
-		$jsonDocNew = 1;
-		$pos_array_device = 0;		# reset, DMSG not found -> new empty
-		$pos_array_data = 0;			# reset, DMSG not found -> new empty
+		$hash->{helper}->{JSON_new_entry} = 1; # marker for script function, new emtpy need
+		$pos_array_device = 0;		             # reset, DMSG not found -> new empty
+		$pos_array_data = 0;			             # reset, DMSG not found -> new empty
 	} elsif ($searchDMSG_found == 1) {
-		$jsonDocNew = 0;
+		$hash->{helper}->{JSON_new_entry} = 0; # marker for script function, new emtpy need
 		$ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is documented on device $searchDMSG_pos with state ".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state}."</div></td> </tr>";
 	}
 
@@ -2691,7 +2788,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 	Log3 $name, 4, "$name: FW_updateData is running (button -> update)";
 
 	### device is find in JSON ###
-	if (defined $pos_array_device && $jsonDocNew == 0) {
+	if (defined $pos_array_device && exists $hash->{helper}->{JSON_new_entry} && $hash->{helper}->{JSON_new_entry} == 0) {
 		for (my $i=0;$i<@array_value;$i++){
 			#Log3 $name, 4, "$name: FW_updateData - $i JavaString = ".$array_value[$i];
 			my @modJSON_split = split /\|/, $array_value[$i];
@@ -4038,6 +4135,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
+	<ul><li><a name="UnitTest_define"></a><code>UnitTest_define</code> - define the available UnitTest (command requires the GET query UnitTests_from_SIGNALduino)</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
 	<ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - deletes the specified room with all devices</li><a name=""></a></ul>
 	<ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - deletes logfiles from the system of devices that no longer exist</li><a name=""></a></ul>
@@ -4063,6 +4161,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
+	<ul><li><a name="UnitTests_from_SIGNALduino"></a><code>UnitTests_from_SIGNALduino</code> - retrieves the available UnitTests (after a successful call, the SET command UnitTest_define is available)</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
 	<ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li><a name=""></a></ul>
@@ -4155,7 +4254,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	<ul><li>Erstellung TimingsList der aller SIGNALduino Protokolle</li></ul>
 	<ul><li>und vieles mehr ...</li></ul><br>
 	Um den vollen Funktionsumfang des Tools zu nutzen, ben&ouml;tigen Sie einen definierten SIGNALduino Dummy. Bei diesem Device wird das Attribut eventlogging aktiv gesetzt.<br>
-	<i>Alle mit <code><font color="red">*</font color></code> versehen Befehle sind abhängig von Attributen. Die Attribute wurden mit der selben Kennzeichnung versehen.</i><br><br>
+	<i>Alle mit <code><font color="red">*</font color></code> versehen Befehle sind abh&auml;ngig von Attributen. Die Attribute wurden mit der selben Kennzeichnung versehen.</i><br><br>
 
 	<b>Define</b><br>
 	<ul><code>define &lt;NAME&gt; SIGNALduino_TOOL</code><br><br>
@@ -4173,12 +4272,13 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	<ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut StartString definiert wurden)<br>
 	&emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
 	<ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
-	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgewählten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
+	<ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgew&auml;hlten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
 	&emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
 	<ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
 	&emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
 	&emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
+	<ul><li><a name="UnitTest_define"></a><code>UnitTest_define</code> - definiert den zur Verf&uuml;gung stehenden UnitTest (Befehl erfordert die GET Abfrage UnitTests_from_SIGNALduino)</li><a name=""></a></ul>
 	<ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
 	<ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - l&ouml;scht den angegebenen Raum mit allen Ger&auml;ten</li><a name=""></a></ul>
 	<ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - l&ouml;scht Logfiles von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
@@ -4207,6 +4307,7 @@ sub SIGNALduino_TOOL_cc1101read_Full($$$) {
 	<ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
 	<ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
 	<ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
+	<ul><li><a name="UnitTests_from_SIGNALduino"></a><code>UnitTests_from_SIGNALduino</code> - ruft die zur Verf&uuml;gung stehenden UnitTests ab (nach erfolgreichem Abruf ist der SET Befehl UnitTest_define verf&uuml;gbar)</li><a name=""></a></ul>
 	<ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
 	<ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li><a name=""></a></ul>
