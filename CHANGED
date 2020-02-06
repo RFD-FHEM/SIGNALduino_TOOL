@@ -1,3 +1,9 @@
+2020-02-06 - Update 88_SIGNALduino_TOOL.pm
+
+- added option SIGNALduino UnitTests retrieve and define
+- remove some variables and added constante
+- added sub SIGNALduino_TOOL_Undef
+- revised commandref
 2020-02-04 - Update 88_SIGNALduino_TOOL.pm
 
 - added set cmd delete_room_with_all_Devices
