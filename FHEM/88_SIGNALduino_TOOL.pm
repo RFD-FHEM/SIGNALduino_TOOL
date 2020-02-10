@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-06 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-10 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1056,7 +1056,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 				## loop - push lines ##
 				foreach (@apache_split) {
-					if ($_ =~ /defmod\s.*\sUnitTest\s(.*)\s/) {
+					if ($_ =~ /defmod\s.*\sUnitTest\s(\w+)\s/) {
 						$_ =~ s/$1/$Dummyname/g;
 					}
 					$apache_testfile.= $_."\n";
