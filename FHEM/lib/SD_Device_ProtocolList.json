@@ -521,15 +521,6 @@
     }
   ]
 },
-{"name":"Pollin ISOTRONIC", "id":"31", "module":"", "data": [
-    {
-      "dmsg":"u31#891FE", "user":"kaihs",
-      "internals": {"DEF":"SIGNALduino_unknown_31", "NAME":"SIGNALduino_unknown_31"},
-      "readings": {"state":"891FE"},
-      "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
-    }
-  ]
-},
 {"name":"FreeTec PE-6946", "id":"32", "module":"SD_BELL", "data": [
     {
       "dmsg":"P32#154FFF", "comment":"(ID 40,62,63 additionally)", "user":"SD_Protocol",
@@ -588,7 +579,7 @@
 },
 {"name":"QUIGG_GT-7000", "id":"34", "module":"SD_UT", "data": [
     {
-      "dmsg":"P34#9E4FF", "comment":"(ID 31 additionally)", "model":"QUIGG_DMV", "user":"SD_Protocol",
+      "dmsg":"P34#9E4FF", "model":"QUIGG_DMV", "user":"SD_Protocol",
       "internals": {"DEF":"QUIGG_DMV 9E4", "NAME":"QUIGG_DMV_9E4"},
       "readings": {"state":"Ch1_off", "deviceCode":"100111100100"},
       "attributes": {"model":"QUIGG_DMV"},
@@ -603,6 +594,23 @@
       "readings": {"state":"Ch1_on", "deviceCode":"111111111111"},
       "attributes": {"model":"TR_502MSV"},
       "rmsg":"MU;P0=4192;P1=-663;P2=1325;P3=-1320;P4=668;P5=-9905;D=01212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541;CP=2;R=71;O;"
+    }
+  ]
+},
+{"name":"Pollin ISOTRONIC", "id":"34", "module":"", "data": [
+    {
+      "dmsg":"P34#891EE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
+      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
+      "readings": {"state":"Ch1_on", "deviceCode":"100010010001"},
+      "attributes": {"model":"QUIGG_DMV"},
+      "rmsg":"MU;P0=-9584;P1=592;P2=-665;P3=1223;P4=-1311;D=01234141412341412341414123232323412323234;CP=1;R=0;"
+    },
+    {
+      "dmsg":"P34#891FF", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
+      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
+      "readings": {"state":"Ch1_off", "deviceCode":"100010010001"},
+      "attributes": {"model":"QUIGG_DMV"},
+      "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
     }
   ]
 },
