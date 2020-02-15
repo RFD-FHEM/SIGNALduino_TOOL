@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-10 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-15 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -391,10 +391,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		### reset Internals ###
 		SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
 
-		delete $hash->{helper}->{NTFY_dispatchcount} if ($hash->{helper}->{NTFY_dispatchcount});
+		foreach my $value (qw(NTFY_dispatchcount NTFY_dispatchcount_allover NTFY_match)) {
+			delete $hash->{helper}{$value} if(defined($hash->{helper}{$value}));
+		}
 
 		$hash->{helper}->{NTFY_SEARCH_Value_count} = 0;
-		$hash->{helper}->{NTFY_match} = "-";
 		$DispatchOption = "-" if (not defined $hash->{helper}->{option});
 
 		return "ERROR: no Dummydevice with Attributes (Dummyname) defined!" if ($Dummyname eq "none" && $cmd !~ /delete_/);
@@ -584,7 +585,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$RAWMSG_last = $a[1];
 			$DummyTime = InternalVal($Dummyname, "TIME", 0);								# time if protocol dispatched - 1544377856
 			$return = "RAWMSG dispatched";
-			$count3 = 1;
+			$count3 = !$hash->{helper}->{NTFY_dispatchcount_allover} ? 1 : $hash->{helper}->{NTFY_dispatchcount_allover};
 		}
 
 		### neue DMSG benutzen ###
@@ -748,7 +749,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						print SaveDoc '      ' if ($i2 != 0);
 						print SaveDoc '"dmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}.'",';
 
-						## all values behind dmsg except readings, internals, rmsg, dmsg
+						## all values behind dmsg except readings, internals, rmsg, dmsg | example: dispatch_repeats
 						foreach my $key (sort keys %{@$ref_data[$i2]}) {
 							print SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",' if ($key !~ /^readings/ && $key !~ /^internals/ && $key !~ /^rmsg/ && $key !~ /^dmsg/ && $key !~ /^attributes/);
 						}
@@ -2490,7 +2491,7 @@ function function4(txt) {
 				/* JavaMod need !!! not support -> # = %23 | , = %2C .... */
 				allVals = encodeURIComponent(allVals);
 				
-				FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_updateData("'.$name.'","\'+allVals+\'","'.$hash.'")}\');
+				FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_updateData("'.$name.'","\'+allVals+\'")}\');
          $(this).dialog("close");
          $(div).remove();
          location.reload();
@@ -2779,7 +2780,7 @@ sub SIGNALduino_TOOL_FW_pushed_button {
 sub SIGNALduino_TOOL_FW_updateData {
 	my $name = shift;
 	my $modJSON = shift;				# values how checked on from overview
-	my $hash = shift;
+	my $hash = $defs{$name};
 
 	my @array_value = split(/[X][y][Z],/, $modJSON);
 	my $cnt_data_id_max;
@@ -3137,7 +3138,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 		$ntfy_match =~ /id\s(\d+.?\d?)/;
 		Log3 $name, 4, "$name: Notify - ntfy_match check, mark MC with id $1";
 
-		if ($hash->{helper}->{NTFY_match} eq "-") {
+		if (!$hash->{helper}->{NTFY_match}) {
 			$hash->{helper}->{NTFY_match} = $1;
 			$hash->{helper}->{NTFY_match} =~ s/\s+//g;
 			$hash->{helper}->{NTFY_SEARCH_Value_count}++;			# real counter if modul ok
@@ -3156,15 +3157,14 @@ sub SIGNALduino_TOOL_Notify($$) {
 
 		$ntfy_match =~ /id\s(\d+.?\d?)/ if (grep /Decoded/, $ntfy_match);
 		$ntfy_match =~ /Dispatch,\s[uU](\d+)#/ if (grep /Dispatch,\s[uU].*#/, $ntfy_match);
-		Log3 $name, 4, "$name: Notify - ntfy_match check, mark MS|MU|uU with id $1";
 
-		if ($hash->{helper}->{NTFY_match} && $hash->{helper}->{NTFY_match} eq "-") {
-			Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v1";
+		if (!$hash->{helper}->{NTFY_match}) {
+			Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v1 | mark MS|MU|uU with id $1";
 			$hash->{helper}->{NTFY_match} = $1;
 			$hash->{helper}->{NTFY_match} =~ s/\s+//g;
 			$hash->{helper}->{NTFY_SEARCH_Value_count}++;			# real counter if modul ok
 		} else {
-			Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v2";
+			Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v2 | mark MS|MU|uU with id $1";
 			my $mod = $1;
 			$mod =~ s/\s+//g;
 			if ($hash->{helper}->{NTFY_match} && (not grep /$mod/, $hash->{helper}->{NTFY_match})) {
@@ -3176,13 +3176,13 @@ sub SIGNALduino_TOOL_Notify($$) {
 		# ... Parse_MU, Decoded matched MU Protocol id .. dmsg ... length ... dispatch(1/4) RSSI = ...
 
 		if ( ($ntfy_match) = grep /Decoded.*dispatch\((\d+)/, @{$events} ) {
-			Log3 $name, 4, "$name: Notify - ntfy_match check, found mark Decoded & dispatch(decimal)";
+			Log3 $name, 5, "$name: Notify - ntfy_match check, found mark Decoded & dispatch(decimal)";
 			my $repeatcount = $ntfy_match;
 			$repeatcount =~ /Decoded.*dispatch\((\d+)/;
 			$repeatcount = ($1 * 1) - 1;
 			if ($repeatcount > 0) {
 				$hash->{helper}->{NTFY_dispatchcount} = $repeatcount;
-				Log3 $name, 4, "$name: Notify - ntfy_match check, repeat=$repeatcount";
+				Log3 $name, 4, "$name: Notify - ntfy_match check, ID repeat=$repeatcount";
 			}
 		}
 	}
@@ -3197,21 +3197,30 @@ sub SIGNALduino_TOOL_Notify($$) {
 	# ... Dispatch, s4F038300, test ungleich: disabled
 	# ... Dispatch, s4F038300, -79.5 dB, dispatch
 
-	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /Dispatch,.*,\stest/, @{$events}) ) {
-		Log3 $name, 4, "$name: Notify - event: $ntfy_match -> from $devName";
+	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /Dispatch,.*,\stest/, @{$events}) ) {
+		if (grep /ungleich/, @{$events}) {
+			Log3 $name, 4, "$name: Notify - START with event from $devName\n$ntfy_match";
+		} elsif (grep /gleich/, @{$events}) {
+			Log3 $name, 4, "$name: Notify - REPEAT with event from $devName\n$ntfy_match";
+		}
 
 		$ntfy_match =~ s/.*Dispatch,\s//g;
 		$ntfy_match =~ s/,\s.*//g;
-		Log3 $name, 4, "$name: Notify - START with ntfy_match $ntfy_match by event of $devName";
 
 		$hash->{helper}->{NTFY_SEARCH_Value} = $ntfy_match;
 		$hash->{helper}->{NTFY_SEARCH_Time} = FmtDateTime(time());
+
+		if ( not exists $hash->{helper}->{NTFY_dispatchcount_allover} ) {
+			$hash->{helper}->{NTFY_dispatchcount_allover} = 1;
+			} else {
+			$hash->{helper}->{NTFY_dispatchcount_allover}++;
+		}
 	}
 
 	## search DMSG in all events if search defined
-	if ( (my ($ntfy_match) = grep /DMSG/, @{$events}) && (not grep /Dropped/, @{$events}) && $hash->{helper}->{NTFY_SEARCH_Value} ) {
+	if ( ( ($ntfy_match) = grep /DMSG/, @{$events}) && (not grep /Dropped/, @{$events}) && $hash->{helper}->{NTFY_SEARCH_Value} ) {
 		$ntfy_match =~ s/.*DMSG:?\s//g;
-		Log3 $name, 4, "$name: Notify - search ntfy_match $ntfy_match | Device from events:$devName | name:$name";
+		Log3 $name, 5, "$name: Notify - search ntfy_match $ntfy_match | Device from events: $devName | name: $name";
 
 		if ( $hash->{helper}->{NTFY_SEARCH_Value} eq $ntfy_match && $devName ne "$name") {
 			Log3 $name, 4, "$name: Notify - FOUND ntfy_match $ntfy_match by event of $devName | SEARCH_Value verified!";
@@ -3230,7 +3239,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 		}
 	}
 
-	if ($devName eq $Dummyname && (my ($ntfy_match) = grep /UNKNOWNCODE/, @{$events}) ) {
+	if ($devName eq $Dummyname && ( ($ntfy_match) = grep /UNKNOWNCODE/, @{$events}) ) {
 		Log3 $name, 4, "$name: Notify - START -> $ntfy_match by event of $devName";
 		$hash->{dispatchDeviceTime} = FmtDateTime(time());
 		$hash->{dispatchSTATE} = "UNKNOWNCODE, help me!";
