@@ -774,7 +774,7 @@
 },
 {"name":"TFA 30.3208.0", "id":"58", "module":"SD_WS", "data": [
     {
-      "dmsg":"W58#45C8142445DB0", "dispatch_repeats":"2", "user":"Ralf9",
+      "dmsg":"W58#45C8142445DB0", "comment":"Repeats 2", "user":"Ralf9",
       "internals": {"DEF":"SD_WS_58_TH_2", "NAME":"SD_WS_58_TH_2"},
       "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2", "humidity":"69", "temperature":"18.9", "type":"TFA 30.3208.0"},
       "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
@@ -1219,7 +1219,7 @@
 },
 {"name":"SF01_01319004_A150", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#A1530", "comment":"(ID 63 additionally)", "user":"fhemjcm",
+      "dmsg":"P86#A1530", "comment":"(ID 63 additionally)", "dispatch_repeats":"3", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"plus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
