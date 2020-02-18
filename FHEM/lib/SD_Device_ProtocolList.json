@@ -1137,7 +1137,7 @@
 },
 {"name":"BOSCH SF01 01319004", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#26398", "comment":"Typ2, (ID 63,81 additionally)", "user":"Stuetti",
+      "dmsg":"P86#26398", "comment":"Typ2, (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
       "readings": {"state":"light_on_off", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
