@@ -513,7 +513,7 @@
 },
 {"name":"Unitec_47031", "id":"30", "module":"SD_UT", "data": [
     {
-      "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"3", "user":"Dr.E.Witz",
+      "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"7", "user":"Dr.E.Witz",
       "internals": {"DEF":"Unitec_47031 95", "NAME":"Unitec_47031_95"},
       "readings": {"state":"1", "System-Housecode":"10010101 (on|off|off|on|off|on|off|on)", "Usersystem":"Unitec 47121", "Zone":"010 (off|on|off) - Zone 3"},
       "attributes": {"model":"Unitec_47031"},
@@ -1219,28 +1219,28 @@
 },
 {"name":"SF01_01319004_A150", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#A1530", "comment":"(ID 63 additionally)", "dispatch_repeats":"3", "user":"fhemjcm",
+      "dmsg":"P86#A1530", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"plus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-220;P1=348;P2=-702;P3=-381;P4=662;P5=-15257;D=01213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451;CP=1;R=6;O;"
     },
     {
-      "dmsg":"P86#A1528", "comment":"(ID 63 additionally)", "dispatch_repeats":"3", "user":"fhemjcm",
+      "dmsg":"P86#A1528", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"minus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-2112;P1=340;P2=-708;P3=-381;P4=660;P5=-15243;D=01213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421;CP=1;R=7;O;"
     },
     {
-      "dmsg":"P86#A1538", "comment":"(ID 63 additionally)", "dispatch_repeats":"3", "user":"fhemjcm",
+      "dmsg":"P86#A1538", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"light_on_off", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-707;P1=332;P2=-376;P3=670;P5=-15243;D=01012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301;CP=1;R=3;O;"
     },
     {
-      "dmsg":"P86#A1524", "comment":"(ID 63 additionally)", "dispatch_repeats":"3", "user":"fhemjcm",
+      "dmsg":"P86#A1524", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"delay", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
