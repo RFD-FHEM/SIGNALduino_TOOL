@@ -346,7 +346,7 @@
 },
 {"name":"Unitec_47031_95", "id":"30", "module":"SD_UT", "data": [
     {
-      "dmsg":"P30#955", "comment":"model is under development (ID 63,83 additionally)", "dispatch_repeats":"3", "user":"Dr.E.Witz",
+      "dmsg":"P30#955", "comment":"model is under development (ID 63,83 additionally)", "dispatch_repeats":"7", "user":"Dr.E.Witz",
       "internals": {"DEF":"Unitec_47031 95", "NAME":"Unitec_47031_95"},
       "readings": {"state":"1", "System-Housecode":"10010101 (on|off|off|on|off|on|off|on)", "Usersystem":"Unitec 47121", "Zone":"010 (off|on|off) - Zone 3"},
       "attributes": {"model":"Unitec_47031"},
