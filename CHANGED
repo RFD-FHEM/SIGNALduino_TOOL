@@ -1,3 +1,6 @@
+2020-02-19 - Update SD_Device_ProtocolList.json
+
+- Removed data because it is a u protocol. Data in the DEV version has been completely revised with module assignment
 2020-02-18 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
 2020-02-18 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
 2020-02-18 - Update SD_Device_ProtocolList.json
