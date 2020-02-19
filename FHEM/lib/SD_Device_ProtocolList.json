@@ -354,15 +354,6 @@
     }
   ]
 },
-{"name":"Pollin ISOTRONIC", "id":"31", "module":"", "data": [
-    {
-      "dmsg":"u31#891FE", "user":"kaihs",
-      "internals": {"DEF":"SIGNALduino_unknown_31", "NAME":"SIGNALduino_unknown_31"},
-      "readings": {"state":"891FE"},
-      "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
-    }
-  ]
-},
 {"name":"FreeTec PE-6946", "id":"32", "module":"SD_BELL", "data": [
     {
       "dmsg":"P32#154FFF", "comment":"(ID 40,62,63 additionally)", "user":"SD_Protocol",
