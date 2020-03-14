@@ -763,31 +763,31 @@
     }
   ]
 },
-{"name":"SD_WS_54_R_D9C43", "id":"54", "module":"SD_WS", "data": [
+{"name":"SD_WS_54_R", "id":"54", "module":"SD_WS", "data": [
     {
       "dmsg":"W54#3D9C430618AA01340", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"sido",
-      "internals": {"DEF":"SD_WS_54_R_D9C43", "NAME":"SD_WS_54_R_D9C43"},
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 73.66", "batteryState":"ok", "rain_total":"73.66", "rawRainCounter":"290", "sendCounter":"3", "type":"TFA 30.3233.01"},
       "rmsg":"MU;P1=247;P2=-750;P3=722;P4=-489;P5=491;P6=-236;P7=-2184;D=1232141456565656145656141456565614141456141414145656141414141456561414141456561414145614561456145614141414141414145614145656145614141732321414565656561456561414565656141414561414141456561414141414565614141414565614141456145614561456141414141414141456141;CP=1;R=55;O;"
     },
     {
       "dmsg":"W54#3D9C430A1BAA01898", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"sido",
-      "internals": {"DEF":"SD_WS_54_R_D9C43", "NAME":"SD_WS_54_R_D9C43"},
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 74.422", "batteryState":"ok", "rain_total":"74.422", "rawRainCounter":"293", "sendCounter":"5", "type":"TFA 30.3233.01"},
       "rmsg":"MU;P0=-1672;P1=740;P2=-724;P3=260;P4=-468;P5=504;P6=-230;D=012123434565656563456563434565656343434563434343456563434343456345634343434565634565656345634563456343434343434343456563434345634345656;CP=3;R=4;"
     }
   ]
 },
-{"name":"SD_WS_54_R_896E1", "id":"54.1", "module":"SD_WS", "data": [
+{"name":"SD_WS_54_R", "id":"54.1", "module":"SD_WS", "data": [
     {
       "dmsg":"W54#3896E10467AA0068", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"punker",
-      "internals": {"DEF":"SD_WS_54_R_896E1", "NAME":"SD_WS_54_R_896E1"},
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 28.702", "batteryState":"ok", "rain_total":"28.702", "rawRainCounter":"113", "sendCounter":"2", "type":"TFA 30.3233.01"},
       "rmsg":"MS;P0=-241;P1=486;P2=241;P3=-488;P4=-2098;P5=738;P6=-730;D=24565623231010102323231023231023101023101010232323231023232323231023232310102323101010102310231023102323232323232323232310102310232323;CP=2;SP=4;R=30;O;b=19;s=1;m0;"
     },
     {
       "dmsg":"W54#3896E1066AAA0076", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"punker",
-      "internals": {"DEF":"SD_WS_54_R_896E1", "NAME":"SD_WS_54_R_896E1"},
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 29.464", "batteryState":"ok", "rain_total":"29.464", "rawRainCounter":"116", "sendCounter":"3", "type":"TFA 30.3233.01"},
       "rmsg":"MS;P0=-491;P1=242;P2=476;P3=-248;P4=-2096;P5=721;P6=-745;D=14565610102323231010102310102310232310232323101010102310101010102323101023231023102310231023102310231010101010101010101023232310232310;CP=1;SP=4;R=10;O;b=135;s=1;m0;"
     }
