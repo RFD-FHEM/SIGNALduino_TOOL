@@ -324,7 +324,7 @@
 },
 {"name":"TFA 30.3176", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Wetterstation 35.1101.02", "user":"HomeAuto_User",
+      "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Thermo-hygro sensor for base station 35.1101.02", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
       "readings": {"state":"T: 23.9 H: 9", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Dry. Less than 40% RH", "humidity":"9", "package_number":"3", "temperature":"23.9"},
       "rmsg":"MC;LL=-1022;LH=927;SL=-531;SH=442;D=A8EA345AD8BE0A3F6AA3F94;C=486;L=90;R=37;"
@@ -561,7 +561,7 @@
 },
 {"name":"TFA 30.3200", "id":"33.1", "module":"SD_WS", "data": [
     {
-      "dmsg":"W33#14C1C594C0C", "user":"cxxcoder",
+      "dmsg":"W33#14C1C594C0C", "comment":"Thermo-hygro sensor for base station 35.1126", "user":"cxxcoder",
       "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
       "readings": {"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1", "humidity":"53", "temperature":"18.8", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "rmsg":"MS;P1=-7796;P2=745;P3=-1976;P4=-3929;D=21232323242324232324242323232323242424232323242324242323242324232324242323232323232424;CP=2;SP=1;R=30;O;m2;"
@@ -763,30 +763,30 @@
     }
   ]
 },
-{"name":"SD_WS_54_R", "id":"54", "module":"SD_WS", "data": [
+{"name":"TFA 30.3233.01", "id":"54", "module":"SD_WS", "data": [
     {
-      "dmsg":"W54#3D9C430618AA01340", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"sido",
+      "dmsg":"W54#3D9C430618AA01340", "comment":"Rain sensor for base station 47.3005.01 / decode as MU", "user":"sido",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 73.66", "batteryState":"ok", "rain_total":"73.66", "rawRainCounter":"290", "sendCounter":"3", "type":"TFA 30.3233.01"},
       "rmsg":"MU;P1=247;P2=-750;P3=722;P4=-489;P5=491;P6=-236;P7=-2184;D=1232141456565656145656141456565614141456141414145656141414141456561414141456561414145614561456145614141414141414145614145656145614141732321414565656561456561414565656141414561414141456561414141414565614141414565614141456145614561456141414141414141456141;CP=1;R=55;O;"
     },
     {
-      "dmsg":"W54#3D9C430A1BAA01898", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"sido",
+      "dmsg":"W54#3D9C430A1BAA01898", "comment":"Rain sensor for base station 47.3005.01 / decode as MU", "user":"sido",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 74.422", "batteryState":"ok", "rain_total":"74.422", "rawRainCounter":"293", "sendCounter":"5", "type":"TFA 30.3233.01"},
       "rmsg":"MU;P0=-1672;P1=740;P2=-724;P3=260;P4=-468;P5=504;P6=-230;D=012123434565656563456563434565656343434563434343456563434343456345634343434565634565656345634563456343434343434343456563434345634345656;CP=3;R=4;"
     }
   ]
 },
-{"name":"SD_WS_54_R", "id":"54.1", "module":"SD_WS", "data": [
+{"name":"TFA 30.3233.01", "id":"54.1", "module":"SD_WS", "data": [
     {
-      "dmsg":"W54#3896E10467AA0068", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"punker",
+      "dmsg":"W54#3896E10467AA0068", "comment":"Rain sensor for base station 47.3005.01 / decode as MS", "user":"punker",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 28.702", "batteryState":"ok", "rain_total":"28.702", "rawRainCounter":"113", "sendCounter":"2", "type":"TFA 30.3233.01"},
       "rmsg":"MS;P0=-241;P1=486;P2=241;P3=-488;P4=-2098;P5=738;P6=-730;D=24565623231010102323231023231023101023101010232323231023232323231023232310102323101010102310231023102323232323232323232310102310232323;CP=2;SP=4;R=30;O;b=19;s=1;m0;"
     },
     {
-      "dmsg":"W54#3896E1066AAA0076", "comment":"Rain sensor 30.3233.01 for base station 47.3005.01", "user":"punker",
+      "dmsg":"W54#3896E1066AAA0076", "comment":"Rain sensor for base station 47.3005.01 / decode as MS", "user":"punker",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 29.464", "batteryState":"ok", "rain_total":"29.464", "rawRainCounter":"116", "sendCounter":"3", "type":"TFA 30.3233.01"},
       "rmsg":"MS;P0=-491;P1=242;P2=476;P3=-248;P4=-2096;P5=721;P6=-745;D=14565610102323231010102310102310232310232323101010102310101010102323101023231023102310231023102310231010101010101010101023232310232310;CP=1;SP=4;R=10;O;b=135;s=1;m0;"
@@ -802,9 +802,9 @@
     }
   ]
 },
-{"name":"TFA 30.3208.0", "id":"58", "module":"SD_WS", "data": [
+{"name":"TFA 30.3208.02", "id":"58", "module":"SD_WS", "data": [
     {
-      "dmsg":"W58#45C8142445DB0", "comment":"Repeats 2", "user":"Ralf9",
+      "dmsg":"W58#45C8142445DB0", "comment":"Thermo-hygro sensor with 2 Repeats", "user":"Ralf9",
       "internals": {"DEF":"SD_WS_58_TH_2", "NAME":"SD_WS_58_TH_2"},
       "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2", "humidity":"69", "temperature":"18.9", "type":"TFA 30.3208.0"},
       "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
@@ -1149,7 +1149,7 @@
 },
 {"name":"TFA 30.3222.02, Temp", "id":"85", "module":"SD_WS", "data": [
     {
-      "dmsg":"W85#0C45C60124B0554F8", "comment":"Wetterstation TFA 35.1140.01", "user":"Iron-R1",
+      "dmsg":"W85#0C45C60124B0554F8", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02"},
       "rmsg":"MU;P0=-509;P1=474;P2=-260;P3=228;P4=718;P5=-745;D=01212303030303012301230123012301230301212121230454545453030303012123030301230303012301212123030301212303030303030303012303012303012303012301212303030303012301230123012301230301212121212454545453030303012123030301230303012301212123030301212303030303030303;CP=3;R=46;O;"
@@ -1158,7 +1158,7 @@
 },
 {"name":"TFA 30.3222.02, Wind", "id":"85", "module":"SD_WS", "data": [
     {
-      "dmsg":"W85#0C35A602015000C98", "comment":"Wetterstation TFA 35.1140.01", "user":"Iron-R1",
+      "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
@@ -1394,9 +1394,9 @@
     }
   ]
 },
-{"name":"TFA 30.3221.02, Temp", "id":"89", "module":"SD_WS", "data": [
+{"name":"TFA 30.3221.02", "id":"89", "module":"SD_WS", "data": [
     {
-      "dmsg":"W89#F012333E01", "comment":"Wetterstation TFA 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
+      "dmsg":"W89#F012333E01", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_89_TH_2", "NAME":"SD_WS_89_TH_2"},
       "readings": {"state":"T: 6.3 H: 62", "batteryState":"ok", "channel":"2", "humidity":"62", "sendmode":"auto", "temperature":"6.3", "type":"TFA 30.3221.02"},
       "rmsg":"MU;P0=22960;P1=-893;P2=775;P3=409;P4=-296;P5=182;P6=-513;D=01212121343434345656565656565634565634565656343456563434565634343434345656565656565656342121212134343434565656565656563456563456565634345656343456563434343434565656565656565634212121213434343456565656565656345656345656563434565634345656343434343456565656;CP=5;R=22;O;"
