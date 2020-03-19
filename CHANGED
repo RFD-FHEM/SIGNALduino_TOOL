@@ -1,3 +1,6 @@
+2020-03-19 - Update SD_Device_ProtocolList.json
+
+change "TFA 30.3208.02", "id":"58" "type":"TFA 30.3208.02, FT007xx"
 2020-02-19 - Update SD_Device_ProtocolList.json
 
 - Removed data because it is a u protocol. Data in the DEV version has been completely revised with module assignment
