@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 168514 2020-02-15 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 239810 2020-03-24 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -2150,7 +2150,7 @@ sub SIGNALduino_TOOL_RAWMSG_Check($$$) {
 	Log3 $name, 5, "$name: RAWMSG_Check cleaned message: $message";
 
 	return "ERROR: no attribute value defined" 	if ($message =~ /^1/ && $cmd eq "set");																			# attr without value
-	return "ERROR: wrong RAWMSG - no MU;|MC;|MS; at start" 	if not $message =~ /^(?:MU;|MC;|MS;).*/;												# Start with MU;|MC;|MS;
+	return "ERROR: wrong RAWMSG - no MU;|MC;|MS;|MN; at start" 	if not $message =~ /^(?:M[UCSN];).*/;
 	return "ERROR: wrong RAWMSG - D= are not [0-9]" 		if ($message =~ /^(?:MU;|MS;).*/ && not $message =~ /D=[0-9]*;/);	# MU|MS D= with [0-9]
 	return "ERROR: wrong RAWMSG - D= are not [0-9][A-F]" 	if ($message =~ /^(?:MC).*/ && not $message =~ /D=[0-9A-F]*;/);	# MC D= with [0-9A-F]
 	return "ERROR: wrong RAWMSG - End of Line missing ;" 	if not $message =~ /;\Z/;																					# End Line with ;
@@ -3182,7 +3182,7 @@ sub SIGNALduino_TOOL_Notify($$) {
 			$repeatcount = ($1 * 1) - 1;
 			if ($repeatcount > 0) {
 				$hash->{helper}->{NTFY_dispatchcount} = $repeatcount;
-				Log3 $name, 4, "$name: Notify - ntfy_match check, ID repeat=$repeatcount";
+				Log3 $name, 5, "$name: Notify - ntfy_match check, ID repeat=$repeatcount";
 			}
 		}
 	}
