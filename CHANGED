@@ -1,3 +1,7 @@
+2020-03-24 - Update 88_SIGNALduino_TOOL.pm
+
+- extension RegEx
+- revised LogOutput
 2020-03-22 - Update SD_Device_ProtocolList.json
 
 - revised name Froggit FT007T
