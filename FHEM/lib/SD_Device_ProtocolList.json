@@ -1627,6 +1627,30 @@
     }
   ]
 },
+{"name":"Momento_0000064", "id":"97", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P97#0000064248", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
+      "readings": {"state":"play/pause", "LastAction":"receive", "deviceCode":"0000064"},
+      "attributes": {"model":"Momento"},
+      "rmsg":"MU;P0=-294;P1=237;P2=5829;P3=-3887;P4=1001;P5=-523;P6=504;P7=-995;D=01010101010101010101010234545454545454545454545454545454545454545456767454567454545456745456745456745454523454545454545454545454545454545454545454545676745456745454545674545674545674545452345454545454545454545454545454545454545454567674545674545454567454;CP=4;R=45;O;"
+    },
+    {
+      "dmsg":"P97#0000064147", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
+      "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0000064"},
+      "attributes": {"model":"Momento"},
+      "rmsg":"MU;P0=-998;P1=-273;P2=256;P3=5830;P4=-3906;P5=991;P6=-527;P7=508;D=12121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121345656565656565656565656565656565656565656567070565670565656565670567056565670707034565656565656565656565656565656565656565656707056567;CP=2;R=40;O;"
+    },
+    {
+      "dmsg":"P97#000006444A", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
+      "readings": {"state":"up", "LastAction":"receive", "deviceCode":"0000064"},
+      "attributes": {"model":"Momento"},
+      "rmsg":"MU;P0=-1005;P1=-272;P2=258;P3=5856;P4=-3902;P5=1001;P6=-520;P7=508;D=0121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121213456565656565656565656565656565656565656565670705656705656567056565670565670567056345656565656565656565656565656565656565656567070565;CP=2;R=63;O;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
