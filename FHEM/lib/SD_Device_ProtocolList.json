@@ -1627,7 +1627,7 @@
     }
   ]
 },
-{"name":"Momento_0000064", "id":"97", "module":"SD_UT", "data": [
+{"name":"Momento", "id":"97", "module":"SD_UT", "data": [
     {
       "dmsg":"P97#0000064248", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
@@ -1651,9 +1651,9 @@
     }
   ]
 },
-{"name":"SD_BELL_6A2C", "id":"98", "module":"SD_BELL", "data": [
+{"name":"GEA-028DB", "id":"98", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P98#6A2C", "comment":"Radio door chime GEA-028DB", "user":"elektron-bbs",
+      "dmsg":"P98#6A2C", "comment":"Radio door chime", "user":"elektron-bbs",
       "internals": {"DEF":"98 6A2C", "NAME":"SD_BELL_6A2C"},
       "readings": {"state":"ring"},
       "attributes": {"model":"GEA-028DB"},
@@ -1661,7 +1661,7 @@
     }
   ]
 },
-{"name":"Navaris_211073", "id":"99", "module":"SD_UT", "data": [
+{"name":"NAVARIS 44344.04", "id":"99", "module":"SD_UT", "data": [
     {
       "dmsg":"P99#211073", "comment":"NAVARIS touch light switch Model No.: 44344.04", "user":"elektron-bbs",
       "internals": {"DEF":"Navaris 211073", "NAME":"Navaris_211073"},
