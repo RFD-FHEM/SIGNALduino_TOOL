@@ -1653,7 +1653,7 @@
 },
 {"name":"GEA-028DB", "id":"98", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P98#6A2C", "comment":"Radio door chime", "user":"elektron-bbs",
+      "dmsg":"P98#6A2C", "comment":"Radio door chime", "user":"nagelreo",
       "internals": {"DEF":"98 6A2C", "NAME":"SD_BELL_6A2C"},
       "readings": {"state":"ring"},
       "attributes": {"model":"GEA-028DB"},
@@ -1663,7 +1663,7 @@
 },
 {"name":"NAVARIS 44344.04", "id":"99", "module":"SD_UT", "data": [
     {
-      "dmsg":"P99#211073", "comment":"NAVARIS touch light switch Model No.: 44344.04", "user":"elektron-bbs",
+      "dmsg":"P99#211073", "comment":"NAVARIS touch light switch Model No.: 44344.04", "user":"DavidKing123456",
       "internals": {"DEF":"Navaris 211073", "NAME":"Navaris_211073"},
       "readings": {"state":"receive", "LastAction":"receive"},
       "attributes": {"model":"Navaris"},
@@ -1671,29 +1671,23 @@
     }
   ]
 },
-{"name":"TR60C1_0", "id":"104", "module":"SD_UT", "data": [
+{"name":"TR60C-1", "id":"104", "module":"SD_UT", "data": [
     {
-      "dmsg":"P104#0F80", "comment":"Remote control for example Westinghouse Bendan 77841B", "user":"elektron-bbs",
+      "dmsg":"P104#0F80", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 0)", "user":"phoenix-anasazi",
       "internals": {"DEF":"TR60C1 0", "NAME":"TR60C1_0"},
       "readings": {"state":"light_off_fan_off", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"TR60C1"},
       "rmsg":"MU;P0=18280;P1=-737;P2=419;P3=-331;P4=799;P5=-9574;P6=-7080;D=012121234343434341212121212121252121212123434343434121212121212125212121212343434343412121212121212521212121234343434341212121212121252121212123434343434121212121212126;CP=2;R=2;"
-    }
-  ]
-},
-{"name":"TR60C1_9", "id":"104", "module":"SD_UT", "data": [
+    },
     {
-      "dmsg":"P104#9780", "comment":"Remote control for example Westinghouse Bendan 77841B", "user":"elektron-bbs",
+      "dmsg":"P104#9780", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 9)", "user":"phoenix-anasazi",
       "internals": {"DEF":"TR60C1 9", "NAME":"TR60C1_9"},
       "readings": {"state":"light_off_fan_4", "LastAction":"receive", "deviceCode":"9"},
       "attributes": {"model":"TR60C1"},
       "rmsg":"MU;P0=14896;P1=-751;P2=394;P3=-370;P4=768;P5=-9572;P6=-21472;D=0121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212125234121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212126;CP=2;R=4;"
-    }
-  ]
-},
-{"name":"TR60C1_B", "id":"104", "module":"SD_UT", "data": [
+    },
     {
-      "dmsg":"P104#B38F", "comment":"Remote control for example Westinghouse Bendan 77841B", "user":"elektron-bbs",
+      "dmsg":"P104#B38F", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode B)", "user":"phoenix-anasazi",
       "internals": {"DEF":"TR60C1 B", "NAME":"TR60C1_B"},
       "readings": {"state":"light_on_fan_2", "LastAction":"receive", "deviceCode":"B"},
       "attributes": {"model":"TR60C1"},
