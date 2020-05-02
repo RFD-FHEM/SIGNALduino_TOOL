@@ -577,6 +577,23 @@
     }
   ]
 },
+{"name":"Pollin ISOTRONIC", "id":"34", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P34#891EE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
+      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
+      "readings": {"state":"Ch1_on", "deviceCode":"100010010001"},
+      "attributes": {"model":"QUIGG_DMV"},
+      "rmsg":"MU;P0=-9584;P1=592;P2=-665;P3=1223;P4=-1311;D=01234141412341412341414123232323412323234;CP=1;R=0;"
+    },
+    {
+      "dmsg":"P34#891FF", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
+      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
+      "readings": {"state":"Ch1_off", "deviceCode":"100010010001"},
+      "attributes": {"model":"QUIGG_DMV"},
+      "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
+    }
+  ]
+},
 {"name":"QUIGG_GT-7000", "id":"34", "module":"SD_UT", "data": [
     {
       "dmsg":"P34#9E4FF", "model":"QUIGG_DMV", "user":"SD_Protocol",
@@ -594,23 +611,6 @@
       "readings": {"state":"Ch1_on", "deviceCode":"111111111111"},
       "attributes": {"model":"TR_502MSV"},
       "rmsg":"MU;P0=4192;P1=-663;P2=1325;P3=-1320;P4=668;P5=-9905;D=01212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541;CP=2;R=71;O;"
-    }
-  ]
-},
-{"name":"Pollin ISOTRONIC", "id":"34", "module":"", "data": [
-    {
-      "dmsg":"P34#891EE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
-      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
-      "readings": {"state":"Ch1_on", "deviceCode":"100010010001"},
-      "attributes": {"model":"QUIGG_DMV"},
-      "rmsg":"MU;P0=-9584;P1=592;P2=-665;P3=1223;P4=-1311;D=01234141412341412341414123232323412323234;CP=1;R=0;"
-    },
-    {
-      "dmsg":"P34#891FF", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
-      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
-      "readings": {"state":"Ch1_off", "deviceCode":"100010010001"},
-      "attributes": {"model":"QUIGG_DMV"},
-      "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
     }
   ]
 },
@@ -723,10 +723,54 @@
     }
   ]
 },
-{"name":"QUIGG_GT-9000", "id":"49", "module":"SD_GT", "data": [
+{"name":"QUIGG_GT-9000", "id":"49.2", "module":"SD_GT", "data": [
     {
-      "dmsg":"U49#8B2DB0", "comment":"(ID 5,27 additionally)", "dispatch_repeats":"3", "user":"TiEr92",
-      "rmsg":"MU;P0=-563;P1=479;P2=991;P3=-423;P4=361;P5=-1053;P6=3008;P7=-7110;D=2345454523452323454523452323452323452323454545456720151515201520201515201520201520201520201515151567201515152015202015152015202015202015202015151515672015151520152020151520152020152020152020151515156720151515201520201515201520201520201520201515151;CP=1;R=21;"
+      "dmsg":"P49#C9AFAC", "comment":"Button C off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C9AFAC"},
+      "rmsg":"MU;P0=328;P1=-428;P3=1090;P4=-1190;P5=-2310;D=010131040431310431043131313131043104313104040531310404310404313104310431313131310431043131040405313104043104043131043104313131313104310431310404053131040431040431310431043131313131043104313104042;CP=0;"
+    },
+    {
+      "dmsg":"P49#C22B9C", "comment":"Button C off, Rollingcode 2, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B9C"},
+      "rmsg":"MU;P0=1090;P1=-430;P2=328;P3=-1192;P4=-2319;P5=2988;D=01012323232301232323012301230101012323010101232324010123232323012323230123012301010123230101012323240101232323230123232301230123010101232301010123232401012323232301232323012301230101012323010101232353;CP=2;"
+    },
+    {
+      "dmsg":"P49#CDD41C", "comment":"Button C off, Rollingcode 3, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"CDD41C"},
+      "rmsg":"MU;P0=1086;P1=-433;P2=327;P3=-1194;P4=-2318;P5=2988;D=01012323010123010101230123012323232323010101232324010123230101230101012301230123232323230101012323240101232301012301010123012301232323232301010123232401012323010123010101230123012323232323010101232353;CP=2;"
+    },
+    {
+      "dmsg":"P49#C3802C", "comment":"Button C off, Rollingcode 4, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C3802C"},
+      "rmsg":"MU;P0=1090;P1=-428;P2=334;P3=-1190;P4=-2317;P5=2988;D=01012323232301010123232323232323232301230101232324010123232323010101232323232323232323012301012323240101232323230101012323232323232323230123010123232401012323232301010123232323232323232301230101232353;CP=2;"
+    },
+    {
+      "dmsg":"P49#CA627C", "comment":"Button C on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"CA627C"},
+      "rmsg":"MU;P0=1092;P1=-429;P2=335;P3=-1184;P4=-2316;P5=2996;D=010123230123012323010123232301232301010101012323240101232301230123230101232323012323010101010123232401012323012301232301012323230123230101010101232355;CP=2;"
+    },
+    {
+      "dmsg":"P49#C6B54C", "comment":"Button C on, Rollingcode 2, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B54C"},
+      "rmsg":"MU;P0=1090;P1=-429;P2=331;P3=-1189;P4=-2316;P5=2992;D=01012323230101230123010123012301230123230101232324010123232301012301230101230123012301232301012323240101232323010123012301012301230123012323010123232401012323230101230123010123012301230123230101232354;CP=2;"
+    },
+    {
+      "dmsg":"P49#C6B542", "comment":"Button D off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B542"},
+      "rmsg":"MU;P0=-800;P1=-422;P2=346;P3=-1176;P4=1103;P5=-2302;D=0123234141234123414123412341234123232323412325414123232341412341234141234123412341232323234123254125;CP=2;"
+    },
+    {
+      "dmsg":"P49#C22B92", "comment":"Button D on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B92"},
+      "rmsg":"MU;P0=-416;P1=1100;P2=345;P3=-1176;P4=-2298;P5=3008;D=0010232323102310231010102323102323102324101023232323102323231023102310101023231023231023241010232323231023232310231023101010232310232310232410102323232310232323102310231010102323102323102351;CP=2;"
     }
   ]
 },
