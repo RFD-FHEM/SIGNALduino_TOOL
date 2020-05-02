@@ -1,5 +1,8 @@
 2020-05-02 - Update SD_Device_ProtocolList.json
 
+revised data modul SD_GT -> QUIGG_GT-9000
+2020-05-02 - Update SD_Device_ProtocolList.json
+
 * revised username (name of the user who owns the hardware)
 * revised model TR60C-1 to one entry
 2020-05-02 - new data for protocol 104 remote control TR60C-1
