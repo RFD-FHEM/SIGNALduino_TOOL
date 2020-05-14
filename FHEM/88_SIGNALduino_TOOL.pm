@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 239810 2020-03-24 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 241224 2020-05-14 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,8 +8,8 @@
 # Github - RFD-FHEM
 # https://github.com/RFD-FHEM/SIGNALduino_TOOL
 #
-# 2018 | 2019 | 2020 - HomeAuto_User & elektron-bbs
-#	2020 - SIGNALduino_TOOL_cc1101read Zuarbeit @plin
+# 2018 - 2020 - HomeAuto_User, elektron-bbs, sidey79
+# 2020 - SIGNALduino_TOOL_cc1101read Zuarbeit @plin
 ######################################################################
 # Note´s
 # - check send RAWMSG from sender
@@ -31,22 +31,22 @@ sub SIGNALduino_Get_Callback($$$);
 
 #$| = 1;		#Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
-my %List;																								# for dispatch List from from file .txt
-my $ProtocolList_setlist = "";													# for setlist with readed ProtocolList information
-my $ProtocolListInfo;																		# for Info from many parameters from SD_ProtocolData file
+my %List;                             # for dispatch List from from file .txt
+my $ProtocolList_setlist = "";        # for setlist with readed ProtocolList information
+my $ProtocolListInfo;                 # for Info from many parameters from SD_ProtocolData file
 
-my @ProtocolList;																				# ProtocolList hash from file write SD_ProtocolData information
-my $ProtocolListRead; 																	# ProtocolList from readed SD_Device_ProtocolList file | (name id module dmsg user state repeat model comment rmsg)
+my @ProtocolList;                     # ProtocolList hash from file write SD_ProtocolData information
+my $ProtocolListRead;                 # ProtocolList from readed SD_Device_ProtocolList file | (name id module dmsg user state repeat model comment rmsg)
 
 my $DispatchOption;
 my $DispatchMemory;
-my $Filename_Dispatch = "SIGNALduino_TOOL_Dispatch_";		# name file to read input for dispatch
-my $NameDispatchSet = "Dispatch_";											# name of setlist value´s to dispatch
-my $jsonDoc = "SD_Device_ProtocolList.json";						# name of file to import / export
-my $pos_array_data;																			# position of difference in data part from value
-my $pos_array_device;																		# position of difference in array over all
+my $Filename_Dispatch = "SIGNALduino_TOOL_Dispatch_";    # name file to read input for dispatch
+my $NameDispatchSet = "Dispatch_";                       # name of setlist value´s to dispatch
+my $jsonDoc = "SD_Device_ProtocolList.json";             # name of file to import / export
+my $pos_array_data;                                      # position of difference in data part from value
+my $pos_array_device;                                    # position of difference in array over all
 
-my $SIGNALduino_TOOL_NAME;                              # to better work with TOOL in subs, if return a other HASH
+my $SIGNALduino_TOOL_NAME;                               # to better work with TOOL in subs, if return a other HASH
 
 ################################
 
@@ -54,7 +54,7 @@ use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => "https://svn.fhem.de/fhem/trunk/fhem/www/gplot/",
 	TIMEOUT_HttpUtils => 3,
-	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",
+	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",  # next branch dev-r35_xFSK_oo
 	UNITTESTS_RAWFILE_URL => "https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/",
 };
 
@@ -101,20 +101,21 @@ my %category = (
 sub SIGNALduino_TOOL_Initialize($) {
 	my ($hash) = @_;
 
-	$hash->{DefFn}							=	"SIGNALduino_TOOL_Define";
-	$hash->{UndefFn}						= "SIGNALduino_TOOL_Undef";
-	$hash->{SetFn}							=	"SIGNALduino_TOOL_Set";
-	$hash->{ShutdownFn}					= "SIGNALduino_TOOL_Shutdown";
-	$hash->{AttrFn}							=	"SIGNALduino_TOOL_Attr";
-	$hash->{GetFn}							=	"SIGNALduino_TOOL_Get";
-	$hash->{NotifyFn}						= "SIGNALduino_TOOL_Notify";
-  $hash->{FW_detailFn}				= "SIGNALduino_TOOL_FW_Detail";
-	$hash->{FW_deviceOverview}	= 1;
-	$hash->{AttrList}						=	"disable Dummyname Filename_input Filename_export MessageNumber Path StartString:MU;,MC;,MS; DispatchMax comment"
-															." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3"
-															." IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20"
-															." JSON_Check_exceptions JSON_write_ERRORs:no,yes"
-															." CC110x_Register_old:textField-long CC110x_Register_new:textField-long";
+	$hash->{DefFn}              = "SIGNALduino_TOOL_Define";
+	$hash->{UndefFn}            = "SIGNALduino_TOOL_Undef";
+	$hash->{SetFn}              = "SIGNALduino_TOOL_Set";
+	$hash->{ShutdownFn}         = "SIGNALduino_TOOL_Shutdown";
+	$hash->{AttrFn}             = "SIGNALduino_TOOL_Attr";
+	$hash->{GetFn}              = "SIGNALduino_TOOL_Get";
+	$hash->{NotifyFn}           = "SIGNALduino_TOOL_Notify";
+	$hash->{FW_detailFn}        = "SIGNALduino_TOOL_FW_Detail";
+	$hash->{FW_deviceOverview}  = 1;
+	$hash->{AttrList}           = "comment disable DispatchMax Dummyname MessageNumber Path StartString:MU;,MC;,MS;"
+                                 ." CC110x_Register_old:textField-long CC110x_Register_new:textField-long"
+                                 ." Filename_export Filename_input"
+								 ." IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20"
+                                 ." JSON_Check_exceptions JSON_write_ERRORs:no,yes"
+                                 ." RAWMSG_M1 RAWMSG_M2 RAWMSG_M3";
 }
 
 ################################
@@ -183,36 +184,36 @@ sub SIGNALduino_TOOL_Set($$$@) {
 	my ( $hash, $name, @a ) = @_;
 
 	return "no set value specified" if(int(@a) < 1);
-	my $RAWMSG_last = ReadingsVal($name, "last_MSG", "none");		# check RAWMSG exists
-	my $DMSG_last = ReadingsVal($name, "last_DMSG", "none");		# check RAWMSG exists
+	my $RAWMSG_last = ReadingsVal($name, "last_MSG", "none");    # check RAWMSG exists
+	my $DMSG_last = ReadingsVal($name, "last_DMSG", "none");     # check RAWMSG exists
 
 	my $cmd = $a[0];
 	my $cmd2 = $a[1];
-	my $count1 = 0;		# Initialisieren - zeilen
-	my $count2 = 0;		# Initialisieren - startpos found
-	my $count3 = 0;		# Initialisieren - dispatch ok
+	my $count1 = 0;                                              # Initialisieren - zeilen
+	my $count2 = 0;                                              # Initialisieren - startpos found
+	my $count3 = 0;                                              # Initialisieren - dispatch ok
 	my $return = "";
 	my $decoded_Protocol_ID = "";
 
-	my $DispatchMax = AttrVal($name,"DispatchMax","1");					# max value to dispatch from attribut
-	my $DispatchModule = AttrVal($name,"DispatchModule","-");		# DispatchModule List
-	my $Dummyname = AttrVal($name,"Dummyname","none");					# Dummyname
-	my $DummyDMSG = InternalVal($Dummyname, "DMSG", "failed");	# P30#7FE
-	my $DummyMSGCNT_old = InternalVal($Dummyname, "MSGCNT", 0);	# DummynameMSGCNT before
-	my $DummyMSGCNTvalue = 0;																		# value DummynameMSGCNT before - DummynameMSGCNT
-	my $DummyTime = 0;																					# to set DummyTime after dispatch
-	my $NameSendSet = "Send_";																	# name of setlist value´s to send
-	my $IODev_Repeats = AttrVal($name,"IODev_Repeats",1);			  # Repeats of IODev
-	my $Sendername = AttrVal($name,"IODev","none");				      # Sendername to direct send command
-	my $cmd_raw;																								# cmd_raw to view for user
-	my $cmd_sendMSG;																						# cmd_sendMSG to view for user
-	my $cnt_loop = 0;																						# Counter for numbre of setLoop
-	my $file = AttrVal($name,"Filename_input","");							# Filename
-	my $messageNumber = AttrVal($name,"MessageNumber",0);				# MessageNumber
-	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");					# Path | # Path if not define
-	my $string1pos = AttrVal($name,"StartString","");						# String to find Pos
-	my $userattr = AttrVal($name,"userattr","-");								# userattr value
-	my $webCmd = AttrVal($name,"webCmd","");										# webCmd value from attr
+	my $DispatchMax = AttrVal($name,"DispatchMax","1");          # max value to dispatch from attribut
+	my $DispatchModule = AttrVal($name,"DispatchModule","-");    # DispatchModule List
+	my $Dummyname = AttrVal($name,"Dummyname","none");           # Dummyname
+	my $DummyDMSG = InternalVal($Dummyname, "DMSG", "failed");   # P30#7FE
+	my $DummyMSGCNT_old = InternalVal($Dummyname, "MSGCNT", 0);  # DummynameMSGCNT before
+	my $DummyMSGCNTvalue = 0;                                    # value DummynameMSGCNT before - DummynameMSGCNT
+	my $DummyTime = 0;                                           # to set DummyTime after dispatch
+	my $NameSendSet = "Send_";                                   # name of setlist value´s to send
+	my $IODev_Repeats = AttrVal($name,"IODev_Repeats",1);        # Repeats of IODev
+	my $Sendername = AttrVal($name,"IODev","none");              # Sendername to direct send command
+	my $cmd_raw;                                                 # cmd_raw to view for user
+	my $cmd_sendMSG;                                             # cmd_sendMSG to view for user
+	my $cnt_loop = 0;                                            # Counter for numbre of setLoop
+	my $file = AttrVal($name,"Filename_input","");               # Filename
+	my $messageNumber = AttrVal($name,"MessageNumber",0);        # MessageNumber
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");          # Path | # Path if not define
+	my $string1pos = AttrVal($name,"StartString","");            # String to find Pos
+	my $userattr = AttrVal($name,"userattr","-");                # userattr value
+	my $webCmd = AttrVal($name,"webCmd","");                     # webCmd value from attr
 
 	my $JSON_write_ERRORs = AttrVal($name,"JSON_write_ERRORs","no");
 
@@ -254,14 +255,14 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		}
 
 		### value userattr from all txt files ### 
-		@modeltyp = sort { lc($a) cmp lc($b) } @modeltyp;													          # sort array of dispatch txt files
-		my $userattr_list = join(",", @modeltyp);																		        # sorted list of dispatch txt files
-		my $userattr_list_new = $userattr_list.",".$ProtocolList_setlist;										# list of all dispatch possibilities
+		@modeltyp = sort { lc($a) cmp lc($b) } @modeltyp;                                   # sort array of dispatch txt files
+		my $userattr_list = join(",", @modeltyp);                                           # sorted list of dispatch txt files
+		my $userattr_list_new = $userattr_list.",".$ProtocolList_setlist;                   # list of all dispatch possibilities
 
 		my @userattr_list_new_array = split(",", $userattr_list_new);                       # array unsorted of all dispatch possibilities
 		@userattr_list_new_array = sort { $a cmp $b } @userattr_list_new_array;             # array sorted of all dispatch possibilities
 
-		$userattr_list_new = "DispatchModule:-";																						# attr value userattr
+		$userattr_list_new = "DispatchModule:-";                                            # attr value userattr
 		if (scalar(@userattr_list_new_array) != 0) {
 			$userattr_list_new.= ",";
 			$userattr_list_new.= join( "," , @userattr_list_new_array );
@@ -288,9 +289,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				while (<FileCheck>){
 					if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
 						$count++;
-						my @arg = split(",", $_);										# a0=Modell | a1=Zustand | a2=RAWMSG
+						my @arg = split(",", $_);                     # a0=Modell | a1=Zustand | a2=RAWMSG
 						$arg[1] = "noArg" if ($arg[1] eq "");
-						$arg[1] =~ s/[^A-Za-z0-9\-;.:=_|#?]//g;;		# nur zulässige Zeichen erlauben sonst leicht ERROR
+						$arg[1] =~ s/[^A-Za-z0-9\-;.:=_|#?]//g;;      # nur zulässige Zeichen erlauben sonst leicht ERROR
 						$List{$arg[0]}{$arg[1]} = $arg[2];
 					}
 				}
@@ -346,11 +347,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 									foreach my $key (sort keys %{$data_element}) {
 										if ($key =~ /comment/) {
 											$comment = $data_element->{$key};
-											$comment =~ s/\s+/_/g;										# ersetze Leerzeichen durch _ (nicht erlaubt in setList)
-											$comment =~ s/,/_/g;											# ersetze Komma durch _ (nicht erlaubt in setList)
+											$comment =~ s/\s+/_/g;                     # ersetze Leerzeichen durch _ (nicht erlaubt in setList)
+											$comment =~ s/,/_/g;                       # ersetze Komma durch _ (nicht erlaubt in setList)
 										} elsif ($key =~ /state/) {
 											$state = $data_element->{$key};
-											$state =~ s/\s+/_/g;							  			# ersetze leerzeichen durch _
+											$state =~ s/\s+/_/g;                       # ersetze leerzeichen durch _
 										}
 									}
 									Log3 $name, 5, "$name: state=$state comment=$comment";
@@ -486,7 +487,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 					## for message with state or comment in doc ##
 					my $devicename = @{$ProtocolListRead}[$i]->{name};
-					$devicename =~ s/\s/_/g;										# ersetze Leerzeichen durch _
+					$devicename =~ s/\s/_/g;                                # ersetze Leerzeichen durch _
 
 					if (defined @{$ProtocolListRead}[$i]->{name} && $devicename eq $device && $a[1]) {
 						Log3 $name, 4, "$name: set $cmd - device=".@{$ProtocolListRead}[$i]->{name}." found on pos $i (".$a[1].")";
@@ -494,8 +495,8 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						for my $data_element (@$data_array) {
 							foreach my $key (sort keys %{$data_element}) {
 								my $RegEx = $data_element->{$key};
-								$RegEx =~ s/\s/_/g;										# ersetze Leerzeichen durch _
-								$RegEx =~ s/,/./g;										# ersetze Komma durch .
+								$RegEx =~ s/\s/_/g;                         # ersetze Leerzeichen durch _
+								$RegEx =~ s/,/./g;                          # ersetze Komma durch .
 								if ($a[1] =~ /$RegEx/) {
 									$RAWMSG = $data_element->{rmsg};
 									$error_break--;
@@ -541,11 +542,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				return "";
 			}
 
-			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);	# check RAWMSG
-			return "$error" if $error ne "";																# if check RAWMSG failed
+			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);      # check RAWMSG
+			return "$error" if $error ne "";                                    # if check RAWMSG failed
 
-			chomp ($RAWMSG);																								# Zeilenende entfernen
-			$RAWMSG =~ s/[^A-Za-z0-9\-;=#\$]//g;;														# nur zulässige Zeichen erlauben
+			chomp ($RAWMSG);                                                    # Zeilenende entfernen
+			$RAWMSG =~ s/[^A-Za-z0-9\-;=#\$]//g;;                               # nur zulässige Zeichen erlauben
 			$cmd = $NameDispatchSet."RAWMSG";
 			$a[1] = $RAWMSG;
 		}
@@ -553,11 +554,11 @@ sub SIGNALduino_TOOL_Set($$$@) {
 		### neue RAWMSG benutzen ###
 		if ($cmd eq $NameDispatchSet."RAWMSG") {
 			Log3 $name, 4, "$name: Set $cmd - check (5)";
-			return "ERROR: no RAWMSG" if !defined $a[1];										# no RAWMSG
-			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$a[1],$cmd);		# check RAWMSG
-			return "$error" if $error ne "";																# if check RAWMSG failed
+			return "ERROR: no RAWMSG" if !defined $a[1];                        # no RAWMSG
+			my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$a[1],$cmd);        # check RAWMSG
+			return "$error" if $error ne "";                                    # if check RAWMSG failed
 
-			$a[1] =~ s/;+/;/g;									# ersetze ;+ durch ;
+			$a[1] =~ s/;+/;/g;                                                  # ersetze ;+ durch ;
 			my $msg = $a[1];
 
 			## to start notify loop ##
@@ -668,9 +669,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			return "ERROR: wrong message! syntax is wrong!" if (not $a[1] =~ /^(MU|MS|MC);.*D=/);
 
 			my $RAWMSG = $a[1];
-			chomp ($RAWMSG);																				# Zeilenende entfernen
-			$RAWMSG =~ s/[^A-Za-z0-9\-;=]//g;;											# nur zulässige Zeichen erlauben sonst leicht ERROR
-			$RAWMSG = $1 if ($RAWMSG =~ /^(.*;D=\d+?;).*/);					# cut ab ;CP=
+			chomp ($RAWMSG);                                                # Zeilenende entfernen
+			$RAWMSG =~ s/[^A-Za-z0-9\-;=]//g;;                              # nur zulässige Zeichen erlauben sonst leicht ERROR
+			$RAWMSG = $1 if ($RAWMSG =~ /^(.*;D=\d+?;).*/);                 # cut ab ;CP=
 
 			if (substr($RAWMSG,0,2) eq "MU") {
 				$RAWMSG = "SR;R=$IODev_Repeats".substr($RAWMSG,2,length($RAWMSG)-2); # testes with repeat 1
@@ -828,16 +829,16 @@ sub SIGNALduino_TOOL_Set($$$@) {
 						print SaveDoc '    }' if ($cnt_data_element_max == ($i2+1));
 
 						if ($cnt_data_element_max > ($i2+1)) {
-							print SaveDoc '    },'."\n" ;									# end data values
-							print SaveDoc '    {';												# end data values
+							print SaveDoc '    },'."\n" ;                                    # end data values
+							print SaveDoc '    {';                                           # end data values
 						}
 						## rmsg END ##
 						print SaveDoc "\n";
 
 						if ($cnt_data_element_max == ($i2+1)) {
-							print SaveDoc '  ]'."\n" ;										# end data values
+							print SaveDoc '  ]'."\n" ;                                       # end data values
 							if ($cnt_data_id_max != ($i+1)) {
-								print SaveDoc '},' ;												# end name value
+								print SaveDoc '},' ;                                         # end name value
 							} elsif ($cnt_data_id_max == ($i+1)) {
 								print SaveDoc '}';
 								print SaveDoc "\n";
@@ -898,9 +899,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			SIGNALduino_TOOL_deleteInternals($hash,"dispatchDeviceTime,dispatchDevice,dispatchSTATE");
 
-			$count3 = undef;								# message_dispatched
-			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
-			$DummyMSGCNTvalue = undef;			# message_to_module
+			$count3 = undef;                    # message_dispatched
+			$decoded_Protocol_ID = undef;       # decoded_Protocol_ID
+			$DummyMSGCNTvalue = undef;          # message_to_module
 		}
 
 		## delete all device in room ##
@@ -909,9 +910,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			CommandDelete($hash, "room=$a[1]"),
 			$return = "all devices delete on room $a[1]";
 
-			$count3 = undef;								# message_dispatched
-			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
-			$DummyMSGCNTvalue = undef;			# message_to_module
+			$count3 = undef;                    # message_dispatched
+			$decoded_Protocol_ID = undef;       # decoded_Protocol_ID
+			$DummyMSGCNTvalue = undef;          # message_to_module
 		}
 
 		## old unsed logfile delete ##
@@ -938,9 +939,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			$return = "logfiles deleted ($count1)" if ($count1 != 0);
 			$return = "no unsed logfile´s found" if ($return eq "");
 
-			$count3 = undef;								# message_dispatched
-			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
-			$DummyMSGCNTvalue = undef;			# message_to_module
+			$count3 = undef;                    # message_dispatched
+			$decoded_Protocol_ID = undef;       # decoded_Protocol_ID
+			$DummyMSGCNTvalue = undef;          # message_to_module
 		}
 
 		## old unsed Plots delete ##
@@ -995,9 +996,9 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			}
 			$return = "no unsed gplots´s found" if ($return eq "");
 
-			$count3 = undef;								# message_dispatched
-			$decoded_Protocol_ID = undef;		# decoded_Protocol_ID
-			$DummyMSGCNTvalue = undef;			# message_to_module
+			$count3 = undef;                    # message_dispatched
+			$decoded_Protocol_ID = undef;       # decoded_Protocol_ID
+			$DummyMSGCNTvalue = undef;          # message_to_module
 		}
 
 		## CC110x_Register switch ##
@@ -1150,10 +1151,10 @@ sub SIGNALduino_TOOL_Set($$$@) {
 ################################
 sub SIGNALduino_TOOL_Get($$$@) {
 	my ( $hash, $name, $cmd, @a ) = @_;
-	my $Filename_input = AttrVal($name,"Filename_input","");				# Filename
-	my $Filename_export = AttrVal($name,"Filename_export","");			# Filename for export
-	my $webCmd = AttrVal($name,"webCmd","");												# webCmd value from attr
-	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");							# Path | # Path if not define
+	my $Filename_input = AttrVal($name,"Filename_input","");          # Filename
+	my $Filename_export = AttrVal($name,"Filename_export","");        # Filename for export
+	my $webCmd = AttrVal($name,"webCmd","");                          # webCmd value from attr
+	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");               # Path | # Path if not define
 	my $onlyDataName = "-ONLY_DATA-";
 	my $IODev_CC110x_Register = AttrVal($name,"IODev_CC110x_Register",undef);
 	my $list = 	"Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg ".
@@ -1191,10 +1192,10 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		}
 
 		my $file = "timings.txt";
-		my @value;																																					# for values from hash_list
-		my @value_name = ("one","zero","start","pause","end","sync","clockrange","float");	# for max numbre of one [0] | zero [1] | start [2] | sync [3]
-		my @value_max = ();																																	# for max numbre of one [0] | zero [1] | start [2] | sync [3]
-		my $valuecount = 0;																																	# Werte für array
+		my @value;                                                                           # for values from hash_list
+		my @value_name = ("one","zero","start","pause","end","sync","clockrange","float");   # for max numbre of one [0] | zero [1] | start [2] | sync [3]
+		my @value_max = ();                                                                  # for max numbre of one [0] | zero [1] | start [2] | sync [3]
+		my $valuecount = 0;                                                                  # Werte für array
 
 		open(TIMINGS_LOG, ">$path$file");
 
@@ -1234,7 +1235,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 				}
 
 				if ($i == 0) {
-					print TIMINGS_LOG $timings_protocol.";"; 																			# ID Nummer
+					print TIMINGS_LOG $timings_protocol.";";                                            # ID Nummer
 					### Message - Typ
 					if (exists $ProtocolListSIGNALduino{$timings_protocol}{format} && $ProtocolListSIGNALduino{$timings_protocol}{format} eq "manchester") {
 						print TIMINGS_LOG "MC".";";
@@ -1245,7 +1246,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					}
 					###
 					if (exists $ProtocolListSIGNALduino{$timings_protocol}{clockabs}) {
-						print TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{clockabs}.";";	# clockabs
+						print TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{clockabs}.";";    # clockabs
 					} else {
 						print TIMINGS_LOG ";";
 					}
@@ -1262,8 +1263,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 					print TIMINGS_LOG ";";
 				}
 
-				$valuecount = 0;			# reset
-				@value = ();					# reset
+				$valuecount = 0;        # reset
+				@value = ();            # reset
 			}
 
 			if (exists $ProtocolListSIGNALduino{$timings_protocol}{clientmodule}) {
@@ -1824,8 +1825,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 			}
 		}
 
-		my @testet_devices_sorted = sort { lc($a) cmp lc($b) } @testet_devices;					# sorted array of testet_devices
-		my @used_clientmodule_sorted = sort { lc($a) cmp lc($b) } @used_clientmodule;		# sorted array of used_clientmodule
+		my @testet_devices_sorted = sort { lc($a) cmp lc($b) } @testet_devices;            # sorted array of testet_devices
+		my @used_clientmodule_sorted = sort { lc($a) cmp lc($b) } @used_clientmodule;      # sorted array of used_clientmodule
 
 		open(Github_file, ">$path$file");
 			print Github_file "Devices tested\n";
@@ -3058,7 +3059,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 				foreach my $key (sort keys %{@$ref_data[$i2]}) {
 					$comment = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /comment/);
 					$user = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /user/);
-					$dmsg = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /dmsg/);
+					$dmsg = urlEncode( @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} ) if ($key =~ /dmsg/); # need urlEncode https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42
 					if ($key =~ /^readings/) {
 						foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
 							$state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /^state/);
