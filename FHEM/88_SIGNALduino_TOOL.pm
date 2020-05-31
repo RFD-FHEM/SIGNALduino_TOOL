@@ -1562,11 +1562,10 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!" if ($cmd eq "change_hex_to_bin" && $a[0] !~ /^[a-fA-f0-9]+$/);
 
 		if ($cmd eq "change_bin_to_hex") {
-			$value = sprintf("%x", oct( "0b$a[0]" ) );
-			$value = sprintf("%X", oct( "0b$a[0]" ) );
+			$value = sprintf('%0*X' , (length($a[0]) % 4 == 0 ? length($a[0]) / 4 : int(length($a[0]) / 4) + 1) , oct("0b$a[0]"));
 			return "Your $cmd is ready.\n\nInput: $a[0]\n  Hex: $value";
 		} elsif ($cmd eq "change_hex_to_bin") {
-			$value = sprintf( "%b", hex( $a[0] ) );
+			$value = sprintf('%0*b' , length($a[0]) * 4 , hex($a[0]));
 			return "Your $cmd is ready.\n\nInput: $a[0]\n  Bin: $value";
 		}
 	}
