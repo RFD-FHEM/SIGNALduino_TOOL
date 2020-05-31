@@ -1,3 +1,6 @@
+2020-05-31 - Update 88_SIGNALduino_TOOL.pm
+
+Display leading zeros by get change_hex_to_bin and change_bin_to_hex
 2020-05-14 - Update 88_SIGNALduino_TOOL.pm
 
 * fix Dispatch dmsg https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42#issuecomment-627881837
