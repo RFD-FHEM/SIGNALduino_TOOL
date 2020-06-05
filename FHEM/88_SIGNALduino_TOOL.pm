@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 241224 2020-05-14 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 241328 2020-06-05 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -27,7 +27,7 @@ use JSON::PP qw( );
 use HttpUtils;
 
 use lib::SD_Protocols;
-sub SIGNALduino_Get_Callback($$$);
+sub SIGNALduino_Get_Callback;
 
 #$| = 1;		#Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
@@ -1908,6 +1908,8 @@ sub SIGNALduino_TOOL_Get($$$@) {
 	## to evaluate the CC110x registers ##
 	if ($cmd eq "CC110x_Register_read") {
 		if (exists &SIGNALduino_Get_Callback) {
+			return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,"cc1101_available",undef)); # device has no cc1101
+
 			$SIGNALduino_TOOL_NAME = $name;
 			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,"ccreg 99");
 			return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
