@@ -1011,7 +1011,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 				$CC110x_Register_value =~ s/ccreg:(\s+)?//g;
 				$CC110x_Register_value =~ s/\n/ /g;
 
-				return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_value !~ /^[0-9A-F\s]+$/);
+				return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_value !~ /^[0-9A-Fa-f\s]+$/);
 				Log3 $name, 4, "$name: set $cmd - write your Register from IODev $IODev_CC110x_Register";
 
 				my @CC110x_Register = split(/ /, $CC110x_Register_value);
