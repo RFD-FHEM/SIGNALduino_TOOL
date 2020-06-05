@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 241328 2020-06-05 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 241519 2020-06-05 15:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -53,8 +53,9 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => "https://svn.fhem.de/fhem/trunk/fhem/www/gplot/",
+	SIGNALduino_TOOL_VERSION => "2020-06-05_pre-release",
 	TIMEOUT_HttpUtils => 3,
-	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",  # next branch dev-r35_xFSK_oo
+	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => "https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/",
 };
 
@@ -162,6 +163,7 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	### default value´s ###
 	$hash->{STATE} = "Defined";
+	$hash->{version} = SIGNALduino_TOOL_VERSION;
 
 	readingsSingleUpdate($hash, "state" , "Defined" , 0);
 
