@@ -1,3 +1,6 @@
+2020-06-07 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
 2020-06-06 - Update 88_SIGNALduino_TOOL.pm
 
 * revised comments & spaces
