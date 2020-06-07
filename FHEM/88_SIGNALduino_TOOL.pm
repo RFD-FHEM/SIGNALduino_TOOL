@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 241519 2020-06-05 15:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 241519 2020-06-07 21:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => "https://svn.fhem.de/fhem/trunk/fhem/www/gplot/",
-	SIGNALduino_TOOL_VERSION => "2020-06-05_pre-release",
+	SIGNALduino_TOOL_VERSION => "2020-06-07_pre-release",
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => "https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/",
@@ -100,7 +100,7 @@ my %category = (
 );
 
 ################################
-sub SIGNALduino_TOOL_Initialize($) {
+sub SIGNALduino_TOOL_Initialize {
 	my ($hash) = @_;
 
 	$hash->{DefFn}              = "SIGNALduino_TOOL_Define";
@@ -127,7 +127,7 @@ our $FW_wname;
 
 ################################
 
-sub SIGNALduino_TOOL_Define($$) {
+sub SIGNALduino_TOOL_Define {
 	my ($hash, $def) = @_;
 	my @arg = split("[ \t][ \t]*", $def);
 	my $name = $arg[0];
@@ -168,22 +168,22 @@ sub SIGNALduino_TOOL_Define($$) {
 
 	readingsSingleUpdate($hash, "state" , "Defined" , 0);
 
-	return undef;
+	return;
 }
 
 ################################
-sub SIGNALduino_TOOL_Shutdown($$) {
+sub SIGNALduino_TOOL_Shutdown {
 	my ($hash) = @_;
 	my $name = $hash->{NAME};
 
 	Log3 $name, 5, "$name: Shutdown are running!";
 	SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,line_read,message_dispatched,message_to_module,message_dispatch_repeats");
 
-	return undef;
+	return;
 }
 
 ################################
-sub SIGNALduino_TOOL_Set($$$@) {
+sub SIGNALduino_TOOL_Set {
 	my ( $hash, $name, @a ) = @_;
 
 	return "no set value specified" if(int(@a) < 1);
@@ -288,7 +288,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 			### read file dispatch file
 			if ($DispatchModule =~ /^.*\.txt$/) {
-				open (FileCheck,"<$path$Filename_Dispatch$DispatchModule") || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
+				open (FileCheck, '<', "$path$Filename_Dispatch$DispatchModule") || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
 				while (<FileCheck>){
 					if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
 						$count++;
@@ -412,7 +412,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 			readingsSingleUpdate($hash, "state", "Dispatch all RAMSG´s in the background are started",1);
 			$hash->{helper}->{start_time} = time();
 			$hash->{helper}{RUNNING_PID} = BlockingCall("SIGNALduino_TOOL_nonBlock_Start", $name."|".$cmd."|".$path."|".$file."|".$count1."|".$count2."|".$count3."|".$Dummyname."|".$string1pos."|".$DispatchMax."|".$messageNumber, "SIGNALduino_TOOL_nonBlock_StartDone", 90 , "SIGNALduino_TOOL_nonBlock_abortFn", $hash) unless(exists($hash->{helper}{RUNNING_PID}));
-			return undef;
+			return;
 		}
 
 		### BUTTON - letzte message benutzen ###
@@ -1094,7 +1094,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 
 					## check RAWMSG in file registered
 					if (-e "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt") {
-						open(SaveDoc, "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt");
+						open(SaveDoc, '<' ,"./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt");
 							while (<SaveDoc>) {
 								$founded++ if (grep /$RAWMSG_last/, $_);
 							}
@@ -1152,7 +1152,7 @@ sub SIGNALduino_TOOL_Set($$$@) {
 }
 
 ################################
-sub SIGNALduino_TOOL_Get($$$@) {
+sub SIGNALduino_TOOL_Get {
 	my ( $hash, $name, $cmd, @a ) = @_;
 	my $Filename_input = AttrVal($name,"Filename_input","");          # Filename
 	my $Filename_export = AttrVal($name,"Filename_export","");        # Filename for export
@@ -1191,7 +1191,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		if (exists($ProtocolListSIGNALduino{error})  ) {
 			Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:($ProtocolListSIGNALduino{error})";
 			delete($ProtocolListSIGNALduino{error});
-			return undef;
+			return;
 		}
 
 		my $file = "timings.txt";
@@ -1200,7 +1200,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my @value_max = ();                                                                  # for max numbre of one [0] | zero [1] | start [2] | sync [3]
 		my $valuecount = 0;                                                                  # Werte für array
 
-		open(TIMINGS_LOG, ">$path$file");
+		open(TIMINGS_LOG, '>', "$path$file");
 
 		### for find max ... in array alles one - zero - sync ....
 		foreach my $timings_protocol(sort {$a <=> $b} keys %ProtocolListSIGNALduino) {
@@ -1342,7 +1342,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
 
-		open (InputFile,"<$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
 			if ($_ =~ /$search/s){
 				chomp ($_);                               # Zeilenende entfernen
@@ -1381,7 +1381,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		return "ERROR: Your filter (".$search.") found nothing!\nNo file saved!" if ($founded == 0);
 		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
 
-		open(OutFile, ">$path$Filename_export");
+		open(OutFile, '>', "$path$Filename_export");
 		for (@Zeilen) {
 			print OutFile $_."\n";
 		}
@@ -1407,7 +1407,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
 
-		open (InputFile,"<$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
 			if ($_ =~ /$search/s){
 				chomp ($_);                               # Zeilenende entfernen
@@ -1482,7 +1482,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $pos2;
 		my $tol = 0.15;
 
-		open (InputFile,"<$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
 			if ($_ =~ /$search/s){
 				chomp ($_);                               # Zeilenende entfernen
@@ -1528,7 +1528,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		readingsSingleUpdate($hash, "state" , substr($cmd,14)." in tol found ($founded)", 0) if ($founded != 0);
 
 		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
-		open(OutFile, ">$path$Filename_export");
+		open(OutFile, '>', "$path$Filename_export");
 		for (@Zeilen) {
 			print OutFile $_."\n";
 		}
@@ -1582,7 +1582,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $MUerror = 0;
 		my $MSerror = 0;
 
-		open (InputFile,"<$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
 			if ($_ =~ /READredu:\sM(U|S);/s){
 				chomp ($_);                               # Zeilenende entfernen
@@ -1609,7 +1609,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		close InputFile;
 
 		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
-		open(OutFile, ">$path$Filename_export");
+		open(OutFile, '>', "$path$Filename_export");
 		for (@Zeilen) {
 			print OutFile $_."\n";
 		}
@@ -1628,7 +1628,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $dataarray_min;
 		my $dataarray_max;
 
-		open (InputFile,"<$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
 			if ($_ =~ /M(U|S);/s){
 				$_ = $1 if ($_ =~ /.*;D=(\d+?);.*/);      # cut bis D= & ab ;CP= 	# NEW
@@ -1757,7 +1757,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my $json;
 		{
 			local $/; #Enable 'slurp' mode
-			open (LoadDoc, "<", "./FHEM/lib/".$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
+			open (LoadDoc, '<', "./FHEM/lib/".$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
 				$json = <LoadDoc>;
 			close (LoadDoc);
 		}
@@ -1830,7 +1830,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 		my @testet_devices_sorted = sort { lc($a) cmp lc($b) } @testet_devices;            # sorted array of testet_devices
 		my @used_clientmodule_sorted = sort { lc($a) cmp lc($b) } @used_clientmodule;      # sorted array of used_clientmodule
 
-		open(Github_file, ">$path$file");
+		open(Github_file, '>', "$path$file");
 			print Github_file "Devices tested\n";
 			print Github_file "======\n";
 			print Github_file "| Name of device or manufacturer | FHEM - clientmodule | Typ of device |\n";
@@ -1959,7 +1959,7 @@ sub SIGNALduino_TOOL_Get($$$@) {
 }
 
 ################################
-sub SIGNALduino_TOOL_Attr() {
+sub SIGNALduino_TOOL_Attr {
 	my ($cmd, $name, $attrName, $attrValue) = @_;
 	my $hash = $defs{$name};
 	my $typ = $hash->{TYPE};
@@ -2048,7 +2048,7 @@ sub SIGNALduino_TOOL_Attr() {
 			$fileend = "" if ($fileend eq "[^\.\.?]");
 
 			### check file from attrib
-			open (FileCheck,"<$path$attrValue") || return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist);
+			open (FileCheck, '<', "$path$attrValue") || return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist);
 			close FileCheck;
 
 			SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet."file");
@@ -2065,7 +2065,7 @@ sub SIGNALduino_TOOL_Attr() {
 			if ($attrValue =~ /.txt$/) {
 				$hash->{dispatchOption} = "from file";
 
-				open (FileCheck,"<$path$Filename_Dispatch$attrValue") || return "ERROR: No file $Filename_Dispatch$attrValue.txt exists!";
+				open (FileCheck, '<', "$path$Filename_Dispatch$attrValue") || return "ERROR: No file $Filename_Dispatch$attrValue.txt exists!";
 				while (<FileCheck>){
 					$count++;
 					if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
@@ -2134,7 +2134,7 @@ sub SIGNALduino_TOOL_Attr() {
 }
 
 ################################
-sub SIGNALduino_TOOL_Undef($$) {
+sub SIGNALduino_TOOL_Undef {
 	my ($hash, $name) = @_;
 	delete($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}})
 		if(defined($hash->{DEF}) && defined($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}}));
@@ -2143,11 +2143,11 @@ sub SIGNALduino_TOOL_Undef($$) {
 		delete $hash->{helper}{$value} if(defined($hash->{helper}{$value}));
 	}
 
-	return undef;
+	return;
 }
 
 ################################
-sub SIGNALduino_TOOL_RAWMSG_Check($$$) {
+sub SIGNALduino_TOOL_RAWMSG_Check {
 	my ( $name, $message, $cmd ) = @_;
 	Log3 $name, 5, "$name: RAWMSG_Check is running for $cmd with $message";
 
@@ -2163,7 +2163,7 @@ sub SIGNALduino_TOOL_RAWMSG_Check($$$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_SD_ProtocolData_read($$$$) {
+sub SIGNALduino_TOOL_SD_ProtocolData_read {
 	my ( $name, $cmd, $path, $Filename_input) = @_;
 	Log3 $name, 4, "$name: Get $cmd - check (10)";
 
@@ -2198,7 +2198,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read($$$$) {
 
 	my @linevalue;
 
-	open (InputFile,"<$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+	open (InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 	while (<InputFile>) {
 		$_ =~ s/\s+\t+//g;         # cut space | tab
 		$_ =~ s/\n//g;             # cut end
@@ -2351,7 +2351,7 @@ END_MSG
 }
 
 ################################
-sub SIGNALduino_TOOL_HTMLrefresh($$) {
+sub SIGNALduino_TOOL_HTMLrefresh {
 	my ( $name, $cmd ) = @_;
 	Log3 $name, 4, "$name: HTMLrefresh is running after $cmd";
 
@@ -2360,7 +2360,7 @@ sub SIGNALduino_TOOL_HTMLrefresh($$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_FW_Detail($@) {
+sub SIGNALduino_TOOL_FW_Detail {
 	my ($FW_wname, $name, $room, $pageHash) = @_;
 	my $hash = $defs{$name};
 
@@ -2962,7 +2962,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 					}
 				}
 			}
-			
+
 			## only state not documented
 			if ($device_state_found == 0) {
 				Log3 $name, 4, "$name: FW_updateData - state ".$defs{$defs{$name}->{dispatchDevice}}->{STATE}." is NOT documented!";
@@ -2991,7 +2991,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 
 	@$ProtocolListRead = sort { $a->{name} cmp $b->{name} } @$ProtocolListRead;
 	@$ProtocolListRead = sort SIGNALduino_TOOL_by_numbre @$ProtocolListRead;
-	
+
 	## only for entry_example (after sort, it first | if entry delete, loop can remove ) ##
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 		if (@{$ProtocolListRead}[$i]->{id} == 999999) {
@@ -3014,15 +3014,15 @@ sub SIGNALduino_TOOL_FW_updateData {
 
 ################################
 sub SIGNALduino_TOOL_by_numbre {
-  my $aa = $a->{id};
-  my $bb = $b->{id};
+	my $aa = $a->{id};
+	my $bb = $b->{id};
 
 	$aa = sprintf ('%06s', $aa);
 	$aa = sprintf ('%.1f', $aa);
 	$bb = sprintf ('%06s', $bb);
 	$bb = sprintf ('%.1f', $bb);
 
-  return $aa <=> $bb;
+	return $aa <=> $bb;
 }
 
 ################################
@@ -3123,7 +3123,7 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_Info {
 }
 
 ################################
-sub SIGNALduino_TOOL_Notify($$) {
+sub SIGNALduino_TOOL_Notify {
 	my ($hash,$dev_hash) = @_;
 	my $name = $hash->{NAME};                           # own name / hash
 	my $devName = $dev_hash->{NAME};                    # Device that created the events
@@ -3249,18 +3249,18 @@ sub SIGNALduino_TOOL_Notify($$) {
 		$hash->{dispatchDeviceTime} = FmtDateTime(time());
 		$hash->{dispatchSTATE} = "UNKNOWNCODE, help me!";
 	}
-	return undef;
+	return;
 }
 
 ################################
-sub SIGNALduino_TOOL_delete_webCmd($$) {
+sub SIGNALduino_TOOL_delete_webCmd {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
 	my $webCmd = AttrVal($name,"webCmd",undef);
 
 	Log3 $name, 4, "$name: delete_webCmd is running with arg $arg";
 
-  if ($webCmd) {
+	if ($webCmd) {
 		my %mod = map { ($_ => 1) }
 							grep { $_ !~ m/^$arg(:.+)?$/ }
 							split(":", $webCmd);
@@ -3270,7 +3270,7 @@ sub SIGNALduino_TOOL_delete_webCmd($$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_add_webCmd($$) {
+sub SIGNALduino_TOOL_add_webCmd {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
 	my $webCmd = AttrVal($name,"webCmd","");
@@ -3285,7 +3285,7 @@ sub SIGNALduino_TOOL_add_webCmd($$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_delete_cmdIcon($$) {
+sub SIGNALduino_TOOL_delete_cmdIcon {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
 	my $cmdIcon = AttrVal($name,"cmdIcon",undef);
@@ -3302,7 +3302,7 @@ sub SIGNALduino_TOOL_delete_cmdIcon($$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_add_cmdIcon($$) {
+sub SIGNALduino_TOOL_add_cmdIcon {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
 	my $cnt = 0;
@@ -3317,7 +3317,7 @@ sub SIGNALduino_TOOL_add_cmdIcon($$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_deleteReadings($$) {
+sub SIGNALduino_TOOL_deleteReadings {
 	my ( $hash, $readingname ) = @_;
 	my $name = $hash->{NAME};
 	my @readings = split(",", $readingname);
@@ -3330,7 +3330,7 @@ sub SIGNALduino_TOOL_deleteReadings($$) {
 }
 
 ################################
-sub SIGNALduino_TOOL_deleteInternals($$) {
+sub SIGNALduino_TOOL_deleteInternals {
 	my ( $hash, $internalname ) = @_;
 	my $name = $hash->{NAME};
 	my @internal = split(",", $internalname);
@@ -3343,7 +3343,7 @@ sub SIGNALduino_TOOL_deleteInternals($$) {
 }
 
 #####################
-sub SIGNALduino_TOOL_nonBlock_Start($) {
+sub SIGNALduino_TOOL_nonBlock_Start {
 	my ($string) = @_;
 	my ($name, $cmd, $path, $file, $count1, $count2, $count3, $Dummyname, $string1pos, $DispatchMax, $messageNumber) = split("\\|", $string);
 	my $return;
@@ -3423,7 +3423,7 @@ sub SIGNALduino_TOOL_nonBlock_Start($) {
 }
 
 #####################
-sub SIGNALduino_TOOL_nonBlock_StartDone($) {
+sub SIGNALduino_TOOL_nonBlock_StartDone {
 	my ($string) = @_;
 	my ($name, $cmd, $count1, $count3, $msg, $Dummyname, $DummyMSGCNTvalue) = split("\\|", $string);
 	my $hash = $defs{$name};
@@ -3442,7 +3442,7 @@ sub SIGNALduino_TOOL_nonBlock_StartDone($) {
 }
 
 #####################
-sub SIGNALduino_TOOL_nonBlock_abortFn($) {
+sub SIGNALduino_TOOL_nonBlock_abortFn {
 	my ($hash) = @_;
 	my $name = $hash->{NAME};
 	delete($hash->{helper}{RUNNING_PID});
@@ -3482,11 +3482,11 @@ sub SIGNALduino_TOOL_cc1101read_cb {
 	Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - data: $CC110x_Register";
 
 	SIGNALduino_TOOL_cc1101read_Full($CC110x_Register,$IODev_CC110x_Register,$path);
-	return undef;
+	return;
 }
 
 #####################
-sub SIGNALduino_TOOL_cc1101read_header($) {
+sub SIGNALduino_TOOL_cc1101read_header {
 	my $text = shift;
 	$text = " ".$text." ";
 	my $outline = "+" . "-"x152 . "+\n";
@@ -3495,13 +3495,13 @@ sub SIGNALduino_TOOL_cc1101read_header($) {
 }
 
 #####################
-sub SIGNALduino_TOOL_cc1101read_oneline($$$) {
+sub SIGNALduino_TOOL_cc1101read_oneline {
 	my ($var,$val,$txt) = @_;
 	printf cc1101Doc "| %-21s | %8s | %-115s |\n",$var,$val,$txt;
 }
 
 #####################
-sub SIGNALduino_TOOL_cc1101read_byte2bit($$$) {
+sub SIGNALduino_TOOL_cc1101read_byte2bit {
 	my $byte = shift;
 	my $bits = shift;
 	my $type = shift;
@@ -3521,7 +3521,7 @@ sub SIGNALduino_TOOL_cc1101read_byte2bit($$$) {
 	return $res;
 }
 #####################
-sub SIGNALduino_TOOL_cc1101read_Full($$$) {
+sub SIGNALduino_TOOL_cc1101read_Full {
 	my $registerstring = shift;
 	my $IODev_CC110x_Register = shift;
 	my $path = shift;
