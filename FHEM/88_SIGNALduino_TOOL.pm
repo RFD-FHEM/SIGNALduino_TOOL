@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 241519 2020-06-07 21:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 243051 2020-06-05 19:35:50Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => "https://svn.fhem.de/fhem/trunk/fhem/www/gplot/",
-	SIGNALduino_TOOL_VERSION => "2020-06-07_pre-release",
+	SIGNALduino_TOOL_VERSION => "2020-06-08_pre-release",
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => "https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/",  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => "https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/",
@@ -218,8 +218,6 @@ sub SIGNALduino_TOOL_Set {
 	my $userattr = AttrVal($name,"userattr","-");                # userattr value
 	my $webCmd = AttrVal($name,"webCmd","");                     # webCmd value from attr
 
-	my $JSON_write_ERRORs = AttrVal($name,"JSON_write_ERRORs","no");
-
 	my $setList = $NameDispatchSet."DMSG ".$NameDispatchSet."RAWMSG";
 	$setList .= " "."delete_Device delete_room_with_all_Devices delete_unused_Logfiles:noArg delete_unused_Plots:noArg";
 	$setList .= " ".$NameDispatchSet."last:noArg "  if ($RAWMSG_last ne "none" || $DMSG_last ne "none");
@@ -288,21 +286,21 @@ sub SIGNALduino_TOOL_Set {
 
 			### read file dispatch file
 			if ($DispatchModule =~ /^.*\.txt$/) {
-				open (FileCheck, '<', "$path$Filename_Dispatch$DispatchModule") || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
-				while (<FileCheck>){
-					if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
-						$count++;
-						my @arg = split(",", $_);                     # a0=Modell | a1=Zustand | a2=RAWMSG
-						$arg[1] = "noArg" if ($arg[1] eq "");
-						$arg[1] =~ s/[^A-Za-z0-9\-;.:=_|#?]//g;;      # nur zulässige Zeichen erlauben sonst leicht ERROR
-						$List{$arg[0]}{$arg[1]} = $arg[2];
+				open my $FileCheck, '<', "$path$Filename_Dispatch$DispatchModule" || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
+					while (<$FileCheck>){
+						if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
+							$count++;
+							my @arg = split(",", $_);                     # a0=Modell | a1=Zustand | a2=RAWMSG
+							$arg[1] = "noArg" if ($arg[1] eq "");
+							$arg[1] =~ s/[^A-Za-z0-9\-;.:=_|#?]//g;;      # nur zulässige Zeichen erlauben sonst leicht ERROR
+							$List{$arg[0]}{$arg[1]} = $arg[2];
+						}
 					}
-				}
-				close FileCheck;
+				close $FileCheck;
 				return "ERROR: your File is not support!" if ($count == 0);
 
 				### build new list for setlist | dispatch option
-				foreach my $keys (sort keys %List) {	
+				foreach my $keys (sort keys %List) {
 					Log3 $name, 5, "$name: Set $cmd - check setList from file - $DispatchModule with $keys found" if ($cnt_loop == 1);
 					$returnList.= $NameDispatchSet.$DispatchModule."_".$keys . ":" . join(",", sort keys(%{$List{$keys}})) . " ";
 				}
@@ -712,11 +710,11 @@ sub SIGNALduino_TOOL_Set {
 			my $cnt_attributes = 0;
 
 			## backup last file ##
-			open(SaveDoc, '<', "./FHEM/lib/$jsonDoc") || return "ERROR: file ($jsonDoc) can not open!";
+			open my $SaveDoc, '<', "./FHEM/lib/$jsonDoc" || return "ERROR: file ($jsonDoc) can not open!";
 				open(Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5)."Backup.json") || return "ERROR: file (".substr($jsonDoc,0,-5)."Backup.json) can not open!";
-					print Backup <SaveDoc>;
+					print Backup <$SaveDoc>;
 				close(Backup);
-			close(SaveDoc);
+			close $SaveDoc;
 
 			## write new data ##
 			open(SaveDoc, '>', "./FHEM/lib/$jsonDoc") || return "ERROR: file ($jsonDoc) can not open!";
@@ -1058,6 +1056,7 @@ sub SIGNALduino_TOOL_Set {
 			} elsif ($Http_data ne "") {
 				my @apache_split = split (/\n/,$Http_data);
 				my $apache_testfile = "";
+				my $UnitTestName = "";
 
 				## loop - push lines ##
 				foreach (@apache_split) {
@@ -1067,12 +1066,11 @@ sub SIGNALduino_TOOL_Set {
 					$apache_testfile.= $_."\n";
 				}
 				Log3 $name, 5, "$name: $cmd $a[1] used code: $apache_testfile";
-				my $UnitTestName = $1 if ($apache_testfile =~ /defmod\s(.*)\sUnitTest\s/);
+				$UnitTestName = $1 if ($apache_testfile =~ /defmod\s(.*)\sUnitTest\s/);
 				$apache_testfile =~ s/;/;;/g;
 				$apache_testfile =~ s/^defmod\s//g;
 
-				my $ret;
-				$ret = CommandDefine(undef, $apache_testfile);
+				my $ret = CommandDefine(undef, $apache_testfile);
 				if ($ret) {
 					Log3 $name, 2, "$name: $cmd $a[1], ERROR: $ret";
 				} else {
@@ -1087,24 +1085,32 @@ sub SIGNALduino_TOOL_Set {
 		$hash->{dispatchOption} = $DispatchOption if ($hash->{dispatchOption});
 
 		### for test, for all versions (later can be delete) ###
-		if ($JSON_write_ERRORs eq "yes" && $ProtocolListRead) {
+		if ( AttrVal($name,"JSON_write_ERRORs","no") eq "yes" && $ProtocolListRead ) {
 			if ($hash->{dispatchOption} && $hash->{dispatchOption} =~/ID:(\d{1,}\.?\d?)\s\[(.*)\]/) {
 				if ($1 ne $decoded_Protocol_ID) {
 					my $founded = 0;
 
 					## check RAWMSG in file registered
 					if (-e "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt") {
-						open(SaveDoc, '<' ,"./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt");
-							while (<SaveDoc>) {
+						open my $SaveDoc, '<', "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt";
+							while (<$SaveDoc>) {
 								$founded++ if (grep /$RAWMSG_last/, $_);
 							}
-						close(SaveDoc); 
-					} elsif ($founded == 0) {
-						open(SaveDoc, '>>', "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt") || return "ERROR: file (".substr($jsonDoc,0,-5)."ERRORs.txt) can not open!";
-							print SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, "name" )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, "name" ));
-							print SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, "name" ));
-							print SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
-						close(SaveDoc);
+						close $SaveDoc;
+
+						if ($founded == 0) {
+							open my $SaveDoc, '>>', "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt" || return "ERROR: file (".substr($jsonDoc,0,-5)."ERRORs.txt) can not open!";
+								print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, "name" )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, "name" ));
+								print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, "name" ));
+								print $SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
+							close $SaveDoc;
+						}
+					} else {
+						open my $SaveDoc, '>', "./FHEM/lib/".substr($jsonDoc,0,-5)."ERRORs.txt" || return "ERROR: file (".substr($jsonDoc,0,-5)."ERRORs.txt) can not open!";
+							print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, "name" )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, "name" ));
+							print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, "name" ));
+							print $SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
+						close $SaveDoc;
 					}
 				}
 			}
@@ -1342,36 +1348,36 @@ sub SIGNALduino_TOOL_Get {
 
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
 
-		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
-		while (<InputFile>){
-			if ($_ =~ /$search/s){
-				chomp ($_);                               # Zeilenende entfernen
-				if ($only_Data == 1) {
-					if ($Data_parts == 1) {
-						$pos = index($_,"$search");
-						$save = substr($_,$pos+length($search)+1,(length($_)-$pos)) if not ($search =~ /MC;|MS;|MU;/);
-						$save = substr($_,$pos,(length($_)-$pos)) if ($search =~ /MC;|MS;|MU;/);
-						Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
-						push(@Zeilen,$save);              # Zeile in array
-					} else {
-						foreach my $i (0 ... $Data_parts-1) {
-							$pos = index($_,$arg[$i]);
-							$save = substr($_,$pos+length($arg[$i])+1,(length($_)-$pos));
+		open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+			while (<$InputFile>){
+				if ($_ =~ /$search/s){
+					chomp ($_);                               # Zeilenende entfernen
+					if ($only_Data == 1) {
+						if ($Data_parts == 1) {
+							$pos = index($_,"$search");
+							$save = substr($_,$pos+length($search)+1,(length($_)-$pos)) if not ($search =~ /MC;|MS;|MU;/);
+							$save = substr($_,$pos,(length($_)-$pos)) if ($search =~ /MC;|MS;|MU;/);
 							Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
-							if ($pos >= 0) {
-								push(@Zeilen,$save);      # Zeile in array
+							push(@Zeilen,$save);              # Zeile in array
+						} else {
+							foreach my $i (0 ... $Data_parts-1) {
+								$pos = index($_,$arg[$i]);
+								$save = substr($_,$pos+length($arg[$i])+1,(length($_)-$pos));
+								Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
+								if ($pos >= 0) {
+									push(@Zeilen,$save);      # Zeile in array
+								}
 							}
 						}
+					} else {
+						$save = $_;
+						push(@Zeilen,$save);                  # Zeile in array
 					}
-				} else {
-					$save = $_;
-					push(@Zeilen,$save);                  # Zeile in array
+					$founded++;
 				}
-				$founded++;
+				$linecount++;
 			}
-			$linecount++;
-		}
-		close InputFile;
+		close $InputFile;
 
 		SIGNALduino_TOOL_deleteReadings($hash,"cmd_raw,cmd_sendMSG,last_MSG,message_dispatched,message_to_module");
 
@@ -1381,11 +1387,11 @@ sub SIGNALduino_TOOL_Get {
 		return "ERROR: Your filter (".$search.") found nothing!\nNo file saved!" if ($founded == 0);
 		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
 
-		open(OutFile, '>', "$path$Filename_export");
-		for (@Zeilen) {
-			print OutFile $_."\n";
-		}
-		close OutFile;
+		open my $OutFile, '>', "$path$Filename_export";
+			for (@Zeilen) {
+				print $OutFile $_."\n";
+			}
+		close $OutFile;
 
 		return "$cmd are ready!";
 	}
@@ -1757,7 +1763,7 @@ sub SIGNALduino_TOOL_Get {
 		my $json;
 		{
 			local $/; #Enable 'slurp' mode
-			open (LoadDoc, '<', "./FHEM/lib/".$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
+			open (LoadDoc, "<", "./FHEM/lib/".$jsonDoc) || return "ERROR: file ($jsonDoc) can not open!";
 				$json = <LoadDoc>;
 			close (LoadDoc);
 		}
@@ -1959,7 +1965,7 @@ sub SIGNALduino_TOOL_Get {
 }
 
 ################################
-sub SIGNALduino_TOOL_Attr {
+sub SIGNALduino_TOOL_Attr() {
 	my ($cmd, $name, $attrName, $attrValue) = @_;
 	my $hash = $defs{$name};
 	my $typ = $hash->{TYPE};
@@ -2322,12 +2328,11 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
 	} else {
 		my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);		# lesbares JSON | Sort numerically
 
-		open(SaveDoc, '>', $path."SD_ProtocolData.json") || return "ERROR: file (SD_ProtocolData.json) can not open!";
-			print SaveDoc $json;
-		close(SaveDoc);
+		open my $SaveDoc, '>', $path."SD_ProtocolData.json" || return "ERROR: file (SD_ProtocolData.json) can not open!";
+			print $SaveDoc $json;
+		close $SaveDoc;
 		$return = "JSON file created from ProtocolData!";
 	}
-
 	## created new DispatchModule List with clientmodule from SD_ProtocolData ##
 	my @List_from_pm;
 	for (my $i=0;$i<@ProtocolList;$i++) {
