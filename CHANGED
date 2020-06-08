@@ -1,3 +1,7 @@
+2020-06-08 - Update 88_SIGNALduino_TOOL.pm
+
+* fix, option attrib JSON_write_ERRORs
+* revised code for Perl::Critic
 2020-06-07 - Update 88_SIGNALduino_TOOL.pm
 
 * revised code for Perl::Critic
