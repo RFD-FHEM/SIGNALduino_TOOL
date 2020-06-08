@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 243051 2020-06-05 19:35:50Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 243045 2020-06-09 00:00:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1415,7 +1415,7 @@ sub SIGNALduino_TOOL_Get {
 
 		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
-			if ($_ =~ /$search/s){
+			if ($_ =~ /$search\d/s){
 				chomp ($_);                               # Zeilenende entfernen
 				my $pos = index($_,"$search");
 				my $text = substr($_,$pos,10);
@@ -1449,7 +1449,6 @@ sub SIGNALduino_TOOL_Get {
 
 				if ($text2 < $min) { $min = $text2; }
 				if ($text2 > $max) { $max = $text2; }
-
 				$founded++;
 			}
 			$linecount++;
@@ -1476,6 +1475,7 @@ sub SIGNALduino_TOOL_Get {
 	if ($cmd eq "InputFile_one_ClockPulse" || $cmd eq "InputFile_one_SyncPulse") {
 		Log3 $name, 4, "$name: Get $cmd - check (4)";
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
+		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
 		return "ERROR: ".substr($cmd,14)." is not definded" if (not $a[0]);
 		return "ERROR: wrong value of $cmd! only [0-9]!" if (not $a[0] =~ /^(-\d+|\d+$)/ && $a[0] > 1);
 
@@ -1490,7 +1490,7 @@ sub SIGNALduino_TOOL_Get {
 
 		open (InputFile, '<', "$path$Filename_input") || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
 		while (<InputFile>){
-			if ($_ =~ /$search/s){
+			if ($_ =~ /$search\d/s){
 				chomp ($_);                               # Zeilenende entfernen
 				my $pos = index($_,"$search");
 				my $text = substr($_,$pos,10);
@@ -1533,12 +1533,11 @@ sub SIGNALduino_TOOL_Get {
 		readingsSingleUpdate($hash, "state" , substr($cmd,14)." NOT in tol found!", 0) if ($founded == 0);
 		readingsSingleUpdate($hash, "state" , substr($cmd,14)." in tol found ($founded)", 0) if ($founded != 0);
 
-		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
-		open(OutFile, '>', "$path$Filename_export");
-		for (@Zeilen) {
-			print OutFile $_."\n";
-		}
-		close OutFile;
+		open my $OutFile, '>', "$path$Filename_export";
+			for (@Zeilen) {
+				print $OutFile $_."\n";
+			}
+		close $OutFile;
 
 		return "ERROR: no $cmd with value $a[0] in tol!" if ($founded == 0);
 		return substr($cmd,14)." in tol found!";
@@ -1582,6 +1581,7 @@ sub SIGNALduino_TOOL_Get {
 	## read information from InputFile and check RAWMSG of one doublePulse ##
 	if ($cmd eq "InputFile_doublePulse") {
 		Log3 $name, 4, "$name: Get $cmd - check (7)";
+		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
 		return "ERROR: Your Attributes Filename_input is not definded!" if ($Filename_input eq "");
 
 		my $counterror = 0;
@@ -1614,13 +1614,14 @@ sub SIGNALduino_TOOL_Get {
 		}
 		close InputFile;
 
-		return "ERROR: Your Attributes Filename_export is not definded!" if ($Filename_export eq "");
-		open(OutFile, '>', "$path$Filename_export");
-		for (@Zeilen) {
-			print OutFile $_."\n";
-		}
-		close OutFile;
+		open my $OutFile, '>', "$path$Filename_export";
+			for (@Zeilen) {
+				print $OutFile $_."\n";
+			}
+		close $OutFile;
+
 		return "no doublePulse found!" if $founded == 0;
+
 		my $percenterrorMU = sprintf ("%.2f", ($MUerror*100)/$founded);
 		my $percenterrorMS = sprintf ("%.2f", ($MSerror*100)/$founded);
 
@@ -2054,8 +2055,9 @@ sub SIGNALduino_TOOL_Attr() {
 			$fileend = "" if ($fileend eq "[^\.\.?]");
 
 			### check file from attrib
-			open (FileCheck, '<', "$path$attrValue") || return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist);
-			close FileCheck;
+			if (!-e $path.$attrValue) {
+				return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist);
+			}
 
 			SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet."file");
 		}
