@@ -28,7 +28,7 @@ use JSON::PP qw( );
 use HttpUtils;
 
 use lib::SD_Protocols;
-sub SIGNALduino_Get_Callback;
+sub SIGNALduino_Get_Callback($$$);
 
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
