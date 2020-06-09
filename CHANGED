@@ -1,3 +1,7 @@
+2020-06-09 - Update 88_SIGNALduino_TOOL.pm
+
+* fix, save backup JSON
+* revised code for Perl::Critic
 2020-06-08 - Update 88_SIGNALduino_TOOL.pm
 
 * fix, InputFile_one_ClockPulse, InputFile_ClockPulse
