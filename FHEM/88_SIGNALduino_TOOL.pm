@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 246132 2020-06-10 23:23:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 246132 2020-06-11 22:00:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1734,50 +1734,48 @@ sub SIGNALduino_TOOL_Get {
 		return $return;
 	}
 
-### upside PERL Critic check ###
-
-	if ($cmd eq "reverse_Input") {
+	if ($cmd eq 'reverse_Input') {
 		return "ERROR: Your arguments in $cmd is not definded!" if (not defined $a[0]);
-		return "ERROR: You need at least 2 arguments to use this function!" if (length($a[0] == 1));
+		return 'ERROR: You need at least 2 arguments to use this function!' if (length($a[0] == 1));
 		return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".reverse $a[0];
 	}
 
-	if ($cmd eq "change_dec_to_hex") {
+	if ($cmd eq 'change_dec_to_hex') {
 		return "ERROR: Your arguments in $cmd is not definded!" if (not defined $a[0]);
 		return "ERROR: wrong value $a[0]! only [0-9]!" if ($a[0] !~ /^[0-9]+$/);
 		return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".sprintf("%x", $a[0]);;
 	}
 
-	if ($cmd eq "change_hex_to_dec") {
+	if ($cmd eq 'change_hex_to_dec') {
 		return "ERROR: Your arguments in $cmd is not definded!" if (not defined $a[0]);
 		return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!" if ($a[0] !~ /^[0-9a-fA-F]+$/);
 		return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".hex($a[0]);
 	}
 
 	## read information from SD_ProtocolData.pm in memory ##
-	if ($cmd eq "ProtocolList_from_file_SD_ProtocolData.pm") {
+	if ($cmd eq 'ProtocolList_from_file_SD_ProtocolData.pm') {
 		$hash->{helper}{FW_SD_ProtocolData_get} = 1;    # need in java, check reload need
 		$attr{$name}{DispatchModule} = "-";             # to set standard
 		my $return = SIGNALduino_TOOL_SD_ProtocolData_read($name,$cmd,$path,$Filename_input);
-		readingsSingleUpdate($hash, "state" , "$return", 0);
+		readingsSingleUpdate($hash, 'state' , $return, 0);
 		if ($ProtocolListRead) {
-			$hash->{dispatchOption} = "from SD_ProtocolData.pm and SD_Device_ProtocolList.json";
+			$hash->{dispatchOption} = 'from SD_ProtocolData.pm and SD_Device_ProtocolList.json';
 		} else {
-			$hash->{dispatchOption} = "from SD_ProtocolData.pm";
+			$hash->{dispatchOption} = 'from SD_ProtocolData.pm';
 		}
 
-		return "";
+		return '';
 	}
 
 	## read information from SD_Device_ProtocolList.json in JSON format ##
-	if ($cmd eq "ProtocolList_from_file_SD_Device_ProtocolList.json") {
+	if ($cmd eq 'ProtocolList_from_file_SD_Device_ProtocolList.json') {
 		Log3 $name, 4, "$name: Get $cmd - check (11)";
 		$hash->{helper}{FW_SD_Device_ProtocolList_get} = 1; # need in java, check reload need
 
 		my $json;
 		{
 			local $/; #Enable 'slurp' mode
-			open my $LoadDoc, "<", "./FHEM/lib/".$jsonDoc || return "ERROR: file ($jsonDoc) can not open!";
+			open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc || return "ERROR: file ($jsonDoc) can not open!";
 				$json = <$LoadDoc>;
 			close $LoadDoc;
 		}
@@ -1785,7 +1783,7 @@ sub SIGNALduino_TOOL_Get {
 		$ProtocolListRead = eval { decode_json($json) };
 		if ($@) {
 			$@ =~ s/\sat\s\.\/FHEM.*//g;
-			readingsSingleUpdate($hash, "state" , "Your file $jsonDoc are not loaded!", 0);	
+			readingsSingleUpdate($hash, 'state' , "Your file $jsonDoc are not loaded!", 0);	
 			return "ERROR: decode_json failed, invalid json!<br><br>$@\n";	# error if JSON not valid or syntax wrong
 		}
 
@@ -1793,54 +1791,54 @@ sub SIGNALduino_TOOL_Get {
 		my @List_from_pm;
 		for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 			if (defined @{$ProtocolListRead}[$i]->{id}) {
-				my $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "clientmodule" );
+				my $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
 				if (defined $search) {	# for id´s with no clientmodule
 					push (@List_from_pm, $search) if (not grep { /$search$/ } @List_from_pm);
 				}
 			}
 		}
 
-		$ProtocolList_setlist = join(",", @List_from_pm);
-		$attr{$name}{DispatchModule} = "-";										# to set standard
+		$ProtocolList_setlist = join(',', @List_from_pm);
+		$attr{$name}{DispatchModule} = '-';										# to set standard
 		SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
-		readingsSingleUpdate($hash, "state" , "Your file $jsonDoc are ready readed in memory!", 0);
+		readingsSingleUpdate($hash, 'state' , "Your file $jsonDoc are ready readed in memory!", 0);
 		if (@ProtocolList) {
-			$hash->{dispatchOption} = "from SD_ProtocolData.pm and SD_Device_ProtocolList.json";
+			$hash->{dispatchOption} = 'from SD_ProtocolData.pm and SD_Device_ProtocolList.json';
 		} else {
-			$hash->{dispatchOption} = "from SD_Device_ProtocolList.json";
+			$hash->{dispatchOption} = 'from SD_Device_ProtocolList.json';
 		}
 
-		return "";
+		return '';
 	}
 
 	## created Wiki Device Documentaion ##
-	if ($cmd eq "Github_device_documentation_for_README") {
+	if ($cmd eq 'Github_device_documentation_for_README') {
 		my @testet_devices;
 		my @used_clientmodule;
-		my $file = "Github_README.txt";
-		my $comment = "";
+		my $file = 'Github_README.txt';
+		my $comment = '';
 
 		for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-			if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} ne "") {
+			if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} ne '') {
 				my $device = @{$ProtocolListRead}[$i]->{name};
-				my $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "clientmodule" );
+				my $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
 				# read from SD_ProtocolData.pm
-				$comment = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "comment" );
+				$comment = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
 				# read from %category on filestart
-				$comment = $category{$clientmodule} if (!(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "comment" )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "clientmodule" ));
+				$comment = $category{$clientmodule} if (!(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ));
 				# no info found
-				$comment = "no additional information" if !($comment);
+				$comment = 'no additional information' if !($comment);
 				$comment =~ s/\|/\//g;
 
 				if (!$clientmodule) {
-					my $preamble = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, "preamble" );
-					$clientmodule = "notify" if ($preamble =~ "^U.*#");
-					$clientmodule = "development" if ($preamble =~ "^u.*#");
+					my $preamble = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
+					$clientmodule = 'notify' if ($preamble =~ "^U.*#");
+					$clientmodule = 'development' if ($preamble =~ "^u.*#");
 				}
 
 				if (not grep { /$device\s\|/ } @testet_devices) {
-					push (@testet_devices, @{$ProtocolListRead}[$i]->{name} . " | " . $clientmodule . " | $comment");
-					if ($clientmodule ne "notify" && $clientmodule ne "development") {
+					push (@testet_devices, @{$ProtocolListRead}[$i]->{name} . ' | ' . $clientmodule . " | $comment");
+					if ($clientmodule ne 'notify' && $clientmodule ne 'development') {
 						push (@used_clientmodule, $clientmodule) if (not grep { /$clientmodule$/ } @used_clientmodule);
 					}
 				}
@@ -1857,7 +1855,7 @@ sub SIGNALduino_TOOL_Get {
 			print $Github_file "| ------------- | ------------- | ------------- |\n";
 
 			foreach (@testet_devices_sorted) {
-				print $Github_file "| ".$_." |\n";
+				print $Github_file '| '.$_." |\n";
 			}
 		close $Github_file;
 
@@ -1865,23 +1863,23 @@ sub SIGNALduino_TOOL_Get {
 	}
 	
 	## search all disable devices on system ##
-	if ($cmd eq "search_disable_Devices") {
-		my $return = "";
+	if ($cmd eq 'search_disable_Devices') {
+		my $return = '';
 		$return = CommandList($hash,"a:disable=1");
-		return "no device disabled!" if ($return eq "");
+		return 'no device disabled!' if ($return eq '');
 		return "$cmd found the following devices:\n\n$return";
 	}
-	
+
 	## search all ignore devices on system ##
-	if ($cmd eq "search_ignore_Devices") {
+	if ($cmd eq 'search_ignore_Devices') {
 		## CommandList view not ignore devices
 		my @ignored = ();
-		my $return = "";
+		my $return = '';
 
 		foreach my $d (sort keys %defs) {
-			push(@ignored,$d) if(defined($defs{$d}) && AttrVal($d,"ignore",undef) && AttrVal($d,"ignore",undef) eq "1");
+			push(@ignored,$d) if(defined($defs{$d}) && AttrVal($d,'ignore',undef) && AttrVal($d,'ignore',undef) eq '1');
 		}
-		return "no ignored devices found!" if (scalar(@ignored) == 0);
+		return 'no ignored devices found!' if (scalar(@ignored) == 0);
 
 		foreach (@ignored) {
 			$return.= "\n$_"
@@ -1890,10 +1888,10 @@ sub SIGNALduino_TOOL_Get {
 	}
 
 	## compares 2 CC110x registers (SIGNALduino short format) ##
-	if ($cmd eq "CC110x_Register_comparison") {	
-		my $CC110x_Register_old = AttrVal($name,"CC110x_Register_old","");    # Register default
-		my $CC110x_Register_new = AttrVal($name,"CC110x_Register_new","");    # Register new wanted
-		my $return = "The two registers have no differences.";
+	if ($cmd eq 'CC110x_Register_comparison') {
+		my $CC110x_Register_old = AttrVal($name,'CC110x_Register_old','');    # Register default
+		my $CC110x_Register_new = AttrVal($name,'CC110x_Register_new','');    # Register new wanted
+		my $return = 'The two registers have no differences.';
 
 		$CC110x_Register_old =~ s/ccreg:(\s+)?//g;
 		$CC110x_Register_old =~ s/\n/ /g;
@@ -1903,12 +1901,12 @@ sub SIGNALduino_TOOL_Get {
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
 
-		return "ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
-		return "ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed." if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
+		return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
+		return 'ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
 
 		my @CC110x_Register_old = split(/ /, $CC110x_Register_old);
 		my @CC110x_Register_new = split(/ /, $CC110x_Register_new);
-		return "ERROR: The registers have different lengths. Please check your values." if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old));
+		return 'ERROR: The registers have different lengths. Please check your values.' if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old));
 
 		my $differences = 0;
 
@@ -1929,12 +1927,12 @@ sub SIGNALduino_TOOL_Get {
 	}
 
 	## to evaluate the CC110x registers ##
-	if ($cmd eq "CC110x_Register_read") {
+	if ($cmd eq 'CC110x_Register_read') {
 		if (exists &SIGNALduino_Get_Callback) {
-			return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,"cc1101_available",undef)); # device has no cc1101
+			return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef)); # device has no cc1101
 
 			$SIGNALduino_TOOL_NAME = $name;
-			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,"ccreg 99");
+			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
 			return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
 		} else {
 			return "ERROR: Your SIGNALduino modul is not compatible.\n\nPlease update with command: update all https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/controls_signalduino.txt";
@@ -1942,22 +1940,22 @@ sub SIGNALduino_TOOL_Get {
 	}
 
 	## search all UnitTests from SIGNALduino DEV - project and define it an local system ##
-	if ($cmd eq "UnitTests_from_SIGNALduino") {
+	if ($cmd eq 'UnitTests_from_SIGNALduino') {
 		#### HTTP Requests #### Start ####
-		my $Http_err 	= "";
-		my $Http_data = "";
+		my $Http_err = '';
+		my $Http_data = '';
 
 		($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => UNITTESTS_FROM_SIGNALduino_URL,
                                                           timeout => TIMEOUT_HttpUtils,
-                                                          method  => "GET",                           # Lesen von Inhalten
+                                                          method  => 'GET',                           # Lesen von Inhalten
                                                         });
 		#### HTTP Requests #### END ####
 
-		if ($Http_err ne "") {
-			readingsSingleUpdate($hash, "state" , "cmd $cmd - need Internet or website are down!", 0);
-			Log3 $name, 2, "$name: $cmd failed, need Internet or website are down! ";
+		if ($Http_err ne '') {
+			readingsSingleUpdate($hash, 'state' , "cmd $cmd - need Internet or website are down!", 0);
+			Log3 $name, 2, "$name: $cmd failed, need Internet or website are down!";
 			return;
-		} elsif ($Http_data ne "") {
+		} elsif ($Http_data ne '') {
 			my @apache_split = split (/\n/,$Http_data);
 			my @apache_testlist;
 
@@ -1969,9 +1967,9 @@ sub SIGNALduino_TOOL_Get {
 					push (@apache_testlist, $1);
 				}
 			}
-			$hash->{helper}->{UnitTests_from_SIGNALduino} = join ("," , @apache_testlist) if (scalar(@apache_testlist) >= 1);
+			$hash->{helper}->{UnitTests_from_SIGNALduino} = join (',' , @apache_testlist) if (scalar(@apache_testlist) >= 1);
 		}
-		readingsSingleUpdate($hash, "state" , "$cmd retrieved successfully. Set command UnitTest_define available" , 0);
+		readingsSingleUpdate($hash, 'state' , "$cmd retrieved successfully. Set command UnitTest_define available" , 0);
 		SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
 	}
 
@@ -1983,12 +1981,14 @@ sub SIGNALduino_TOOL_Attr() {
 	my ($cmd, $name, $attrName, $attrValue) = @_;
 	my $hash = $defs{$name};
 	my $typ = $hash->{TYPE};
-	my $webCmd = AttrVal($name,"webCmd","");                      # webCmd value from attr
-	my $cmdIcon = AttrVal($name,"cmdIcon","");                    # webCmd value from attr
-	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");           # Path | # Path if not define
-	my $Filename_input = AttrVal($name,"Filename_input","");
-	my $DispatchModule = AttrVal($name,"DispatchModule","-");     # DispatchModule List
+	my $webCmd = AttrVal($name,'webCmd','');                      # webCmd value from attr
+	my $cmdIcon = AttrVal($name,'cmdIcon','');                    # webCmd value from attr
+	my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');           # Path | # Path if not define
+	my $Filename_input = AttrVal($name,'Filename_input','');
+	my $DispatchModule = AttrVal($name,'DispatchModule','-');     # DispatchModule List
 	my @Zeilen = ();
+
+### upside PERL Critic check ###
 
 	if ($cmd eq "set" && $init_done == 1 ) {
 
