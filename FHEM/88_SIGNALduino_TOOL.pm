@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 246126 2020-06-15 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 246126 2020-06-16 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -33,7 +33,7 @@ sub SIGNALduino_Get_Callback;
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
 my %List;                             # for dispatch List from from file .txt
-my $ProtocolList_setlist = "";        # for setlist with readed ProtocolList information
+my $ProtocolList_setlist = '';        # for setlist with readed ProtocolList information
 my $ProtocolListInfo;                 # for Info from many parameters from SD_ProtocolData file
 
 my @ProtocolList;                     # ProtocolList hash from file write SD_ProtocolData information
@@ -41,9 +41,9 @@ my $ProtocolListRead;                 # ProtocolList from readed SD_Device_Proto
 
 my $DispatchOption;
 my $DispatchMemory;
-my $Filename_Dispatch = "SIGNALduino_TOOL_Dispatch_";    # name file to read input for dispatch
-my $NameDispatchSet = "Dispatch_";                       # name of setlist value´s to dispatch
-my $jsonDoc = "SD_Device_ProtocolList.json";             # name of file to import / export
+my $Filename_Dispatch = 'SIGNALduino_TOOL_Dispatch_';    # name file to read input for dispatch
+my $NameDispatchSet = 'Dispatch_';                       # name of setlist value´s to dispatch
+my $jsonDoc = 'SD_Device_ProtocolList.json';             # name of file to import / export
 my $pos_array_data;                                      # position of difference in data part from value
 my $pos_array_device;                                    # position of difference in array over all
 
@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-	SIGNALduino_TOOL_VERSION => '2020-06-15_pre-release',
+	SIGNALduino_TOOL_VERSION => '2020-06-16_pre-release',
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -1929,7 +1929,8 @@ sub SIGNALduino_TOOL_Get {
 	## to evaluate the CC110x registers ##
 	if ($cmd eq 'CC110x_Register_read') {
 		if (exists &SIGNALduino_Get_Callback) {
-			return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef)); # device has no cc1101
+			return "The $IODev_CC110x_Register device is disconnected. Read nothing!" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected'));
+			return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef));
 
 			$SIGNALduino_TOOL_NAME = $name;
 			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
@@ -3030,8 +3031,6 @@ sub SIGNALduino_TOOL_FW_updateData {
 	$pos_array_data = undef;
 }
 
-### upside PERL Critic check ###
-
 ################################
 sub SIGNALduino_TOOL_by_numbre {
 	my $aa = $a->{id};
@@ -3048,12 +3047,12 @@ sub SIGNALduino_TOOL_by_numbre {
 ################################
 sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	my $name = shift;
-	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");        # Path | # Path if not define
-	my $Dummyname = AttrVal($name,"Dummyname","none");         # Dummyname
-	my $DispatchModule = AttrVal($name,"DispatchModule","-");  # DispatchModule List
+	my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');        # Path | # Path if not define
+	my $Dummyname = AttrVal($name,'Dummyname','none');         # Dummyname
+	my $DispatchModule = AttrVal($name,'DispatchModule','-');  # DispatchModule List
 	my $ret;
-	my $buttons = "";
-	my $oddeven = "odd";                                       # for css styling
+	my $buttons = '';
+	my $oddeven = 'odd';                                       # for css styling
 
 	Log3 $name, 4, "$name: FW_SD_Device_ProtocolList_get is running";
 
@@ -3066,18 +3065,18 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	$ret .="<tbody>";
 
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-		my $DEF = "";
-		my $RAWMSG = "";
+		my $DEF = '';
+		my $RAWMSG = '';
 		my $battery = "";
-		my $clientmodule = "";
-		my $comment = "";
-		my $dmsg = "";
-		my $model = "";
-		my $state = "";
-		my $user = "";
-		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule") if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},"clientmodule"));
+		my $clientmodule = '';
+		my $comment = '';
+		my $dmsg = '';
+		my $model = '';
+		my $state = '';
+		my $user = '';
+		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
 
-		if (@$ProtocolListRead[$i]->{id} ne "") {
+		if (@$ProtocolListRead[$i]->{id} ne '') {
 			my $ref_data = @{$ProtocolListRead}[$i]->{data};
 			for (my $i2=0;$i2<@$ref_data;$i2++) {	
 				foreach my $key (sort keys %{@$ref_data[$i2]}) {
@@ -3087,36 +3086,36 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 					if ($key =~ /^readings/) {
 						foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
 							$state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /^state/);
-							$battery = "&#10003;" if ($key =~ /battery/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} ne "");
+							$battery = "&#10003;" if ($key =~ /battery/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} ne '');
 						}
 					}
 					if ($key =~ /^internals/) {
 						foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-							$DEF = "&#10003;" if ($key2 eq "DEF" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne "");
+							$DEF = "&#10003;" if ($key2 eq "DEF" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '');
 						}
 					}
 					if ($key =~ /^attributes/) {
 						foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-							$model = "&#10003;" if ($key =~ /^model/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{attributes}{$key} ne "");
+							$model = "&#10003;" if ($key =~ /^model/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{attributes}{$key} ne '');
 						}
 					}
 					$RAWMSG = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /rmsg/);
 				}
-				$buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','rmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
-				$buttons.= "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','dmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."DMSG%20$dmsg$FW_CSRF')\" value=\"dmsg\" %s/>" if ($dmsg ne "" && $Dummyname ne "none");
-				$buttons = "no attrib Dummyname" if ($Dummyname eq "none");
+				$buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','rmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne 'none');
+				$buttons.= "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','dmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."DMSG%20$dmsg$FW_CSRF')\" value=\"dmsg\" %s/>" if ($dmsg ne "" && $Dummyname ne 'none');
+				$buttons = 'no attrib Dummyname' if ($Dummyname eq 'none');
 
 				## view all ##
-				if ($DispatchModule eq "-") {
-					$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
+				if ($DispatchModule eq '-') {
+					$oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
 					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 				## for filtre DispatchModule if set attribute ##
 				} elsif ($DispatchModule eq $clientmodule) {
-					$oddeven = $oddeven eq "odd" ? "even" : "odd" ;
+					$oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
 					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 				}
-				$DEF = "";
-				$model = "";
+				$DEF = '';
+				$model = '';
 			}
 		}
 	}
@@ -3128,7 +3127,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 ################################
 sub SIGNALduino_TOOL_FW_SD_ProtocolData_Info {
 	my $name = shift;
-	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");
+	my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');
 	my $ret;
 
 	Log3 $name, 4, "$name: FW_SD_ProtocolData_Info is running";
@@ -3147,10 +3146,10 @@ sub SIGNALduino_TOOL_Notify {
 	my ($hash,$dev_hash) = @_;
 	my $name = $hash->{NAME};                           # own name / hash
 	my $devName = $dev_hash->{NAME};                    # Device that created the events
-	my $Dummyname = AttrVal($name,"Dummyname","none");  # Dummyname
+	my $Dummyname = AttrVal($name,'Dummyname','none');  # Dummyname
 	my $ntfy_match;
 
-	return "" if(IsDisabled($name));                    # Return without any further action if the module is disabled
+	return '' if(IsDisabled($name));                    # Return without any further action if the module is disabled
 	Log3 $name, 5, "$name: Notify is running";
 
 	my $events = deviceEvents($dev_hash,1);
@@ -3256,8 +3255,8 @@ sub SIGNALduino_TOOL_Notify {
 			$hash->{dispatchDeviceTime} = FmtDateTime(time());
 
 			## to view orginal state ##
-			if (AttrVal($dev_hash->{NAME},"stateFormat","none") ne "none") {
-				$hash->{dispatchSTATE} = ReadingsVal($dev_hash->{NAME}, "state", "none");		# check RAWMSG exists
+			if (AttrVal($dev_hash->{NAME},'stateFormat','none') ne 'none') {
+				$hash->{dispatchSTATE} = ReadingsVal($dev_hash->{NAME}, 'state', 'none');		# check RAWMSG exists
 			} else {
 				$hash->{dispatchSTATE} = $dev_hash->{STATE};
 			}
@@ -3267,7 +3266,7 @@ sub SIGNALduino_TOOL_Notify {
 	if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /UNKNOWNCODE/ } @{$events}) ) {
 		Log3 $name, 4, "$name: Notify - START -> $ntfy_match by event of $devName";
 		$hash->{dispatchDeviceTime} = FmtDateTime(time());
-		$hash->{dispatchSTATE} = "UNKNOWNCODE, help me!";
+		$hash->{dispatchSTATE} = 'UNKNOWNCODE, help me!';
 	}
 	return;
 }
@@ -3276,7 +3275,7 @@ sub SIGNALduino_TOOL_Notify {
 sub SIGNALduino_TOOL_delete_webCmd {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
-	my $webCmd = AttrVal($name,"webCmd",undef);
+	my $webCmd = AttrVal($name,'webCmd',undef);
 
 	Log3 $name, 4, "$name: delete_webCmd is running with arg $arg";
 
@@ -3285,7 +3284,7 @@ sub SIGNALduino_TOOL_delete_webCmd {
 							grep { $_ !~ m/^$arg(:.+)?$/ }
 							split(":", $webCmd);
 		$attr{$name}{webCmd} = join(":", sort keys %mod);
-		delete $attr{$name}{webCmd} if( (!keys %mod && defined($attr{$name}{webCmd})) || (defined($attr{$name}{webCmd}) && $attr{$name}{webCmd} eq "") );
+		delete $attr{$name}{webCmd} if( (!keys %mod && defined($attr{$name}{webCmd})) || (defined($attr{$name}{webCmd}) && $attr{$name}{webCmd} eq '') );
 	}
 }
 
@@ -3293,31 +3292,31 @@ sub SIGNALduino_TOOL_delete_webCmd {
 sub SIGNALduino_TOOL_add_webCmd {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
-	my $webCmd = AttrVal($name,"webCmd","");
+	my $webCmd = AttrVal($name,'webCmd','');
 	my $cnt = 0;
 
 	Log3 $name, 4, "$name: add_webCmd is running with arg $arg";
 
 	my %mod = map { ($_ => $cnt++) }
-						split(":", $webCmd);
+						split(':', $webCmd);
 	$mod{$arg} = $cnt++;
-	$attr{$name}{webCmd} = join(":", sort keys %mod);
+	$attr{$name}{webCmd} = join(':', sort keys %mod);
 }
 
 ################################
 sub SIGNALduino_TOOL_delete_cmdIcon {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
-	my $cmdIcon = AttrVal($name,"cmdIcon",undef);
+	my $cmdIcon = AttrVal($name,'cmdIcon',undef);
 
 	Log3 $name, 4, "$name: delete_cmdIcon is running with arg $arg";
 
 	if ($cmdIcon) {
 		my %mod = map { ($_ => 1) }
 							grep { $_ !~ m/^$arg(:.+)?$/ }
-							split(" ", $cmdIcon);
+							split(' ', $cmdIcon);
 		$attr{$name}{cmdIcon} = join(" ", sort keys %mod);
-		delete $attr{$name}{cmdIcon} if( (!keys %mod && defined($attr{$name}{cmdIcon})) || (defined($attr{$name}{cmdIcon}) && $attr{$name}{cmdIcon} eq "") );
+		delete $attr{$name}{cmdIcon} if( (!keys %mod && defined($attr{$name}{cmdIcon})) || (defined($attr{$name}{cmdIcon}) && $attr{$name}{cmdIcon} eq '') );
 	}
 }
 
@@ -3326,12 +3325,12 @@ sub SIGNALduino_TOOL_add_cmdIcon {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
 	my $cnt = 0;
-	my $cmdIcon = AttrVal($name,"cmdIcon","");
+	my $cmdIcon = AttrVal($name,'cmdIcon','');
 
 	Log3 $name, 4, "$name: add_cmdIcon is running with arg $arg";
 
 	my %mod = map { ($_ => $cnt++) }
-						split(" ", $cmdIcon);
+						split(' ', $cmdIcon);
 	$mod{$arg} = $cnt++;
 	$attr{$name}{cmdIcon} = join(" ", sort keys %mod);
 }
@@ -3340,7 +3339,7 @@ sub SIGNALduino_TOOL_add_cmdIcon {
 sub SIGNALduino_TOOL_deleteReadings {
 	my ( $hash, $readingname ) = @_;
 	my $name = $hash->{NAME};
-	my @readings = split(",", $readingname);
+	my @readings = split(',', $readingname);
 
 	Log3 $name, 4, "$name: deleteReading is running";
 
@@ -3353,7 +3352,7 @@ sub SIGNALduino_TOOL_deleteReadings {
 sub SIGNALduino_TOOL_deleteInternals {
 	my ( $hash, $internalname ) = @_;
 	my $name = $hash->{NAME};
-	my @internal = split(",", $internalname);
+	my @internal = split(',', $internalname);
 
 	Log3 $name, 4, "$name: deleteInternals is running";
 
@@ -3367,14 +3366,14 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 	my ($string) = @_;
 	my ($name, $cmd, $path, $file, $count1, $count2, $count3, $Dummyname, $string1pos, $DispatchMax, $messageNumber) = split("\\|", $string);
 	my $return;
-	my $msg = "";
+	my $msg = '';
 	my $hash = $defs{$name};
-	my $DummyMSGCNT_old = InternalVal($Dummyname, "MSGCNT", 0);
+	my $DummyMSGCNT_old = InternalVal($Dummyname, 'MSGCNT', 0);
 
 	Log3 $name, 4, "$name: nonBlock_Start is running";
 
 	(my $error, my @content) = FileRead($path.$file);  # check file open
-	$count1 = "-1" if (defined $error);                # file can´t open
+	$count1 = -1 if (defined $error);                  # file can´t open
 
 	if (not defined $error) {
 		for ($count1 = 0;$count1<@content;$count1++){  # loop to read file in array
@@ -3386,24 +3385,24 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 			$string =~ s/[^A-Za-z0-9\-;=#]//g;;       # nur zulässige Zeichen erlauben
 
 			my $pos = index($string,$string1pos);     # check string welcher gesucht wird
-			my $pos2 = index($string,"D=");           # check string D= exists
-			my $pos3 = index($string,"D=;");          # string D=; for check ERROR Input
+			my $pos2 = index($string,'D=');           # check string D= exists
+			my $pos3 = index($string,'D=;');          # string D=; for check ERROR Input
 			my $lastpos = substr($string,-1);         # for check END of line;
 
-			if (index($string,($string1pos)) >= 0 && substr($string,0,1) ne "#") { # All lines with # are skipped!
+			if (index($string,($string1pos)) >= 0 && substr($string,0,1) ne '#') { # All lines with # are skipped!
 				$count2++;
-				Log3 $name, 4, "$name: readed Line ($count2) | $content[$count1]"." |END|";
+				Log3 $name, 4, "$name: readed Line ($count2) | $content[$count1]".' |END|';
 				Log3 $name, 5, "$name: Zeile ".($count1+1)." Poscheck string1pos=$pos D=$pos2 D=;=$pos3 lastpos=$lastpos";
 			}
 
-			if ($pos >= 0 && $pos2 > 1 && $pos3 == -1 && $lastpos eq ";") {				# check if search in array value
+			if ($pos >= 0 && $pos2 > 1 && $pos3 == -1 && $lastpos eq ';') {				# check if search in array value
 				$string = substr($string,$pos,length($string)-$pos);
 				$string =~ s/;+/;/g;		# ersetze ;+ durch ;
 
 				### dispatch all ###
 				if ($count3 <= $DispatchMax && $messageNumber == 0) {
 					Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";
-					Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1)." ist ungueltig " if ($lastpos ne ";");
+					Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).') in Zeile '.($count1+1).' ist ungueltig ' if ($lastpos ne ';');
 
 					CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
 					$count3++;
@@ -3411,7 +3410,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 
 				} elsif ($count2 == $messageNumber) {
 					Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";
-					Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1)." ist ungueltig " if ($lastpos ne ";");
+					Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1).' ist ungueltig ' if ($lastpos ne ';');
 
 					CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
 					$count3 = 1;
@@ -3424,7 +3423,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 		Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is STOPPED !!! <<<-- #####";
 		Log3 $name, 3, "$name: ####################################################";
 
-		$msg = "finished, all RAMSG´s are dispatched" if ($count3 > 0);
+		$msg = 'finished, all RAMSG´s are dispatched' if ($count3 > 0);
 		$msg = "finished, no RAMSG´s dispatched -> MessageNumber or StartString $string1pos not found!" if ($count3 == 0);
 	} else {
 		$msg = $error;
@@ -3432,12 +3431,12 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 	}
 
 	if ($msg =~ /^finished.*/) {
-		$msg.= " (".(time()-$hash->{helper}->{start_time})." second)";
+		$msg.= ' ('.(time()-$hash->{helper}->{start_time}).' second)';
 		delete($hash->{helper}->{start_time});
 	}
 
-	my $DummyMSGCNTvalue = InternalVal($Dummyname, "MSGCNT", 0) - $DummyMSGCNT_old;
-	$return = $name."|".$cmd."|".$count1."|".$count3."|".$msg."|".$Dummyname."|".$DummyMSGCNTvalue;
+	my $DummyMSGCNTvalue = InternalVal($Dummyname, 'MSGCNT', 0) - $DummyMSGCNT_old;
+	$return = $name.'|'.$cmd.'|'.$count1.'|'.$count3.'|'.$msg.'|'.$Dummyname.'|'.$DummyMSGCNTvalue;
 
 	return $return;
 }
@@ -3455,9 +3454,9 @@ sub SIGNALduino_TOOL_nonBlock_StartDone {
 	InternalTimer(gettimeofday()+2, "SIGNALduino_TOOL_readingsSingleUpdate_later", "$name/:/$msg");
 
 	readingsBeginUpdate($hash);
-	readingsBulkUpdate($hash, "line_read" , $count1+1) if ($count1 != -1);
-	readingsBulkUpdate($hash, "message_dispatched" , $count3) if (defined $count3 && $count1 ne "-1");
-	readingsBulkUpdate($hash, "message_to_module" , $DummyMSGCNTvalue);
+	readingsBulkUpdate($hash, 'line_read' , $count1+1) if ($count1 != -1);
+	readingsBulkUpdate($hash, 'message_dispatched' , $count3) if (defined $count3 && $count1 != -1);
+	readingsBulkUpdate($hash, 'message_to_module' , $DummyMSGCNTvalue);
 	readingsEndUpdate($hash, 1);
 }
 
@@ -3468,7 +3467,7 @@ sub SIGNALduino_TOOL_nonBlock_abortFn {
 	delete($hash->{helper}{RUNNING_PID});
 
 	Log3 $name, 4, "$name: nonBlock_abortFn running";
-	readingsSingleUpdate($hash, "state", "timeout nonBlock function",1);
+	readingsSingleUpdate($hash, 'state', 'timeout nonBlock function',1);
 }
 
 #####################
@@ -3478,7 +3477,7 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 	my $hash = $defs{$name};
 
 	Log3 $name, 4, "$name: readingsSingleUpdate_later running";
-	readingsSingleUpdate($hash, "state", $txt,1);
+	readingsSingleUpdate($hash, 'state', $txt,1);
 }
 
 
@@ -3492,10 +3491,15 @@ sub SIGNALduino_TOOL_cc1101read_cb {
 	my $IODev_CC110x_Register = $hash->{NAME};
 
 	my $name = $SIGNALduino_TOOL_NAME;                   # name SIGNALduino_TOOL from globale variable
-	my $path = AttrVal($name,"Path","./FHEM/SD_TOOL/");
+	my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');
 
 	Log3 $name, 4, "$name: SIGNALduino_TOOL_cc1101read_cb running";
 	Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - uC answer: $a[0]";
+
+	if ($a[0] !~ /^ccreg\s00\:[0-9A-F\s]+ccreg\s10\:[0-9A-F\s]+ccreg\s20\:[0-9A-F\s]+$/) {
+		Log3 $name, 3, "$name: SIGNALduino_TOOL_cc1101read_cb - wrong uC answer: $a[0]";
+		return "ERROR: $name received an incorrect answer from uC";
+	};
 
 	my $CC110x_Register = $a[0];
 	$CC110x_Register =~ s/\s?ccreg\s\d{2}:\s//g;
@@ -3509,8 +3513,8 @@ sub SIGNALduino_TOOL_cc1101read_cb {
 sub SIGNALduino_TOOL_cc1101read_header {
 	my $text = shift;
 	my $cc1101Doc = shift;
-	$text = " ".$text." ";
-	my $outline = "+" . "-"x152 . "+\n";
+	$text = ' '.$text.' ';
+	my $outline = '+' . "-"x152 . "+\n";
 	substr($outline,35,length($text)-2,$text);
 	print $cc1101Doc $outline;
 }
@@ -3529,7 +3533,7 @@ sub SIGNALduino_TOOL_cc1101read_byte2bit {
 	my $res = 0;
 
 	my $value =  hex ( $byte );
-	my $binvalue = substr("00000000".sprintf( "%b", hex( $byte ) ),-8,8);
+	my $binvalue = substr('00000000'.sprintf( "%b", hex( $byte ) ),-8,8);
 	my $high = substr($bits,0,1);
 	my $low = substr($bits,-1,1);
 	my $pos = 7 - $high;
@@ -3537,8 +3541,8 @@ sub SIGNALduino_TOOL_cc1101read_byte2bit {
 	$res = substr($binvalue,$pos,$len);
 	my $decvalue = oct( "0b$res" );
 	my $hexvalue = sprintf("%X", oct( "0b$res" ) );
-	$res = $decvalue if $type eq "d";
-	$res = $hexvalue if $type eq "h";
+	$res = $decvalue if $type eq 'd';
+	$res = $hexvalue if $type eq 'h';
 	return $res;
 }
 #####################
@@ -3548,7 +3552,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 	my $path = shift;
 	my $text;
 
-	open my $cc1101Doc, '>', $path."SIGNALduino_TOOL_cc1101read.txt" || return "ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!";
+	open my $cc1101Doc, '>', $path.'SIGNALduino_TOOL_cc1101read.txt' || return 'ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!';
 		print $cc1101Doc "\n";
 		print $cc1101Doc "---------+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+\n";
 		print $cc1101Doc "CC1101 from $IODev_CC110x_Register\n";
@@ -3566,68 +3570,68 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 		# Type = Format der Variable b=binary, d=decimal, h=hex 
 
 		my @ccvars = (
-			"GDO2_INV,0x00,6,b", "GDO2_CFG,0x00,5:0,b", "GDO_DS,0x01,7,b", "GDO1_INV,0x01,6,b", "GDO1_CFG,0x01,5:0,b",
-			"TEMP_SENSOR_ENABLE,0x02,7,b", "GDO0_INV,0x02,6,b", "GDO0_CFG,0x02,5:0,b", "ADC_RETENTION,0x03,6,b",
-			"CLOSE_IN_RX,0x03,5:4,b", "FIFO_THR,0x03,3:0,b", "SYNC1,0x04,7:0,b", "SYNC0,0x05,7:0,b", "PACKET_LENGTH,0x06,7:0,d",
-			"PQT,0x07,7:5,b", "CRC_AUTOFLUSH,0x07,3,b", "APPEND_STATUS,0x07,2,b", "ADR_CHK,0x07,1:0,b", "WHITE_DATA,0x08,6,b",
-			"PKT_FORMAT,0x08,5:4,b", "CRC_EN,0x08,2,b", "LENGTH_CONFIG,0x08,1:0,b", "DEVICE_ADDR,0x09,7:0,b", "CHAN,0x0a,7:0,d",
-			"FREQ_IF,0x0b,4:0,d", "FREQOFF,0x0c,7:0,b", "FREQa,0x0d,7:6,b", "FREQ2,0x0d,5:0,b", "FREQ1,0x0e,7:0,b",
-			"FREQ0,0x0f,7:0,b", "CHANBW_E,0x10,7:6,d", "CHANBW_M,0x10,5:4,d", "DRATE_E,0x10,3:0,d", "DRATE_M,0x11,7:0,d",
-			"DEM_DCFILT_OFF,0x12,7,b", "MOD_FORMAT,0x12,6:4,b", "MANCHESTER_EN,0x12,3,b", "SYNC_MODE,0x12,2:0,b", "FEC_EN,0x13,7,b",
-			"NUM_PREAMBLE,0x13,6:4,b", "CHANSPC_E,0x13,1:0,d", "CHANSPC_M,0x14,7:0,d", "DEVIATION_E,0x15,6:4,d", "DEVIATION_M,0x15,2:0,d",
-			"RX_TIME_RSSI,0x16,4,b", "RX_TIME_QUAL,0x16,3,b", "RX_TIME,0x16,2:0,b", "CCA_MODE,0x17,5:4,b", "RXOFF_MODE,0x17,3:2,b",
-			"TXOFF_MODE,0x17,1:0,b", "FS_AUTOCAL,0x18,5:4,b", "PO_TIMEOUT,0x18,3:2,b", "PIN_CTRL_EN,0x18,1,b", "XOSC_FORCE_ON,0x18,0,b",
-			"FOC_BS_CS_GATE,0x19,5,b", "FOC_PRE_K,0x19,4:3,b", "FOC_POST_K,0x19,2,b", "FOC_LIMIT,0x19,1:0,b", "BS_PRE_KI,0x1a,7:6,b",
-			"BS_PRE_KP,0x1a,5:4,b", "BS_POST_KI,0x1a,3,b", "BS_POST_KP,0x1a,2,b", "BS_LIMIT,0x1a,1:0,b", "MAX_DVGA_GAIN,0x1b,7:6,b",
-			"MAX_LNA_GAIN,0x1b,5:3,b", "MAGN_TARGET,0x1b,2:0,b", "AGC_LNA_PRIORITY,0x1c,6,b", "CARRIER_SENSE_REL_THR,0x1c,5:4,b",
-			"CARRIER_SENSE_ABS_THR,0x1c,3:0,b", "HYST_LEVEL,0x1d,7:6,b", "WAIT_TIME,0x1d,5:4,b", "AGC_FREEZE,0x1d,3:2,b",
-			"FILTER_LENGTH,0x1d,1:0,b", "WOREVT1,0x1e,7:0,d", "WOREVT0,0x1f,7:0,d", "RC_PD,0x20,7,b", "EVENT1,0x20,6:4,b",
-			"RC_CAL,0x20,3,b", "WOR_RES,0x20,1:0,b", "LNA_CURRENT,0x21,7:6,b", "LNA2MIX_CURRENT,0x21,5:4,b", "LODIV_BUF_CURRENT_RX,0x21,3:2,b",
-			"MIX_CURRENT,0x21,1:0,b", "LODIV_BUF_CURRENT_TX,0x22,5:4,b", "PA_POWER,0x22,2:0,b", "FSCAL3a,0x23,7:6,b", "CHP_CURR_CAL_EN,0x23,5:4,b",
-			"FSCAL3b,0x23,3:0,b", "VCO_CORE_H_EN,0x24,5,b", "FSCAL2,0x24,4:0,b", "FSCAL1,0x25,5:0,b", "FSCAL0,0x26,6:0,b", "RCCTRL1,0x27,6:0,b",
-			"RCCTRL0,0x28,6:0,b", "FSTEST,0x29,7:0,b", "PTEST,0x2a,7:0,b", "AGCTEST,0x2b,7:0,b", "TEST2,0x2c,7:0,b", "TEST1,0x2d,7:0,b",
-			"TEST0a,0x2e,7:2,b", "VCO_SEL_CAL_EN,0x2e,1,b", "TEST0b,0x2e,0,b"
+			'GDO2_INV,0x00,6,b', 'GDO2_CFG,0x00,5:0,b', 'GDO_DS,0x01,7,b', 'GDO1_INV,0x01,6,b', 'GDO1_CFG,0x01,5:0,b',
+			'TEMP_SENSOR_ENABLE,0x02,7,b', 'GDO0_INV,0x02,6,b', 'GDO0_CFG,0x02,5:0,b', 'ADC_RETENTION,0x03,6,b',
+			'CLOSE_IN_RX,0x03,5:4,b', 'FIFO_THR,0x03,3:0,b', 'SYNC1,0x04,7:0,b', 'SYNC0,0x05,7:0,b', 'PACKET_LENGTH,0x06,7:0,d',
+			'PQT,0x07,7:5,b', 'CRC_AUTOFLUSH,0x07,3,b', 'APPEND_STATUS,0x07,2,b', 'ADR_CHK,0x07,1:0,b', 'WHITE_DATA,0x08,6,b',
+			'PKT_FORMAT,0x08,5:4,b', 'CRC_EN,0x08,2,b', 'LENGTH_CONFIG,0x08,1:0,b', 'DEVICE_ADDR,0x09,7:0,b', 'CHAN,0x0a,7:0,d',
+			'FREQ_IF,0x0b,4:0,d', 'FREQOFF,0x0c,7:0,b', 'FREQa,0x0d,7:6,b', 'FREQ2,0x0d,5:0,b', 'FREQ1,0x0e,7:0,b',
+			'FREQ0,0x0f,7:0,b', 'CHANBW_E,0x10,7:6,d', 'CHANBW_M,0x10,5:4,d', 'DRATE_E,0x10,3:0,d', 'DRATE_M,0x11,7:0,d',
+			'DEM_DCFILT_OFF,0x12,7,b', 'MOD_FORMAT,0x12,6:4,b', 'MANCHESTER_EN,0x12,3,b', 'SYNC_MODE,0x12,2:0,b', 'FEC_EN,0x13,7,b',
+			'NUM_PREAMBLE,0x13,6:4,b', 'CHANSPC_E,0x13,1:0,d', 'CHANSPC_M,0x14,7:0,d', 'DEVIATION_E,0x15,6:4,d', 'DEVIATION_M,0x15,2:0,d',
+			'RX_TIME_RSSI,0x16,4,b', 'RX_TIME_QUAL,0x16,3,b', 'RX_TIME,0x16,2:0,b', 'CCA_MODE,0x17,5:4,b', 'RXOFF_MODE,0x17,3:2,b',
+			'TXOFF_MODE,0x17,1:0,b', 'FS_AUTOCAL,0x18,5:4,b', 'PO_TIMEOUT,0x18,3:2,b', 'PIN_CTRL_EN,0x18,1,b', 'XOSC_FORCE_ON,0x18,0,b',
+			'FOC_BS_CS_GATE,0x19,5,b', 'FOC_PRE_K,0x19,4:3,b', 'FOC_POST_K,0x19,2,b', 'FOC_LIMIT,0x19,1:0,b', 'BS_PRE_KI,0x1a,7:6,b',
+			'BS_PRE_KP,0x1a,5:4,b', 'BS_POST_KI,0x1a,3,b', 'BS_POST_KP,0x1a,2,b', 'BS_LIMIT,0x1a,1:0,b', 'MAX_DVGA_GAIN,0x1b,7:6,b',
+			'MAX_LNA_GAIN,0x1b,5:3,b', 'MAGN_TARGET,0x1b,2:0,b', 'AGC_LNA_PRIORITY,0x1c,6,b', 'CARRIER_SENSE_REL_THR,0x1c,5:4,b',
+			'CARRIER_SENSE_ABS_THR,0x1c,3:0,b', 'HYST_LEVEL,0x1d,7:6,b', 'WAIT_TIME,0x1d,5:4,b', 'AGC_FREEZE,0x1d,3:2,b',
+			'FILTER_LENGTH,0x1d,1:0,b', 'WOREVT1,0x1e,7:0,d', 'WOREVT0,0x1f,7:0,d', 'RC_PD,0x20,7,b', 'EVENT1,0x20,6:4,b',
+			'RC_CAL,0x20,3,b', 'WOR_RES,0x20,1:0,b', 'LNA_CURRENT,0x21,7:6,b', 'LNA2MIX_CURRENT,0x21,5:4,b', 'LODIV_BUF_CURRENT_RX,0x21,3:2,b',
+			'MIX_CURRENT,0x21,1:0,b', 'LODIV_BUF_CURRENT_TX,0x22,5:4,b', 'PA_POWER,0x22,2:0,b', 'FSCAL3a,0x23,7:6,b', 'CHP_CURR_CAL_EN,0x23,5:4,b',
+			'FSCAL3b,0x23,3:0,b', 'VCO_CORE_H_EN,0x24,5,b', 'FSCAL2,0x24,4:0,b', 'FSCAL1,0x25,5:0,b', 'FSCAL0,0x26,6:0,b', 'RCCTRL1,0x27,6:0,b',
+			'RCCTRL0,0x28,6:0,b', 'FSTEST,0x29,7:0,b', 'PTEST,0x2a,7:0,b', 'AGCTEST,0x2b,7:0,b', 'TEST2,0x2c,7:0,b', 'TEST1,0x2d,7:0,b',
+			'TEST0a,0x2e,7:2,b', 'VCO_SEL_CAL_EN,0x2e,1,b', 'TEST0b,0x2e,0,b'
 		); 
 
 		my %Cmd_Strobes = (
-            "0x30" => { "Name"        => "SRES   ",
-                        "Description" => "Reset chip"
+            '0x30' => { 'Name'        => 'SRES   ',
+                        'Description' => 'Reset chip'
                       },
-            "0x31" => { "Name"        => "SFSTXON",
-                        "Description" => "Enable and calibrate frequency synthesizer (if MCSM0.FS_AUTOCAL=1).If in RX (with CCA): Go to a wait state where only the synthesizer is running (for quick RX / TX turnaround)."
+            '0x31' => { 'Name'        => 'SFSTXON',
+                        'Description' => 'Enable and calibrate frequency synthesizer (if MCSM0.FS_AUTOCAL=1).If in RX (with CCA): Go to a wait state where only the synthesizer is running (for quick RX / TX turnaround).'
                       },
-            "0x32" => { "Name"        => "SXOFF  ",
-                        "Description" => "Turn off crystal oscillator."
+            '0x32' => { 'Name'        => 'SXOFF  ',
+                        'Description' => 'Turn off crystal oscillator.'
                       },
-            "0x33" => { "Name"        => "SCAL   ",
-                        "Description" => "Calibrate frequency synthesizer and turn it off. SCAL can be strobed from IDLE mode without setting manual calibration mode (MCSM0.FS_AUTOCAL=0)"
+            '0x33' => { 'Name'        => 'SCAL   ',
+                        'Description' => 'Calibrate frequency synthesizer and turn it off. SCAL can be strobed from IDLE mode without setting manual calibration mode (MCSM0.FS_AUTOCAL=0)'
                       },
-            "0x34" => { "Name"        => "SRX    ",
-                        "Description" => "Enable RX. Perform calibration first if coming from IDLE and MCSM0.FS_AUTOCAL=1."
+            '0x34' => { 'Name'        => 'SRX    ',
+                        'Description' => 'Enable RX. Perform calibration first if coming from IDLE and MCSM0.FS_AUTOCAL=1.'
                       },
-            "0x35" => { "Name"        => "STX    ",
-                        "Description" => "In IDLE state: Enable TX. Perform calibration first if MCSM0.FS_AUTOCAL=1. If in RX state and CCA is enabled: Only go to TX if channel is clear."
+            '0x35' => { 'Name'        => 'STX    ',
+                        'Description' => 'In IDLE state: Enable TX. Perform calibration first if MCSM0.FS_AUTOCAL=1. If in RX state and CCA is enabled: Only go to TX if channel is clear.'
                       },
-            "0x36" => { "Name"        => "SIDLE  ",
-                        "Description" => "Exit RX / TX, turn off frequency synthesizer and exit Wake-On-Radio mode if applicable."
+            '0x36' => { 'Name'        => 'SIDLE  ',
+                        'Description' => 'Exit RX / TX, turn off frequency synthesizer and exit Wake-On-Radio mode if applicable.'
                       },
-            "0x38" => { "Name"        => "SWOR   ",
-                        "Description" => "Start automatic RX polling sequence (Wake-on-Radio) as described in Section 19.5 if WORCTRL.RC_PD=0."
+            '0x38' => { 'Name'        => 'SWOR   ',
+                        'Description' => 'Start automatic RX polling sequence (Wake-on-Radio) as described in Section 19.5 if WORCTRL.RC_PD=0.'
                       },
-            "0x39" => { "Name"        => "SPWD   ",
-                        "Description" => "Enter power down mode when CSn goes high."
+            '0x39' => { 'Name'        => 'SPWD   ',
+                        'Description' => 'Enter power down mode when CSn goes high.'
                       },
-            "0x3A" => { "Name"        => "SFRX   ",
-                        "Description" => "Flush the RX FIFO buffer. Only issue SFRX in IDLE or RXFIFO_OVERFLOW states."
+            '0x3A' => { 'Name'        => 'SFRX   ',
+                        'Description' => 'Flush the RX FIFO buffer. Only issue SFRX in IDLE or RXFIFO_OVERFLOW states.'
                       },
-            "0x3B" => { "Name"        => "SFTX   ",
-                        "Description" => "Flush the TX FIFO buffer. Only issue SFTX in IDLE or TXFIFO_UNDERFLOW states."
+            '0x3B' => { 'Name'        => 'SFTX   ',
+                        'Description' => 'Flush the TX FIFO buffer. Only issue SFTX in IDLE or TXFIFO_UNDERFLOW states.'
                       },
-            "0x3C" => { "Name"        => "SWORRST",
-                        "Description" => "Reset real time clock to Event1 value"
+            '0x3C' => { 'Name'        => 'SWORRST',
+                        'Description' => 'Reset real time clock to Event1 value'
                       },
-            "0x3D" => { "Name"        => "SNOP   ",
-                        "Description" => "No operation. May be used to get access to the chip status byte."
+            '0x3D' => { 'Name'        => 'SNOP   ',
+                        'Description' => 'No operation. May be used to get access to the chip status byte.'
                       }
 		);
 
@@ -3669,446 +3673,446 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 		print $cc1101Doc " SYNC1            \t= ".sprintf("%X", oct( "0b$rt{SYNC1}" ) )."\n";
 		print $cc1101Doc " SYNC0            \t= ".sprintf("%X", oct( "0b$rt{SYNC0}" ) )."\n";
 		# -------------------------------------
-		print $cc1101Doc " Modulation Format\t= 2-FSK\n"   if $rt{"MOD_FORMAT"} eq "000";
-		print $cc1101Doc " Modulation Format\t= GFSK\n"    if $rt{"MOD_FORMAT"} eq "001";
-		print $cc1101Doc " Modulation Format\t= ASK/OOK\n" if $rt{"MOD_FORMAT"} eq "011";
-		print $cc1101Doc " Modulation Format\t= 4-FSK\n"   if $rt{"MOD_FORMAT"} eq "100";
-		print $cc1101Doc " Modulation Format\t= MSK\n"     if $rt{"MOD_FORMAT"} eq "111";
+		print $cc1101Doc " Modulation Format\t= 2-FSK\n"   if $rt{'MOD_FORMAT'} eq '000';
+		print $cc1101Doc " Modulation Format\t= GFSK\n"    if $rt{'MOD_FORMAT'} eq '001';
+		print $cc1101Doc " Modulation Format\t= ASK/OOK\n" if $rt{'MOD_FORMAT'} eq '011';
+		print $cc1101Doc " Modulation Format\t= 4-FSK\n"   if $rt{'MOD_FORMAT'} eq '100';
+		print $cc1101Doc " Modulation Format\t= MSK\n"     if $rt{'MOD_FORMAT'} eq '111';
 		# -------------------------------------
 		print $cc1101Doc "\n";
 		# ------------------------------------- 0x00: IOCFG2 – GDO2 Output Pin Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x00: IOCFG2 – GDO2 Output Pin Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO2_INV",$rt{GDO2_INV},"Invert output, i.e. select active low (1) / high (0)",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO2_CFG",$rt{GDO2_CFG},"for details see CC1101 Data Sheet, Table 41 on page 62",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x00: IOCFG2 – GDO2 Output Pin Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO2_INV',$rt{GDO2_INV},'Invert output, i.e. select active low (1) / high (0)',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO2_CFG',$rt{GDO2_CFG},'for details see CC1101 Data Sheet, Table 41 on page 62',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x01: IOCFG1 – GDO1 Output Pin Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x01: IOCFG1 – GDO1 Output Pin Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO_DS",$rt{GDO_DS},"Set high (1) or low (0) output drive strength on the GDO pins.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO1_INV",$rt{GDO1_INV},"Invert output, i.e. select active low (1) / high (0)",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO1_CFG",$rt{GDO1_CFG},"for details see CC1101 Data Sheet, Table 41 on page 62)",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x01: IOCFG1 – GDO1 Output Pin Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO_DS',$rt{GDO_DS},'Set high (1) or low (0) output drive strength on the GDO pins.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO1_INV',$rt{GDO1_INV},'Invert output, i.e. select active low (1) / high (0)',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO1_CFG',$rt{GDO1_CFG},'for details see CC1101 Data Sheet, Table 41 on page 62)',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x02: IOCFG0 – GDO0 Output Pin Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x02: IOCFG0 – GDO0 Output Pin Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("TEMP_SENSOR_ENABLE",$rt{TEMP_SENSOR_ENABLE},"Enable analog temperature sensor. Write 0 in all other register bits when using temperature sensor.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO0_INV",$rt{GDO0_INV},"Invert output, i.e. select active low (1) / high (0)",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("GDO0_CFG",$rt{GDO0_CFG},"for details see CC1101 Data Sheet, Table 41 on page 62)",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x02: IOCFG0 – GDO0 Output Pin Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('TEMP_SENSOR_ENABLE',$rt{TEMP_SENSOR_ENABLE},'Enable analog temperature sensor. Write 0 in all other register bits when using temperature sensor.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO0_INV',$rt{GDO0_INV},'Invert output, i.e. select active low (1) / high (0)',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('GDO0_CFG',$rt{GDO0_CFG},'for details see CC1101 Data Sheet, Table 41 on page 62)',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x03: FIFOTHR – RX FIFO and TX FIFO Thresholds
-		SIGNALduino_TOOL_cc1101read_header("0x03: FIFOTHR – RX FIFO and TX FIFO Thresholds",$cc1101Doc);
-		$text = "TEST1 = 0x31 and TEST2= 0x88 when waking up from SLEEP"  if $rt{"ADC_RETENTION"} eq "0";
-		$text = "TEST1 = 0x35 and TEST2 = 0x81 when waking up from SLEEP" if $rt{"ADC_RETENTION"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("ADC_RETENTION",$rt{"ADC_RETENTION"},$text,$cc1101Doc);
-		$text = "RX Attenuation = 0 db"  if $rt{"CLOSE_IN_RX"} eq "00";
-		$text = "RX Attenuation = 6 db"  if $rt{"CLOSE_IN_RX"} eq "01";
-		$text = "RX Attenuation = 12 db" if $rt{"CLOSE_IN_RX"} eq "10";
-		$text = "RX Attenuation = 18 db" if $rt{"CLOSE_IN_RX"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("CLOSE_IN_RX",$rt{"CLOSE_IN_RX"},$text,$cc1101Doc);
-		$text = "Byte in TX FIFO: 61, Bytes in RX FIFO 4"  if $rt{"FIFO_THR"} eq "0000";
-		$text = "Byte in TX FIFO: 57, Bytes in RX FIFO 8"  if $rt{"FIFO_THR"} eq "0001";
-		$text = "Byte in TX FIFO: 53, Bytes in RX FIFO 12" if $rt{"FIFO_THR"} eq "0010";
-		$text = "Byte in TX FIFO: 49, Bytes in RX FIFO 16" if $rt{"FIFO_THR"} eq "0011";
-		$text = "Byte in TX FIFO: 45, Bytes in RX FIFO 20" if $rt{"FIFO_THR"} eq "0100";
-		$text = "Byte in TX FIFO: 41, Bytes in RX FIFO 24" if $rt{"FIFO_THR"} eq "0101";
-		$text = "Byte in TX FIFO: 37, Bytes in RX FIFO 28" if $rt{"FIFO_THR"} eq "0110";
-		$text = "Byte in TX FIFO: 33, Bytes in RX FIFO 32" if $rt{"FIFO_THR"} eq "0111";
-		$text = "Byte in TX FIFO: 29, Bytes in RX FIFO 36" if $rt{"FIFO_THR"} eq "1000";
-		$text = "Byte in TX FIFO: 25, Bytes in RX FIFO 40" if $rt{"FIFO_THR"} eq "1001";
-		$text = "Byte in TX FIFO: 21, Bytes in RX FIFO 44" if $rt{"FIFO_THR"} eq "1010";
-		$text = "Byte in TX FIFO: 17, Bytes in RX FIFO 48" if $rt{"FIFO_THR"} eq "1011";
-		$text = "Byte in TX FIFO: 13, Bytes in RX FIFO 52" if $rt{"FIFO_THR"} eq "1100";
-		$text = "Byte in TX FIFO: 9, Bytes in RX FIFO 56"  if $rt{"FIFO_THR"} eq "1101";
-		$text = "Byte in TX FIFO: 5, Bytes in RX FIFO 60"  if $rt{"FIFO_THR"} eq "1110";
-		$text = "Byte in TX FIFO: 1, Bytes in RX FIFO 64"  if $rt{"FIFO_THR"} eq "1111";
-		SIGNALduino_TOOL_cc1101read_oneline("FIFO_THR",$rt{"FIFO_THR"},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x03: FIFOTHR – RX FIFO and TX FIFO Thresholds',$cc1101Doc);
+		$text = 'TEST1 = 0x31 and TEST2= 0x88 when waking up from SLEEP'  if $rt{'ADC_RETENTION'} eq '0';
+		$text = 'TEST1 = 0x35 and TEST2 = 0x81 when waking up from SLEEP' if $rt{'ADC_RETENTION'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('ADC_RETENTION',$rt{'ADC_RETENTION'},$text,$cc1101Doc);
+		$text = 'RX Attenuation = 0 db'  if $rt{'CLOSE_IN_RX'} eq '00';
+		$text = 'RX Attenuation = 6 db'  if $rt{'CLOSE_IN_RX'} eq '01';
+		$text = 'RX Attenuation = 12 db' if $rt{'CLOSE_IN_RX'} eq '10';
+		$text = 'RX Attenuation = 18 db' if $rt{'CLOSE_IN_RX'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('CLOSE_IN_RX',$rt{'CLOSE_IN_RX'},$text,$cc1101Doc);
+		$text = 'Byte in TX FIFO: 61, Bytes in RX FIFO 4'  if $rt{'FIFO_THR'} eq '0000';
+		$text = 'Byte in TX FIFO: 57, Bytes in RX FIFO 8'  if $rt{'FIFO_THR'} eq '0001';
+		$text = 'Byte in TX FIFO: 53, Bytes in RX FIFO 12' if $rt{'FIFO_THR'} eq '0010';
+		$text = 'Byte in TX FIFO: 49, Bytes in RX FIFO 16' if $rt{'FIFO_THR'} eq '0011';
+		$text = 'Byte in TX FIFO: 45, Bytes in RX FIFO 20' if $rt{'FIFO_THR'} eq '0100';
+		$text = 'Byte in TX FIFO: 41, Bytes in RX FIFO 24' if $rt{'FIFO_THR'} eq '0101';
+		$text = 'Byte in TX FIFO: 37, Bytes in RX FIFO 28' if $rt{'FIFO_THR'} eq '0110';
+		$text = 'Byte in TX FIFO: 33, Bytes in RX FIFO 32' if $rt{'FIFO_THR'} eq '0111';
+		$text = 'Byte in TX FIFO: 29, Bytes in RX FIFO 36' if $rt{'FIFO_THR'} eq '1000';
+		$text = 'Byte in TX FIFO: 25, Bytes in RX FIFO 40' if $rt{'FIFO_THR'} eq '1001';
+		$text = 'Byte in TX FIFO: 21, Bytes in RX FIFO 44' if $rt{'FIFO_THR'} eq '1010';
+		$text = 'Byte in TX FIFO: 17, Bytes in RX FIFO 48' if $rt{'FIFO_THR'} eq '1011';
+		$text = 'Byte in TX FIFO: 13, Bytes in RX FIFO 52' if $rt{'FIFO_THR'} eq '1100';
+		$text = 'Byte in TX FIFO: 9, Bytes in RX FIFO 56'  if $rt{'FIFO_THR'} eq '1101';
+		$text = 'Byte in TX FIFO: 5, Bytes in RX FIFO 60'  if $rt{'FIFO_THR'} eq '1110';
+		$text = 'Byte in TX FIFO: 1, Bytes in RX FIFO 64'  if $rt{'FIFO_THR'} eq '1111';
+		SIGNALduino_TOOL_cc1101read_oneline('FIFO_THR',$rt{'FIFO_THR'},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x04: SYNC1 – Sync Word, High Byte 
-		SIGNALduino_TOOL_cc1101read_header("0x04: SYNC1 – Sync Word, High Byte",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("SYNC1",$rt{SYNC1},"8 MSB of 16-bit sync word",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x04: SYNC1 – Sync Word, High Byte',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('SYNC1',$rt{SYNC1},'8 MSB of 16-bit sync word',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x05: SYNC0 – Sync Word, Low Byte
-		SIGNALduino_TOOL_cc1101read_header("0x05: SYNC0 – Sync Word, Low Byte",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("SYNC0",$rt{SYNC0},"8 LSB of 16-bit sync word",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x05: SYNC0 – Sync Word, Low Byte',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('SYNC0',$rt{SYNC0},'8 LSB of 16-bit sync word',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x06: PKTLEN – Packet Length
-		SIGNALduino_TOOL_cc1101read_header("0x06: PKTLEN – Packet Length",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("PACKET_LENGTH",$rt{PACKET_LENGTH},"Indicates the packet length when fixed packet length mode is enabled.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   If variable packet length mode is used, this value indicates the maximum packet length allowed.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   This value must be different from 0.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x06: PKTLEN – Packet Length',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('PACKET_LENGTH',$rt{PACKET_LENGTH},'Indicates the packet length when fixed packet length mode is enabled.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   If variable packet length mode is used, this value indicates the maximum packet length allowed.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   This value must be different from 0.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x07: PKTCTRL1 – Packet Automation Control
-		SIGNALduino_TOOL_cc1101read_header("0x07: PKTCTRL1 – Packet Automation Control",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("PQT",$rt{PQT},"Preamble quality estimator threshold.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CRC_AUTOFLUSH",$rt{CRC_AUTOFLUSH},"Enable automatic flush of RX FIFO when CRC is not OK. This requires that only one packet is in the RXIFIFO",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   and that packet length is limited to the RX FIFO size.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("APPEND_STATUS",$rt{APPEND_STATUS},"When enabled, two status bytes will be appended to the payload of the packet. The status bytes contain RSSI",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   and LQI values, as well as CRC OK.",$cc1101Doc);
-		$text = "No address check"  if $rt{"ADR_CHK"} eq "00";
-		$text = "Address check, no broadcast"  if $rt{"ADR_CHK"} eq "01";
-		$text = "Address check and 0 (0x00) broadcast"  if $rt{"ADR_CHK"} eq "10";
-		$text = "Address check and 0 (0x00) and 255 (0xFF) broadcast"  if $rt{"ADR_CHK"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("ADR_CHK",$rt{ADR_CHK},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x07: PKTCTRL1 – Packet Automation Control',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('PQT',$rt{PQT},'Preamble quality estimator threshold.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CRC_AUTOFLUSH',$rt{CRC_AUTOFLUSH},'Enable automatic flush of RX FIFO when CRC is not OK. This requires that only one packet is in the RXIFIFO',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   and that packet length is limited to the RX FIFO size.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('APPEND_STATUS',$rt{APPEND_STATUS},'When enabled, two status bytes will be appended to the payload of the packet. The status bytes contain RSSI',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   and LQI values, as well as CRC OK.',$cc1101Doc);
+		$text = 'No address check'  if $rt{'ADR_CHK'} eq '00';
+		$text = 'Address check, no broadcast'  if $rt{'ADR_CHK'} eq '01';
+		$text = 'Address check and 0 (0x00) broadcast'  if $rt{'ADR_CHK'} eq '10';
+		$text = 'Address check and 0 (0x00) and 255 (0xFF) broadcast'  if $rt{'ADR_CHK'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('ADR_CHK',$rt{ADR_CHK},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x08: PKTCTRL0 – Packet Automation Control
-		SIGNALduino_TOOL_cc1101read_header("0x08: PKTCTRL0 – Packet Automation Control",$cc1101Doc);
-		$text = "Whitening is off" if $rt{"WHITE_DATA"} eq "0";
-		$text = "Whitening is on"  if $rt{"WHITE_DATA"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("WHITE_DATA",$rt{WHITE_DATA},$text,$cc1101Doc);
-		$text = "Format of RX and TX data: Normal mode, use FIFOs for RX and TX"                                                                               if $rt{"PKT_FORMAT"} eq "00";
-		$text = "Format of RX and TX data: Synchronous serial mode, Data in on GDO0 and data out on either of the GDOx pins"                                   if $rt{"PKT_FORMAT"} eq "01";
-		$text = "Format of RX and TX data: Random TX mode; sends random data using PN9 generator. Used for test.  Works as normal mode, setting 0 (00), in RX" if $rt{"PKT_FORMAT"} eq "10";
-		$text = "Format of RX and TX data: Asynchronous serial mode, Data in on GDO0 and data out on either of the GDOx pins"                                  if $rt{"PKT_FORMAT"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("PKT_FORMAT",$rt{"PKT_FORMAT"},$text,$cc1101Doc);
-		$text = "CRC disabled for TX and RX"                         if $rt{"CRC_EN"} eq "0";
-		$text = "CRC calculation in TX and CRC check in RX enabled"  if $rt{"CRC_EN"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("CRC_EN",$rt{CRC_EN},$text,$cc1101Doc);
-		$text = "Fixed packet length mode. Length configured in PKTLEN register"                          if $rt{"LENGTH_CONFIG"} eq "00";
-		$text = "Variable packet length mode. Packet length configured by the first byte after sync word" if $rt{"LENGTH_CONFIG"} eq "01";
-		$text = "Infinite packet length mode"                                                             if $rt{"LENGTH_CONFIG"} eq "10";
-		$text = "Reserved"                                                                                if $rt{"LENGTH_CONFIG"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("LENGTH_CONFIG",$rt{"LENGTH_CONFIG"},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x08: PKTCTRL0 – Packet Automation Control',$cc1101Doc);
+		$text = 'Whitening is off' if $rt{'WHITE_DATA'} eq '0';
+		$text = 'Whitening is on'  if $rt{'WHITE_DATA'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('WHITE_DATA',$rt{WHITE_DATA},$text,$cc1101Doc);
+		$text = 'Format of RX and TX data: Normal mode, use FIFOs for RX and TX'                                                                               if $rt{'PKT_FORMAT'} eq '00';
+		$text = 'Format of RX and TX data: Synchronous serial mode, Data in on GDO0 and data out on either of the GDOx pins'                                   if $rt{'PKT_FORMAT'} eq '01';
+		$text = 'Format of RX and TX data: Random TX mode; sends random data using PN9 generator. Used for test.  Works as normal mode, setting 0 (00), in RX' if $rt{'PKT_FORMAT'} eq '10';
+		$text = 'Format of RX and TX data: Asynchronous serial mode, Data in on GDO0 and data out on either of the GDOx pins'                                  if $rt{'PKT_FORMAT'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('PKT_FORMAT',$rt{'PKT_FORMAT'},$text,$cc1101Doc);
+		$text = 'CRC disabled for TX and RX'                         if $rt{'CRC_EN'} eq '0';
+		$text = 'CRC calculation in TX and CRC check in RX enabled'  if $rt{'CRC_EN'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('CRC_EN',$rt{CRC_EN},$text,$cc1101Doc);
+		$text = 'Fixed packet length mode. Length configured in PKTLEN register'                          if $rt{'LENGTH_CONFIG'} eq '00';
+		$text = 'Variable packet length mode. Packet length configured by the first byte after sync word' if $rt{'LENGTH_CONFIG'} eq '01';
+		$text = 'Infinite packet length mode'                                                             if $rt{'LENGTH_CONFIG'} eq '10';
+		$text = 'Reserved'                                                                                if $rt{'LENGTH_CONFIG'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('LENGTH_CONFIG',$rt{'LENGTH_CONFIG'},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x09: ADDR – Device Address
-		SIGNALduino_TOOL_cc1101read_header("0x09: ADDR – Device Address",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("DEVICE_ADDR",$rt{DEVICE_ADDR},"Address used for packet filtration. Optional broadcast addresses are 0 (0x00) and 255 (0xFF).",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x09: ADDR – Device Address',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('DEVICE_ADDR',$rt{DEVICE_ADDR},'Address used for packet filtration. Optional broadcast addresses are 0 (0x00) and 255 (0xFF).',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x0A: CHANNR – Channel Number
-		SIGNALduino_TOOL_cc1101read_header("0x0A: CHANNR – Channel Number",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CHAN",$rt{CHAN},"The 8-bit unsigned channel number, which is multiplied by the channel spacing setting and added to the base",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   frequency.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x0A: CHANNR – Channel Number',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CHAN',$rt{CHAN},'The 8-bit unsigned channel number, which is multiplied by the channel spacing setting and added to the base',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   frequency.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x0B: FSCTRL1 – Frequency Synthesizer Control
-		SIGNALduino_TOOL_cc1101read_header("0x0B: FSCTRL1 – Frequency Synthesizer Control",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FREQOFF",$rt{FREQOFF},"Frequency offset added to the base frequency before being used by the frequency synthesizer. (",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x0B: FSCTRL1 – Frequency Synthesizer Control',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FREQOFF',$rt{FREQOFF},'Frequency offset added to the base frequency before being used by the frequency synthesizer. (',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x0D: FREQ2 – Frequency Control Word, High Byte
-		SIGNALduino_TOOL_cc1101read_header("0x0D: FREQ2 – Frequency Control Word, High Byte",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FREQa",$rt{FREQa},"FREQ[23:22] is always 0 (the FREQ2 register is less than 36 with 26-27 MHz crystal)",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FREQ2",$rt{FREQ2},"FREQ[23:0] is the base frequency for the frequency synthesiser in increments of fXOSC/216.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","=> f_Carrier = ".$frequency." MHz",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x0D: FREQ2 – Frequency Control Word, High Byte',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FREQa',$rt{FREQa},'FREQ[23:22] is always 0 (the FREQ2 register is less than 36 with 26-27 MHz crystal)',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FREQ2',$rt{FREQ2},'FREQ[23:0] is the base frequency for the frequency synthesiser in increments of fXOSC/216.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','=> f_Carrier = '.$frequency.' MHz',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x0E: FREQ1 – Frequency Control Word, Middle Byte
-		SIGNALduino_TOOL_cc1101read_header("0x0E: FREQ1 – Frequency Control Word, Middle Byte",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FREQ1",$rt{FREQ1},"Ref. FREQ2 register",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x0E: FREQ1 – Frequency Control Word, Middle Byte',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FREQ1',$rt{FREQ1},'Ref. FREQ2 register',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x0F: FREQ0 – Frequency Control Word, Low Byte
-		SIGNALduino_TOOL_cc1101read_header("0x0F: FREQ0 – Frequency Control Word, Low Byte",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FREQ0",$rt{FREQ0},"Ref. FREQ2 register",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x0F: FREQ0 – Frequency Control Word, Low Byte',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FREQ0',$rt{FREQ0},'Ref. FREQ2 register',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x10: MDMCFG4 – Modem Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x10: MDMCFG4 – Modem Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CHANBW_E",$rt{CHANBW_E},"",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CHANBW_M",$rt{CHANBW_M},"Sets the decimation ratio for the delta-sigma ADC input stream and thus the channel bandwidth.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","=> Channel Bandwidth = ".$bw." kHz",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("DRATE_E",$rt{DRATE_E},"The exponent of the user specified symbol rate",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x10: MDMCFG4 – Modem Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CHANBW_E',$rt{CHANBW_E},'',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CHANBW_M',$rt{CHANBW_M},'Sets the decimation ratio for the delta-sigma ADC input stream and thus the channel bandwidth.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','=> Channel Bandwidth = '.$bw.' kHz',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('DRATE_E',$rt{DRATE_E},'The exponent of the user specified symbol rate',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x11: MDMCFG3 – Modem Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x11: MDMCFG3 – Modem Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("DRATE_M",$rt{DRATE_M},"The mantissa of the user specified symbol rate. The",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","=> Data Rate = ".$drate." kBaud",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x11: MDMCFG3 – Modem Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('DRATE_M',$rt{DRATE_M},'The mantissa of the user specified symbol rate. The',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','=> Data Rate = '.$drate.' kBaud',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x12: MDMCFG2 – Modem Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x12: MDMCFG2 – Modem Configuration",$cc1101Doc);
-		$text = "Enable (better sensitivity)"                                   if $rt{"DEM_DCFILT_OFF"} eq "0";
-		$text = "Disable (current optimized). Only for data rates ≤ 250 kBaud)" if $rt{"DEM_DCFILT_OFF"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("DEM_DCFILT_OFF",$rt{DEM_DCFILT_OFF},$text,$cc1101Doc);
-		$text = "Modulation -> 2-FSK"   if $rt{"MOD_FORMAT"} eq "000";
-		$text = "Modulation -> GFSK"    if $rt{"MOD_FORMAT"} eq "001";
-		$text = "Modulation -> ASK/OOK" if $rt{"MOD_FORMAT"} eq "011";
-		$text = "Modulation -> 4-FSK"   if $rt{"MOD_FORMAT"} eq "100";
-		$text = "Modulation -> MSK"     if $rt{"MOD_FORMAT"} eq "111";
-		SIGNALduino_TOOL_cc1101read_oneline("MOD_FORMAT",$rt{MOD_FORMAT},$text,$cc1101Doc);
-		$text = "Enables Manchester encoding/decoding -> Disable" if $rt{"MANCHESTER_EN"} eq "0";
-		$text = "Enables Manchester encoding/decoding -> Enable"  if $rt{"MANCHESTER_EN"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("MANCHESTER_EN",$rt{MANCHESTER_EN},$text,$cc1101Doc);
-		$text = "No preamble/sync"                                if $rt{"SYNC_MODE"} eq "000";
-		$text = "15/16 sync word bits detected"                   if $rt{"SYNC_MODE"} eq "001";
-		$text = "16/16 sync word bits detected"                   if $rt{"SYNC_MODE"} eq "010";
-		$text = "30/32 sync word bits detected"                   if $rt{"SYNC_MODE"} eq "011";
-		$text = "No preamble/sync, carrier-sense above threshold" if $rt{"SYNC_MODE"} eq "100";
-		$text = "15/16 + carrier-sense above threshold"           if $rt{"SYNC_MODE"} eq "101";
-		$text = "16/16 + carrier-sense above threshold"           if $rt{"SYNC_MODE"} eq "110";
-		$text = "30/32 + carrier-sense above threshold"           if $rt{"SYNC_MODE"} eq "111";
-		SIGNALduino_TOOL_cc1101read_oneline("SYNC_MODE",$rt{SYNC_MODE},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x12: MDMCFG2 – Modem Configuration',$cc1101Doc);
+		$text = 'Enable (better sensitivity)'                                   if $rt{'DEM_DCFILT_OFF'} eq '0';
+		$text = 'Disable (current optimized). Only for data rates ≤ 250 kBaud)' if $rt{'DEM_DCFILT_OFF'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('DEM_DCFILT_OFF',$rt{DEM_DCFILT_OFF},$text,$cc1101Doc);
+		$text = 'Modulation -> 2-FSK'   if $rt{'MOD_FORMAT'} eq '000';
+		$text = 'Modulation -> GFSK'    if $rt{'MOD_FORMAT'} eq '001';
+		$text = 'Modulation -> ASK/OOK' if $rt{'MOD_FORMAT'} eq '011';
+		$text = 'Modulation -> 4-FSK'   if $rt{'MOD_FORMAT'} eq '100';
+		$text = 'Modulation -> MSK'     if $rt{'MOD_FORMAT'} eq '111';
+		SIGNALduino_TOOL_cc1101read_oneline('MOD_FORMAT',$rt{MOD_FORMAT},$text,$cc1101Doc);
+		$text = 'Enables Manchester encoding/decoding -> Disable' if $rt{'MANCHESTER_EN'} eq '0';
+		$text = 'Enables Manchester encoding/decoding -> Enable'  if $rt{'MANCHESTER_EN'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('MANCHESTER_EN',$rt{MANCHESTER_EN},$text,$cc1101Doc);
+		$text = 'No preamble/sync'                                if $rt{'SYNC_MODE'} eq '000';
+		$text = '15/16 sync word bits detected'                   if $rt{'SYNC_MODE'} eq '001';
+		$text = '16/16 sync word bits detected'                   if $rt{'SYNC_MODE'} eq '010';
+		$text = '30/32 sync word bits detected'                   if $rt{'SYNC_MODE'} eq '011';
+		$text = 'No preamble/sync, carrier-sense above threshold' if $rt{'SYNC_MODE'} eq '100';
+		$text = '15/16 + carrier-sense above threshold'           if $rt{'SYNC_MODE'} eq '101';
+		$text = '16/16 + carrier-sense above threshold'           if $rt{'SYNC_MODE'} eq '110';
+		$text = '30/32 + carrier-sense above threshold'           if $rt{'SYNC_MODE'} eq '111';
+		SIGNALduino_TOOL_cc1101read_oneline('SYNC_MODE',$rt{SYNC_MODE},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x13: MDMCFG1– Modem Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x13: MDMCFG1– Modem Configuration",$cc1101Doc);
-		$text = "Enable Forward Error Correction (FEC) with interleaving for packet payload -> Disable" if $rt{"FEC_EN"} eq "0";
-		$text = "Enable Forward Error Correction (FEC) with interleaving for packet payload -> Enable"  if $rt{"FEC_EN"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("FEC_EN",$rt{FEC_EN},$text,$cc1101Doc);
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 2"   if $rt{"NUM_PREAMBLE"} eq "000";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 3"   if $rt{"NUM_PREAMBLE"} eq "001";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 4"   if $rt{"NUM_PREAMBLE"} eq "010";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 6"   if $rt{"NUM_PREAMBLE"} eq "011";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 8"   if $rt{"NUM_PREAMBLE"} eq "100";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 12"  if $rt{"NUM_PREAMBLE"} eq "101";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 16"  if $rt{"NUM_PREAMBLE"} eq "110";
-		$text = "Sets the minimum number of preamble bytes to be transmitted -> 24"  if $rt{"NUM_PREAMBLE"} eq "111";
-		SIGNALduino_TOOL_cc1101read_oneline("NUM_PREAMBLE",$rt{NUM_PREAMBLE},$text,$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CHANSPC_E",$rt{CHANSPC_E},"2 bit exponent of channel spacing",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x13: MDMCFG1– Modem Configuration',$cc1101Doc);
+		$text = 'Enable Forward Error Correction (FEC) with interleaving for packet payload -> Disable' if $rt{'FEC_EN'} eq '0';
+		$text = 'Enable Forward Error Correction (FEC) with interleaving for packet payload -> Enable'  if $rt{'FEC_EN'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('FEC_EN',$rt{FEC_EN},$text,$cc1101Doc);
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 2'   if $rt{'NUM_PREAMBLE'} eq '000';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 3'   if $rt{'NUM_PREAMBLE'} eq '001';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 4'   if $rt{'NUM_PREAMBLE'} eq '010';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 6'   if $rt{'NUM_PREAMBLE'} eq '011';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 8'   if $rt{'NUM_PREAMBLE'} eq '100';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 12'  if $rt{'NUM_PREAMBLE'} eq '101';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 16'  if $rt{'NUM_PREAMBLE'} eq '110';
+		$text = 'Sets the minimum number of preamble bytes to be transmitted -> 24'  if $rt{'NUM_PREAMBLE'} eq '111';
+		SIGNALduino_TOOL_cc1101read_oneline('NUM_PREAMBLE',$rt{NUM_PREAMBLE},$text,$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CHANSPC_E',$rt{CHANSPC_E},'2 bit exponent of channel spacing',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x14: MDMCFG0– Modem Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x14: MDMCFG0– Modem Configuration",$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_header('0x14: MDMCFG0– Modem Configuration',$cc1101Doc);
 		my $chanspace = $fXOSC / (2**18) * (256+$rt{CHANSPC_M} * 2**$rt{CHANSPC_E}) ;
 		$chanspace = sprintf "%.3f", $chanspace;        ## round value
-		SIGNALduino_TOOL_cc1101read_oneline("CHANSPC_M",$rt{CHANSPC_M},"8-bit mantissa of channel spacing.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","=> Channel Spacing = ".$chanspace." kHz",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_oneline('CHANSPC_M',$rt{CHANSPC_M},'8-bit mantissa of channel spacing.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','=> Channel Spacing = '.$chanspace.' kHz',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x15: DEVIATN – Modem Deviation Setting
-		SIGNALduino_TOOL_cc1101read_header("0x15: DEVIATN – Modem Deviation Setting",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("DEVIATION_E",$rt{DEVIATION_E},"Deviation exponent.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("DEVIATION_M",$rt{DEVIATION_M},"Specifies the nominal frequency deviation from the carrier for a '0' (-DEVIATN)",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   and '1' (+DEVIATN) in a mantissa-exponent, interpreted as a 4-bit value with MSB implicit 1.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","=> Deviation = ".$deviatn." kHz",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x15: DEVIATN – Modem Deviation Setting',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('DEVIATION_E',$rt{DEVIATION_E},'Deviation exponent.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('DEVIATION_M',$rt{DEVIATION_M},"Specifies the nominal frequency deviation from the carrier for a '0' (-DEVIATN)",$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','',"   and '1' (+DEVIATN) in a mantissa-exponent, interpreted as a 4-bit value with MSB implicit 1.",$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','=> Deviation = '.$deviatn.' kHz',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x16: MCSM2 – Main Radio Control State Machine Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x16: MCSM2 – Main Radio Control State Machine Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("RX_TIME_RSSI",$rt{RX_TIME_RSSI},"Direct RX termination based on RSSI measurement (carrier sense). For ASK/OOK",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   modulation, RX times out if there is no carrier sense in the first 8 symbol periods.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("RX_TIME_QUAL",$rt{RX_TIME_QUAL},"When the RX_TIME timer expires, the chip checks if sync word is found when",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   RX_TIME_QUAL=0, or either sync word is found or PQI is set when",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   RX_TIME_QUAL=1.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("RX_TIME",$rt{RX_TIME},"for details see CC1101 Data Sheet page 80",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x16: MCSM2 – Main Radio Control State Machine Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('RX_TIME_RSSI',$rt{RX_TIME_RSSI},'Direct RX termination based on RSSI measurement (carrier sense). For ASK/OOK',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   modulation, RX times out if there is no carrier sense in the first 8 symbol periods.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('RX_TIME_QUAL',$rt{RX_TIME_QUAL},'When the RX_TIME timer expires, the chip checks if sync word is found when',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   RX_TIME_QUAL=0, or either sync word is found or PQI is set when',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   RX_TIME_QUAL=1.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('RX_TIME',$rt{RX_TIME},'for details see CC1101 Data Sheet page 80',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x17: MCSM1– Main Radio Control State Machine Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x17: MCSM1– Main Radio Control State Machine Configuration",$cc1101Doc);
-		$text = "Selects CCA_MODE; Reflected in CCA signal -> Always"                                                       if $rt{"CCA_MODE"} eq "00";
-		$text = "Selects CCA_MODE; Reflected in CCA signal -> If RSSI below threshold"                                      if $rt{"CCA_MODE"} eq "01";
-		$text = "Selects CCA_MODE; Reflected in CCA signal -> Unless currently receiving a packet"                          if $rt{"CCA_MODE"} eq "10";
-		$text = "Selects CCA_MODE; Reflected in CCA signal -> If RSSI below threshold unless currently receiving a packet"  if $rt{"CCA_MODE"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("CCA_MODE",$rt{CCA_MODE},$text,$cc1101Doc);
-		$text = "Select what should happen when a packet has been received -> IDLE"        if $rt{"RXOFF_MODE"} eq "00";
-		$text = "Select what should happen when a packet has been received -> FSTXON"      if $rt{"RXOFF_MODE"} eq "10";
-		$text = "Select what should happen when a packet has been received -> TX"          if $rt{"RXOFF_MODE"} eq "01";
-		$text = "Select what should happen when a packet has been received -> Stay in RX"  if $rt{"RXOFF_MODE"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("RXOFF_MODE",$rt{RXOFF_MODE},$text,$cc1101Doc);
-		$text = "Select what should happen when a packet has been sent (TX) -> IDLE"                                 if $rt{"TXOFF_MODE"} eq "00";
-		$text = "Select what should happen when a packet has been sent (TX) -> FSTXON"                               if $rt{"TXOFF_MODE"} eq "01";
-		$text = "Select what should happen when a packet has been sent (TX) -> Stay in TX (start sending preamble)"  if $rt{"TXOFF_MODE"} eq "10";
-		$text = "Select what should happen when a packet has been sent (TX) -> RX"                                   if $rt{"TXOFF_MODE"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("TXOFF_MODE",$rt{TXOFF_MODE},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x17: MCSM1– Main Radio Control State Machine Configuration',$cc1101Doc);
+		$text = 'Selects CCA_MODE; Reflected in CCA signal -> Always'                                                       if $rt{'CCA_MODE'} eq '00';
+		$text = 'Selects CCA_MODE; Reflected in CCA signal -> If RSSI below threshold'                                      if $rt{'CCA_MODE'} eq '01';
+		$text = 'Selects CCA_MODE; Reflected in CCA signal -> Unless currently receiving a packet'                          if $rt{'CCA_MODE'} eq '10';
+		$text = 'Selects CCA_MODE; Reflected in CCA signal -> If RSSI below threshold unless currently receiving a packet'  if $rt{'CCA_MODE'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('CCA_MODE',$rt{CCA_MODE},$text,$cc1101Doc);
+		$text = 'Select what should happen when a packet has been received -> IDLE'        if $rt{'RXOFF_MODE'} eq '00';
+		$text = 'Select what should happen when a packet has been received -> FSTXON'      if $rt{'RXOFF_MODE'} eq '10';
+		$text = 'Select what should happen when a packet has been received -> TX'          if $rt{'RXOFF_MODE'} eq '01';
+		$text = 'Select what should happen when a packet has been received -> Stay in RX'  if $rt{'RXOFF_MODE'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('RXOFF_MODE',$rt{RXOFF_MODE},$text,$cc1101Doc);
+		$text = 'Select what should happen when a packet has been sent (TX) -> IDLE'                                 if $rt{'TXOFF_MODE'} eq '00';
+		$text = 'Select what should happen when a packet has been sent (TX) -> FSTXON'                               if $rt{'TXOFF_MODE'} eq '01';
+		$text = 'Select what should happen when a packet has been sent (TX) -> Stay in TX (start sending preamble)'  if $rt{'TXOFF_MODE'} eq '10';
+		$text = 'Select what should happen when a packet has been sent (TX) -> RX'                                   if $rt{'TXOFF_MODE'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('TXOFF_MODE',$rt{TXOFF_MODE},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x18: MCSM0– Main Radio Control State Machine Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x18: MCSM0– Main Radio Control State Machine Configuration",$cc1101Doc);
-		$text = "Automatically calibrate when going to RX or TX, or back to IDLE -> Never (manually calibrate using SCAL strobe)"                  if $rt{"FS_AUTOCAL"} eq "00";
-		$text = "Automatically calibrate when going to RX or TX, or back to IDLE -> When going from IDLE to RX or TX (or FSTXON)"                  if $rt{"FS_AUTOCAL"} eq "01";
-		$text = "Automatically calibrate when going to RX or TX, or back to IDLE -> When going from RX or TX back to IDLE automatically"           if $rt{"FS_AUTOCAL"} eq "10";
-		$text = "Automatically calibrate when going to RX or TX, or back to IDLE -> Every 4th time when going from RX or TX to IDLE automatically" if $rt{"FS_AUTOCAL"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("FS_AUTOCAL",$rt{FS_AUTOCAL},$text,$cc1101Doc);
-		$text = "Programs the number of times the six-bit ripple counter -> Expire count 1, Timeout Approx. 2.3 – 2.4 μs"   if $rt{"PO_TIMEOUT"} eq "00";
-		$text = "Programs the number of times the six-bit ripple counter -> Expire count 16, Timeout Approx. 37 – 39 μs"    if $rt{"PO_TIMEOUT"} eq "01";
-		$text = "Programs the number of times the six-bit ripple counter -> Expire count 65, Timeout Approx. 149 – 155 μs"  if $rt{"PO_TIMEOUT"} eq "10";
-		$text = "Programs the number of times the six-bit ripple counter -> Expire count 256, Timeout Approx. 597 – 620 μs" if $rt{"PO_TIMEOUT"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("PO_TIMEOUT",$rt{PO_TIMEOUT},$text,$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("PIN_CTRL_EN",$rt{PIN_CTRL_EN},"Enables the pin radio control option",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("XOSC_FORCE_ON",$rt{XOSC_FORCE_ON},"Force the XOSC to stay on in the SLEEP state.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x18: MCSM0– Main Radio Control State Machine Configuration',$cc1101Doc);
+		$text = 'Automatically calibrate when going to RX or TX, or back to IDLE -> Never (manually calibrate using SCAL strobe)'                  if $rt{'FS_AUTOCAL'} eq '00';
+		$text = 'Automatically calibrate when going to RX or TX, or back to IDLE -> When going from IDLE to RX or TX (or FSTXON)'                  if $rt{'FS_AUTOCAL'} eq '01';
+		$text = 'Automatically calibrate when going to RX or TX, or back to IDLE -> When going from RX or TX back to IDLE automatically'           if $rt{'FS_AUTOCAL'} eq '10';
+		$text = 'Automatically calibrate when going to RX or TX, or back to IDLE -> Every 4th time when going from RX or TX to IDLE automatically' if $rt{'FS_AUTOCAL'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('FS_AUTOCAL',$rt{FS_AUTOCAL},$text,$cc1101Doc);
+		$text = 'Programs the number of times the six-bit ripple counter -> Expire count 1, Timeout Approx. 2.3 – 2.4 μs'   if $rt{'PO_TIMEOUT'} eq '00';
+		$text = 'Programs the number of times the six-bit ripple counter -> Expire count 16, Timeout Approx. 37 – 39 μs'    if $rt{'PO_TIMEOUT'} eq '01';
+		$text = 'Programs the number of times the six-bit ripple counter -> Expire count 65, Timeout Approx. 149 – 155 μs'  if $rt{'PO_TIMEOUT'} eq '10';
+		$text = 'Programs the number of times the six-bit ripple counter -> Expire count 256, Timeout Approx. 597 – 620 μs' if $rt{'PO_TIMEOUT'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('PO_TIMEOUT',$rt{PO_TIMEOUT},$text,$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('PIN_CTRL_EN',$rt{PIN_CTRL_EN},'Enables the pin radio control option',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('XOSC_FORCE_ON',$rt{XOSC_FORCE_ON},'Force the XOSC to stay on in the SLEEP state.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x19: FOCCFG – Frequency Offset Compensation Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x19: FOCCFG – Frequency Offset Compensation Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FOC_BS_CS_GATE",$rt{FOC_BS_CS_GATE},"If set, the demodulator freezes the frequency offset compensation and clock recovery feedback loops until",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   the CS signal goes high.",$cc1101Doc);
-		$text = "The frequency compensation loop gain to be used before a sync word is detected. -> K"    if $rt{"FOC_PRE_K"} eq "00";
-		$text = "The frequency compensation loop gain to be used before a sync word is detected. -> 2K"   if $rt{"FOC_PRE_K"} eq "01";
-		$text = "The frequency compensation loop gain to be used before a sync word is detected. -> 3K"   if $rt{"FOC_PRE_K"} eq "10";
-		$text = "The frequency compensation loop gain to be used before a sync word is detected. -> 4K"   if $rt{"FOC_PRE_K"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("FOC_PRE_K",$rt{FOC_PRE_K},$text,$cc1101Doc);
-		$text = "The frequency compensation loop gain to be used after a sync word is detected. -> Same as FOC_PRE_K"    if $rt{"FOC_POST_K"} eq "0";
-		$text = "The frequency compensation loop gain to be used after a sync word is detected. -> K/2"                  if $rt{"FOC_POST_K"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("FOC_POST_K",$rt{FOC_POST_K},$text,$cc1101Doc);
-		$text = "The saturation point for the freq. offset comp. algorithm: -> Saturation ±0 (no frequency offset compensation)" if $rt{"FOC_LIMIT"} eq "00";
-		$text = "The saturation point for the freq. offset comp. algorithm: -> Saturation ±BWCHAN/8"                             if $rt{"FOC_LIMIT"} eq "01";
-		$text = "The saturation point for the freq. offset comp. algorithm: -> Saturation ±BWCHAN/4"                             if $rt{"FOC_LIMIT"} eq "10";
-		$text = "The saturation point for the freq. offset comp. algorithm: -> Saturation ±BWCHAN/2"                             if $rt{"FOC_LIMIT"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("FOC_LIMIT",$rt{FOC_LIMIT},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x19: FOCCFG – Frequency Offset Compensation Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FOC_BS_CS_GATE',$rt{FOC_BS_CS_GATE},'If set, the demodulator freezes the frequency offset compensation and clock recovery feedback loops until',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   the CS signal goes high.',$cc1101Doc);
+		$text = 'The frequency compensation loop gain to be used before a sync word is detected. -> K'    if $rt{'FOC_PRE_K'} eq '00';
+		$text = 'The frequency compensation loop gain to be used before a sync word is detected. -> 2K'   if $rt{'FOC_PRE_K'} eq '01';
+		$text = 'The frequency compensation loop gain to be used before a sync word is detected. -> 3K'   if $rt{'FOC_PRE_K'} eq '10';
+		$text = 'The frequency compensation loop gain to be used before a sync word is detected. -> 4K'   if $rt{'FOC_PRE_K'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('FOC_PRE_K',$rt{FOC_PRE_K},$text,$cc1101Doc);
+		$text = 'The frequency compensation loop gain to be used after a sync word is detected. -> Same as FOC_PRE_K'    if $rt{'FOC_POST_K'} eq '0';
+		$text = 'The frequency compensation loop gain to be used after a sync word is detected. -> K/2'                  if $rt{'FOC_POST_K'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('FOC_POST_K',$rt{FOC_POST_K},$text,$cc1101Doc);
+		$text = 'The saturation point for the freq. offset comp. algorithm: -> Saturation ±0 (no frequency offset compensation)' if $rt{'FOC_LIMIT'} eq '00';
+		$text = 'The saturation point for the freq. offset comp. algorithm: -> Saturation ±BWCHAN/8'                             if $rt{'FOC_LIMIT'} eq '01';
+		$text = 'The saturation point for the freq. offset comp. algorithm: -> Saturation ±BWCHAN/4'                             if $rt{'FOC_LIMIT'} eq '10';
+		$text = 'The saturation point for the freq. offset comp. algorithm: -> Saturation ±BWCHAN/2'                             if $rt{'FOC_LIMIT'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('FOC_LIMIT',$rt{FOC_LIMIT},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x1A: BSCFG – Bit Synchronization Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x1A: BSCFG – Bit Synchronization Configuration",$cc1101Doc);
-		$text = "The clock recovery feedback loop integral gain to be used before a sync word is detected -> KI"  if $rt{"BS_PRE_KI"} eq "00";
-		$text = "The clock recovery feedback loop integral gain to be used before a sync word is detected -> 2KI" if $rt{"BS_PRE_KI"} eq "01";
-		$text = "The clock recovery feedback loop integral gain to be used before a sync word is detected -> 3KI" if $rt{"BS_PRE_KI"} eq "10";
-		$text = "The clock recovery feedback loop integral gain to be used before a sync word is detected -> 4KI" if $rt{"BS_PRE_KI"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("BS_PRE_KI",$rt{BS_PRE_KI},$text,$cc1101Doc);
-		$text = "The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> KP"   if $rt{"BS_PRE_KP"} eq "00";
-		$text = "The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> 2KP"  if $rt{"BS_PRE_KP"} eq "01";
-		$text = "The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> 3KP"  if $rt{"BS_PRE_KP"} eq "10";
-		$text = "The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> 4KP"  if $rt{"BS_PRE_KP"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("BS_PRE_KP",$rt{BS_PRE_KP},$text,$cc1101Doc);
-		$text = "The clock recovery feedback loop integral gain to be used after a sync word is detected. -> Same as BS_PRE_KI"  if $rt{"BS_POST_KI"} eq "0";
-		$text = "The clock recovery feedback loop integral gain to be used after a sync word is detected. -> KI /2"              if $rt{"BS_POST_KI"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("BS_POST_KI",$rt{BS_POST_KI},$text,$cc1101Doc);
-		$text = "The clock recovery feedback loop prop. gain to be used after a sync word is detected. -> Same as BS_PRE_KP"  if $rt{"BS_POST_KI"} eq "0";
-		$text = "The clock recovery feedback loop prop. gain to be used after a sync word is detected. -> KP"                 if $rt{"BS_POST_KI"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("BS_POST_KI",$rt{BS_POST_KI},$text,$cc1101Doc);
-		$text = "The saturation point for the data rate offset comp. algorithm -> ±0 (No data rate offset compensation performed)"  if $rt{"BS_LIMIT"} eq "00";
-		$text = "The saturation point for the data rate offset comp. algorithm -> ±3.125 % data rate offset"                        if $rt{"BS_LIMIT"} eq "01";
-		$text = "The saturation point for the data rate offset comp. algorithm -> ±6.25 % data rate offset"                         if $rt{"BS_LIMIT"} eq "10";
-		$text = "The saturation point for the data rate offset comp. algorithm -> ±12.5 % data rate offset"                         if $rt{"BS_LIMIT"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("BS_LIMIT",$rt{BS_LIMIT},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x1A: BSCFG – Bit Synchronization Configuration',$cc1101Doc);
+		$text = 'The clock recovery feedback loop integral gain to be used before a sync word is detected -> KI'  if $rt{'BS_PRE_KI'} eq '00';
+		$text = 'The clock recovery feedback loop integral gain to be used before a sync word is detected -> 2KI' if $rt{'BS_PRE_KI'} eq '01';
+		$text = 'The clock recovery feedback loop integral gain to be used before a sync word is detected -> 3KI' if $rt{'BS_PRE_KI'} eq '10';
+		$text = 'The clock recovery feedback loop integral gain to be used before a sync word is detected -> 4KI' if $rt{'BS_PRE_KI'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('BS_PRE_KI',$rt{BS_PRE_KI},$text,$cc1101Doc);
+		$text = 'The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> KP'   if $rt{'BS_PRE_KP'} eq '00';
+		$text = 'The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> 2KP'  if $rt{'BS_PRE_KP'} eq '01';
+		$text = 'The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> 3KP'  if $rt{'BS_PRE_KP'} eq '10';
+		$text = 'The clock recovery feedback loop proportional gain to be used before a sync word is detected. -> 4KP'  if $rt{'BS_PRE_KP'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('BS_PRE_KP',$rt{BS_PRE_KP},$text,$cc1101Doc);
+		$text = 'The clock recovery feedback loop integral gain to be used after a sync word is detected. -> Same as BS_PRE_KI'  if $rt{'BS_POST_KI'} eq '0';
+		$text = 'The clock recovery feedback loop integral gain to be used after a sync word is detected. -> KI /2'              if $rt{'BS_POST_KI'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('BS_POST_KI',$rt{BS_POST_KI},$text,$cc1101Doc);
+		$text = 'The clock recovery feedback loop prop. gain to be used after a sync word is detected. -> Same as BS_PRE_KP'  if $rt{'BS_POST_KI'} eq '0';
+		$text = 'The clock recovery feedback loop prop. gain to be used after a sync word is detected. -> KP'                 if $rt{'BS_POST_KI'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('BS_POST_KI',$rt{BS_POST_KI},$text,$cc1101Doc);
+		$text = 'The saturation point for the data rate offset comp. algorithm -> ±0 (No data rate offset compensation performed)'  if $rt{'BS_LIMIT'} eq '00';
+		$text = 'The saturation point for the data rate offset comp. algorithm -> ±3.125 % data rate offset'                        if $rt{'BS_LIMIT'} eq '01';
+		$text = 'The saturation point for the data rate offset comp. algorithm -> ±6.25 % data rate offset'                         if $rt{'BS_LIMIT'} eq '10';
+		$text = 'The saturation point for the data rate offset comp. algorithm -> ±12.5 % data rate offset'                         if $rt{'BS_LIMIT'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('BS_LIMIT',$rt{BS_LIMIT},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x1B: AGCCTRL2 – AGC Control
-		SIGNALduino_TOOL_cc1101read_header("0x1B: AGCCTRL2 – AGC Control",$cc1101Doc);
-		$text = "Reduces the maximum allowable DVGA gain. -> All gain settings can be used"                if $rt{"MAX_DVGA_GAIN"} eq "00";
-		$text = "Reduces the maximum allowable DVGA gain. -> The highest gain setting can not be used"     if $rt{"MAX_DVGA_GAIN"} eq "01";
-		$text = "Reduces the maximum allowable DVGA gain. -> The 2 highest gain settings can not be used"  if $rt{"MAX_DVGA_GAIN"} eq "10";
-		$text = "Reduces the maximum allowable DVGA gain. -> The 3 highest gain settings can not be used"  if $rt{"MAX_DVGA_GAIN"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("MAX_DVGA_GAIN",$rt{MAX_DVGA_GAIN},$text,$cc1101Doc);
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Maximum possible LNA + LNA 2 gain"         if $rt{"MAX_LNA_GAIN"} eq "000";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 2.6 dB below max. possible gain"   if $rt{"MAX_LNA_GAIN"} eq "001";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 6.1 dB below max. possible gain"   if $rt{"MAX_LNA_GAIN"} eq "010";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 7.4 dB below max. possible gain"   if $rt{"MAX_LNA_GAIN"} eq "011";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 9.2 dB below max. possible gain"   if $rt{"MAX_LNA_GAIN"} eq "100";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 11.5 dB below max. possible gain"  if $rt{"MAX_LNA_GAIN"} eq "101";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 14.6 dB below max. possible gain"  if $rt{"MAX_LNA_GAIN"} eq "110";
-		$text = "Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 17.1 dB below max. possible gain"  if $rt{"MAX_LNA_GAIN"} eq "111";
-		SIGNALduino_TOOL_cc1101read_oneline("MAX_LNA_GAIN",$rt{MAX_LNA_GAIN},$text,$cc1101Doc);
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 24 dB"  if $rt{"MAGN_TARGET"} eq "000";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 27 dB"  if $rt{"MAGN_TARGET"} eq "001";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 30 dB"  if $rt{"MAGN_TARGET"} eq "010";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 33 dB"  if $rt{"MAGN_TARGET"} eq "011";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 36 dB"  if $rt{"MAGN_TARGET"} eq "100";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 38 dB"  if $rt{"MAGN_TARGET"} eq "101";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 40 dB"  if $rt{"MAGN_TARGET"} eq "110";
-		$text = "These bits set the target value for the averaged amplitude from the digital channel filter -> 42 dB"  if $rt{"MAGN_TARGET"} eq "111";
-		SIGNALduino_TOOL_cc1101read_oneline("MAGN_TARGET",$rt{MAGN_TARGET},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x1B: AGCCTRL2 – AGC Control',$cc1101Doc);
+		$text = 'Reduces the maximum allowable DVGA gain. -> All gain settings can be used'                if $rt{'MAX_DVGA_GAIN'} eq '00';
+		$text = 'Reduces the maximum allowable DVGA gain. -> The highest gain setting can not be used'     if $rt{'MAX_DVGA_GAIN'} eq '01';
+		$text = 'Reduces the maximum allowable DVGA gain. -> The 2 highest gain settings can not be used'  if $rt{'MAX_DVGA_GAIN'} eq '10';
+		$text = 'Reduces the maximum allowable DVGA gain. -> The 3 highest gain settings can not be used'  if $rt{'MAX_DVGA_GAIN'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('MAX_DVGA_GAIN',$rt{MAX_DVGA_GAIN},$text,$cc1101Doc);
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Maximum possible LNA + LNA 2 gain'         if $rt{'MAX_LNA_GAIN'} eq '000';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 2.6 dB below max. possible gain'   if $rt{'MAX_LNA_GAIN'} eq '001';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 6.1 dB below max. possible gain'   if $rt{'MAX_LNA_GAIN'} eq '010';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 7.4 dB below max. possible gain'   if $rt{'MAX_LNA_GAIN'} eq '011';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 9.2 dB below max. possible gain'   if $rt{'MAX_LNA_GAIN'} eq '100';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 11.5 dB below max. possible gain'  if $rt{'MAX_LNA_GAIN'} eq '101';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 14.6 dB below max. possible gain'  if $rt{'MAX_LNA_GAIN'} eq '110';
+		$text = 'Sets the max. allow. LNA+LNA 2 gain relative to the max. poss. gain. -> Approx. 17.1 dB below max. possible gain'  if $rt{'MAX_LNA_GAIN'} eq '111';
+		SIGNALduino_TOOL_cc1101read_oneline('MAX_LNA_GAIN',$rt{MAX_LNA_GAIN},$text,$cc1101Doc);
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 24 dB'  if $rt{'MAGN_TARGET'} eq '000';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 27 dB'  if $rt{'MAGN_TARGET'} eq '001';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 30 dB'  if $rt{'MAGN_TARGET'} eq '010';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 33 dB'  if $rt{'MAGN_TARGET'} eq '011';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 36 dB'  if $rt{'MAGN_TARGET'} eq '100';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 38 dB'  if $rt{'MAGN_TARGET'} eq '101';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 40 dB'  if $rt{'MAGN_TARGET'} eq '110';
+		$text = 'These bits set the target value for the averaged amplitude from the digital channel filter -> 42 dB'  if $rt{'MAGN_TARGET'} eq '111';
+		SIGNALduino_TOOL_cc1101read_oneline('MAGN_TARGET',$rt{MAGN_TARGET},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x1C: AGCCTRL1 – AGC Control
-		SIGNALduino_TOOL_cc1101read_header("0x1C: AGCCTRL1 – AGC Control",$cc1101Doc);
-		$text = "Selects strategies for LNA and LNA 2 gain adjt. -> the LNA 2 gain is decreased to min. before decreasing LNA gain."  if $rt{"AGC_LNA_PRIORITY"} eq "0";
-		$text = "Selects strategies for LNA and LNA 2 gain adjt. -> the LNA gain is decreased first."                                 if $rt{"AGC_LNA_PRIORITY"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("MAX_LNA_GAIN",$rt{MAX_LNA_GAIN},$text,$cc1101Doc);
-		$text = "Sets the relative change threshold for asserting carrier sense -> Relative carrier sense threshold disabled"  if $rt{"CARRIER_SENSE_REL_THR"} eq "00";
-		$text = "Sets the relative change threshold for asserting carrier sense -> 6 dB increase in RSSI value"                if $rt{"CARRIER_SENSE_REL_THR"} eq "01";
-		$text = "Sets the relative change threshold for asserting carrier sense -> 10 dB increase in RSSI value"               if $rt{"CARRIER_SENSE_REL_THR"} eq "10";
-		$text = "Sets the relative change threshold for asserting carrier sense -> 14 dB increase in RSSI value"               if $rt{"CARRIER_SENSE_REL_THR"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("CARRIER_SENSE_REL_THR",$rt{CARRIER_SENSE_REL_THR},$text,$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CARRIER_SENSE_ABS_THR",$rt{CARRIER_SENSE_ABS_THR},"Sets the absolute RSSI threshold for asserting carrier sense, ",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   for details see CC1101 Data Sheet page 86",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x1C: AGCCTRL1 – AGC Control',$cc1101Doc);
+		$text = 'Selects strategies for LNA and LNA 2 gain adjt. -> the LNA 2 gain is decreased to min. before decreasing LNA gain.'  if $rt{'AGC_LNA_PRIORITY'} eq '0';
+		$text = 'Selects strategies for LNA and LNA 2 gain adjt. -> the LNA gain is decreased first.'                                 if $rt{'AGC_LNA_PRIORITY'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('MAX_LNA_GAIN',$rt{MAX_LNA_GAIN},$text,$cc1101Doc);
+		$text = 'Sets the relative change threshold for asserting carrier sense -> Relative carrier sense threshold disabled'  if $rt{'CARRIER_SENSE_REL_THR'} eq '00';
+		$text = 'Sets the relative change threshold for asserting carrier sense -> 6 dB increase in RSSI value'                if $rt{'CARRIER_SENSE_REL_THR'} eq '01';
+		$text = 'Sets the relative change threshold for asserting carrier sense -> 10 dB increase in RSSI value'               if $rt{'CARRIER_SENSE_REL_THR'} eq '10';
+		$text = 'Sets the relative change threshold for asserting carrier sense -> 14 dB increase in RSSI value'               if $rt{'CARRIER_SENSE_REL_THR'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('CARRIER_SENSE_REL_THR',$rt{CARRIER_SENSE_REL_THR},$text,$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CARRIER_SENSE_ABS_THR',$rt{CARRIER_SENSE_ABS_THR},'Sets the absolute RSSI threshold for asserting carrier sense, ',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   for details see CC1101 Data Sheet page 86',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x1D: AGCCTRL0 – AGC Control
-		SIGNALduino_TOOL_cc1101read_header("0x1D: AGCCTRL0 – AGC Control",$cc1101Doc);
-		$text = "level of hysteresis on the magnitude deviation -> No hysteresis, small symmetric dead zone, high gain"          if $rt{"HYST_LEVEL"} eq "00";
-		$text = "level of hysteresis on the magnitude deviation -> Low hysteresis, small asymmetric dead zone, medium gain"      if $rt{"HYST_LEVEL"} eq "01";
-		$text = "level of hysteresis on the magnitude deviation -> Medium hysteresis, medium asymmetric dead zone, medium gain"  if $rt{"HYST_LEVEL"} eq "10";
-		$text = "level of hysteresis on the magnitude deviation -> Large hysteresis, large asymmetric dead zone, low gain"       if $rt{"HYST_LEVEL"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("HYST_LEVEL",$rt{HYST_LEVEL},$text,$cc1101Doc);
-		$text = "number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 8"    if $rt{"WAIT_TIME"} eq "00";
-		$text = "number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 12"   if $rt{"WAIT_TIME"} eq "01";
-		$text = "number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 24"   if $rt{"WAIT_TIME"} eq "10";
-		$text = "number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 32"   if $rt{"WAIT_TIME"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("WAIT_TIME",$rt{WAIT_TIME},$text,$cc1101Doc);
-		$text = "Control when the AGC gain should be frozen. -> Normal operation. Always adjust gain when required."                                   if $rt{"AGC_FREEZE"} eq "00";
-		$text = "Control when the AGC gain should be frozen. -> The gain setting is frozen when a sync word has been found."                           if $rt{"AGC_FREEZE"} eq "01";
-		$text = "Control when the AGC gain should be frozen. -> Manually freeze the analogue gain setting and continue to adjust the digital gain."    if $rt{"AGC_FREEZE"} eq "10";
-		$text = "Control when the AGC gain should be frozen. -> Manually freezes both analogue/digital gain setting. Manually overriding the gain."    if $rt{"AGC_FREEZE"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("AGC_FREEZE",$rt{AGC_FREEZE},$text,$cc1101Doc);
-		$text = "Channel filter samples: 8, OOK/ASK decision boundary: 4 db"          if $rt{"FILTER_LENGTH"} eq "00";
-		$text = "Channel filter samples: 16, OOK/ASK decision boundary: 8 db"         if $rt{"FILTER_LENGTH"} eq "01";
-		$text = "Channel filter samples: 32, OOK/ASK decision boundary: 12 db"        if $rt{"FILTER_LENGTH"} eq "10";
-		$text = "Channel filter samples: 64, OOK/ASK decision boundary: 16 db"        if $rt{"FILTER_LENGTH"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("FILTER_LENGTH",$rt{FILTER_LENGTH},$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x1D: AGCCTRL0 – AGC Control',$cc1101Doc);
+		$text = 'level of hysteresis on the magnitude deviation -> No hysteresis, small symmetric dead zone, high gain'          if $rt{'HYST_LEVEL'} eq '00';
+		$text = 'level of hysteresis on the magnitude deviation -> Low hysteresis, small asymmetric dead zone, medium gain'      if $rt{'HYST_LEVEL'} eq '01';
+		$text = 'level of hysteresis on the magnitude deviation -> Medium hysteresis, medium asymmetric dead zone, medium gain'  if $rt{'HYST_LEVEL'} eq '10';
+		$text = 'level of hysteresis on the magnitude deviation -> Large hysteresis, large asymmetric dead zone, low gain'       if $rt{'HYST_LEVEL'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('HYST_LEVEL',$rt{HYST_LEVEL},$text,$cc1101Doc);
+		$text = 'number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 8'    if $rt{'WAIT_TIME'} eq '00';
+		$text = 'number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 12'   if $rt{'WAIT_TIME'} eq '01';
+		$text = 'number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 24'   if $rt{'WAIT_TIME'} eq '10';
+		$text = 'number of channel filter samples from a gain adjustment until the AGC algorithm starts accumul. new samples. -> 32'   if $rt{'WAIT_TIME'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('WAIT_TIME',$rt{WAIT_TIME},$text,$cc1101Doc);
+		$text = 'Control when the AGC gain should be frozen. -> Normal operation. Always adjust gain when required.'                                   if $rt{'AGC_FREEZE'} eq '00';
+		$text = 'Control when the AGC gain should be frozen. -> The gain setting is frozen when a sync word has been found.'                           if $rt{'AGC_FREEZE'} eq '01';
+		$text = 'Control when the AGC gain should be frozen. -> Manually freeze the analogue gain setting and continue to adjust the digital gain.'    if $rt{'AGC_FREEZE'} eq '10';
+		$text = 'Control when the AGC gain should be frozen. -> Manually freezes both analogue/digital gain setting. Manually overriding the gain.'    if $rt{'AGC_FREEZE'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('AGC_FREEZE',$rt{AGC_FREEZE},$text,$cc1101Doc);
+		$text = 'Channel filter samples: 8, OOK/ASK decision boundary: 4 db'          if $rt{'FILTER_LENGTH'} eq '00';
+		$text = 'Channel filter samples: 16, OOK/ASK decision boundary: 8 db'         if $rt{'FILTER_LENGTH'} eq '01';
+		$text = 'Channel filter samples: 32, OOK/ASK decision boundary: 12 db'        if $rt{'FILTER_LENGTH'} eq '10';
+		$text = 'Channel filter samples: 64, OOK/ASK decision boundary: 16 db'        if $rt{'FILTER_LENGTH'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('FILTER_LENGTH',$rt{FILTER_LENGTH},$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x1E: WOREVT1 – High Byte Event0 Timeout
-		SIGNALduino_TOOL_cc1101read_header("0x1E: WOREVT1 – High Byte Event0 Timeout",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("EVENT0",$rt{WOREVT1},"High byte of EVENT0 timeout register",$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_header('0x1E: WOREVT1 – High Byte Event0 Timeout',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('EVENT0',$rt{WOREVT1},'High byte of EVENT0 timeout register',$cc1101Doc);
 		my $event0 = 256*$rt{WOREVT1}+$rt{WOREVT0};
 		my $tevent0 = 750 / $fXOSC * $event0 * 2**(5*$rt{WOR_RES});
 		$tevent0 = sprintf "%.3f", $tevent0;        ## round value
-		SIGNALduino_TOOL_cc1101read_oneline("","","=> tEvent0 = ".$tevent0." ms",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_oneline('','','=> tEvent0 = '.$tevent0.' ms',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x1F: WOREVT0 –Low Byte Event0 Timeout
-		SIGNALduino_TOOL_cc1101read_header("0x1F: WOREVT0 –Low Byte Event0 Timeout",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("EVENT0",$rt{WOREVT0},"Low byte of EVENT0 timeout register.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x1F: WOREVT0 –Low Byte Event0 Timeout',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('EVENT0',$rt{WOREVT0},'Low byte of EVENT0 timeout register.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x20: WORCTRL – Wake On Radio Control
-		SIGNALduino_TOOL_cc1101read_header("0x20: WORCTRL – Wake On Radio Control",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("RC_PD",$rt{RC_PD},"Power down signal to RC oscillator. When written to 0, automatic initial calibration will be performed",$cc1101Doc);
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 4 (0.111 – 0.115 ms)"        if $rt{"EVENT1"} eq "000";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 6 (0.167 – 0.173 ms)"        if $rt{"EVENT1"} eq "001";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 8 (0.222 – 0.230 ms)"        if $rt{"EVENT1"} eq "010";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 12 (0.333 – 0.346 ms)"       if $rt{"EVENT1"} eq "011";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 16 (0.444 – 0.462 ms)"       if $rt{"EVENT1"} eq "100";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 24 (0.667 – 0.692 ms)"       if $rt{"EVENT1"} eq "101";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 32 (0.889 – 0.923 ms)"       if $rt{"EVENT1"} eq "110";
-		$text = "Timeout setting from register block. Decoded to Event 1 timeout. -> 48 (1.333 – 1.385 ms)"       if $rt{"EVENT1"} eq "111";
-		SIGNALduino_TOOL_cc1101read_oneline("EVENT1",$rt{EVENT1},$text,$cc1101Doc);
-		$text = "RC oscillator calibration - > disabled"      if $rt{"RC_CAL"} eq "0";
-		$text = "RC oscillator calibration - > enabled"       if $rt{"RC_CAL"} eq "1";
-		SIGNALduino_TOOL_cc1101read_oneline("RC_CAL",$rt{RC_CAL},$text,$cc1101Doc);
-		$text = "=> Resolution: 1 period (28 – 29 μs), Max timeout: 1.8 – 1.9 seconds"          if $rt{"WOR_RES"} eq "00";
-		$text = "=> Resolution: 2**5 periods (0.89 – 0.92 ms), Max timeout: 58 – 61 seconds"    if $rt{"WOR_RES"} eq "01";
-		$text = "=> Resolution: 2**10 periods (28 – 30 ms), Max timeout: 31 – 32 minutes"       if $rt{"WOR_RES"} eq "10";
-		$text = "=> Resolution: 2**15 periods (0.91 – 0.94 s), Max timeout: 16.5 – 17.2 hours"  if $rt{"WOR_RES"} eq "11";
-		SIGNALduino_TOOL_cc1101read_oneline("WOR_RES",$rt{WOR_RES},"Controls the Event 0 resolution + max. timeout of the WOR module and maximum timeout under normal RX operation:",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","",$text,$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x20: WORCTRL – Wake On Radio Control',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('RC_PD',$rt{RC_PD},'Power down signal to RC oscillator. When written to 0, automatic initial calibration will be performed',$cc1101Doc);
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 4 (0.111 – 0.115 ms)'        if $rt{'EVENT1'} eq '000';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 6 (0.167 – 0.173 ms)'        if $rt{'EVENT1'} eq '001';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 8 (0.222 – 0.230 ms)'        if $rt{'EVENT1'} eq '010';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 12 (0.333 – 0.346 ms)'       if $rt{'EVENT1'} eq '011';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 16 (0.444 – 0.462 ms)'       if $rt{'EVENT1'} eq '100';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 24 (0.667 – 0.692 ms)'       if $rt{'EVENT1'} eq '101';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 32 (0.889 – 0.923 ms)'       if $rt{'EVENT1'} eq '110';
+		$text = 'Timeout setting from register block. Decoded to Event 1 timeout. -> 48 (1.333 – 1.385 ms)'       if $rt{'EVENT1'} eq '111';
+		SIGNALduino_TOOL_cc1101read_oneline('EVENT1',$rt{EVENT1},$text,$cc1101Doc);
+		$text = 'RC oscillator calibration - > disabled'      if $rt{'RC_CAL'} eq '0';
+		$text = 'RC oscillator calibration - > enabled'       if $rt{'RC_CAL'} eq '1';
+		SIGNALduino_TOOL_cc1101read_oneline('RC_CAL',$rt{RC_CAL},$text,$cc1101Doc);
+		$text = '=> Resolution: 1 period (28 – 29 μs), Max timeout: 1.8 – 1.9 seconds'          if $rt{'WOR_RES'} eq '00';
+		$text = '=> Resolution: 2**5 periods (0.89 – 0.92 ms), Max timeout: 58 – 61 seconds'    if $rt{'WOR_RES'} eq '01';
+		$text = '=> Resolution: 2**10 periods (28 – 30 ms), Max timeout: 31 – 32 minutes'       if $rt{'WOR_RES'} eq '10';
+		$text = '=> Resolution: 2**15 periods (0.91 – 0.94 s), Max timeout: 16.5 – 17.2 hours'  if $rt{'WOR_RES'} eq '11';
+		SIGNALduino_TOOL_cc1101read_oneline('WOR_RES',$rt{WOR_RES},'Controls the Event 0 resolution + max. timeout of the WOR module and maximum timeout under normal RX operation:',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','',$text,$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x21: FREND1 – Front End RX Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x21: FREND1 – Front End RX Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("LNA_CURRENT",$rt{LNA_CURRENT},"Adjusts front-end LNA PTAT current output",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("LNA2MIX_CURRENT",$rt{LNA2MIX_CURRENT},"Adjusts front-end PTAT outputs",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("LODIV_BUF_CURRENT_RX",$rt{LODIV_BUF_CURRENT_RX},"Adjusts current in RX LO buffer (LO input to mixer)",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("MIX_CURRENT",$rt{MIX_CURRENT},"Adjusts current in mixer",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x21: FREND1 – Front End RX Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('LNA_CURRENT',$rt{LNA_CURRENT},'Adjusts front-end LNA PTAT current output',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('LNA2MIX_CURRENT',$rt{LNA2MIX_CURRENT},'Adjusts front-end PTAT outputs',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('LODIV_BUF_CURRENT_RX',$rt{LODIV_BUF_CURRENT_RX},'Adjusts current in RX LO buffer (LO input to mixer)',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('MIX_CURRENT',$rt{MIX_CURRENT},'Adjusts current in mixer',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x22: FREND0 – Front End TX Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x22: FREND0 – Front End TX Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("LODIV_BUF_CURRENT_TX",$rt{LODIV_BUF_CURRENT_TX},"Adjusts current TX LO buffer (input to PA).",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("PA_POWER",$rt{PA_POWER},"Selects PA power setting. This value is an index to the PATABLE, which can be programmed.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x22: FREND0 – Front End TX Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('LODIV_BUF_CURRENT_TX',$rt{LODIV_BUF_CURRENT_TX},'Adjusts current TX LO buffer (input to PA).',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('PA_POWER',$rt{PA_POWER},'Selects PA power setting. This value is an index to the PATABLE, which can be programmed.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x23: FSCAL3 – Frequency Synthesizer Calibration
-		SIGNALduino_TOOL_cc1101read_header("0x23: FSCAL3 – Frequency Synthesizer Calibration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FSCAL[7:6]",$rt{FSCAL3a},"Frequency synthesizer calibration configuration.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("CHP_CURR_CAL_EN",$rt{CHP_CURR_CAL_EN},"Disable charge pump calibration stage when 0.",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FSCAL3[3:0]",$rt{FSCAL3b},"Frequency synthesizer calibration result register.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x23: FSCAL3 – Frequency Synthesizer Calibration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FSCAL[7:6]',$rt{FSCAL3a},'Frequency synthesizer calibration configuration.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('CHP_CURR_CAL_EN',$rt{CHP_CURR_CAL_EN},'Disable charge pump calibration stage when 0.',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FSCAL3[3:0]',$rt{FSCAL3b},'Frequency synthesizer calibration result register.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x24: FSCAL2 – Frequency Synthesizer Calibration
-		SIGNALduino_TOOL_cc1101read_header("0x24: FSCAL2 – Frequency Synthesizer Calibration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("VCO_CORE_H_EN",$rt{VCO_CORE_H_EN},"Choose high (1) / low (0) VCO",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FSCAL2",$rt{FSCAL2},"Frequency synthesizer calibration result register. VCO current calibration result and override value.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x24: FSCAL2 – Frequency Synthesizer Calibration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('VCO_CORE_H_EN',$rt{VCO_CORE_H_EN},'Choose high (1) / low (0) VCO',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FSCAL2',$rt{FSCAL2},'Frequency synthesizer calibration result register. VCO current calibration result and override value.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x25: FSCAL1 – Frequency Synthesizer Calibration
-		SIGNALduino_TOOL_cc1101read_header("0x25: FSCAL1 – Frequency Synthesizer Calibration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FSCAL1",$rt{FSCAL1},"Frequency synthesizer calibration result register. Capacitor array setting for VCO coarse tuning.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x25: FSCAL1 – Frequency Synthesizer Calibration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FSCAL1',$rt{FSCAL1},'Frequency synthesizer calibration result register. Capacitor array setting for VCO coarse tuning.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x26: FSCAL0 – Frequency Synthesizer Calibration
-		SIGNALduino_TOOL_cc1101read_header("0x26: FSCAL0 – Frequency Synthesizer Calibration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FSCAL0",$rt{FSCAL0},"Frequency synthesizer calibration control.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x26: FSCAL0 – Frequency Synthesizer Calibration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FSCAL0',$rt{FSCAL0},'Frequency synthesizer calibration control.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x27: RCCTRL1 – RC Oscillator Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x27: RCCTRL1 – RC Oscillator Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("RCCTRL1",$rt{RCCTRL1},"RC oscillator configuration.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x27: RCCTRL1 – RC Oscillator Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('RCCTRL1',$rt{RCCTRL1},'RC oscillator configuration.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x28: RCCTRL0 – RC Oscillator Configuration
-		SIGNALduino_TOOL_cc1101read_header("0x28: RCCTRL0 – RC Oscillator Configuration",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("RCCTRL0",$rt{RCCTRL0},"RC oscillator configuration.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x28: RCCTRL0 – RC Oscillator Configuration',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('RCCTRL0',$rt{RCCTRL0},'RC oscillator configuration.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x29: FSTEST – Frequency Synthesizer Calibration Control
-		SIGNALduino_TOOL_cc1101read_header("0x29: FSTEST – Frequency Synthesizer Calibration Control",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("FSTEST",$rt{FSTEST},"For test only. Do not write to this register.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x29: FSTEST – Frequency Synthesizer Calibration Control',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('FSTEST',$rt{FSTEST},'For test only. Do not write to this register.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x2A: PTEST – Production Test
-		SIGNALduino_TOOL_cc1101read_header("0x2A: PTEST – Production Test",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("PTEST",$rt{PTEST},"Writing 0xBF to this register makes the on-chip temperature sensor available in the IDLE state. The default 0x7F ",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("","","   value should then be written back before leaving the IDLE state. Other use of this register is for test only.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x2A: PTEST – Production Test',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('PTEST',$rt{PTEST},'Writing 0xBF to this register makes the on-chip temperature sensor available in the IDLE state. The default 0x7F ',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('','','   value should then be written back before leaving the IDLE state. Other use of this register is for test only.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x2B: AGCTEST – AGC Test
-		SIGNALduino_TOOL_cc1101read_header("0x2B: AGCTEST – AGC Test",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("AGCTEST",$rt{AGCTEST},"For test only. Do not write to this register.",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x2B: AGCTEST – AGC Test',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('AGCTEST',$rt{AGCTEST},'For test only. Do not write to this register.',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x2C: TEST2 – Various Test Settings
-		SIGNALduino_TOOL_cc1101read_header("0x2C: TEST2 – Various Test Settings",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("TEST2",$rt{TEST2},"The value to use in this register is given by the SmartRF Studio software ...",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x2C: TEST2 – Various Test Settings',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('TEST2',$rt{TEST2},'The value to use in this register is given by the SmartRF Studio software ...',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x2D: TEST1 – Various Test Settings
-		SIGNALduino_TOOL_cc1101read_header("0x2D: TEST1 – Various Test Settings",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("TEST1",$rt{TEST1},"The value to use in this register is given by the SmartRF Studio software...",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x2D: TEST1 – Various Test Settings',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('TEST1',$rt{TEST1},'The value to use in this register is given by the SmartRF Studio software...',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n";
 		# ------------------------------------- 0x2E: TEST0 – Various Test Settings
-		SIGNALduino_TOOL_cc1101read_header("0x2E: TEST0 – Various Test Settings",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("TEST0[7:2]",$rt{TEST0a},"The value to use in this register is given by the SmartRF Studio software",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("VCO_SEL_CAL_EN",$rt{VCO_SEL_CAL_EN},"Enable VCO selection calibration stage when 1",$cc1101Doc);
-		SIGNALduino_TOOL_cc1101read_oneline("TEST0[0]",$rt{TEST0b},"The value to use in this register is given by the SmartRF Studio software",$cc1101Doc);
-		print $cc1101Doc "+" . "-"x152 . "+\n\n\n";
+		SIGNALduino_TOOL_cc1101read_header('0x2E: TEST0 – Various Test Settings',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('TEST0[7:2]',$rt{TEST0a},'The value to use in this register is given by the SmartRF Studio software',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('VCO_SEL_CAL_EN',$rt{VCO_SEL_CAL_EN},'Enable VCO selection calibration stage when 1',$cc1101Doc);
+		SIGNALduino_TOOL_cc1101read_oneline('TEST0[0]',$rt{TEST0b},'The value to use in this register is given by the SmartRF Studio software',$cc1101Doc);
+		print $cc1101Doc '+' . "-"x152 . "+\n\n\n";
 		# -------------------------------------
 		print $cc1101Doc "  Configuration Registers - Command Strobes (more Page 66)\n";
-		print $cc1101Doc "  " . "-"x59 . "\n";
+		print $cc1101Doc '  ' . "-"x59 . "\n";
 		print $cc1101Doc "  Adress  Name      Description\n";
 		foreach my $key (sort keys %Cmd_Strobes) {
 			print $cc1101Doc "   $key   $Cmd_Strobes{$key}->{Name} - $Cmd_Strobes{$key}->{Description}\n";
