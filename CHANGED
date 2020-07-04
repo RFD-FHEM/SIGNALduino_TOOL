@@ -1,3 +1,7 @@
+2020-07-04 - Update 88_SIGNALduino_TOOL.pm
+
+  * revised set function CC110x_Register_new, CC110x_Register_old
+  * revised get function CC110x_Register_comparison
 2020-06-16 - Update 88_SIGNALduino_TOOL.pm
 
 * revised code for Perl::Critic
