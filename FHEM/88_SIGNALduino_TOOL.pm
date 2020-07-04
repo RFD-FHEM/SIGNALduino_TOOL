@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-	SIGNALduino_TOOL_VERSION => '2020-06-16_pre-release',
+	SIGNALduino_TOOL_VERSION => '2020-07-04_pre-release',
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -1017,22 +1017,44 @@ sub SIGNALduino_TOOL_Set {
 		if ($cmd =~ /^CC110x_Register_/) {
 			if ($cmd2 eq "yes") {
 				my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
+				return "ERROR: IODev $IODev_CC110x_Register is not opened" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected');
+
 				my $CC110x_Register_value = AttrVal($name,$cmd,undef);
-				$CC110x_Register_value =~ s/ccreg:(\s+)?//g;
-				$CC110x_Register_value =~ s/\n/ /g;
-
-				return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_value !~ /^[0-9A-Fa-f\s]+$/);
-				Log3 $name, 4, "$name: set $cmd - write your Register from IODev $IODev_CC110x_Register";
-
-				my @CC110x_Register = split(/ /, $CC110x_Register_value);
 				my $command;
 
-				for(my $i=0;$i<=$#CC110x_Register;$i++) {
-					my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)));
-					$adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)))) == 1);
-					$command.= $adress.$CC110x_Register[$i].' ';
+				if ($CC110x_Register_value =~ /^ccreg(\s|:)/) {
+					$CC110x_Register_value =~ s/ccreg:(\s+)?//g;
+					$CC110x_Register_value =~ s/ccreg(\s)[0-2]{2}://g;
+					$CC110x_Register_value =~ s/\s+/ /g;
+					$CC110x_Register_value =~ s/\n/ /g;
+
+					return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_value !~ /^[0-9A-Fa-f\s]+$/);
+					my @CC110x_Register = split(/ /, $CC110x_Register_value);
+
+					for(my $i=0;$i<=$#CC110x_Register;$i++) {
+						my $adress = sprintf("%02X", hex(substr($ccregnames[$i],0,2)));
+						$command.= $adress.$CC110x_Register[$i].' ' if($adress =~ /^[0-2]{1}[0-9A-F]{1}$/);
+					}
+					$command = substr($command,0,-1);
 				}
-				$command = substr($command,0,-1);
+
+				if ($CC110x_Register_value =~ /^CW/) {
+					if ($CC110x_Register_value =~ /,[3-4][a-fA-F][0-9]/) {
+						Log3 $name, 3, "$name: set $cmd - found not compatible adress";
+						my $num;
+						for my $i (3...4){
+							$num = index($CC110x_Register_value, ",$i");
+							$CC110x_Register_value = substr($CC110x_Register_value,0,$num) if ($num >= 0);
+						}
+					}
+
+					$CC110x_Register_value =~ s/CW//g;
+					$CC110x_Register_value =~ s/,+/ /g;
+					$command = $CC110x_Register_value;
+				}
+
+				#Log3 $name, 3, "$name: set $cmd - $command";
+				#Log3 $name, 4, "$name: set $cmd - write your Register from IODev $IODev_CC110x_Register";
 				CommandSet($hash, "$IODev_CC110x_Register cc1101_reg $command");
 
 				$count3 = undef;
@@ -1891,6 +1913,8 @@ sub SIGNALduino_TOOL_Get {
 	if ($cmd eq 'CC110x_Register_comparison') {
 		my $CC110x_Register_old = AttrVal($name,'CC110x_Register_old','');    # Register default
 		my $CC110x_Register_new = AttrVal($name,'CC110x_Register_new','');    # Register new wanted
+		return 'ERROR: not compatible formats! Accepts only starts with ccreg.' if ($CC110x_Register_old !~ /^ccreg:/ || $CC110x_Register_new !~ /^ccreg:/);
+
 		my $return = 'The two registers have no differences.';
 
 		$CC110x_Register_old =~ s/ccreg:(\s+)?//g;
@@ -1900,7 +1924,7 @@ sub SIGNALduino_TOOL_Get {
 
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
-
+		return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old' if (substr($CC110x_Register_new,0,2) ne substr($CC110x_Register_old,0,2));
 		return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
 		return 'ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
 
@@ -2112,9 +2136,7 @@ sub SIGNALduino_TOOL_Attr() {
 
 		### set CC110x_Register´s
 		if ($attrName eq 'CC110x_Register_old' || $attrName eq 'CC110x_Register_new') {
-			return "ERROR: your $attrName start not with text ccreg:" if ($attrValue !~ /^ccreg:\s/);
-			return "ERROR: your $attrName has wrong values (only ccreg preamble, A-F, 0-9)" if ($attrValue !~ /^[\dA-Fa-f:\sreg]+$/);
-			return "ERROR: your $attrName has wrong values (only ccreg preamble, A-F, 0-9)" if ($attrValue =~ /s-zS-Z.;/);
+			return "ERROR: your $attrName start not with text [ccreg] , [ccreg:] or [CW]" if ($attrValue !~ /^(ccreg(\s|:)|CW)/);
 		}
 
 		### check IODev for CC110x_Register exist and SIGNALduino
