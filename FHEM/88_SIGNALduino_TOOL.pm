@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-	SIGNALduino_TOOL_VERSION => '2020-07-04_pre-release',
+	SIGNALduino_TOOL_VERSION => '2020-07-05_pre-release',
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -1017,6 +1017,7 @@ sub SIGNALduino_TOOL_Set {
 		if ($cmd =~ /^CC110x_Register_/) {
 			if ($cmd2 eq "yes") {
 				my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
+				return "ERROR: IODev $IODev_CC110x_Register is not TYPE SIGNALduino" if not ($defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino');
 				return "ERROR: IODev $IODev_CC110x_Register is not opened" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected');
 
 				my $CC110x_Register_value = AttrVal($name,$cmd,undef);
@@ -1053,8 +1054,6 @@ sub SIGNALduino_TOOL_Set {
 					$command = $CC110x_Register_value;
 				}
 
-				#Log3 $name, 3, "$name: set $cmd - $command";
-				#Log3 $name, 4, "$name: set $cmd - write your Register from IODev $IODev_CC110x_Register";
 				CommandSet($hash, "$IODev_CC110x_Register cc1101_reg $command");
 
 				$count3 = undef;
@@ -1914,6 +1913,7 @@ sub SIGNALduino_TOOL_Get {
 		my $CC110x_Register_old = AttrVal($name,'CC110x_Register_old','');    # Register default
 		my $CC110x_Register_new = AttrVal($name,'CC110x_Register_new','');    # Register new wanted
 		return 'ERROR: not compatible formats! Accepts only starts with ccreg.' if ($CC110x_Register_old !~ /^ccreg:/ || $CC110x_Register_new !~ /^ccreg:/);
+		return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old' if (substr($CC110x_Register_new,0,2) ne substr($CC110x_Register_old,0,2));
 
 		my $return = 'The two registers have no differences.';
 
@@ -1924,7 +1924,6 @@ sub SIGNALduino_TOOL_Get {
 
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
 		Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
-		return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old' if (substr($CC110x_Register_new,0,2) ne substr($CC110x_Register_old,0,2));
 		return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
 		return 'ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
 
@@ -1952,15 +1951,20 @@ sub SIGNALduino_TOOL_Get {
 
 	## to evaluate the CC110x registers ##
 	if ($cmd eq 'CC110x_Register_read') {
-		if (exists &SIGNALduino_Get_Callback) {
-			return "The $IODev_CC110x_Register device is disconnected. Read nothing!" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected'));
-			return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef));
+		$SIGNALduino_TOOL_NAME = $name;
 
-			$SIGNALduino_TOOL_NAME = $name;
-			SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
-			return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
+		if ($defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino') {
+			if (exists &SIGNALduino_Get_Callback) {
+				return "The $IODev_CC110x_Register device is disconnected. Read nothing!" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected');
+				return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef));
+
+				SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
+				return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
+			} else {
+				return 'ERROR: Your SIGNALduino modul is not compatible. Please update last version';
+			}
 		} else {
-			return "ERROR: Your SIGNALduino modul is not compatible.\n\nPlease update with command: update all https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/controls_signalduino.txt";
+			return "ERROR: This TYPE of receiver are not supported";
 		}
 	}
 
@@ -3502,8 +3506,6 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 	readingsSingleUpdate($hash, 'state', $txt,1);
 }
 
-
-
 ###############################################
 ### Funktionen für cmd CC110x_Register_read ###
 ###############################################
@@ -4142,7 +4144,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 		# -------------------------------------
 	close $cc1101Doc;
 }
-	
+
 ##############################################################################################################################
 # Eval-Rückgabewert für erfolgreiches
 # Laden des Moduls
