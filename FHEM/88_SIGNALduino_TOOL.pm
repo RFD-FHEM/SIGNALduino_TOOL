@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-	SIGNALduino_TOOL_VERSION => '2020-07-05_pre-release',
+	SIGNALduino_TOOL_VERSION => '2020-07-17_pre-release',
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -136,16 +136,18 @@ sub SIGNALduino_TOOL_Define {
 
 	return "Usage: define <name> $name"  if(@arg != 2);
 
-	if ( $init_done == 1 ) {
-		### Check SIGNALduino min one definded ###
-		my $Device_count = 0;
-		foreach my $d (keys %defs) {
-			if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino') {
-				$Device_count++;
-			}
-		}
-		return 'ERROR: You can use this TOOL only with a definded SIGNALduino!' if ($Device_count == 0);
 
+	### Check SIGNALduino min one definded ###
+	my $Device_count = 0;
+	foreach my $d (keys %defs) {
+		if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino') {
+			$hash->{SIGNALduinoDev} = $d;
+      $Device_count++;
+		}
+	}
+	return 'ERROR: You can use this TOOL only with a definded SIGNALduino!' if ($Device_count == 0);
+
+	if ( $init_done == 1 ) {
 		### Attributes ###
 		CommandAttr($hash,"$name room SIGNALduino_un") if ( not exists($attr{$name}{room}) );                                                                                                             # set room, if only undef --> new def
 		SIGNALduino_TOOL_add_cmdIcon($hash,$NameDispatchSet."file:remotecontrol/black_btn_PS3Start $NameDispatchSet".'last:remotecontrol/black_btn_BACKDroid') if ( not exists($attr{$name}{cmdIcon}) );  # set Icon
@@ -161,6 +163,13 @@ sub SIGNALduino_TOOL_Define {
 			CommandAttr($hash,"$name Dummyname $dummy[0]") if (scalar(@dummy) == 1);
 		}
 	}
+
+  $hash->{protocolObject} = new lib::SD_Protocols();
+  my $error = $hash->{protocolObject}->LoadHash(qq[$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm]);
+  if (defined $error && $error ne '') {
+    Log3 $name, 2, "$name: Define error load SD_ProtocolData.pm";
+    return "ERROR: $error";
+  }
 
 	### default value´s ###
 	$hash->{STATE} = 'Defined';
@@ -3073,6 +3082,7 @@ sub SIGNALduino_TOOL_by_numbre {
 ################################
 sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	my $name = shift;
+  my $hash = $defs{$name};
 	my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');        # Path | # Path if not define
 	my $Dummyname = AttrVal($name,'Dummyname','none');         # Dummyname
 	my $DispatchModule = AttrVal($name,'DispatchModule','-');  # DispatchModule List
@@ -3090,17 +3100,20 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 	$ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>DEF</td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
 	$ret .="<tbody>";
 
+  ### for compatibility ### 
+  my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
+  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($hash->{SIGNALduinoDev});
+  Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get, found SIGNALduino Version ".$versionSIGNALduino." - modus $modus";
+
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-		my $DEF = '';
-		my $RAWMSG = '';
-		my $battery = "";
-		my $clientmodule = '';
-		my $comment = '';
-		my $dmsg = '';
-		my $model = '';
-		my $state = '';
-		my $user = '';
-		$clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+		my ($DEF,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
+
+    ### compatibility mode ###
+    if ($modus == 1) {
+      $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+    } else {
+      $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if(defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+    }
 
 		if (@$ProtocolListRead[$i]->{id} ne '') {
 			my $ref_data = @{$ProtocolListRead}[$i]->{data};
@@ -3135,6 +3148,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 				if ($DispatchModule eq '-') {
 					$oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
 					$ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+
 				## for filtre DispatchModule if set attribute ##
 				} elsif ($DispatchModule eq $clientmodule) {
 					$oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
@@ -3327,6 +3341,22 @@ sub SIGNALduino_TOOL_add_webCmd {
 						split(':', $webCmd);
 	$mod{$arg} = $cnt++;
 	$attr{$name}{webCmd} = join(':', sort keys %mod);
+}
+
+################################
+sub SIGNALduino_TOOL_Version_SIGNALduino {
+	my $SIGNALduino = shift;
+  my $hashSIGNALduino = $defs{$SIGNALduino};
+  my ($modus, $version) = (0 , 0);
+
+  if (defined $hashSIGNALduino->{versionmodul} && $hashSIGNALduino->{versionmodul} =~ /^V?3\./) {
+    $version = $hashSIGNALduino->{versionmodul};
+    $version =~ s/V//g if ($version =~ /^V/);
+    $modus = $1 if ($version =~ /^(\d+.\d)/);
+    $modus = $modus < 3.5 ? 1 : 2 ;
+  }
+
+  return ($modus,$version);
 }
 
 ################################
