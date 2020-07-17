@@ -23,12 +23,11 @@ package main;
 use strict;
 use warnings;
 
-use Data::Dumper qw (Dumper);
-use JSON::PP qw( );
-use HttpUtils;
+eval {use Data::Dumper qw(Dumper);1};
+eval {use JSON::PP qw( );1};
+eval {use HttpUtils;1};
 
 use lib::SD_Protocols;
-sub SIGNALduino_Get_Callback;
 
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
@@ -49,12 +48,14 @@ my $pos_array_device;                                    # position of differenc
 
 my $SIGNALduino_TOOL_NAME;                               # to better work with TOOL in subs, if return a other HASH
 
+#sub SIGNALduino_Get_Callback($$$);
+
 ################################
 
 use constant {
 	CCREG_OFFSET => 2,
 	FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-	SIGNALduino_TOOL_VERSION => '2020-07-17_pre-release',
+	SIGNALduino_TOOL_VERSION => '2020-07-18_pre-release',
 	TIMEOUT_HttpUtils => 3,
 	UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
 	UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -164,12 +165,21 @@ sub SIGNALduino_TOOL_Define {
 		}
 	}
 
-  $hash->{protocolObject} = new lib::SD_Protocols();
-  my $error = $hash->{protocolObject}->LoadHash(qq[$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm]);
-  if (defined $error && $error ne '') {
-    Log3 $name, 2, "$name: Define error load SD_ProtocolData.pm";
-    return "ERROR: $error";
+
+  ### for compatibility ### 
+  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
+  return "ERROR: $name does not support the version of the SIGNALduino." if ($modus == 0);
+
+  if ($modus == 2) {
+    $hash->{protocolObject} = new lib::SD_Protocols();
+    my $error = $hash->{protocolObject}->LoadHash(qq[$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm]);
+
+    if (defined $error && $error ne '') {
+      Log3 $name, 2, "$name: Define error load SD_ProtocolData.pm";
+      return "ERROR: $error";
+    };
   }
+
 
 	### default value´s ###
 	$hash->{STATE} = 'Defined';
@@ -3102,8 +3112,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 
   ### for compatibility ### 
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
-  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($hash->{SIGNALduinoDev});
-  Log3 $name, 4, "$name: SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get, found SIGNALduino Version ".$versionSIGNALduino." - modus $modus";
+  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
 	for (my $i=0;$i<@{$ProtocolListRead};$i++) {
 		my ($DEF,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
@@ -3312,6 +3321,23 @@ sub SIGNALduino_TOOL_Notify {
 }
 
 ################################
+sub SIGNALduino_TOOL_Version_SIGNALduino {
+  my $name = shift;
+  my $SIGNALduino = shift;
+  my ($modus, $version) = (0 , 0);
+
+  if (exists $defs{$SIGNALduino}->{versionmodul} && $defs{$SIGNALduino}->{versionmodul} =~ /^(v|V)?\d\./) {
+    $version = $defs{$SIGNALduino}->{versionmodul};
+    $version = substr($version,1);
+    $modus = $1 if ($version =~ /^(\d+.\d)/);
+    $modus = $modus < 3.5 ? 1 : 2 ;
+  }
+  Log3 $name, 4, "$name: Version_SIGNALduino, found SIGNALduino Version ".$version." - modus $modus";
+
+  return ($modus,$version);
+}
+
+################################
 sub SIGNALduino_TOOL_delete_webCmd {
 	my ($hash,$arg) = @_;
 	my $name = $hash->{NAME};
@@ -3341,22 +3367,6 @@ sub SIGNALduino_TOOL_add_webCmd {
 						split(':', $webCmd);
 	$mod{$arg} = $cnt++;
 	$attr{$name}{webCmd} = join(':', sort keys %mod);
-}
-
-################################
-sub SIGNALduino_TOOL_Version_SIGNALduino {
-	my $SIGNALduino = shift;
-  my $hashSIGNALduino = $defs{$SIGNALduino};
-  my ($modus, $version) = (0 , 0);
-
-  if (defined $hashSIGNALduino->{versionmodul} && $hashSIGNALduino->{versionmodul} =~ /^V?3\./) {
-    $version = $hashSIGNALduino->{versionmodul};
-    $version =~ s/V//g if ($version =~ /^V/);
-    $modus = $1 if ($version =~ /^(\d+.\d)/);
-    $modus = $modus < 3.5 ? 1 : 2 ;
-  }
-
-  return ($modus,$version);
 }
 
 ################################
