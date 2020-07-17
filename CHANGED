@@ -1,21 +1,234 @@
+2020-07-05 - Update 88_SIGNALduino_TOOL.pm
+
+  * fix some checks
+2020-07-04 - Update 88_SIGNALduino_TOOL.pm
+
+  * revised set function CC110x_Register_new, CC110x_Register_old
+  * revised get function CC110x_Register_comparison
+2020-06-16 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
+* added more output for user if cmd CC110x_Register_read
+2020-06-15 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
+2020-06-11 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
+2020-06-10 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
+2020-06-09 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
+2020-06-09 - Update 88_SIGNALduino_TOOL.pm
+
+* fix, PERL WARNING: Prototype mismatch: sub SIGNALduino_Get_Callback
+2020-06-09 - Update 88_SIGNALduino_TOOL.pm
+
+* fix, save backup JSON
+* revised code for Perl::Critic
+2020-06-08 - Update 88_SIGNALduino_TOOL.pm
+
+* fix, InputFile_one_ClockPulse, InputFile_ClockPulse
+* revised code for Perl::Critic
+2020-06-08 - Update 88_SIGNALduino_TOOL.pm
+
+* fix, option attrib JSON_write_ERRORs
+* revised code for Perl::Critic
+2020-06-07 - Update 88_SIGNALduino_TOOL.pm
+
+* revised code for Perl::Critic
+2020-06-06 - Update 88_SIGNALduino_TOOL.pm
+
+* revised comments & spaces
+2020-06-05 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-06-05 - Update 88_SIGNALduino_TOOL.pm
+
+* added internal version
+2020-06-05 - Update 88_SIGNALduino_TOOL.pm
+
+* fix PEARL WARNING
+* added check cc1101
+2020-05-31 - display leading zeros (#43)
+
+* Update 88_SIGNALduino_TOOL.pm
+Display leading zeros by get change_hex_to_bin and change_bin_to_hex
+2020-05-31 - Update 88_SIGNALduino_TOOL.pm
+
+Display leading zeros by get change_hex_to_bin and change_bin_to_hex
+2020-05-14 - Update 88_SIGNALduino_TOOL.pm
+
+* fix Dispatch dmsg https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42#issuecomment-627881837
+* sort some lines
+2020-05-02 - Update SD_Device_ProtocolList.json
+
+revised data modul SD_GT -> QUIGG_GT-9000
+2020-05-02 - Update SD_Device_ProtocolList.json
+
+* revised username (name of the user who owns the hardware)
+* revised model TR60C-1 to one entry
+2020-05-02 - new data for protocol 104 remote control TR60C-1
+2020-04-21 - Update SD_Device_ProtocolList.json
+
+* revised names
+2020-04-21 - Update SD_Device_ProtocolList.json
+
+new data for protocol 99 NAVARIS touch light switch
+2020-04-20 - Update SD_Device_ProtocolList.json
+
+new data for protocol 98 wireless door bell GEA-028DB
+2020-03-30 - Update SD_Device_ProtocolList.json
+
+New data for protocol 97 Momento remote control for wireless digital picture frame
+2020-03-24 - Update 88_SIGNALduino_TOOL.pm
+
+- extension RegEx
+- revised LogOutput
+2020-03-22 - Update SD_Device_ProtocolList.json
+
+- revised name Froggit FT007T
+2020-03-20 - Update SD_Device_ProtocolList.json
+
+remove attribut "model" by protocol 58
 2020-03-19 - Update SD_Device_ProtocolList.json
 
 change "TFA 30.3208.02", "id":"58" "type":"TFA 30.3208.02, FT007xx"
-2020-02-19 - Update SD_Device_ProtocolList.json
+2020-03-17 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-03-17 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-03-17 - Update SD_Device_ProtocolList.json
 
-- Removed data because it is a u protocol. Data in the DEV version has been completely revised with module assignment
-2020-02-18 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
-2020-02-18 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
+- revised names & comments
+2020-03-14 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-03-14 - Update SD_Device_ProtocolList.json
+
+new protocol for rain sensor TFA 30.3233.01
 2020-02-18 - Update SD_Device_ProtocolList.json
 
+- revised data Unitec_47031
 - revised data SF01_01319004_A150
+2020-02-18 - Update SD_Device_ProtocolList.json
+
+- revised data
+2020-02-18 - Update SD_Device_ProtocolList.json
+
+- revised data
+2020-02-15 - Update 88_SIGNALduino_TOOL.pm
+
+- fix write changed JSON
+- fixed count message_dispatched reading
+- remove some my defines
+2020-02-10 - Update SD_Device_ProtocolList.json
+
+- revised data old ID 31, now ID 34
+2020-02-10 - Update 88_SIGNALduino_TOOL.pm
+
+- fix wrong regex
+2020-02-06 - Update 88_SIGNALduino_TOOL.pm
+
+- added option SIGNALduino UnitTests retrieve and define
+- remove some variables and added constante
+- added sub SIGNALduino_TOOL_Undef
+- revised commandref
+2020-02-04 - Update 88_SIGNALduino_TOOL.pm
+
+- added set cmd delete_room_with_all_Devices
+- revised commandref
+- fix getlist
+2020-02-02 - Update SD_Device_ProtocolList.json
+
+- revised WH2315, PERL WARNING are fixed
+- revised doc Novy 840029
+- added model Novy 840039
+2020-01-25 - Update SD_Device_ProtocolList.json
+
+- added WH2315
+2020-01-20 - Update 88_SIGNALduino_TOOL.pm
+
+- fix (return hash is from readed dev)
+2020-01-19 - Update 88_SIGNALduino_TOOL.pm
+
+- fix PEARL WARNING
+2020-01-12 - Update SD_Device_ProtocolList.json
+
+- added new model
+2020-01-12 - Update 88_SIGNALduino_TOOL.pm
+
+- fix useroutput search_disable_Devices & search_ignore_Devices
+2020-01-12 - Update 88_SIGNALduino_TOOL.pm
+
+- fix cmd search_ignore_Devices
+2020-01-11 - Update 88_SIGNALduino_TOOL.pm
+
+- added function to read cc1101Register from IODev and writes evaluated data to a file
+2020-01-10 - Update 88_SIGNALduino_TOOL.pm
+
+- revised code for new dev SIGNALduino project
+2020-01-10 - Update SD_Device_ProtocolList.json
+
+- added doc WH1080
+2020-01-09 - Update SD_Device_ProtocolList.json
+
+- added data from ID82 - Fernotron
+2020-01-09 - Update SD_Device_ProtocolList.json
+
+- added data from ID 44 - Bresser Temeo Trend
+2020-01-08 - Update 88_SIGNALduino_TOOL.pm
+
+- fixed setlist
+- added return if no dymmy exists on system
 2020-01-07 - Update SD_Device_ProtocolList.json
 
 - revised data after module expansion TV-4848
 2020-01-07 - Update SD_Device_ProtocolList.json
 
-- revised wrong data input
-- added comment
+- revised wrong data
+- revised structure
+- added no decode ID 12 Hama TS33C
+2020-01-06 - new protocol 27 for EuroChron EFTH-800 (#40)
+
+* SD_Device_ProtocolList.json - new data for protocol 27 EuroChron weatherstation EFTH-800
+2020-01-06 - SD_Device_ProtocolList.json - new data for protocol 27 EuroChron weatherstation EFTH-800
+2020-01-06 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-01-06 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-01-06 - Update 88_SIGNALduino_TOOL.pm
+
+- added cmd CC110x_Register_read to evaluate the CC110x registers
+2020-01-04 - Update SD_Device_ProtocolList.json
+
+- added data ID 0.3, 3, 8, 17, 17.1
+2019-12-30 - Update SD_Device_ProtocolList.json
+
+- revised name
+- added information Unitec_47031 device
+2019-12-30 - Update 88_SIGNALduino_TOOL.pm
+
+- fix PERL WARNING $path
+- revised cmd CC110x_Register_ new/old for cmd SIGNALduino cc1101_reg
+- revised FilterFile
+2019-12-26 - add xavax (#39)
+
+add xavax to SD_Device_ProtocolList.json
+2019-12-26 - Merge branch 'pre-release' into pre-release_xavax
+2019-12-26 - add xavax and RCnoName20
+
+2019-12-18 - Update SD_Device_ProtocolList.json
+
+- revised data RC_10_7869_A
+- revised data RC_10_7869_all
+2019-12-18 - Update SD_Device_ProtocolList.json
+
+- revised data ID 34 TR_502MSV
+2019-12-18 - Update 88_SIGNALduino_TOOL.pm
+
+- fix adress
+2019-12-18 - Update 88_SIGNALduino_TOOL.pm
+
+- adde reset command after writing register
+2019-12-18 - Update 88_SIGNALduino_TOOL.pm
+
+- added option write CC110x Register if IODev_Register definded (fast switch two diffrence register)
+
 2019-12-18 - Update SD_Device_ProtocolList.json
 
 - revised data RC_10_7869_A

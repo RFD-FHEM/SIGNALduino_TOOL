@@ -49,6 +49,16 @@
     }
   ]
 },
+{"name":"TCM 212836", "id":"0.3", "module":"CUL_TCM97001", "data": [
+    {
+      "dmsg":"s35277004E000", "comment":"", "user":"killah78",
+      "internals": {"DEF":"CUL_TCM97001_53", "NAME":"W044_53"},
+      "readings": {"state":"T: 23.8 H: 20", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"20", "mode":"normal", "temperature":"23.8"},
+      "attributes": {"model":"TCM21...."},
+      "rmsg":"MS;P1=452;P4=-1989;P5=-4063;P6=-8942;D=16141415151415141514141514141515151415151514141414141414141415141415151514;CP=1;SP=6;R=36;O;m2;"
+    }
+  ]
+},
 {"name":"Ventus W132", "id":"0.3", "module":"CUL_TCM97001", "data": [
     {
       "dmsg":"sD66EE1603000", "comment":"wind", "user":"dirigent",
@@ -110,7 +120,7 @@
     }
   ]
 },
-{"name":"door/window contact CHN", "id":"3", "module":"IT", "data": [
+{"name":"door/window contact CHN v1", "id":"3", "module":"IT", "data": [
     {
       "dmsg":"iD8E80A", "comment":"from amazon or ebay", "user":"HomeAuto_User",
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
@@ -124,6 +134,30 @@
       "readings": {"state":"closed", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
       "rmsg":"MS;P1=-474;P2=1373;P3=455;P4=-1367;P5=-14044;D=35212134212134343421212134213434343434343421212134;CP=3;SP=5;R=37;O;m2;"
+    }
+  ]
+},
+{"name":"door/window contact CHN v2", "id":"3", "module":"IT", "data": [
+    {
+      "dmsg":"i0BC607", "comment":"from amazon or ebay, variant with tamper", "user":"rob",
+      "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
+      "readings": {"state":"tamper", "protocol":"EV1527"},
+      "attributes": {"model":"itswitch_CHN"},
+      "rmsg":"MS;P3=1387;P4=-464;P5=445;P6=-13990;P7=-1355;D=56575757573457343434345757573434575757575757343434;CP=5;SP=6;R=242;O;m2;"
+    },
+    {
+      "dmsg":"i0BC60A", "comment":"from amazon or ebay, variant with tamper", "user":"rob",
+      "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
+      "readings": {"state":"open", "protocol":"EV1527"},
+      "attributes": {"model":"itswitch_CHN"},
+      "rmsg":"MS;P1=447;P2=-1357;P3=1368;P4=-474;P5=-14012;D=15121212123412343434341212123434121212121234123412;CP=1;SP=5;R=15;O;m2;"
+    },
+    {
+      "dmsg":"i0BC60E", "comment":"from amazon or ebay, variant with tamper", "user":"rob",
+      "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
+      "readings": {"state":"closed", "protocol":"EV1527"},
+      "attributes": {"model":"itswitch_CHN"},
+      "rmsg":"MS;P1=466;P2=-470;P3=1367;P4=-1356;P5=-13955;D=15141414143214323232321414143232141414141432323214;CP=1;SP=5;R=250;O;m2;"
     }
   ]
 },
@@ -211,6 +245,39 @@
     }
   ]
 },
+{"name":"TX3", "id":"8", "module":"CUL_TX", "data": [
+    {
+      "dmsg":"TXAECA560564", "comment":"(ID 42,75 additionally)", "user":"sidey79",
+      "internals": {"DEF":"101", "NAME":"CUL_TX_101"},
+      "readings": {"state":"H: 56.0", "humidity":"56.0"},
+      "rmsg":"MU;P0=-392;P1=1285;P2=-1024;P3=506;P4=-27790;D=0121212123212321232323212323212123212321212321232123232121212121212321232123232121232121412121212321232123232321232321212321232121232123212323212121212121232123212323212123212141212121232123212323232123232121232123212123212321232321212121212123212321232;CP=3;R=0;O;"
+    }
+  ]
+},
+{"name":"WH1080", "id":"9", "module":"SD_WS09", "data": [
+    {
+      "dmsg":"P9#FF4A63E4AA040802F40168", "comment":"(ID 42,75 additionally)", "user":"maddinthebrain",
+      "internals": {"DEF":"WH1080", "NAME":"WH1080"},
+      "readings": {"state":"T: 9.8  H: 85  Ws:0.7  Wg:1.4 m/s Wd: N  R: 113.4", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"85", "id":"83", "rain":"113.4", "rain_total":"113.4", "temperature":"9.8", "windDirection":"0", "windDirectionAverage":"0", "windDirectionDegree":"0", "windDirectionText":"N", "windGust":"1.4", "windGust_fts":"4.6", "windGust_kmh":"5.0", "windGust_kn":"2.7", "windGust_mph":"3.1", "windSpeed":"0.7", "windSpeed_fts":"2.3", "windSpeed_kmh":"2.5", "windSpeed_kn":"1.4", "windSpeed_mph":"1.6"},
+      "rmsg":"MU;P0=-31072;P1=486;P2=-986;P3=1454;D=01212121212121212321232321232123232121232323212121212123232123232123212321232123232323232321232323232323212323232323232323232123212121212321232323232323232323212321212321232301212121212121212321232321232123232121232323212121212123232123232123212321232123;CP=1;R=29;O;"
+    }
+  ]
+},
+{"name":"WH2315", "id":"9", "module":"SD_WS09", "data": [
+    {
+      "dmsg":"P9#FEE7E2AA049E81F0", "comment":"Lux & UV RAWMSG with length 64", "user":"rob",
+      "internals": {"DEF":"WH1080", "NAME":"WH1080"},
+      "readings": {"state":"UV: 1 Lux: 344 "},
+      "rmsg":"MU;P0=-10108;P1=495;P2=-1050;P3=1496;P4=-27564;P5=372;CP=1;R=245;D=012121212121212321212123232121212121212323232123212321232123212323232323232123232123232121212123212323232323232121212121232323450;e;"
+    },
+    {
+      "dmsg":"P9#FF5BA39C8C020403C60822", "comment":"Temp,Hum,Rain,Wind RAWMSG with length 88 (ID 42 additionally)", "user":"rob",
+      "internals": {"DEF":"WH1080", "NAME":"WH1080"},
+      "readings": {"state":"T: 6.2  H: 70  Ws:0.3  Wg:0.7 m/s Wd: E  R: 144.9", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"70", "id":"221", "rain":"144.9", "rain_total":"144.9", "temperature":"6.2", "windDirection":"4", "windDirectionAverage":"90", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"0.7", "windGust_fts":"2.3", "windGust_kmh":"2.5", "windGust_kn":"1.4", "windGust_mph":"1.6", "windSpeed":"0.3", "windSpeed_fts":"1.0", "windSpeed_kmh":"1.1", "windSpeed_kn":"0.6", "windSpeed_mph":"0.7"},
+      "rmsg":"MU;P0=-32001;P1=481;P2=-990;P3=1450;CP=1;R=244;D=012121212121212123212321212321212123212323232121212323212121232321232323212123232323232323232123232323232321232323232323232321212121232323212123232323232123232323232123232321;e;"
+    }
+  ]
+},
 {"name":"WH3080", "id":"9", "module":"SD_WS09", "data": [
     {
       "dmsg":"P9#FF7C845508D87403", "comment":"reconstructed bit 1", "user":"Ralf9",
@@ -257,7 +324,7 @@
 },
 {"name":"TFA 30.3176", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Wetterstation 35.1101.02", "user":"HomeAuto_User",
+      "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Thermo-hygro sensor for base station 35.1101.02", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
       "readings": {"state":"T: 23.9 H: 9", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Dry. Less than 40% RH", "humidity":"9", "package_number":"3", "temperature":"23.9"},
       "rmsg":"MC;LL=-1022;LH=927;SL=-531;SH=442;D=A8EA345AD8BE0A3F6AA3F94;C=486;L=90;R=37;"
@@ -307,6 +374,51 @@
     }
   ]
 },
+{"name":"ITS-10", "id":"17", "module":"IT", "data": [
+    {
+      "dmsg":"i669A9A9A5555565600", "comment":"", "user":"dafosy",
+      "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
+      "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0001"},
+      "rmsg":"MS;P0=-287;P1=254;P2=-1315;P4=-2603;D=141012121010121210121010121210121012101012121012101210101212101210101210121012101210121012101210121012101210121210101210121012121013;CP=1;SP=4;R=46;O;m1;"
+    },
+    {
+      "dmsg":"i669A9A9A5555555600", "user":"dafosy",
+      "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
+      "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0001"},
+      "rmsg":"MS;P0=240;P1=-298;P2=-1321;P3=-10816;P4=-2591;D=040102020101020201020101020201020102010102020102010201010202010201010201020102010201020102010201020102010201020102010201020102020103;CP=0;SP=4;R=34;O;m1;"
+    }
+  ]
+},
+{"name":"ITT-1500", "id":"17", "module":"IT", "data": [
+    {
+      "dmsg":"i5A5966695AA9965900", "comment":"", "user":"KoelnSolar",
+      "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
+      "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0010"},
+      "rmsg":"MS;P0=235;P1=-1316;P2=-296;P3=-10204;P4=-2674;D=040201020101020102020102010102020102010102020101020201010201020201020102010102010201020102010202010102020102010102020102010102020103;CP=0;SP=4;R=44;O;m0;"
+    },
+    {
+      "dmsg":"i5A5966695AA9955900", "comment":"", "user":"KoelnSolar",
+      "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
+      "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0010"},
+      "rmsg":"MS;P1=-2667;P2=219;P3=-1330;P5=-315;P7=-10188;D=212523252323252325252325232325252325232325252323252523232523252523252325232325232523252325232525232325252325232523252325232325252327;CP=2;SP=1;R=34;O;m1;"
+    }
+  ]
+},
+{"name":"PIR-1000 / ITT-1500", "id":"17.1", "module":"IT", "data": [
+    {
+      "dmsg":"i5665A5AAA556965500", "comment":"(ID 63 additionally)", "user":"SD_Protocol",
+      "internals": {"DEF":"00010100110011111100000110 0 0000", "NAME":"IT_V3_a67e0c0"},
+      "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0000"},
+      "rmsg":"MU;P0=346;P1=-1227;P2=-190;P4=-10224;P5=-2580;D=020101020201020102010201040502010201020101020201010202010201010201020201020101020102010201020102010202010201020102010201010201020201020101020201020102010201040502010201020101020201010202010201010201020201020101020102010201020102010202010201020102010201010201020201020101020201020102010201;CP=0;"
+    },
+    {
+      "dmsg":"i5665A5AAA556955500", "comment":"(ID 63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
+      "internals": {"DEF":"00010100110011111100000110 0 0000", "NAME":"IT_V3_a67e0c0"},
+      "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0000"},
+      "rmsg":"MU;P0=355;P1=-189;P2=-1222;P3=-10252;P4=-2604;D=0201020102030401020102010202010102020101020102020102010102010202010201020102010201020101020102010201020102020102010102010201020102010201020102030401020102010202010102020101020102020102010102010202010201020102010201020101020102010201020102020102010102010201020102010201020102;CP=0;"
+    }
+  ]
+},
 {"name":"THR128", "id":"18", "module":"OREGON", "data": [
     {
       "dmsg":"500A4D100E001000002100", "comment":"OSV1", "user":"Ralf9",
@@ -325,12 +437,67 @@
     }
   ]
 },
+{"name":"RCnoName20", "id":"20", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P20#17E911B0", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
+      "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"17E9"},
+      "attributes": {"model":"RCnoName20"},
+      "rmsg":"MS;P0=-740;P2=686;P3=-283;P5=229;P6=-7889;D=5650505023502323232323235023505023505050235050502323502323505050;CP=5;SP=6;R=67;O;m2;"
+    },
+    {
+      "dmsg":"P20#17E90508", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
+      "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"17E9"},
+      "attributes": {"model":"RCnoName20"},
+      "rmsg":"MS;P1=-754;P2=213;P4=681;P5=-283;P6=-7869;D=2621212145214545454545452145212145212121212145214521212121452121;CP=2;SP=6;R=69;O;m2;"
+    }
+  ]
+},
 {"name":"visivon remote", "id":"24", "module":"", "data": [
     {
       "dmsg":"u24#9F7DF825029C10", "comment":"von 2015", "user":"sidey",
       "internals": {"DEF":"SIGNALduino_unknown_24", "NAME":"SIGNALduino_unknown_24"},
       "readings": {"state":"9F7DF825029C10"},
       "rmsg":"MU;P0=132;P1=500;P2=-233;P3=-598;P4=-980;P5=4526;D=012120303030303120303030453120303121212121203121212121203121212121212030303030312030312031203030303030312031203031212120303030303120303030453120303121212121203121212121203121212121212030303030312030312031203030303030312031203031212120303030;CP=0;O;"
+    }
+  ]
+},
+{"name":"xavax", "id":"26", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P26#DAAB255487", "comment":"model 00111939 - Funksteckdosen Set", "user":"elektron-bbs",
+      "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
+      "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"DAAB"},
+      "attributes": {"model":"xavax"},
+      "rmsg":"MU;P0=412;P1=-534;P2=-1356;P3=-20601;P4=3360;P5=-3470;D=01020102010201020201010201010201020102010201020101020101010102020203010145020201020201020102010201020102020101020101020102010201020102010102010101010202020301014502020102020102010201020102010202010102010102010201020102010201010201010101020202030101450202;CP=0;R=0;O;"
+    },
+    {
+      "dmsg":"P26#DAAB255478", "comment":"model 00111939 - Funksteckdosen Set", "user":"elektron-bbs",
+      "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
+      "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"DAAB"},
+      "attributes": {"model":"xavax"},
+      "rmsg":"MU;P0=-3504;P1=416;P2=-1356;P3=-535;P4=-20816;P5=3324;D=01212131212131213121312131213121213131213131213121312131213121313131212121213131314131350121213121213121312131213121312121313121313121312131213121312131313121212121313131413135012121312121312131213121312131212131312131312131213121312131213131312121212131;CP=1;R=50;O;"
+    }
+  ]
+},
+{"name":"EFTH-800", "id":"27", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W27#113C49B04806", "comment":"EuroChron weatherstation EFTH-800 / Channel 2 (ID 61 additionally)", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_27_TH_2", "NAME":"SD_WS_27_TH_2"},
+      "readings": {"state":"T: 15.5 H: 48", "batteryState":"ok", "channel":"2", "humidity":"48", "temperature":"15.5", "type":"EFTH-800"},
+      "rmsg":"MU;P0=-224;P1=258;P2=-487;P3=505;P4=-4884;P5=743;P6=-718;D=0121212301212303030301212123012123012123030123030121212121230121230121212121212121230301214565656561212123012121230121230303030121212301212301212303012303012121212123012123012121212121212123030121;CP=1;R=53;"
+    },
+    {
+      "dmsg":"W27#21D442607679", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
+      "readings": {"state":"T: 3.8 H: 76", "batteryState":"ok", "channel":"3", "humidity":"76", "temperature":"3.8", "type":"EFTH-800"},
+      "rmsg":"MU;P0=-241;P1=251;P2=-470;P3=500;P4=-4868;P5=743;P6=-718;D=012121212303030123012301212123012121212301212303012121212121230303012303012123030303012123014565656561212301212121230303012301230121212301212121230121230301212121212123030301230301212303030301212301;CP=1;R=23;"
+    },
+    {
+      "dmsg":"W27#21D4435075DE", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
+      "readings": {"state":"T: 5.3 H: 75", "batteryState":"ok", "channel":"3", "humidity":"75", "temperature":"5.3", "type":"EFTH-800"},
+      "rmsg":"MU;P0=-240;P1=253;P2=-487;P3=489;P4=-4860;P5=746;P6=-725;D=012121212303030123012301212123012121212303012301230121212121230303012301230303012303030301214565656561212301212121230303012301230121212301212121230301230123012121212123030301230123030301230303030121;CP=1;R=19;"
     }
   ]
 },
@@ -344,9 +511,9 @@
     }
   ]
 },
-{"name":"Unitec_47031_95", "id":"30", "module":"SD_UT", "data": [
+{"name":"Unitec_47031", "id":"30", "module":"SD_UT", "data": [
     {
-      "dmsg":"P30#955", "comment":"model is under development (ID 63,83 additionally)", "dispatch_repeats":"7", "user":"Dr.E.Witz",
+      "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"7", "user":"Dr.E.Witz",
       "internals": {"DEF":"Unitec_47031 95", "NAME":"Unitec_47031_95"},
       "readings": {"state":"1", "System-Housecode":"10010101 (on|off|off|on|off|on|off|on)", "Usersystem":"Unitec 47121", "Zone":"010 (off|on|off) - Zone 3"},
       "attributes": {"model":"Unitec_47031"},
@@ -394,7 +561,7 @@
 },
 {"name":"TFA 30.3200", "id":"33.1", "module":"SD_WS", "data": [
     {
-      "dmsg":"W33#14C1C594C0C", "user":"cxxcoder",
+      "dmsg":"W33#14C1C594C0C", "comment":"Thermo-hygro sensor for base station 35.1126", "user":"cxxcoder",
       "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
       "readings": {"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1", "humidity":"53", "temperature":"18.8", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "rmsg":"MS;P1=-7796;P2=745;P3=-1976;P4=-3929;D=21232323242324232324242323232323242424232323242324242323242324232324242323232323232424;CP=2;SP=1;R=30;O;m2;"
@@ -410,9 +577,26 @@
     }
   ]
 },
+{"name":"Pollin ISOTRONIC", "id":"34", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P34#891EE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
+      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
+      "readings": {"state":"Ch1_on", "deviceCode":"100010010001"},
+      "attributes": {"model":"QUIGG_DMV"},
+      "rmsg":"MU;P0=-9584;P1=592;P2=-665;P3=1223;P4=-1311;D=01234141412341412341414123232323412323234;CP=1;R=0;"
+    },
+    {
+      "dmsg":"P34#891FF", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
+      "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
+      "readings": {"state":"Ch1_off", "deviceCode":"100010010001"},
+      "attributes": {"model":"QUIGG_DMV"},
+      "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
+    }
+  ]
+},
 {"name":"QUIGG_GT-7000", "id":"34", "module":"SD_UT", "data": [
     {
-      "dmsg":"P34#9E4FF", "comment":"(ID 31 additionally)", "model":"QUIGG_DMV", "user":"SD_Protocol",
+      "dmsg":"P34#9E4FF", "model":"QUIGG_DMV", "user":"SD_Protocol",
       "internals": {"DEF":"QUIGG_DMV 9E4", "NAME":"QUIGG_DMV_9E4"},
       "readings": {"state":"Ch1_off", "deviceCode":"100111100100"},
       "attributes": {"model":"QUIGG_DMV"},
@@ -495,6 +679,15 @@
     }
   ]
 },
+{"name":"Bresser Temeo Trend", "id":"44", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W44#D12160652EDE9F9B10", "comment":"", "user":"unknown",
+      "internals": {"DEF":"BresserTemeo_1", "NAME":"BresserTemeo_1"},
+      "readings": {"state":"T: 3.2 H: 68", "batteryState":"ok", "channel":"1", "humidity":"68", "temperature":"3.2", "type":"BresserTemeo"},
+      "rmsg":"MU;P0=32001;P1=-1939;P2=1967;P3=3896;P4=-3895;D=01213424242124212121242121242121212124212424212121212121242421212421242121242124242421242421242424242124212124242424242421212424212424212121242121212;CP=2;R=39;"
+    }
+  ]
+},
 {"name":"Revolt", "id":"45", "module":"Revolt", "data": [
     {
       "dmsg":"r49E7E800443204F4500E04", "comment":"", "user":"SD_Protocol",
@@ -530,10 +723,54 @@
     }
   ]
 },
-{"name":"QUIGG_GT-9000", "id":"49", "module":"SD_GT", "data": [
+{"name":"QUIGG_GT-9000", "id":"49.2", "module":"SD_GT", "data": [
     {
-      "dmsg":"U49#8B2DB0", "comment":"(ID 5,27 additionally)", "dispatch_repeats":"3", "user":"TiEr92",
-      "rmsg":"MU;P0=-563;P1=479;P2=991;P3=-423;P4=361;P5=-1053;P6=3008;P7=-7110;D=2345454523452323454523452323452323452323454545456720151515201520201515201520201520201520201515151567201515152015202015152015202015202015202015151515672015151520152020151520152020152020152020151515156720151515201520201515201520201520201520201515151;CP=1;R=21;"
+      "dmsg":"P49#C9AFAC", "comment":"Button C off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C9AFAC"},
+      "rmsg":"MU;P0=328;P1=-428;P3=1090;P4=-1190;P5=-2310;D=010131040431310431043131313131043104313104040531310404310404313104310431313131310431043131040405313104043104043131043104313131313104310431310404053131040431040431310431043131313131043104313104042;CP=0;"
+    },
+    {
+      "dmsg":"P49#C22B9C", "comment":"Button C off, Rollingcode 2, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B9C"},
+      "rmsg":"MU;P0=1090;P1=-430;P2=328;P3=-1192;P4=-2319;P5=2988;D=01012323232301232323012301230101012323010101232324010123232323012323230123012301010123230101012323240101232323230123232301230123010101232301010123232401012323232301232323012301230101012323010101232353;CP=2;"
+    },
+    {
+      "dmsg":"P49#CDD41C", "comment":"Button C off, Rollingcode 3, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"CDD41C"},
+      "rmsg":"MU;P0=1086;P1=-433;P2=327;P3=-1194;P4=-2318;P5=2988;D=01012323010123010101230123012323232323010101232324010123230101230101012301230123232323230101012323240101232301012301010123012301232323232301010123232401012323010123010101230123012323232323010101232353;CP=2;"
+    },
+    {
+      "dmsg":"P49#C3802C", "comment":"Button C off, Rollingcode 4, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C3802C"},
+      "rmsg":"MU;P0=1090;P1=-428;P2=334;P3=-1190;P4=-2317;P5=2988;D=01012323232301010123232323232323232301230101232324010123232323010101232323232323232323012301012323240101232323230101012323232323232323230123010123232401012323232301010123232323232323232301230101232353;CP=2;"
+    },
+    {
+      "dmsg":"P49#CA627C", "comment":"Button C on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"CA627C"},
+      "rmsg":"MU;P0=1092;P1=-429;P2=335;P3=-1184;P4=-2316;P5=2996;D=010123230123012323010123232301232301010101012323240101232301230123230101232323012323010101010123232401012323012301232301012323230123230101010101232355;CP=2;"
+    },
+    {
+      "dmsg":"P49#C6B54C", "comment":"Button C on, Rollingcode 2, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B54C"},
+      "rmsg":"MU;P0=1090;P1=-429;P2=331;P3=-1189;P4=-2316;P5=2992;D=01012323230101230123010123012301230123230101232324010123232301012301230101230123012301232301012323240101232323010123012301012301230123012323010123232401012323230101230123010123012301230123230101232354;CP=2;"
+    },
+    {
+      "dmsg":"P49#C6B542", "comment":"Button D off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B542"},
+      "rmsg":"MU;P0=-800;P1=-422;P2=346;P3=-1176;P4=1103;P5=-2302;D=0123234141234123414123412341234123232323412325414123232341412341234141234123412341232323234123254125;CP=2;"
+    },
+    {
+      "dmsg":"P49#C22B92", "comment":"Button D on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
+      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B92"},
+      "rmsg":"MU;P0=-416;P1=1100;P2=345;P3=-1176;P4=-2298;P5=3008;D=0010232323102310231010102323102323102324101023232323102323231023102310101023231023231023241010232323231023232310231023101010232310232310232410102323232310232323102310231010102323102323102351;CP=2;"
     }
   ]
 },
@@ -570,6 +807,36 @@
     }
   ]
 },
+{"name":"TFA 30.3233.01", "id":"54", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W54#3D9C430618AA01340", "comment":"Rain sensor for base station 47.3005.01 / decode as MU", "user":"sido",
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
+      "readings": {"state":"R: 73.66", "batteryState":"ok", "rain_total":"73.66", "rawRainCounter":"290", "sendCounter":"3", "type":"TFA 30.3233.01"},
+      "rmsg":"MU;P1=247;P2=-750;P3=722;P4=-489;P5=491;P6=-236;P7=-2184;D=1232141456565656145656141456565614141456141414145656141414141456561414141456561414145614561456145614141414141414145614145656145614141732321414565656561456561414565656141414561414141456561414141414565614141414565614141456145614561456141414141414141456141;CP=1;R=55;O;"
+    },
+    {
+      "dmsg":"W54#3D9C430A1BAA01898", "comment":"Rain sensor for base station 47.3005.01 / decode as MU", "user":"sido",
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
+      "readings": {"state":"R: 74.422", "batteryState":"ok", "rain_total":"74.422", "rawRainCounter":"293", "sendCounter":"5", "type":"TFA 30.3233.01"},
+      "rmsg":"MU;P0=-1672;P1=740;P2=-724;P3=260;P4=-468;P5=504;P6=-230;D=012123434565656563456563434565656343434563434343456563434343456345634343434565634565656345634563456343434343434343456563434345634345656;CP=3;R=4;"
+    }
+  ]
+},
+{"name":"TFA 30.3233.01", "id":"54.1", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W54#3896E10467AA0068", "comment":"Rain sensor for base station 47.3005.01 / decode as MS", "user":"punker",
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
+      "readings": {"state":"R: 28.702", "batteryState":"ok", "rain_total":"28.702", "rawRainCounter":"113", "sendCounter":"2", "type":"TFA 30.3233.01"},
+      "rmsg":"MS;P0=-241;P1=486;P2=241;P3=-488;P4=-2098;P5=738;P6=-730;D=24565623231010102323231023231023101023101010232323231023232323231023232310102323101010102310231023102323232323232323232310102310232323;CP=2;SP=4;R=30;O;b=19;s=1;m0;"
+    },
+    {
+      "dmsg":"W54#3896E1066AAA0076", "comment":"Rain sensor for base station 47.3005.01 / decode as MS", "user":"punker",
+      "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
+      "readings": {"state":"R: 29.464", "batteryState":"ok", "rain_total":"29.464", "rawRainCounter":"116", "sendCounter":"3", "type":"TFA 30.3233.01"},
+      "rmsg":"MS;P0=-491;P1=242;P2=476;P3=-248;P4=-2096;P5=721;P6=-745;D=14565610102323231010102310102310232310232323101010102310101010102323101023231023102310231023102310231010101010101010101023232310232310;CP=1;SP=4;R=10;O;b=135;s=1;m0;"
+    }
+  ]
+},
 {"name":"m-e doorbell", "id":"57", "module":"SD_BELL", "data": [
     {
       "dmsg":"P57#2AA4A7", "comment":"radio gong transmitter for FG- and Basic-Serie", "user":"rippi46",
@@ -579,9 +846,24 @@
     }
   ]
 },
+{"name":"Froggit FT007T", "id":"58", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W58#468714600AED0", "user":"Burny4600",
+      "internals": {"DEF":"SD_WS_58_T_2", "NAME":"SD_WS_58_T_2"},
+      "readings": {"state":"T: 22.2", "batteryState":"ok", "channel":"2", "temperature":"22.2", "type":"TFA 30.3208.02, FT007xx"},
+      "rmsg":"MC;LL=-1047;LH=903;SL=-545;SH=449;D=800AE5E3AE7FD44BC00572F1D73FEA25E002B9788;C=494;L=161;"
+    },
+    {
+      "dmsg":"W58#468714610AAE0", "user":"Burny4600",
+      "internals": {"DEF":"SD_WS_58_T_2", "NAME":"SD_WS_58_T_2"},
+      "readings": {"state":"T: 22.3", "batteryState":"ok", "channel":"2", "temperature":"22.3", "type":"TFA 30.3208.02, FT007xx"},
+      "rmsg":"MC;LL=-1047;LH=902;SL=-546;SH=452;D=0015CBC75CF7AA8F800AE5E3AE7BD547C00572F1D0;C=487;L=165;"
+    }
+  ]
+},
 {"name":"TFA 30.3208.02", "id":"58", "module":"SD_WS", "data": [
     {
-      "dmsg":"W58#45C8142445DB0", "comment":"Repeats 2", "user":"Ralf9",
+      "dmsg":"W58#45C8142445DB0", "comment":"Thermo-hygro sensor with 2 Repeats", "user":"Ralf9",
       "internals": {"DEF":"SD_WS_58_TH_2", "NAME":"SD_WS_58_TH_2"},
       "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2", "humidity":"69", "temperature":"18.9", "type":"TFA 30.3208.02, FT007xx"},
       "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
@@ -872,6 +1154,21 @@
     }
   ]
 },
+{"name":"Fernotron", "id":"82", "module":"Fernotron", "data": [
+    {
+      "dmsg":"P82#F0000100001F0000100010F0111101001F0111101010F0111111101F0111111110F0100010000F0100010011F1100000000F1100000011F1000100101F1000100110", "comment":"STOP, remote Easy Standard, (ID 63 additionally), 10_Fernotron.pm is under development", "user":"zwiebert",
+      "internals": {"DEF":"scan", "NAME":"Fernotron_Scan"},
+      "readings": {"state":"plain:105efe:stop"},
+      "rmsg":"MU;P0=-32001;P1=441;P2=-355;P3=-3153;P4=842;P5=-757;CP=1;D=0121212121212121342424242154242424215134242424215424242154213421515151542154242151342151515154215421542134215151515151515421513421515151515151515421342154242421542424242134215424242154242151513151542424242424242421315154242424242421515131542424215424215421513154242421542421515421;e;"
+    },
+    {
+      "dmsg":"P82#F0000100001F0000100010F0111101001F0111101010F0111111101F0111111110F0100100000F0100100011F1010000000F1010000011F1100000101F1100000110", "comment":"DOWN, remote Easy Standard, (ID 63 additionally), 10_Fernotron.pm is under development", "user":"zwiebert",
+      "internals": {"DEF":"scan", "NAME":"Fernotron_Scan"},
+      "readings": {"state":"plain:105efe:down"},
+      "rmsg":"MU;P0=-200;P1=21748;P2=-25008;P3=410;P4=-388;P5=-3189;P6=811;P7=-785;CP=3;D=012343434343434343564646464376464646437356464646437646464376435643737373764376464373564373737376437643764356437373737373737643735643737373737373737643564376464376464646464356437646437646464373735376437646464646464643537643764646464643737353737646464646437643735373764646464643737643;e;"
+    }
+  ]
+},
 {"name":"RH787T", "id":"83", "module":"SD_UT", "data": [
     {
       "dmsg":"P83#077", "comment":"example Westinghouse Deckenventilator Delancey (ID 30 additionally)", "dispatch_repeats":"7", "user":"zwiebelxxl",
@@ -911,7 +1208,7 @@
 },
 {"name":"TFA 30.3222.02, Temp", "id":"85", "module":"SD_WS", "data": [
     {
-      "dmsg":"W85#0C45C60124B0554F8", "comment":"Wetterstation TFA 35.1140.01", "user":"Iron-R1",
+      "dmsg":"W85#0C45C60124B0554F8", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02"},
       "rmsg":"MU;P0=-509;P1=474;P2=-260;P3=228;P4=718;P5=-745;D=01212303030303012301230123012301230301212121230454545453030303012123030301230303012301212123030301212303030303030303012303012303012303012301212303030303012301230123012301230301212121212454545453030303012123030301230303012301212123030301212303030303030303;CP=3;R=46;O;"
@@ -920,7 +1217,7 @@
 },
 {"name":"TFA 30.3222.02, Wind", "id":"85", "module":"SD_WS", "data": [
     {
-      "dmsg":"W85#0C35A602015000C98", "comment":"Wetterstation TFA 35.1140.01", "user":"Iron-R1",
+      "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
@@ -929,7 +1226,7 @@
 },
 {"name":"BOSCH SF01 01319004", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#26398", "comment":"Typ2, (ID 63,81 additionally)", "user":"Stuetti",
+      "dmsg":"P86#26398", "comment":"Typ2, (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
       "readings": {"state":"light_on_off", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
@@ -963,25 +1260,49 @@
 },
 {"name":"Novy 840029", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#555", "comment":"(ID 63,81 additionally)", "user":"Garfonso",
+      "dmsg":"P86#555", "comment":"hex_lengh 3 (ID 63,81 additionally)", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_plus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=22808;P1=-24232;P2=701;P3=-765;P4=357;P5=-15970;P7=-406;D=012345472347234723472347234723454723472347234723472347234547234723472347234723472345472347234723472347234723454723472347234723472347234;CP=4;R=39;"
     },
     {
-      "dmsg":"P86#556", "comment":"(ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
+      "dmsg":"P86#556", "comment":"hex_lengh 3 (ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_minus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=-8032;P1=364;P2=-398;P3=700;P4=-760;P5=-15980;D=0123412341234123412341412351234123412341234123414123512341234123412341234141235123412341234123412341412351234123412341234123414123;CP=1;R=40;"
     },
     {
-      "dmsg":"P86#5574C", "comment":"(ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
+      "dmsg":"P86#5574C", "comment":"hex_lengh 5 (ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"power_on_off", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=-756;P1=718;P2=354;P3=-395;P4=-16056;D=01020202310231310202423102310231023102310202023102313102024231023102310231023102020231023131020242310231023102310231020202310231310202;CP=2;R=41;"
+    }
+  ]
+},
+{"name":"Novy 840039", "id":"86", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P86#556F8", "comment":"hex_lengh 5", "user":"Devirex",
+      "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
+      "readings": {"state":"ambient_light_on", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840039"},
+      "rmsg":"MU;P0=-9524;P1=364;P2=-414;P3=669;P4=-755;P5=-16076;CP=1;R=83;D=0123412341234123412341412341414141412351234123412341234123414123414141414123;e;w=0;"
+    },
+    {
+      "dmsg":"P86#555", "comment":"hex_lengh 3 (ID 81 additionally)", "user":"Devirex",
+      "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
+      "readings": {"state":"fan_plus", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840039"},
+      "rmsg":"MU;P0=388;P1=-756;P2=264;P3=-399;P4=683;P5=-16082;CP=0;R=67;D=0123410341034103410341050341034103410341034103410;e;w=0;"
+    },
+    {
+      "dmsg":"P86#5574C", "comment":"hex_lengh 5", "dispatch_repeats":"1", "user":"Devirex",
+      "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
+      "readings": {"state":"power_on_off", "deviceCode":"01010101"},
+      "attributes": {"model":"Novy_840039"},
+      "rmsg":"MU;P0=-749;P1=378;P2=-456;P3=684;P4=-16081;D=01230101012301232301014123012301230123012301010123012323010141230123012301230123010101230123230101412;CP=1;R=66;"
     }
   ]
 },
@@ -1108,9 +1429,33 @@
     }
   ]
 },
-{"name":"TFA 30.3221.02, Temp", "id":"89", "module":"SD_WS", "data": [
+{"name":"enjoy motors HS-8", "id":"88", "module":"SD_Keeloq", "data": [
     {
-      "dmsg":"W89#F012333E01", "comment":"Wetterstation TFA 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
+      "dmsg":"P88#31EB8B8A008B48058", "comment":"encoded, button up, Mod. = GFSK", "user":"plin",
+      "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"up", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"enjoy_motors_HS"},
+      "rmsg":"MS;P1=399;P2=-421;P3=-4034;P4=800;P5=-815;P6=-15516;D=1342421515424242151515154215421515154242421542151515424242154215424242424242424242154242421542151542154242154242424242424242154215161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
+    },
+    {
+      "dmsg":"P88#54F58AA3008B48038", "comment":"encoded, button down, Mod. = GFSK", "user":"plin",
+      "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"down", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"enjoy_motors_HS"},
+      "rmsg":"MS;P1=415;P2=-400;P3=-4034;P4=810;P5=-803;P6=-15468;D=1342154215421542421515151542154215154242421542154215421542424215154242424242424242154242421542151542154242154242424242424242421515161212121212121212121212;CP=1;SP=3;R=84;O;m2;"
+    },
+    {
+      "dmsg":"P88#CBDA84D2008B48018", "comment":"encoded, button stop, Mod. = GFSK", "user":"plin",
+      "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
+      "readings": {"state":"receive", "batteryState":"low", "button":"stop", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
+      "attributes": {"model":"enjoy_motors_HS"},
+      "rmsg":"MS;P1=417;P2=-400;P3=-4032;P4=-789;P5=811;P6=-15540;D=1314145252145214141414521414521452145252525214525214145214525214525252525252525252145252521452141452145252145252525252525252525214161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
+    }
+  ]
+},
+{"name":"TFA 30.3221.02", "id":"89", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W89#F012333E01", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_89_TH_2", "NAME":"SD_WS_89_TH_2"},
       "readings": {"state":"T: 6.3 H: 62", "batteryState":"ok", "channel":"2", "humidity":"62", "sendmode":"auto", "temperature":"6.3", "type":"TFA 30.3221.02"},
       "rmsg":"MU;P0=22960;P1=-893;P2=775;P3=409;P4=-296;P5=182;P6=-513;D=01212121343434345656565656565634565634565656343456563434565634343434345656565656565656342121212134343434565656565656563456563456565634345656343456563434343434565656565656565634212121213434343456565656565656345656345656563434565634345656343434343456565656;CP=5;R=22;O;"
@@ -1323,6 +1668,74 @@
       "readings": {"state":"Alarm", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
       "rmsg":"MC;LL=-430;LH=418;SL=-216;SH=226;D=23C823B1401F8;C=214;L=49;R=53;"
+    }
+  ]
+},
+{"name":"Momento", "id":"97", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P97#0000064248", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
+      "readings": {"state":"play/pause", "LastAction":"receive", "deviceCode":"0000064"},
+      "attributes": {"model":"Momento"},
+      "rmsg":"MU;P0=-294;P1=237;P2=5829;P3=-3887;P4=1001;P5=-523;P6=504;P7=-995;D=01010101010101010101010234545454545454545454545454545454545454545456767454567454545456745456745456745454523454545454545454545454545454545454545454545676745456745454545674545674545674545452345454545454545454545454545454545454545454567674545674545454567454;CP=4;R=45;O;"
+    },
+    {
+      "dmsg":"P97#0000064147", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
+      "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0000064"},
+      "attributes": {"model":"Momento"},
+      "rmsg":"MU;P0=-998;P1=-273;P2=256;P3=5830;P4=-3906;P5=991;P6=-527;P7=508;D=12121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121345656565656565656565656565656565656565656567070565670565656565670567056565670707034565656565656565656565656565656565656565656707056567;CP=2;R=40;O;"
+    },
+    {
+      "dmsg":"P97#000006444A", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
+      "readings": {"state":"up", "LastAction":"receive", "deviceCode":"0000064"},
+      "attributes": {"model":"Momento"},
+      "rmsg":"MU;P0=-1005;P1=-272;P2=258;P3=5856;P4=-3902;P5=1001;P6=-520;P7=508;D=0121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121213456565656565656565656565656565656565656565670705656705656567056565670565670567056345656565656565656565656565656565656565656567070565;CP=2;R=63;O;"
+    }
+  ]
+},
+{"name":"GEA-028DB", "id":"98", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P98#6A2C", "comment":"Radio door chime", "user":"nagelreo",
+      "internals": {"DEF":"98 6A2C", "NAME":"SD_BELL_6A2C"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"GEA-028DB"},
+      "rmsg":"MU;P0=1488;P1=-585;P2=520;P3=-1509;P4=1949;P5=-5468;CP=2;R=38;D=01232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501;O;"
+    }
+  ]
+},
+{"name":"NAVARIS 44344.04", "id":"99", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P99#211073", "comment":"NAVARIS touch light switch Model No.: 44344.04", "user":"DavidKing123456",
+      "internals": {"DEF":"Navaris 211073", "NAME":"Navaris_211073"},
+      "readings": {"state":"receive", "LastAction":"receive"},
+      "attributes": {"model":"Navaris"},
+      "rmsg":"MU;P0=-302;P1=180;P2=294;P3=-208;P4=419;P5=-423;D=01023101010101023232310102323451010231010101023101010231010101010232323101023234510102310101010231010102310101010102323231010232345101023101010102310101023101010101023232310102323451010231010101023101010231010101010232323101023234510102310101010231010102;CP=1;R=36;O;"
+    }
+  ]
+},
+{"name":"TR60C-1", "id":"104", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P104#0F80", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 0)", "user":"phoenix-anasazi",
+      "internals": {"DEF":"TR60C1 0", "NAME":"TR60C1_0"},
+      "readings": {"state":"light_off_fan_off", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"TR60C1"},
+      "rmsg":"MU;P0=18280;P1=-737;P2=419;P3=-331;P4=799;P5=-9574;P6=-7080;D=012121234343434341212121212121252121212123434343434121212121212125212121212343434343412121212121212521212121234343434341212121212121252121212123434343434121212121212126;CP=2;R=2;"
+    },
+    {
+      "dmsg":"P104#9780", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 9)", "user":"phoenix-anasazi",
+      "internals": {"DEF":"TR60C1 9", "NAME":"TR60C1_9"},
+      "readings": {"state":"light_off_fan_4", "LastAction":"receive", "deviceCode":"9"},
+      "attributes": {"model":"TR60C1"},
+      "rmsg":"MU;P0=14896;P1=-751;P2=394;P3=-370;P4=768;P5=-9572;P6=-21472;D=0121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212125234121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212126;CP=2;R=4;"
+    },
+    {
+      "dmsg":"P104#B38F", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode B)", "user":"phoenix-anasazi",
+      "internals": {"DEF":"TR60C1 B", "NAME":"TR60C1_B"},
+      "readings": {"state":"light_on_fan_2", "LastAction":"receive", "deviceCode":"B"},
+      "attributes": {"model":"TR60C1"},
+      "rmsg":"MU;P0=-96;P1=152;P2=-753;P3=389;P4=-374;P5=769;P6=-9566;P7=-19920;D=012345454523232345454545634523454523234545452323234545454563452345452323454545232323454545456345234545232345454523232345454545634523454523234545452323234545454563452345452323454545232323454545457;CP=3;R=1;"
     }
   ]
 },
