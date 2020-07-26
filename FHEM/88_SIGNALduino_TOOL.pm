@@ -55,7 +55,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET => 2,
   FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2020-07-18_pre-release',
+  SIGNALduino_TOOL_VERSION => '2020-07-26_pre-release',
   TIMEOUT_HttpUtils => 3,
   UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
   UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -3327,12 +3327,13 @@ sub SIGNALduino_TOOL_Version_SIGNALduino {
   my ($modus, $version) = (0 , 0);
 
   if (exists $defs{$SIGNALduino}->{versionmodul} && $defs{$SIGNALduino}->{versionmodul} =~ /^(v|V)?\d\./) {
+    Log3 $name, 5, "$name: Version_SIGNALduino, found Internal versionmodul with value ".$defs{$SIGNALduino}->{versionmodul};
     $version = $defs{$SIGNALduino}->{versionmodul};
-    $version = substr($version,1);
+    $version = substr($version,1) if ($version =~ /^(v|V)\d+/);
     $modus = $1 if ($version =~ /^(\d+.\d)/);
     $modus = $modus < 3.5 ? 1 : 2 ;
+    Log3 $name, 4, "$name: Version_SIGNALduino, worked with SIGNALduino Version ".$version." --> modus $modus";
   }
-  Log3 $name, 4, "$name: Version_SIGNALduino, found SIGNALduino Version ".$version." - modus $modus";
 
   return ($modus,$version);
 }
