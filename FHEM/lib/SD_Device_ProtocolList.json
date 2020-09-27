@@ -1739,6 +1739,51 @@
     }
   ]
 },
+{"name":"BF_301_FAD0", "id":"105", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P105#FAD08883A3", "comment":"Remote control BF-301", "user":"stsirakidis",
+      "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
+      "readings": {"state":"down", "LastAction":"receive", "deviceCode":"FAD0"},
+      "attributes": {"model":"BF_301"},
+      "rmsg":"MU;P0=-697;P1=5629;P2=291;P3=3952;P4=-2459;P5=1644;P6=-298;P7=689;D=34567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614;CP=2;R=41;O;"
+    },
+    {
+      "dmsg":"P105#FAD08A83A1", "comment":"Remote control BF-301", "dispatch_repeats":"1", "user":"stsirakidis",
+      "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
+      "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"FAD0"},
+      "attributes": {"model":"BF_301"},
+      "rmsg":"MU;P0=5630;P1=3968;P2=-2458;P3=1642;P4=-285;P5=690;P6=282;P7=-704;D=12345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402;CP=6;R=47;O;"
+    },
+    {
+      "dmsg":"P105#FAD08383A8", "comment":"Remote control BF-301", "dispatch_repeats":"2", "user":"stsirakidis",
+      "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
+      "readings": {"state":"up", "LastAction":"receive", "deviceCode":"FAD0"},
+      "attributes": {"model":"BF_301"},
+      "rmsg":"MU;P0=-500;P1=5553;P2=-2462;P3=1644;P4=-299;P5=679;P6=298;P7=-687;D=01234545454545467546754546754676767675467676767675454546767676767545454675467546767671234545454545467546754546754676767675467676767675454546767676767545454675467546767671234545454545467546754546754676767675467676767675454546767676767545454675467546767671;CP=6;R=48;O;"
+    }
+  ]
+},
+{"name":"SD_WS_106_T", "id":"106", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W106#2632DC", "comment":"BBQ temperature sensor GT-TMBBQ-01s", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
+      "readings": {"state":"T: 22.6", "temperature":"22.6", "type":"GT-TMBBQ-01"},
+      "rmsg":"MS;P0=525;P1=-2051;P3=-8905;P4=-4062;D=0301010401010404010101040401010401040401040404;CP=0;SP=3;R=35;e;b=2;m0;"
+    },
+    {
+      "dmsg":"W106#9A57A8", "comment":"BBQ temperature sensor GT-TMBBQ-01s", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
+      "readings": {"state":"T: 88.1", "temperature":"88.1", "type":"GT-TMBBQ-01"},
+      "rmsg":"MS;P1=-8514;P2=488;P3=-4075;P4=-2068;D=2123242423232423242423242324232323232423242324;CP=2;SP=1;R=31;e;b=70;s=4;m0;"
+    },
+    {
+      "dmsg":"W106#9A5D20", "comment":"BBQ temperature sensor GT-TMBBQ-01s", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
+      "readings": {"state":"T: 97.8", "temperature":"97.8", "type":"GT-TMBBQ-01"},
+      "rmsg":"MS;P1=-9144;P2=469;P3=-4101;P4=-2099;D=2123242423232423242423242323232423242423242424;CP=2;SP=1;R=58;O;b=70;s=4;m0;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
