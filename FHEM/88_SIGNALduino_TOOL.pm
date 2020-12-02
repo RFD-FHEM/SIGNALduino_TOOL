@@ -4279,12 +4279,12 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <br><br>
 
   <b>Info menu (links to click)</b>
-  <ul><li><code>Display doc SD_ProtocolData.pm</code> - displays all read information from the SD_ProtocolData.pm file with the option to dispatch it</a></ul>
-  <ul><li><code>Display Information all Protocols</code> - displays an overview of all protocols</a></ul>
-  <ul><li><code>Display readed SD_ProtocolList.json</code> -  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></ul>
+  <ul><li><code>Display doc SD_ProtocolData.pm</code> - displays all read information from the SD_ProtocolData.pm file with the option to dispatch it</a></li></ul>
+  <ul><li><code>Display Information all Protocols</code> - displays an overview of all protocols</a></li></ul>
+  <ul><li><code>Display readed SD_ProtocolList.json</code> -  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></li></ul>
   <ul><li><code>Check it</code> - after a successful dispatch, this item appears to compare the sensor data with the JSON information<br>
   <small><u>note:</u></small> Only if a protocol number appears in Reading <code>decoded_Protocol_ID</code> then the dispatch is to be clearly assigned.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If there are several values ​​in the reading, the point <code>Check it</code> does not appear! In that case please deactivate the redundant IDs and use again.</a></ul>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If there are several values ​​in the reading, the point <code>Check it</code> does not appear! In that case please deactivate the redundant IDs and use again.</a></li></ul>
   <br><br>
   
   <b>Attributes</b>
@@ -4339,6 +4339,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       (is automatically set by the module)</li>
   </ul>
   <br>
+</ul>
 =end html
 
 
@@ -4425,12 +4426,12 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <br><br>
 
   <b>Info menu (Links zum anklicken)</b>
-  <ul><li><code>Display doc SD_ProtocolData.pm</code> - zeigt alle ausgelesenen Informationen aus der SD_ProtocolData.pm Datei an mit der Option, diese zu Dispatchen</a></ul>
-  <ul><li><code>Display Information all Protocols</code> - zeigt eine Gesamtübersicht der Protokolle an</a></ul>
-  <ul><li><code>Display readed SD_ProtocolList.json</code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></ul>
+  <ul><li><code>Display doc SD_ProtocolData.pm</code> - zeigt alle ausgelesenen Informationen aus der SD_ProtocolData.pm Datei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <ul><li><code>Display Information all Protocols</code> - zeigt eine Gesamtübersicht der Protokolle an</a></li></ul>
+  <ul><li><code>Display readed SD_ProtocolList.json</code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></li></ul>
   <ul><li><code>Check it</code> - nach einem erfolgreichen und eindeutigen Dispatch erscheint dieser Punkt um die Sensordaten mit den JSON Informationen zu vergleichen<br>
   <small><u>Hinweis:</u></small> Nur wenn im Reading <code>decoded_Protocol_ID</code> eine Protokollnummer erscheint, so ist der Dispatch eindeutig zuzuordnen.<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sollten mehrere Werte in dem Reading stehen, so erscheint der Punkt <code>Check it</code> NICHT! In dem Fall deaktivieren Sie bitte die &uuml;berflüssigen ID´s und dispatchen Sie erneut.</a></ul>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sollten mehrere Werte in dem Reading stehen, so erscheint der Punkt <code>Check it</code> NICHT! In dem Fall deaktivieren Sie bitte die &uuml;berflüssigen ID´s und dispatchen Sie erneut.</a></li></ul>
   <br><br>
   
   <b>Attributes</b>
