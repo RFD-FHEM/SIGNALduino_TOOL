@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 246126 2020-06-16 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2020-12-07 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,14 +8,13 @@
 # Github - RFD-FHEM
 # https://github.com/RFD-FHEM/SIGNALduino_TOOL
 #
-# 2018 - 2020 - HomeAuto_User, elektron-bbs, sidey79
+# 2018 - 2021 - HomeAuto_User, elektron-bbs, sidey79
 # 2020 - SIGNALduino_TOOL_cc1101read Zuarbeit @plin
 ######################################################################
 # Note´s
 # - button CheckIt function, now search only at same DMSG (check of device or attrib?)
 # - check send RAWMSG from sender
 # - implement module with package
-# - version not full compatible with SIGNALduino dev_r35_xFSK
 ######################################################################
 
 package main;
@@ -55,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET => 2,
   FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2020-07-26_pre-release',
+  SIGNALduino_TOOL_VERSION => '2020-12-07_pre-release',
   TIMEOUT_HttpUtils => 3,
   UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
   UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
@@ -165,8 +164,7 @@ sub SIGNALduino_TOOL_Define {
     }
   }
 
-
-  ### for compatibility ### 
+  ### for compatibility , getProperty ###
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
   return "ERROR: $name does not support the version of the SIGNALduino." if ($modus == 0);
 
@@ -249,6 +247,10 @@ sub SIGNALduino_TOOL_Set {
   $setList .= ' UnitTest_define:'.$hash->{helper}->{UnitTests_from_SIGNALduino} if (exists $hash->{helper}->{UnitTests_from_SIGNALduino} && $Dummyname ne 'none');
 
   SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'last') if (($RAWMSG_last eq 'none' && $DMSG_last eq 'none') && (AttrVal($name, 'webCmd', undef) && (AttrVal($name, 'webCmd', undef) =~ /$NameDispatchSet?last/)));
+
+  ### for compatibility , getProperty ###
+  my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
+  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
   #### list userattr reload new ####
   if ($cmd eq '?') {
@@ -350,7 +352,14 @@ sub SIGNALduino_TOOL_Set {
         my @setlist_new;
         for (my $i=0;$i<@{$ProtocolListRead};$i++) {
           if (defined @{$ProtocolListRead}[$i]->{id}) {
-            my $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+            my $search;
+            ### for compatibility , getProperty ###
+            if ($modus == 1) {
+              $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+            } else {
+              $search = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+            }
+
             if (defined $search && $search eq $DispatchModule) {  # for id´s with no clientmodule
               #Log3 $name, 5, "$name: Set $cmd - check setList from SD_Device_ProtocolList - id:".@{$ProtocolListRead}[$i]->{id} if ($cnt_loop == 1);
               my $newDeviceName = @{$ProtocolListRead}[$i]->{name};
@@ -404,6 +413,7 @@ sub SIGNALduino_TOOL_Set {
 
 
   if ($cmd ne '?') {
+    Log3 $name, 5, "$name: Set $cmd with modus=$modus, SIGNALduinoVersion=$versionSIGNALduino";
     Log3 $name, 5, "$name: Set $cmd - Filename_input=$file RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd";
 
     ### delete readings ###
@@ -635,7 +645,14 @@ sub SIGNALduino_TOOL_Set {
 
       $decoded_Protocol_ID = InternalVal($Dummyname, 'LASTDMSGID', '');
       my $ID_preamble = '';
-      $ID_preamble = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'preamble' ) if ($decoded_Protocol_ID ne 'nothing');
+
+      ### for compatibility , getProperty ###
+      if ($modus == 1) {
+        $ID_preamble = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'preamble' ) if ($decoded_Protocol_ID ne 'nothing');
+      } else {
+        $ID_preamble = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'preamble' ) if ($decoded_Protocol_ID ne 'nothing');
+      }
+
       $DMSG_last = InternalVal($Dummyname, 'LASTDMSG', '-') if (!$DMSG_last);
       my $rawData = $DMSG_last;
       $rawData =~ s/$ID_preamble//g if ($ID_preamble);           # cut preamble
@@ -657,7 +674,14 @@ sub SIGNALduino_TOOL_Set {
         Log3 $name, 4, "$name: Set $cmd - check (7.1)";
         $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_Protocol_ID'} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname);
         $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{LASTDMSGID} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} eq $Dummyname);
-        $DummyMSGCNTvalue = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'clientmodule' );
+      
+        ### for compatibility , getProperty ###
+        if ($modus == 1) {
+          $DummyMSGCNTvalue = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'clientmodule' );
+        } else {
+          $DummyMSGCNTvalue = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'clientmodule' );
+        }
+
         $cmd_sendMSG = "set $Dummyname sendMsg $DummyDMSG#R5";
         $cmd_raw = "D=$bitData";
       } elsif ($DummyMSGCNTvalue > 1) {
@@ -762,7 +786,13 @@ sub SIGNALduino_TOOL_Set {
           $cnt_internals = 0;
           $cnt_readings = 0;
           my $clientmodule = "";
-          $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+
+          ### for compatibility , getProperty ###
+          if ($modus == 1) {
+            $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+          } else {
+            $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+          }
 
           print $SaveDoc "\n" if ($i > 0);
           print $SaveDoc '{"name":"'.@$ProtocolListRead[$i]->{name}.'", "id":"'.@$ProtocolListRead[$i]->{id}.'", "module":"'.$clientmodule.'", "data": ['."\n";
@@ -861,13 +891,13 @@ sub SIGNALduino_TOOL_Set {
 
             if ($cnt_data_element_max > ($i2+1)) {
               print $SaveDoc '    },'."\n" ;
-              print $SaveDoc '    {';                                           # end data values
+              print $SaveDoc '    {';                                         # end data values
             }
             ## rmsg END ##
             print $SaveDoc "\n";
 
             if ($cnt_data_element_max == ($i2+1)) {
-              print $SaveDoc '  ]'."\n" ;                                       # end data values
+              print $SaveDoc '  ]'."\n" ;                                     # end data values
               if ($cnt_data_id_max != ($i+1)) {
                 print $SaveDoc '},' ;                                         # end name value
               } elsif ($cnt_data_id_max == ($i+1)) {
@@ -984,9 +1014,9 @@ sub SIGNALduino_TOOL_Set {
       my $Http_data = '';
 
       ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => FHEM_SVN_gplot_URL,
-                                                              timeout => TIMEOUT_HttpUtils,
-                                                              method  => 'GET',                # Lesen von Inhalten
-                                                            });
+                                                        timeout => TIMEOUT_HttpUtils,
+                                                        method  => 'GET',                # Lesen von Inhalten
+                                                       });
       #### HTTP Requests #### END ####
 
       if ($Http_err ne '') {
@@ -1095,9 +1125,9 @@ sub SIGNALduino_TOOL_Set {
       my $Http_data = '';
 
       ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => UNITTESTS_RAWFILE_URL.$a[1],
-                                                              timeout => TIMEOUT_HttpUtils,
-                                                              method  => 'GET',                # Lesen von Inhalten
-                                                            });
+                                                        timeout => TIMEOUT_HttpUtils,
+                                                        method  => 'GET',                # Lesen von Inhalten
+                                                      });
       #### HTTP Requests #### END ####
 
       if ($Http_err ne '') {
@@ -1151,15 +1181,29 @@ sub SIGNALduino_TOOL_Set {
 
             if ($founded == 0) {
               open my $SaveDoc, '>>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'ERRORs.txt) can not open!';
-                print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
-                print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' ));
+                ### for compatibility , getProperty ###
+                if ($modus == 1) {
+                  print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
+                  print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' ));
+                } else {
+                  print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
+                  print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
+                }
+
                 print $SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
               close $SaveDoc;
             }
           } else {
             open my $SaveDoc, '>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'ERRORs.txt) can not open!';
-              print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
-              print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' ));
+              ### for compatibility , getProperty ###
+              if ($modus == 1) {
+                print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
+                print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' ));
+              } else {
+                print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
+                print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
+              }
+
               print $SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
             close $SaveDoc;
           }
@@ -1235,10 +1279,15 @@ sub SIGNALduino_TOOL_Get {
   my $value;
   my @Zeilen = ();
 
+  ### for compatibility , getProperty ###
+  my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
+  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
+
   if ($cmd ne '?') {
     SIGNALduino_TOOL_deleteReadings($hash,'cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,message_to_module,message_dispatched,message_dispatch_repeats,line_read');
     SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchOption,dispatchSTATE');
     SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'last');
+    Log3 $name, 5, "$name: Get $cmd with modus=$modus, SIGNALduinoVersion=$versionSIGNALduino";
   }
 
   ## create one list in csv format to import in other program ##
@@ -1402,21 +1451,21 @@ sub SIGNALduino_TOOL_Get {
     open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search/s){
-          chomp ($_);                               # Zeilenende entfernen
+          chomp ($_);                             # Zeilenende entfernen
           if ($only_Data == 1) {
             if ($Data_parts == 1) {
               $pos = index($_,"$search");
               $save = substr($_,$pos+length($search)+1,(length($_)-$pos)) if not ($search =~ /MC;|MS;|MU;/);
               $save = substr($_,$pos,(length($_)-$pos)) if ($search =~ /MC;|MS;|MU;/);
               Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
-              push(@Zeilen,$save);              # Zeile in array
+              push(@Zeilen,$save);                # Zeile in array
             } else {
               foreach my $i (0 ... $Data_parts-1) {
                 $pos = index($_,$arg[$i]);
                 $save = substr($_,$pos+length($arg[$i])+1,(length($_)-$pos));
                 Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
                 if ($pos >= 0) {
-                  push(@Zeilen,$save);      # Zeile in array
+                  push(@Zeilen,$save);            # Zeile in array
                 }
               }
             }
@@ -1796,7 +1845,7 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'ProtocolList_from_file_SD_ProtocolData.pm') {
     $hash->{helper}{FW_SD_ProtocolData_get} = 1;    # need in java, check reload need
     $attr{$name}{DispatchModule} = "-";             # to set standard
-    my $return = SIGNALduino_TOOL_SD_ProtocolData_read($name,$cmd,$path,$Filename_input);
+    my $return = SIGNALduino_TOOL_SD_ProtocolData_read($hash, $name,$cmd,$path,$Filename_input);
     readingsSingleUpdate($hash, 'state' , $return, 0);
     if ($ProtocolListRead) {
       $hash->{dispatchOption} = 'from SD_ProtocolData.pm and SD_Device_ProtocolList.json';
@@ -1831,7 +1880,13 @@ sub SIGNALduino_TOOL_Get {
     my @List_from_pm;
     for (my $i=0;$i<@{$ProtocolListRead};$i++) {
       if (defined @{$ProtocolListRead}[$i]->{id}) {
-        my $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+        ### for compatibility , getProperty ###
+        if ($modus == 1) {
+          $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+        } else {
+          $search = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+        }
+
         if (defined $search) {  # for id´s with no clientmodule
           push (@List_from_pm, $search) if (not grep { /$search$/ } @List_from_pm);
         }
@@ -1861,20 +1916,34 @@ sub SIGNALduino_TOOL_Get {
     for (my $i=0;$i<@{$ProtocolListRead};$i++) {
       if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} ne '') {
         my $device = @{$ProtocolListRead}[$i]->{name};
-        my $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-        # read from SD_ProtocolData.pm
-        $comment = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
-        # read from %category on filestart
-        $comment = $category{$clientmodule} if (!(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ));
+        my $clientmodule;
+
+        ### for compatibility , getProperty ###
+        if ($modus == 1) {
+          $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+          $comment = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
+          $comment = $category{$clientmodule} if ( !(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) );
+
+          if (!$clientmodule) {
+            my $preamble = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
+            $clientmodule = 'notify' if ($preamble =~ "^U.*#");
+            $clientmodule = 'development' if ($preamble =~ "^u.*#");
+          }
+        } else {
+          $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
+          $comment = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
+          $comment = $category{$clientmodule} if ( !($hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) );
+          
+          if (!$clientmodule) {
+            my $preamble = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
+            $clientmodule = 'notify' if ($preamble =~ "^U.*#");
+            $clientmodule = 'development' if ($preamble =~ "^u.*#");
+          }
+        }
+
         # no info found
         $comment = 'no additional information' if !($comment);
         $comment =~ s/\|/\//g;
-
-        if (!$clientmodule) {
-          my $preamble = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
-          $clientmodule = 'notify' if ($preamble =~ "^U.*#");
-          $clientmodule = 'development' if ($preamble =~ "^u.*#");
-        }
 
         if (not grep { /$device\s\|/ } @testet_devices) {
           push (@testet_devices, @{$ProtocolListRead}[$i]->{name} . ' | ' . $clientmodule . " | $comment");
@@ -2229,7 +2298,7 @@ sub SIGNALduino_TOOL_RAWMSG_Check {
 
 ################################
 sub SIGNALduino_TOOL_SD_ProtocolData_read {
-  my ( $name, $cmd, $path, $Filename_input) = @_;
+  my ( $hash, $name, $cmd, $path, $Filename_input) = @_;
   Log3 $name, 4, "$name: Get $cmd - check (10)";
 
   my $id_now;                       # readed id
@@ -2263,48 +2332,66 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
 
   my @linevalue;
 
+  ### for compatibility , getProperty ###
+  my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
+  my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
+
   open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
   while (<$InputFile>) {
-    $_ =~ s/\s+\t+//g;         # cut space | tab
-    $_ =~ s/\n//g;             # cut end
-    chomp ($_);                # Zeilenende entfernen
-    #Log3 $name, 4, "$name: $_";
+    $_ =~ s/^\s+//g;             # cut space & tab | \s+ matches any whitespace character (equal to [\r\n\t\f\v ])
+    $_ =~ s/\n//g;               # cut end
+    chomp ($_);                  # Zeilenende entfernen
+    #Log3 $name, 4, "$name: $_"; ### for test
 
     ## protocol - id ##
     if ($_ =~ /^("\d+(\.\d)?")/s) {
-      #Log3 $name, 4, "$name: id $_";
+      #Log3 $name, 4, "$name: $_";
+
       @linevalue = split(/=>/, $_);
       $linevalue[0] =~ s/[^0-9\.]//g;
       $line_use = 'yes';
       $id_now = $linevalue[0];
 
-      $ProtocolList[$cnt_ids_total]{id} = $id_now;                                                   ## id -> array
-      $ProtocolList[$cnt_ids_total]{name} = lib::SD_Protocols::getProperty($id_now,'name');          ## name -> array
+      $ProtocolList[$cnt_ids_total]{id} = $id_now;                                                              ## id -> array
+      
+      Log3 $name, 5, "$name: # # # # # # # # # # # # # # # # # # # # # # # # # #";
+      Log3 $name, 5, "$name: id $id_now";
 
-      ## statistic - comment from protocol id ##
-      $id_comment = lib::SD_Protocols::getProperty($id_now,'comment');
+      ### for compatibility , getProperty ###
+      if ($modus == 1) {
+        $ProtocolList[$cnt_ids_total]{name} = lib::SD_Protocols::getProperty($id_now,'name');                   ## name -> array
+        $id_comment = lib::SD_Protocols::getProperty($id_now,'comment');                                        ## statistic - comment from protocol id
+        $id_clientmodule = lib::SD_Protocols::getProperty($id_now,'clientmodule');                              ## statistic - clientmodule from protocol id
+        $id_frequency = lib::SD_Protocols::getProperty($id_now,'frequency');                                    ## statistic - frequency from protocol id
+        $id_knownFreqs = lib::SD_Protocols::getProperty($id_now,'knownFreqs');                                  ## statistic - knownFreqs from protocol id
+        $id_develop = lib::SD_Protocols::getProperty($id_now,'developId');                                      ## statistic - developId
+      } else {
+        $ProtocolList[$cnt_ids_total]{name} = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'name');  ## name -> array
+        $id_comment = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'comment');                       ## statistic - comment from protocol id
+        $id_clientmodule = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'clientmodule');             ## statistic - clientmodule from protocol id
+        $id_frequency = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'frequency');                   ## statistic - frequency from protocol id
+        $id_knownFreqs = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'knownFreqs');                 ## statistic - knownFreqs from protocol id
+        $id_develop = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'developId');                     ## statistic - developId
+      }
+
       if (not defined $id_comment) {
         $cnt_no_comment++;
       } else {
-        $ProtocolList[$cnt_ids_total]{comment} = $id_comment;                                      ## comment -> array
+        $ProtocolList[$cnt_ids_total]{comment} = $id_comment;                                                   ## comment -> array
+        Log3 $name, 5, "$name: comment $id_comment";
       }
 
-      ## statistic - clientmodule from protocol id ##
-      $id_clientmodule = lib::SD_Protocols::getProperty($id_now,'clientmodule');
       if (not defined $id_clientmodule) {
         $cnt_no_clientmodule++;
       } else {
-        $ProtocolList[$cnt_ids_total]{clientmodule} = $id_clientmodule;                            ## clientmodule -> array
+        $ProtocolList[$cnt_ids_total]{clientmodule} = $id_clientmodule;                                         ## clientmodule -> array
+        Log3 $name, 5, "$name: id_clientmodule $id_clientmodule";
       }
 
-      ## statistic - frequency from protocol id ##
-      $id_frequency = lib::SD_Protocols::getProperty($id_now,'frequency');
       if (defined $id_frequency) {
         $cnt_frequency++;
       }
 
-      ## statistic - knownFreqs from protocol id ##
-      $id_knownFreqs = lib::SD_Protocols::getProperty($id_now,'knownFreqs');
       if (defined $id_knownFreqs && $id_knownFreqs ne "") {
         $cnt_knownFreqs++;
         if ($id_knownFreqs =~ /433/) {
@@ -2314,11 +2401,10 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
         }
       }
 
-      ## statistic - developId ##
-      $id_develop = lib::SD_Protocols::getProperty($id_now,'developId');
       if (defined $id_develop) {
         $cnt_develop++ if ($id_develop eq 'y');
         $cnt_develop_modul++ if ($id_develop eq 'm');
+        Log3 $name, 5, "$name: id_develop $id_develop";
       }
 
       $RAWMSG_user = '';
@@ -2326,14 +2412,16 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
     } elsif ($_ =~ /#.*@\s?([a-zA-Z0-9-.]+)/s && $line_use eq 'yes') {
       #Log3 $name, 4, "$name: user $_";
       $RAWMSG_user = $1;
+      Log3 $name, 5, "$name: RAWMSG_user $RAWMSG_user";
     ## protocol - message ##
-    } elsif ($line_use eq 'yes' && $_ =~ /(.*)(M[USC];.*D=.*O?;)(.*)/s ) {
+    } elsif ($line_use eq 'yes' && $_ =~ /(.*)(M[USCN];.*D=.*O?;)(.*)/s ) {
       #Log3 $name, 4, "$name: message $_";
       $comment = '';
 
       $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{user} = $RAWMSG_user if ($RAWMSG_user ne ''); ## user -> array
 
       if (defined $1) {
+        #Log3 $name, 4, "$name: \$1";
         $comment_infront = $1 ;
         $comment_infront =~ s/\s|,/_/g;
         $comment_infront =~ s/_+/_/g;
@@ -2358,9 +2446,10 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       $comment = $comment_behind if ($comment_behind ne '');
 
       if (defined $2) {
+        #Log3 $name, 4, "$name: \$2 $_";
         my $RAWMSG = $2;
         $RAWMSG =~ s/\s//g;
-        $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{rmsg} = $RAWMSG;                          ## RAWMSG -> array
+        $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{rmsg} = $RAWMSG;                        ## RAWMSG -> array
         if ($comment ne '') {
           $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{state} = $comment;                    ## state -> array
         } else {
@@ -2379,11 +2468,15 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   }
   close $InputFile;
 
+  #Log3 $name, 3, Dumper\@ProtocolList; ### for test
+  Log3 $name, 4, "$name: Get $cmd - file $attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm completely read";
+
   #### JSON write to file | not file for changed ####
   ## !!! format JSON need revised to SD_Device_ProtocolList.json format !!! ##
   ### ONLY prepared ###
   if (-e $path.$jsonDoc) {
     $return = 'you already have a JSON file! only information are readed!';
+    Log3 $name, 4, "$name: Get $cmd - JSON file $path"."$jsonDoc already exists";
   } else {
     my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);    # lesbares JSON | Sort numerically
 
@@ -2391,13 +2484,18 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       print $SaveDoc $json;
     close $SaveDoc;
     $return = 'JSON file created from ProtocolData!';
+    Log3 $name, 4, "$name: Get $cmd - JSON file $path"."$jsonDoc created";
   }
+
   ## created new DispatchModule List with clientmodule from SD_ProtocolData ##
   my @List_from_pm;
   for (my $i=0;$i<@ProtocolList;$i++) {
     if (defined $ProtocolList[$i]{clientmodule}) {
       my $search = $ProtocolList[$i]{clientmodule};
-      push (@List_from_pm, $ProtocolList[$i]{clientmodule}) if (not grep { /$search$/ } @List_from_pm);
+      if (not grep { /$search$/ } @List_from_pm) {
+        push (@List_from_pm, $ProtocolList[$i]{clientmodule});      
+        Log3 $name, 5, "$name: Get $cmd - added $search to DispatchModule List";
+      }
     }
   }
 
@@ -3110,18 +3208,18 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
   $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>DEF</td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
   $ret .="<tbody>";
 
-  ### for compatibility ### 
+  ### for compatibility , getProperty ###
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
     my ($DEF,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
 
-    ### compatibility mode ###
+    ### for compatibility , getProperty ###
     if ($modus == 1) {
       $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
     } else {
-      $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if(defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+      $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
     }
 
     if (@$ProtocolListRead[$i]->{id} ne '') {
@@ -3332,7 +3430,6 @@ sub SIGNALduino_TOOL_Version_SIGNALduino {
     $version = substr($version,1) if ($version =~ /^(v|V)\d+/);
     $modus = $1 if ($version =~ /^(\d+.\d)/);
     $modus = $modus < 3.5 ? 1 : 2 ;
-    Log3 $name, 4, "$name: Version_SIGNALduino, worked with SIGNALduino Version ".$version." --> modus $modus";
   }
 
   return ($modus,$version);
@@ -3421,7 +3518,7 @@ sub SIGNALduino_TOOL_deleteInternals {
   my $name = $hash->{NAME};
   my @internal = split(',', $internalname);
 
-  Log3 $name, 4, "$name: deleteInternals is running";
+  Log3 $name, 5, "$name: deleteInternals is running";
 
   for (@internal) {
     delete $hash->{$_} if ($hash->{$_});
