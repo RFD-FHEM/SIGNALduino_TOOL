@@ -454,12 +454,20 @@
     }
   ]
 },
-{"name":"visivon remote", "id":"24", "module":"", "data": [
+{"name":"Visivo_7DF825", "id":"24", "module":"SD_UT", "data": [
     {
-      "dmsg":"u24#9F7DF825029C10", "comment":"von 2015", "user":"sidey",
-      "internals": {"DEF":"SIGNALduino_unknown_24", "NAME":"SIGNALduino_unknown_24"},
-      "readings": {"state":"9F7DF825029C10"},
-      "rmsg":"MU;P0=132;P1=500;P2=-233;P3=-598;P4=-980;P5=4526;D=012120303030303120303030453120303121212121203121212121203121212121212030303030312030312031203030303030312031203031212120303030303120303030453120303121212121203121212121203121212121212030303030312030312031203030303030312031203031212120303030;CP=0;O;"
+      "dmsg":"P24#9F7DF825029C10", "comment":"Remote control for motorized screen", "user":"MikeRoxx",
+      "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
+      "readings": {"state":"up", "LastAction":"receive", "deviceCode":"7DF825"},
+      "attributes": {"model":"Visivo"},
+      "rmsg":"MU;P0=505;P1=140;P2=-771;P3=-225;P5=4558;D=012031212030303030312030303030312030303030303121212121203121203120312121212121203120312120303031212121212031212121252031212030303030312030303030312030303030303121212121203121203120312121212121203120312120303031212121212031212121252031212030;CP=1;O;"
+    },
+    {
+      "dmsg":"P24#9F7DF82508A210", "comment":"Remote control for motorized screen", "user":"MikeRoxx",
+      "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
+      "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"7DF825"},
+      "attributes": {"model":"Visivo"},
+      "rmsg":"MU;P0=-764;P1=517;P2=-216;P3=148;P5=4550;D=012303012121212123012121212123012121212121230303030301230301230123030303012303030123012303030123030303012303030305012303012121212123012121212123012121212121230303030301230301230123030303012303030123012303030123030303012303030305012303012120;CP=3;O;"
     }
   ]
 },
@@ -864,7 +872,7 @@
     }
   ]
 },
-{"name":"m-e doorbell", "id":"57", "module":"", "data": [
+{"name":"m-e doorbell", "id":"57", "module":"SD_BELL", "data": [
     {
       "dmsg":"P57#2AA4A7", "comment":"radio gong transmitter for FG- and Basic-Serie", "user":"rippi46",
       "internals": {"DEF":"57 2AA4A7", "NAME":"SD_BELL_2AA4A7"},
