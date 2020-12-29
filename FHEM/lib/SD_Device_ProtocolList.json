@@ -707,14 +707,14 @@
 },
 {"name":"Tedsen_SKXxxx", "id":"46", "module":"SD_UT", "data": [
     {
-      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "dispatch_repeats":"1", "model":"Tedsen_SKX2xx", "user":"drhirn",
+      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "dispatch_repeats":"1", "user":"drhirn",
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
       "attributes": {"model":"Tedsen_SKX2xx"},
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
-      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"5", "model":"TEDSEN_SKX6xx", "user":"self_build",
+      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"5", "user":"self_build",
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
       "attributes": {"model":"Tedsen_SKX6xx"},
