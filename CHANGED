@@ -1,9 +1,30 @@
+2020-12-29 - Update SD_Device_ProtocolList.json
+
+  * id 79 revised wrong dispatch_repeats / added attribute model
+  * id 50 revised forumname
 2020-12-20 - Update SD_Device_ProtocolList.json
+2020-12-07 - Update 88_SIGNALduino_TOOL.pm
+
+  * fix some compatibility
 2020-12-06 - Update SD_Device_ProtocolList.json
+2020-12-02 - Update 88_SIGNALduino_TOOL.pm
+
+  * fix commandref syntax
 2020-09-27 - Update SD_Device_ProtocolList.json
 2020-09-13 - Update SD_Device_ProtocolList.json
 
 protocol 27, change reading "type" to "EFTH-800, EFS-3110A"
+2020-07-26 - Update 88_SIGNALduino_TOOL.pm
+
+  * smale fix
+2020-07-18 - Update SD_Device_ProtocolList.json
+2020-07-17 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2020-07-17 - Update 88_SIGNALduino_TOOL.pm
+
+  * revised code
+2020-07-17 - Update 88_SIGNALduino_TOOL.pm
+
+  * added compatibility v3.4 <-> 3.5
 2020-07-17 - Update SD_Device_ProtocolList.json
 2020-07-17 - Merge branch 'pre-release'
 2020-07-05 - Update 88_SIGNALduino_TOOL.pm

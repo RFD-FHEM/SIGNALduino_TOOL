@@ -784,7 +784,7 @@
 },
 {"name":"Opus_XT300", "id":"50", "module":"SD_WS", "data": [
     {
-      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey",
+      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey79",
       "internals": {"DEF":"SD_WS_50_SM_1", "NAME":"SD_WS_50_SM_1"},
       "readings": {"state":"T: 25 H: 5", "channel":"1", "humidity":"5", "temperature":"25", "type":"XT300"},
       "rmsg":"MU;P0=248;P1=-21400;P2=545;P3=-925;P4=1368;P5=-12308;D=01232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343;CP=2;O;"
@@ -1147,15 +1147,17 @@
 },
 {"name":"HX 70372", "id":"79", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"8", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "user":"Holger-Arnold",
+      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"3", "user":"Holger-Arnold",
       "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
+      "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
       "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
     },
     {
-      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "dispatch_repeats":"7", "model":"Heidemann_|_Heidemann_HX_|_VTX-BELL", "user":"Holger-Arnold",
+      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "dispatch_repeats":"3", "user":"Holger-Arnold",
       "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
+      "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
       "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
     }
   ]
