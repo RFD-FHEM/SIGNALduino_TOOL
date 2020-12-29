@@ -784,7 +784,7 @@
 },
 {"name":"Opus_XT300", "id":"50", "module":"SD_WS", "data": [
     {
-      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey",
+      "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey79",
       "internals": {"DEF":"SD_WS_50_SM_1", "NAME":"SD_WS_50_SM_1"},
       "readings": {"state":"T: 25 H: 5", "channel":"1", "humidity":"5", "temperature":"25", "type":"XT300"},
       "rmsg":"MU;P0=248;P1=-21400;P2=545;P3=-925;P4=1368;P5=-12308;D=01232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343;CP=2;O;"
