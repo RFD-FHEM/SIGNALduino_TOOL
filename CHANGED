@@ -1,5 +1,9 @@
 2020-12-29 - Update SD_Device_ProtocolList.json
 
+  * id 79 revised wrong dispatch_repeats
+  * id added attribute model
+2020-12-29 - Update SD_Device_ProtocolList.json
+
   * revised forumname
 2020-12-20 - Update SD_Device_ProtocolList.json
 2020-12-07 - Update 88_SIGNALduino_TOOL.pm
