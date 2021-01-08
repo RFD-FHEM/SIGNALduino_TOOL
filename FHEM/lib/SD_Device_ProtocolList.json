@@ -292,7 +292,7 @@
       "dmsg":"501A2D203C801720833E9E", "comment":"OSV2", "user":"Wetterhexe",
       "internals": {"DEF":"THGR228N_3c_2", "NAME":"THGR228N_3c_2"},
       "readings": {"state":"T: 17.8 H: 32 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"32", "temperature":"17.8"},
-      "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;s1;b1;"
+      "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;"
     }
   ]
 },
@@ -301,7 +301,7 @@
       "dmsg":"50FA2844DC202070835092", "comment":"OSV3 (ID 52 additionally)", "user":"Wetterhexe",
       "internals": {"DEF":"THGR810_dc_4", "NAME":"THGR810_dc_4"},
       "readings": {"state":"T: 20.2 H: 37 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"37", "temperature":"20.2"},
-      "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;s48;b1;"
+      "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;"
     }
   ]
 },
@@ -424,7 +424,7 @@
       "dmsg":"500A4D100E001000002100", "comment":"OSV1", "user":"Ralf9",
       "internals": {"DEF":"THR128_0e_1", "NAME":"THR128_0e_1"},
       "readings": {"state":"T: 10 BAT: ok", "battery":"ok", "batteryState":"ok", "temperature":"10"},
-      "rmsg":"MC;LL=-2486;LH=3348;SL=-1024;SH=1889;D=8FFF7F0F;C=1457;L=32;R=65;s26;b26;"
+      "rmsg":"MC;LL=-2486;LH=3348;SL=-1024;SH=1889;D=8FFF7F0F;C=1457;L=32;R=65;"
     }
   ]
 },
@@ -707,14 +707,14 @@
 },
 {"name":"Tedsen_SKXxxx", "id":"46", "module":"SD_UT", "data": [
     {
-      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "dispatch_repeats":"1", "model":"Tedsen_SKX2xx", "user":"drhirn",
+      "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "dispatch_repeats":"1", "user":"drhirn",
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
       "attributes": {"model":"Tedsen_SKX2xx"},
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
-      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"5", "model":"TEDSEN_SKX6xx", "user":"self_build",
+      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"5", "user":"self_build",
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
       "attributes": {"model":"Tedsen_SKX6xx"},
@@ -727,7 +727,7 @@
       "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
       "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
       "readings": {"state":"Food: 25 BBQ: 21", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType":"normal", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
-      "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;s17;b17;"
+      "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;"
     }
   ]
 },
