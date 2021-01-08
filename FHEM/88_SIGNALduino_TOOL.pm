@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2020-12-07 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-01-08 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -603,9 +603,9 @@ sub SIGNALduino_TOOL_Set {
         Log3 $name, 4, "$name: Set $cmd - set attribute eventlogging to 1";
       }
 
-      Log3 $name, 4, "$name: get $Dummyname raw $msg" if (defined $a[1]);
+      Log3 $name, 4, "$name: get $Dummyname rawmsg $msg" if (defined $a[1]);
 
-      CommandGet($hash, "$Dummyname raw $msg $FW_CSRF");
+      CommandGet($hash, "$Dummyname rawmsg $msg $FW_CSRF");
       if ($hash->{dispatchDevice}) {
         $DMSG_last = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_DMSG'};
       } else {
@@ -3565,18 +3565,18 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 
         ### dispatch all ###
         if ($count3 <= $DispatchMax && $messageNumber == 0) {
-          Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";
+          Log3 $name, 4, "$name: ($count2) get $Dummyname rawmsg $string";
           Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).') in Zeile '.($count1+1).' ist ungueltig ' if ($lastpos ne ';');
 
-          CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
+          CommandGet($hash, "$Dummyname rawmsg $string $FW_CSRF");
           $count3++;
           if ($count3 == $DispatchMax) { last; }    # stop loop
 
         } elsif ($count2 == $messageNumber) {
-          Log3 $name, 4, "$name: ($count2) get $Dummyname raw $string";
+          Log3 $name, 4, "$name: ($count2) get $Dummyname rawmsg $string";
           Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1).' ist ungueltig ' if ($lastpos ne ';');
 
-          CommandGet($hash, "$Dummyname raw $string $FW_CSRF");
+          CommandGet($hash, "$Dummyname rawmsg $string $FW_CSRF");
           $count3 = 1;
           last;                                      # stop loop
         }
