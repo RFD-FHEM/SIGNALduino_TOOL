@@ -1145,6 +1145,30 @@
     }
   ]
 },
+{"name":"BeSmart_S4_534", "id":"78", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P78#53490", "comment":"Remote control SEAV BeSmart S4 for BEST Cirrus Draw", "user":"TheChatty",
+      "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
+      "readings": {"state":"light_toggle", "LastAction":"receive", "deviceCode":"010100110100"},
+      "attributes": {"model":"BeSmart_S4"},
+      "rmsg":"MU;P0=-19987;P1=205;P2=-530;P3=501;P4=-253;P6=-4094;D=01234123412123434123412123412123412121216123412341212343412341212341212341212121612341234121234341234121234121234121212161234123412123434123412123412123412121216123412341212343412341212341212341212121;CP=1;R=70;"
+    },
+    {
+      "dmsg":"P78#53488", "comment":"Remote control SEAV BeSmart S4 for BEST Cirrus Draw", "dispatch_repeats":"3", "user":"TheChatty",
+      "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
+      "readings": {"state":"level_up", "LastAction":"receive", "deviceCode":"010100110100"},
+      "attributes": {"model":"BeSmart_S4"},
+      "rmsg":"MU;P0=-8617;P1=204;P2=-544;P3=490;P4=-246;P6=-4106;D=01234123412123434123412123412121234121216123412341212343412341212341212123412121612341234121234341234121234121212341212161234123412123434123412123412121234121216123412341212343412341212341212123412121;CP=1;R=70;"
+    },
+    {
+      "dmsg":"P78#53484", "comment":"Remote control SEAV BeSmart S4 for BEST Cirrus Draw", "dispatch_repeats":"3", "user":"TheChatty",
+      "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
+      "readings": {"state":"level_down", "LastAction":"receive", "deviceCode":"010100110100"},
+      "attributes": {"model":"BeSmart_S4"},
+      "rmsg":"MU;P0=-14542;P1=221;P2=-522;P3=492;P4=-240;P5=-4114;D=01234123412123434123412123412121212341215123412341212343412341212341212121234121512341234121234341234121234121212123412151234123412123434123412123412121212341215123412341212343412341212341212121234121;CP=1;R=62;"
+    }
+  ]
+},
 {"name":"HX 70372", "id":"79", "module":"SD_BELL", "data": [
     {
       "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"3", "user":"Holger-Arnold",
