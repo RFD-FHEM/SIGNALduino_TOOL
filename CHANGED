@@ -1,3 +1,8 @@
+2021-01-28 - Update 88_SIGNALduino_TOOL.pm
+
+  * URL for download changed
+  * fix get UnitTests_from_SIGNALduino
+  * set UnitTest_define return value changed
 2021-01-25 - Update SD_Device_ProtocolList.json
 
 Remote control BeSmart_S4_534 Protocol 78
