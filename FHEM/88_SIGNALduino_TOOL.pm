@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-01-08 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-01-28 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -54,10 +54,10 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET => 2,
   FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2020-12-07_pre-release',
+  SIGNALduino_TOOL_VERSION => '2021-01-28_pre-release',
   TIMEOUT_HttpUtils => 3,
-  UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34/UnitTest/tests/',  # next branch dev-r35_xFSK
-  UNITTESTS_RAWFILE_URL => 'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/UnitTest/tests/',
+  UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
+  UNITTESTS_RAWFILE_URL =>          'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
 };
 
 my @ccregnames = (
@@ -1153,11 +1153,12 @@ sub SIGNALduino_TOOL_Set {
 
         my $ret = CommandDefine(undef, $apache_testfile);
         if ($ret) {
-          Log3 $name, 2, "$name: $cmd $a[1], ERROR: $ret";
+          return "<html><a href=https://github.com/fhem/UnitTest target=\"_blank\">Unknown module UnitTest<br>The module is required to use the command.<br><br>Please install module from https://github.com/fhem/UnitTest</a></html>"  if ($ret =~ /Unknown module UnitTest/);
+          return $ret;
         } else {
           CommandAttr($hash,"$UnitTestName verbose 0");
           CommandAttr($hash,"$UnitTestName disable 1");
-          return "UnitTest $a[1] is defined on your system";
+          return "UnitTest $a[1] has been installed on your system";
         }
       }
     }
@@ -2073,21 +2074,32 @@ sub SIGNALduino_TOOL_Get {
       Log3 $name, 2, "$name: $cmd failed, need Internet or website are down!";
       return;
     } elsif ($Http_data ne '') {
+      Log3 $name, 4, "$name: Get $cmd - check (12)";
+
       my @apache_split = split (/\n/,$Http_data);
       my @apache_testlist;
 
       ## loop - push tests ##
       foreach (@apache_split) {
-        if ($_ =~ /title=".*txt" id=".*">(.*txt)<\/a>/) {
-          Log3 $name, 5, "$name: $cmd, found $1";
+        if ($_ =~ /\stitle=".*txt"\shref=".*">(.*txt)<\/a>/) {
+          Log3 $name, 4, "$name: $cmd, found $1";
           $_ =~ /.*href=".*">(.*)<\/a>.*/;
           push (@apache_testlist, $1);
         }
       }
-      $hash->{helper}->{UnitTests_from_SIGNALduino} = join (',' , @apache_testlist) if (scalar(@apache_testlist) >= 1);
+
+      if (scalar(@apache_testlist) == 0) {
+        readingsSingleUpdate($hash, 'state' , "cmd $cmd - failed!", 0);
+        Log3 $name, 2, "$name: $cmd failed, probably the website has been changed!";
+        return;
+      } else {
+        $hash->{helper}->{UnitTests_from_SIGNALduino} = join (',' , @apache_testlist);
+      }
     }
     readingsSingleUpdate($hash, 'state' , "$cmd retrieved successfully. Set command UnitTest_define available" , 0);
     SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
+
+    return '';
   }
 
   return "Unknown argument $cmd, choose one of $list";
