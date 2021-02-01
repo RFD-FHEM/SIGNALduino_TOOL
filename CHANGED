@@ -1,121 +1,135 @@
+2021-01-28 - Update 88_SIGNALduino_TOOL.pm
+
+ - URL for download changed
+ - fix get UnitTests_from_SIGNALduino
+ - set UnitTest_define return value changed
 2021-01-25 - Update SD_Device_ProtocolList.json
 
-add remote control BeSmart_S4_534 protocol 78
-2021-01-08 - Merge branch 'pre-release'
-2020-12-29 - Merge branch 'pre-release'
+ - Remote control BeSmart_S4_534 Protocol 78
+2021-01-08 - Update 88_SIGNALduino_TOOL.pm
+
+ - revised compatibility to SIGNALduino v3.5.1
+2021-01-08 - Update SD_Device_ProtocolList.json
+
+ - fix ID10 wrong rawmsg
+ - fix ID18 wrong rawmsg
+ - fix ID47 wrong rawmsg
 2020-12-29 - Update SD_Device_ProtocolList.json
 
-  * id 46 revised data
-  * id 50 revised forumname
-  * id 79 revised wrong dispatch_repeats / added attribute model
+ - id 46 revised data
+ - id 50 revised forumname
+ - id 79 revised wrong dispatch_repeats / added attribute model
 2020-12-20 - Update SD_Device_ProtocolList.json
+
+ - id 24 added data - Visivo
 2020-12-07 - Update 88_SIGNALduino_TOOL.pm
 
-  * fix some compatibility
+ - fix some compatibility
 2020-12-06 - Update SD_Device_ProtocolList.json
 2020-12-02 - Update 88_SIGNALduino_TOOL.pm
 
-  * fix commandref syntax
+ - fix commandref syntax
 2020-09-27 - Update SD_Device_ProtocolList.json
+ 
+ - id 106 added data - BBQ temperature sensor GT-TMBBQ-01s
 2020-09-13 - Update SD_Device_ProtocolList.json
 
-protocol 27, change reading "type" to "EFTH-800, EFS-3110A"
+ - id 27 change reading "type" to "EFTH-800, EFS-3110A"
 2020-07-26 - Update 88_SIGNALduino_TOOL.pm
 
-  * smale fix
+ - smale fix
 2020-07-18 - Update SD_Device_ProtocolList.json
+
+ - id 105 added data - BF_301
 2020-07-17 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
 2020-07-17 - Update 88_SIGNALduino_TOOL.pm
 
-  * revised code
+ - revised code
 2020-07-17 - Update 88_SIGNALduino_TOOL.pm
 
-  * added compatibility v3.4 <-> 3.5
+ - added compatibility v3.4 <-> 3.5
 2020-07-17 - Update SD_Device_ProtocolList.json
+
+- revised data id 9
 2020-07-17 - Merge branch 'pre-release'
 2020-07-05 - Update 88_SIGNALduino_TOOL.pm
 
-  * fix some checks
+ - fix some checks
 2020-07-04 - Update 88_SIGNALduino_TOOL.pm
 
-  * revised set function CC110x_Register_new, CC110x_Register_old
-  * revised get function CC110x_Register_comparison
+ - revised set function CC110x_Register_new, CC110x_Register_old
+ - revised get function CC110x_Register_comparison
 2020-06-16 - Update 88_SIGNALduino_TOOL.pm
 
-* revised code for Perl::Critic
-* added more output for user if cmd CC110x_Register_read
+ - revised code for Perl::Critic
+ - added more output for user if cmd CC110x_Register_read
 2020-06-15 - Update 88_SIGNALduino_TOOL.pm
 
-* revised code for Perl::Critic
+ - revised code for Perl::Critic
 2020-06-11 - Update 88_SIGNALduino_TOOL.pm
 
-* revised code for Perl::Critic
+ - revised code for Perl::Critic
 2020-06-10 - Update 88_SIGNALduino_TOOL.pm
 
-* revised code for Perl::Critic
+ - revised code for Perl::Critic
 2020-06-09 - Update 88_SIGNALduino_TOOL.pm
 
-* revised code for Perl::Critic
+ - revised code for Perl::Critic
 2020-06-09 - Update 88_SIGNALduino_TOOL.pm
 
-* fix, PERL WARNING: Prototype mismatch: sub SIGNALduino_Get_Callback
+ - fix, PERL WARNING: Prototype mismatch: sub SIGNALduino_Get_Callback
 2020-06-09 - Update 88_SIGNALduino_TOOL.pm
 
-* fix, save backup JSON
-* revised code for Perl::Critic
+ - fix, save backup JSON
+ - revised code for Perl::Critic
 2020-06-08 - Update 88_SIGNALduino_TOOL.pm
 
-* fix, InputFile_one_ClockPulse, InputFile_ClockPulse
-* revised code for Perl::Critic
+ - fix, InputFile_one_ClockPulse, InputFile_ClockPulse
+ - revised code for Perl::Critic
 2020-06-08 - Update 88_SIGNALduino_TOOL.pm
 
-* fix, option attrib JSON_write_ERRORs
-* revised code for Perl::Critic
+ - fix, option attrib JSON_write_ERRORs
+ - revised code for Perl::Critic
 2020-06-07 - Update 88_SIGNALduino_TOOL.pm
 
-* revised code for Perl::Critic
+ - revised code for Perl::Critic
 2020-06-06 - Update 88_SIGNALduino_TOOL.pm
 
-* revised comments & spaces
+ - revised comments & spaces
 2020-06-05 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
 2020-06-05 - Update 88_SIGNALduino_TOOL.pm
 
-* added internal version
+ - added internal version
 2020-06-05 - Update 88_SIGNALduino_TOOL.pm
 
-* fix PEARL WARNING
-* added check cc1101
+ - fix PEARL WARNING
+ - added check cc1101
 2020-05-31 - display leading zeros (#43)
 
-* Update 88_SIGNALduino_TOOL.pm
-Display leading zeros by get change_hex_to_bin and change_bin_to_hex
-2020-05-31 - Update 88_SIGNALduino_TOOL.pm
-
-Display leading zeros by get change_hex_to_bin and change_bin_to_hex
+ - Update 88_SIGNALduino_TOOL.pm
+ - Display leading zeros by get change_hex_to_bin and change_bin_to_hex
 2020-05-14 - Update 88_SIGNALduino_TOOL.pm
 
-* fix Dispatch dmsg https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42#issuecomment-627881837
-* sort some lines
+ - fix Dispatch dmsg https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42#issuecomment-627881837
+ - sort some lines
 2020-05-02 - Update SD_Device_ProtocolList.json
 
-revised data modul SD_GT -> QUIGG_GT-9000
-2020-05-02 - Update SD_Device_ProtocolList.json
-
-* revised username (name of the user who owns the hardware)
-* revised model TR60C-1 to one entry
+ - id 49.2 revised data modul SD_GT -> QUIGG_GT-9000
+ - revised username (name of the user who owns the hardware)
+ - revised model TR60C-1 to one entry
 2020-05-02 - new data for protocol 104 remote control TR60C-1
 2020-04-21 - Update SD_Device_ProtocolList.json
 
-* revised names
+ - revised names
 2020-04-21 - Update SD_Device_ProtocolList.json
 
-new data for protocol 99 NAVARIS touch light switch
+- new data for protocol 99 NAVARIS touch light switch
 2020-04-20 - Update SD_Device_ProtocolList.json
 
-new data for protocol 98 wireless door bell GEA-028DB
+- new data for protocol 98 wireless door bell GEA-028DB
 2020-03-30 - Update SD_Device_ProtocolList.json
 
-New data for protocol 97 Momento remote control for wireless digital picture frame
+- New data for protocol 97 Momento remote control for wireless digital picture frame
 2020-03-24 - Update 88_SIGNALduino_TOOL.pm
 
 - extension RegEx
@@ -125,11 +139,10 @@ New data for protocol 97 Momento remote control for wireless digital picture fra
 - revised name Froggit FT007T
 2020-03-20 - Update SD_Device_ProtocolList.json
 
-remove attribut "model" by protocol 58
+- remove attribut "model" by protocol 58
 2020-03-19 - Update SD_Device_ProtocolList.json
 
-change "TFA 30.3208.02", "id":"58" "type":"TFA 30.3208.02, FT007xx"
-2020-03-17 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+- change "TFA 30.3208.02", "id":"58" "type":"TFA 30.3208.02, FT007xx"
 2020-03-17 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
 2020-03-17 - Update SD_Device_ProtocolList.json
 
@@ -220,11 +233,9 @@ new protocol for rain sensor TFA 30.3233.01
 - revised wrong data
 - revised structure
 - added no decode ID 12 Hama TS33C
-2020-01-06 - new protocol 27 for EuroChron EFTH-800 (#40)
+2020-01-06 - SD_Device_ProtocolList.json
 
-* SD_Device_ProtocolList.json - new data for protocol 27 EuroChron weatherstation EFTH-800
-2020-01-06 - SD_Device_ProtocolList.json - new data for protocol 27 EuroChron weatherstation EFTH-800
-2020-01-06 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+- new protocol 27 for EuroChron weatherstation EFTH-800 (#40)
 2020-01-06 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
 2020-01-06 - Update 88_SIGNALduino_TOOL.pm
 
@@ -294,7 +305,7 @@ add xavax to SD_Device_ProtocolList.json
         SD_Device_ProtocolList.json: - category repeat rename to dispatch_repeats
 26.10.2019 - 88_SIGNALduino_TOOL.pm: - fixed direct changes in hash with new sub´s add_cmdIcon,delete_cmdIcon,add_webCmd,webCmd
                                      - fixed unnecessary reload
-																		 - rename attrib Sendername to IODev (FHEM standard)
+                                     - rename attrib Sendername to IODev (FHEM standard)
                                      - rename attrib Senderrepeats to IODev_Repeats (FHEM standard)
                                      - adjustments log output
                                      - little code optimizations
