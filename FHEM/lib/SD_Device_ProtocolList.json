@@ -318,7 +318,8 @@
 },
 {"name":"Hama TS33C", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode", "user":"Ralf9",
+      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode via RAWMSG, only DMSG", "user":"Ralf9",
+      "internals": {"DEF":"Hideki_30_2", "NAME":"Hideki_30_2"},
       "readings": {"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"},
       "rmsg":"MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7;"
     }
