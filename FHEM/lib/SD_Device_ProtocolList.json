@@ -1783,6 +1783,15 @@
     }
   ]
 },
+{"name":"TX35-IT", "id":"103", "module":"LaCrosse", "data": [
+    {
+      "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor example for a WDxxxx Weather Station (2-FSK modulation)", "user":"HomeAuto_User",
+      "internals": {"DEF":"29", "NAME":"LaCrosse_29"},
+      "readings": {"state":"T: 1.9", "battery":"ok", "temperature":"1.9"},
+      "rmsg":"MN;D=9A44196AC448640A;R=246;"
+    }
+  ]
+},
 {"name":"TR60C-1", "id":"104", "module":"SD_UT", "data": [
     {
       "dmsg":"P104#0F80", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 0)", "user":"phoenix-anasazi",
