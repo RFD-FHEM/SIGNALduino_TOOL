@@ -163,7 +163,8 @@
 },
 {"name":"ITS-150", "id":"3.1", "module":"IT", "data": [
     {
-      "dmsg":"i455414", "comment":"on off (FF F0) - UNKNOWNCODE, help me!", "user":"Stefan#",
+      "dmsg":"i455414", "comment":"on off (FF F0) - Unknown code i455414, help me! (device manually defined)", "user":"Stefan#",
+      "internals": {"DEF":"F0FFFFF00F FF F0", "NAME":"IT_F0FFFFF00F"},
       "readings": {"state":"off"},
       "rmsg":"MS;P0=-11440;P1=-1121;P2=-416;P5=309;P6=1017;D=150516251515162516251625162516251515151516251625151;CP=5;SP=0;R=66;"
     },
