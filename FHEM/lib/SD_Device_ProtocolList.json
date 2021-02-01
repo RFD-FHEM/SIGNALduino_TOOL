@@ -679,13 +679,16 @@
 {"name":"Somfy RTS", "id":"43", "module":"SOMFY", "data": [
     {
       "dmsg":"Ys98DBD153D631BB", "user":"SD_Protocol",
-      "internals": {"DEF":"8AE785 98 0A82", "NAME":"SOMFY_8AE785"},
+      "internals": {"DEF":"8AE785 ", "NAME":"SOMFY_8AE785"},
       "readings": {"enc_key":"98", "parsestate":"on", "received":"40", "rolling_code":"0A82"},
+      "attributes": {"model":"somfyshutter"},
       "rmsg":"MC;LL=-1405;LH=1269;SL=-723;SH=620;D=98DBD153D631BB;C=669;L=56;R=229;"
     },
     {
       "dmsg":"Ys81CDCDCBB7DEDD84001D", "comment":"TELIS COMPOSIO - format error (length)", "user":"kpl",
-      "readings": {},
+      "internals": {"DEF":"03697C ", "NAME":"SOMFY_03697C"},
+      "readings": {"enc_key":"81", "parsestate":"on", "received":"40", "rolling_code":"0006"},
+      "attributes": {"model":"somfyshutter"},
       "rmsg":"MC;LL=-1246;LH=1293;SL=-592;SH=660;D=81CDCDCBB7DEDD84001D;C=631;L=80;"
     }
   ]
