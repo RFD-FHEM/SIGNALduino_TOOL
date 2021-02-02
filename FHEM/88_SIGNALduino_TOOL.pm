@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET => 2,
   FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2021-01-28_pre-release',
+  SIGNALduino_TOOL_VERSION => '2021-02-02_pre-release',
   TIMEOUT_HttpUtils => 3,
   UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
   UNITTESTS_RAWFILE_URL =>          'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
@@ -3215,9 +3215,9 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
   return "No file readed in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information." if (!$ProtocolListRead);
   return "The attribute DispatchModule with value $DispatchModule is set to text files.<br>No filtered overview! Please set a non txt value." if ($DispatchModule =~ /.txt$/);
 
-  $ret ="<table class=\"block wide internals wrapcolumns\">";
+  $ret ="<table class=\"block wide\">";
   $ret .="<caption id=\"SD_protoCaption\">List of message documentation from SD_Device_ProtocolList.json</caption>";
-  $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>DEF</td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
+  $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>ID</td> <td>Clientmodule</td> <td>Hardware name</td> <td>Readings state</td> <td>Internals NAME<br><small><i>comment</i></small></td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
   $ret .="<tbody>";
 
   ### for compatibility , getProperty ###
@@ -3225,7 +3225,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-    my ($DEF,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
+    my ($NAME,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
 
     ### for compatibility , getProperty ###
     if ($modus == 1) {
@@ -3249,7 +3249,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
           }
           if ($key =~ /^internals/) {
             foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-              $DEF = "&#10003;" if ($key2 eq "DEF" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '');
+              $NAME = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} if ($key2 eq "NAME" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '');
             }
           }
           if ($key =~ /^attributes/) {
@@ -3266,14 +3266,14 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
         ## view all ##
         if ($DispatchModule eq '-') {
           $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
-          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$NAME<br><small><i><u>comment:</u> $comment</i></small></div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 
         ## for filtre DispatchModule if set attribute ##
         } elsif ($DispatchModule eq $clientmodule) {
           $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
-          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$NAME<br><small><i><u>comment:</u> $comment</i></small></div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
         }
-        $DEF = '';
+        $NAME = '';
         $model = '';
       }
     }
