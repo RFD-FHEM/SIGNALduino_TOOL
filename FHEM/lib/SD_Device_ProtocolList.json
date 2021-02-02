@@ -797,6 +797,33 @@
     }
   ]
 },
+{"name":"IAN 114324", "id":"51", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W51#11225FB401", "comment":"Lidl Weatherstation, Channel 1", "user":"6040",
+      "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
+      "readings": {"state":"T: 17.3 H: 40", "batteryState":"ok", "channel":"1", "humidity":"40", "sendmode":"auto", "temperature":"17.3", "trend":"falling", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
+      "rmsg":"MS;P0=-1848;P1=577;P2=-4066;P3=-15997;P4=1013;P5=-1001;P6=-7875;D=16101010121010101210101210101012101012101212121212121012121012101010101010101010121345454545;CP=1;SP=6;O;"
+    }
+  ]
+},
+{"name":"IAN 275901", "id":"51", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W51#0849536953", "comment":"Lidl Weatherstation, Channel 3", "user":"Stertzi",
+      "internals": {"DEF":"SD_WS_51_TH_3", "NAME":"SD_WS_51_TH_3"},
+      "readings": {"state":"T: 6.3 H: 95", "batteryState":"ok", "channel":"3", "humidity":"95", "sendmode":"manual", "temperature":"6.3", "trend":"rising", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
+      "rmsg":"MS;P0=-4074;P1=608;P2=-1825;P3=-15980;P4=1040;P5=-975;P6=-7862;D=16121212121012121212101212101212101210121012121010121010121012121012101210121210101345454545;CP=1;SP=6;"
+    }
+  ]
+},
+{"name":"IAN 60107", "id":"51", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W51#F03048F761", "comment":"Lidl Weatherstation, Channel 1", "user":"dennis82ni",
+      "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
+      "readings": {"state":"T: -2.9 H: 76", "batteryState":"ok", "channel":"1", "humidity":"76", "sendmode":"auto", "temperature":"-2.9", "trend":"consistent", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
+      "rmsg":"MS;P2=594;P3=-7386;P4=-4081;P5=-1873;D=2324242424252525252525242425252525252425252425252524242424252424242524242525252524;CP=2;SP=3;R=242;"
+    }
+  ]
+},
 {"name":"AURIOL AHFL 433 B2", "id":"53", "module":"SD_WS", "data": [
     {
       "dmsg":"W53#0700DF7A4E0", "comment":"CH1, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
@@ -1086,7 +1113,7 @@
 },
 {"name":"FHT80b", "id":"73", "module":"FHT", "data": [
     {
-      "dmsg":"810c04xx0909a00117400000B600", "comment":"(ID 63 additionally)", "user":"HomeAuto_User",
+      "dmsg":"810c04xx0909a00117400000B600", "comment":"roomthermostat, only receive (ID 63 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"1740", "NAME":"FHT_1740"},
       "readings": {"state":"measured-temp: 25.5", "battery":"ok", "batteryState":"ok", "temperature":"25.5", "warnings":"Window open", "window":"open", "windowsensor":"ok"},
       "rmsg":"MU;P0=28736;P1=-402;P2=395;P3=593;P4=-619;P5=-8980;D=01212121212121212121212134212121342134343421213421212121212134212121212121212121342134342134342134212121212121212121212121343421213434252121212121212121212121213421212134213434342121342121212121213421212121212121212134213434213434213421212121212121212121;CP=2;R=21;O;"
@@ -1110,7 +1137,7 @@
 },
 {"name":"FS20 S6A", "id":"74", "module":"FS20", "data": [
     {
-      "dmsg":"810b04f70101a0011848070000", "user":"HomeAuto_User",
+      "dmsg":"810b04f70101a0011848070000", "comment":"decode as MU", "user":"HomeAuto_User",
       "internals": {"DEF":"1848 07", "NAME":"FS20_184807"},
       "readings": {"state":"off"},
       "rmsg":"MU;P0=390;P1=-413;P3=587;P4=-617;P5=-10512;D=01010101343401343401343405010101010101010101010101340101013434010101010134010134010101010101010101343434340101010101010101010134340134340134340;CP=0;R=71;"
@@ -1128,7 +1155,7 @@
 },
 {"name":"FS20 S6A", "id":"74.1", "module":"FS20", "data": [
     {
-      "dmsg":"810b04f70101a0011848110011", "user":"HomeAuto_User",
+      "dmsg":"810b04f70101a0011848110011", "comment":"decode as MS", "user":"HomeAuto_User",
       "internals": {"DEF":"1848 11", "NAME":"FS20_184811"},
       "readings": {"state":"on"},
       "rmsg":"MS;P1=-406;P2=406;P5=583;P6=-616;P7=-10484;D=2721212121212121212121212156212121565621212121215621215621212121212121562121215621212121562121215621562121215621212121;CP=2;SP=7;R=86;O;"
@@ -1149,6 +1176,15 @@
       "readings": {"state":"off", "deviceCode":"11111111111111111111111111111111111111111111111111111111"},
       "attributes": {"model":"LED_XM21_0"},
       "rmsg":"MU;P0=-203;P1=412;P2=114;D=01010101020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020101010102020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200;CP=2;R=74;"
+    }
+  ]
+},
+{"name":"DS1820_4Fach", "id":"77", "module":"CUL_TX", "data": [
+    {
+      "dmsg":"TXA0D2728722", "comment":"self build sensor, is under development, https://github.com/juergs/NANO_DS1820_4Fach", "user":"unknown",
+      "internals": {"DEF":"105", "NAME":"CUL_TX_105"},
+      "readings": {"state":"T: 22.8", "temperature":"22.8"},
+      "rmsg":"MU;P0=-1483;P1=239;P2=970;P3=-21544;D=01020202010132020202010201020202020201010201020201020201010102020102010202020201010102020102020201013202020201020102020202020101020102020102020101010202010201020202020101010202010202020101;CP=1;"
     }
   ]
 },
@@ -1292,23 +1328,6 @@
     }
   ]
 },
-{"name":"SF01_01319004_Typ2", "id":"86", "module":"SD_UT", "data": [
-    {
-      "dmsg":"P86#26398", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
-      "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
-      "readings": {"state":"light_on_off", "deviceCode":"2638"},
-      "attributes": {"model":"SF01_01319004_Typ2"},
-      "rmsg":"MU;P0=706;P1=-160;P2=140;P3=-335;P4=-664;P5=385;P6=-15226;P7=248;D=01210103045303045453030304545453030454530653030453030454530303045454530304747306530304530304545303030454545303045453065303045303045453030304545453030454530653030453030454530303045454530304545306530304530304545303030454545303045453065303045303045453030304;CP=5;O;"
-    },
-    {
-      "dmsg":"P86#26384", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"5", "user":"Stuetti",
-      "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
-      "readings": {"state":"delay", "deviceCode":"2638"},
-      "attributes": {"model":"SF01_01319004_Typ2"},
-      "rmsg":"MU;P0=705;P1=-140;P2=-336;P3=-667;P4=377;P5=-15230;P6=248;D=01020342020343420202034343420202020345420203420203434202020343434202020203654202034202034342020203434342020202034542020342020343420202034343420202020345420203420203434202020343434202020203454202034202034342020203434342020202034542020342020343420202034343;CP=4;O;"
-    }
-  ]
-},
 {"name":"CAME TOP 432EV", "id":"86", "module":"SD_UT", "data": [
     {
       "dmsg":"P86#EEE", "comment":"Remote control (ID 81 additionally)", "user":"andies, andreasloe",
@@ -1409,6 +1428,23 @@
       "readings": {"state":"interval", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-372;P1=330;P2=684;P3=-699;P4=-14178;D=010231020202023102310231020231310231413102310202020231023102310202313102314;CP=1;R=253;"
+    }
+  ]
+},
+{"name":"SF01_01319004_Typ2", "id":"86", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P86#26398", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
+      "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
+      "readings": {"state":"light_on_off", "deviceCode":"2638"},
+      "attributes": {"model":"SF01_01319004_Typ2"},
+      "rmsg":"MU;P0=706;P1=-160;P2=140;P3=-335;P4=-664;P5=385;P6=-15226;P7=248;D=01210103045303045453030304545453030454530653030453030454530303045454530304747306530304530304545303030454545303045453065303045303045453030304545453030454530653030453030454530303045454530304545306530304530304545303030454545303045453065303045303045453030304;CP=5;O;"
+    },
+    {
+      "dmsg":"P86#26384", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"5", "user":"Stuetti",
+      "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
+      "readings": {"state":"delay", "deviceCode":"2638"},
+      "attributes": {"model":"SF01_01319004_Typ2"},
+      "rmsg":"MU;P0=705;P1=-140;P2=-336;P3=-667;P4=377;P5=-15230;P6=248;D=01020342020343420202034343420202020345420203420203434202020343434202020203654202034202034342020203434342020202034542020342020343420202034343420202020345420203420203434202020343434202020203454202034202034342020203434342020202034542020342020343420202034343;CP=4;O;"
     }
   ]
 },
@@ -1783,9 +1819,33 @@
     }
   ]
 },
+{"name":"TX29DTH-IT", "id":"100", "module":"LaCrosse", "data": [
+    {
+      "dmsg":"OK 9 42 129 4 212 44", "comment":"Temp / Hum sensor (Mod. 2-FSK, Lacrosse mode 1)", "user":"Ralf9",
+      "internals": {"DEF":"2A", "NAME":"LaCrosse_2A"},
+      "readings": {"state":"T: 23.6 H: 44", "battery":"ok", "humidity":"44", "temperature":"23.6"},
+      "rmsg":"MN;D=9AA6362CC8AAAA000012F8F4;R=4;"
+    }
+  ]
+},
+{"name":"PCA301", "id":"101", "module":"PCA301", "data": [
+    {
+      "dmsg":"OK 24 4 5 1 158 135 1 170 170 170 170 8F68", "comment":"Wireless switch socket with energy consumption measurement (Mod. 2-FSK)", "user":"Ralf9",
+      "internals": {"DEF":"019E87 04", "NAME":"PCA301_019E87"},
+      "readings": {"state":"on"},
+      "rmsg":"MN;D=0405019E8701AAAAAAAA8F68AAF21E3E22B4643AE51BE4A044365B2B87CDA50A;R=7;"
+    },
+    {
+      "dmsg":"OK 24 4 5 1 158 135 0 170 170 170 170 0F13", "comment":"Wireless switch socket with energy consumption measurement (Mod. 2-FSK)", "user":"Ralf9",
+      "internals": {"DEF":"019E87 04", "NAME":"PCA301_019E87"},
+      "readings": {"state":"off"},
+      "rmsg":"MN;D=0405019E8700AAAAAAAA0F13AA16ACC0540AAA49C814473A2774D208AC0B0167;R=6;"
+    }
+  ]
+},
 {"name":"TX35-IT", "id":"103", "module":"LaCrosse", "data": [
     {
-      "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor example for a WDxxxx Weather Station (Mod. 2-FSK, Lacrosse mode 2)", "user":"HomeAuto_User",
+      "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor for a WDxxxx Weather Station (Mod. 2-FSK, Lacrosse mode 2)", "user":"HomeAuto_User",
       "internals": {"DEF":"29", "NAME":"LaCrosse_29"},
       "readings": {"state":"T: 1.9", "battery":"ok", "temperature":"1.9"},
       "rmsg":"MN;D=9A44196AC448640A;R=246;"
