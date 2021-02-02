@@ -11,7 +11,7 @@
 },
 {"name":"GT-WT-02", "id":"0", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"s5410AC5F9800", "user":"Ralf9",
+      "dmsg":"s5410AC5F9800", "comment":"Temp / Hum sensor for GT-WS-11-CH + WS08 + WS09", "user":"Ralf9",
       "internals": {"DEF":"CUL_TCM97001_84", "NAME":"GT_WT_02_84"},
       "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "batteryState":"ok", "channel":"2", "humidity":"47", "mode":"normal", "temperature":"17.2"},
       "attributes": {"model":"GT_WT_02"},
@@ -21,7 +21,7 @@
 },
 {"name":"Prologue", "id":"0", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"s916001A0A000", "comment":"channel 0 right?", "user":"SD_Protocol",
+      "dmsg":"s916001A0A000", "comment":"Channel 0 right?", "user":"SD_Protocol",
       "internals": {"DEF":"CUL_TCM97001_145", "NAME":"Prologue_145"},
       "readings": {"state":"T: 2.6", "battery":"ok", "batteryState":"ok", "channel":"0", "mode":"normal", "other":"2.6", "temperature":"2.6"},
       "attributes": {"model":"Prologue"},
@@ -31,7 +31,7 @@
 },
 {"name":"Ventus W044", "id":"0", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"s8505301CC000", "user":"Harst",
+      "dmsg":"s8505301CC000", "comment":"Temp / Hum sensor for Ventus W155/W194/W177/W224", "user":"Harst",
       "internals": {"DEF":"CUL_TCM97001_133", "NAME":"W044_133"},
       "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"38", "mode":"normal", "temperature":"20.2"},
       "attributes": {"model":"W044"},
@@ -51,7 +51,7 @@
 },
 {"name":"TCM 212836", "id":"0.3", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"s35277004E000", "comment":"", "user":"killah78",
+      "dmsg":"s35277004E000", "comment":"Temp / Hum sensor", "user":"killah78",
       "internals": {"DEF":"CUL_TCM97001_53", "NAME":"W044_53"},
       "readings": {"state":"T: 23.8 H: 20", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"20", "mode":"normal", "temperature":"23.8"},
       "attributes": {"model":"TCM21...."},
@@ -61,14 +61,14 @@
 },
 {"name":"Ventus W132", "id":"0.3", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"sD66EE1603000", "comment":"wind", "user":"dirigent",
+      "dmsg":"sD66EE1603000", "comment":"Wind sensor", "user":"dirigent",
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
       "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2"},
       "attributes": {"model":"W132"},
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121212141212121414141412141212141414141414141212;CP=1;SP=3;s6;e;m1;"
     },
     {
-      "dmsg":"sD6680020C000", "comment":"wind", "user":"dirigent",
+      "dmsg":"sD6680020C000", "comment":"Wind sensor", "user":"dirigent",
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
       "readings": {"state":"Ws: 0.8 ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2", "windSpeed":"0.8"},
       "attributes": {"model":"W132"},
@@ -78,7 +78,7 @@
 },
 {"name":"Ventus W174", "id":"0.3", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"s336C9C002000", "comment":"rain", "user":"andies",
+      "dmsg":"s336C9C002000", "comment":"Rain sensor", "user":"andies",
       "internals": {"DEF":"CUL_TCM97001_51", "NAME":"W174_51"},
       "readings": {"state":"R: 14.25", "battery":"ok", "batteryState":"ok", "israining":"yes", "rain":"14.25"},
       "attributes": {"model":"W174"},
@@ -107,13 +107,13 @@
 },
 {"name":"YET100-1", "id":"3", "module":"IT", "data": [
     {
-      "dmsg":"i5554C0", "comment":"Taste 1 von 8", "user":"HomeAuto_User",
+      "dmsg":"i5554C0", "comment":"Remote control, Button 1 from 8", "user":"HomeAuto_User",
       "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
       "readings": {"state":"off", "protocol":"SBC_FreeTec"},
       "rmsg":"MS;P2=1292;P3=-511;P4=389;P5=-1416;P6=-13975;D=46452345234523452345234523452345452323454545454545;CP=4;SP=6;m2;"
     },
     {
-      "dmsg":"i555430", "comment":"Taste 2 von 8", "user":"HomeAuto_User",
+      "dmsg":"i555430", "comment":"Remote control, Button 2 from 8", "user":"HomeAuto_User",
       "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
       "readings": {"state":"on", "protocol":"SBC_FreeTec"},
       "rmsg":"MS;P0=387;P1=-1397;P2=1294;P3=-503;P4=-13984;D=04012301230123012301230123012301010101232301010101;CP=0;SP=4;m2;"
@@ -163,13 +163,13 @@
 },
 {"name":"ITS-150", "id":"3.1", "module":"IT", "data": [
     {
-      "dmsg":"i455414", "comment":"on off (FF F0) - Unknown code i455414, help me! (device manually defined)", "user":"Stefan#",
+      "dmsg":"i455414", "comment":"Remote control, on off (FF F0) - Unknown code i455414, help me! (device manually defined)", "user":"Stefan#",
       "internals": {"DEF":"F0FFFFF00F FF F0", "NAME":"IT_F0FFFFF00F"},
       "readings": {"state":"off"},
       "rmsg":"MS;P0=-11440;P1=-1121;P2=-416;P5=309;P6=1017;D=150516251515162516251625162516251515151516251625151;CP=5;SP=0;R=66;"
     },
     {
-      "dmsg":"i455515", "comment":"on off (FF F0), Gruppentaste", "user":"Stefan#",
+      "dmsg":"i455515", "comment":"Remote control, on off (FF F0), Gruppentaste", "user":"Stefan#",
       "internals": {"DEF":"F0FFFFFF0F FF F0", "NAME":"IT_F0FFFFFF0F"},
       "readings": {"state":"on", "protocol":"V1"},
       "rmsg":"MS;P1=309;P2=-1130;P3=1011;P4=-429;P5=-11466;D=15123412121234123412141214121412141212123412341234;CP=1;SP=5;R=38;"
@@ -216,13 +216,13 @@
 },
 {"name":"EAS800z", "id":"7", "module":"SD_WS07", "data": [
     {
-      "dmsg":"P7#6300C6F0B", "user":"SD_Protocol",
+      "dmsg":"P7#6300C6F0B", "comment":"Channel 1", "user":"SD_Protocol",
       "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
       "readings": {"state":"T: 19.8 H: 11", "batteryState":"low", "channel":"1", "humidity":"11", "temperature":"19.8"},
       "rmsg":"MS;P1=-3882;P2=504;P3=-957;P4=-1949;D=21232424232323242423232323232323232424232323242423242424242323232324232424;CP=2;SP=1;R=249;m=2;"
     },
     {
-      "dmsg":"P7#8210A1F24", "user":"Ralf9",
+      "dmsg":"P7#8210A1F24", "comment":"Channel 2", "user":"Ralf9",
       "internals": {"DEF":"SD_WS07_TH_2", "NAME":"SD_WS07_TH_2"},
       "readings": {"state":"T: 16.1 H: 36", "batteryState":"low", "channel":"2", "humidity":"36", "temperature":"16.1"},
       "rmsg":"MS;P2=-1945;P3=486;P4=-976;P5=-3927;D=35323434343434323434343432343434343234323434343432323232323434323434323434;CP=3;SP=5;R=13;O;m1;"
@@ -231,7 +231,7 @@
 },
 {"name":"Hama TS34A", "id":"7", "module":"SD_WS07", "data": [
     {
-      "dmsg":"P7#6190D8F3D", "comment":"div. Wetterstationen", "user":"HomeAuto_User",
+      "dmsg":"P7#6190D8F3D", "comment":"Channel 2 / for some Weatherstation", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS07_TH_2", "NAME":"SD_WS07_TH_2"},
       "readings": {"state":"T: 21.6 H: 61", "batteryState":"ok", "channel":"2", "humidity":"61", "temperature":"21.6"},
       "rmsg":"MS;P2=-2006;P4=-4065;P5=491;P6=-1005;D=54565252565656565252565652565656565252565252565656525252525656525252525652;CP=5;SP=4;R=48;O;m2;e;"
@@ -336,7 +336,7 @@
 },
 {"name":"FA22RF", "id":"13.1", "module":"FLAMINGO", "data": [
     {
-      "dmsg":"P13.1#CBFAD2", "dispatch_repeats":"3", "user":"HomeAuto_User",
+      "dmsg":"P13.1#CBFAD2", "comment":"Smoke alarm device", "dispatch_repeats":"3", "user":"HomeAuto_User",
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13.1"},
       "attributes": {"model":"FA22RF"},
@@ -346,21 +346,21 @@
 },
 {"name":"Chilitec_22640", "id":"14", "module":"SD_UT", "data": [
     {
-      "dmsg":"P14#AA808", "user":"privat58",
+      "dmsg":"P14#AA808", "comment":"Remote control X-MAS LED", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"power_on", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
       "rmsg":"MS;P0=988;P1=-384;P2=346;P3=-1026;P4=-4923;D=240123012301230123012323232323232301232323;CP=2;SP=4;R=0;O;m=1;"
     },
     {
-      "dmsg":"P14#AA80C", "user":"privat58",
+      "dmsg":"P14#AA80C", "comment":"Remote control X-MAS LED", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"brightness_plus", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
       "rmsg":"MS;P0=-398;P1=974;P3=338;P4=-1034;P6=-4939;D=361034103410341034103434343434343410103434;CP=3;SP=6;R=0;"
     },
     {
-      "dmsg":"P14#AA80A", "user":"privat58",
+      "dmsg":"P14#AA80A", "comment":"Remote control X-MAS LED", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"flickering_slowly", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
@@ -379,13 +379,13 @@
 },
 {"name":"ITS-10", "id":"17", "module":"IT", "data": [
     {
-      "dmsg":"i669A9A9A5555565600", "comment":"", "user":"dafosy",
+      "dmsg":"i669A9A9A5555565600", "comment":"Remote control", "user":"dafosy",
       "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0001"},
       "rmsg":"MS;P0=-287;P1=254;P2=-1315;P4=-2603;D=141012121010121210121010121210121012101012121012101210101212101210101210121012101210121012101210121012101210121210101210121012121013;CP=1;SP=4;R=46;O;m1;"
     },
     {
-      "dmsg":"i669A9A9A5555555600", "user":"dafosy",
+      "dmsg":"i669A9A9A5555555600", "comment":"Remote control", "user":"dafosy",
       "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0001"},
       "rmsg":"MS;P0=240;P1=-298;P2=-1321;P3=-10816;P4=-2591;D=040102020101020201020101020201020102010102020102010201010202010201010201020102010201020102010201020102010201020102010201020102020103;CP=0;SP=4;R=34;O;m1;"
@@ -394,13 +394,13 @@
 },
 {"name":"ITT-1500", "id":"17", "module":"IT", "data": [
     {
-      "dmsg":"i5A5966695AA9965900", "comment":"", "user":"KoelnSolar",
+      "dmsg":"i5A5966695AA9965900", "comment":"Remote control", "user":"KoelnSolar",
       "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0010"},
       "rmsg":"MS;P0=235;P1=-1316;P2=-296;P3=-10204;P4=-2674;D=040201020101020102020102010102020102010102020101020201010201020201020102010102010201020102010202010102020102010102020102010102020103;CP=0;SP=4;R=44;O;m0;"
     },
     {
-      "dmsg":"i5A5966695AA9955900", "comment":"", "user":"KoelnSolar",
+      "dmsg":"i5A5966695AA9955900", "comment":"Remote control", "user":"KoelnSolar",
       "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0010"},
       "rmsg":"MS;P1=-2667;P2=219;P3=-1330;P5=-315;P7=-10188;D=212523252323252325252325232325252325232325252323252523232523252523252325232325232523252325232525232325252325232523252325232325252327;CP=2;SP=1;R=34;O;m1;"
@@ -457,7 +457,7 @@
     }
   ]
 },
-{"name":"Visivo_7DF825", "id":"24", "module":"SD_UT", "data": [
+{"name":"Visivo", "id":"24", "module":"SD_UT", "data": [
     {
       "dmsg":"P24#9F7DF825029C10", "comment":"Remote control for motorized screen", "user":"MikeRoxx",
       "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
@@ -615,7 +615,7 @@
     }
   ]
 },
-{"name":"TR_502MSV_FFF", "id":"34", "module":"SD_UT", "data": [
+{"name":"TR_502MSV", "id":"34", "module":"SD_UT", "data": [
     {
       "dmsg":"P34#FFFEE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/716", "user":"codeartisan-de",
       "internals": {"DEF":"TR_502MSV FFF", "NAME":"TR_502MSV_FFF"},
@@ -851,7 +851,7 @@
     }
   ]
 },
-{"name":"AC114_01B_00587B", "id":"56", "module":"SD_UT", "data": [
+{"name":"AC114_01B", "id":"56", "module":"SD_UT", "data": [
     {
       "dmsg":"P56#A300587B010043178", "comment":"Celexon Motorleinwand", "user":"Horst12345",
       "internals": {"DEF":"AC114_01B 00587B", "NAME":"AC114_01B_00587B"},
@@ -861,9 +861,9 @@
     }
   ]
 },
-{"name":"AC114_01B_479696", "id":"56", "module":"SD_UT", "data": [
+{"name":"AC114_01B", "id":"56", "module":"SD_UT", "data": [
     {
-      "dmsg":"P56#A347969601000B7F8", "comment":"remote control AC114-01B", "user":"TheChatty",
+      "dmsg":"P56#A347969601000B7F8", "comment":"Remote control AC114-01B", "user":"TheChatty",
       "internals": {"DEF":"AC114_01B 479696", "NAME":"AC114_01B_479696"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"479696"},
       "attributes": {"model":"AC114_01B"},
@@ -1152,7 +1152,7 @@
     }
   ]
 },
-{"name":"BeSmart_S4_534", "id":"78", "module":"SD_UT", "data": [
+{"name":"BeSmart_S4", "id":"78", "module":"SD_UT", "data": [
     {
       "dmsg":"P78#53490", "comment":"Remote control SEAV BeSmart S4 for BEST Cirrus Draw", "user":"TheChatty",
       "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
@@ -1292,16 +1292,16 @@
     }
   ]
 },
-{"name":"BOSCH SF01 01319004", "id":"86", "module":"SD_UT", "data": [
+{"name":"SF01_01319004_Typ2", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#26398", "comment":"Typ2, (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
+      "dmsg":"P86#26398", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
       "readings": {"state":"light_on_off", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
       "rmsg":"MU;P0=706;P1=-160;P2=140;P3=-335;P4=-664;P5=385;P6=-15226;P7=248;D=01210103045303045453030304545453030454530653030453030454530303045454530304747306530304530304545303030454545303045453065303045303045453030304545453030454530653030453030454530303045454530304545306530304530304545303030454545303045453065303045303045453030304;CP=5;O;"
     },
     {
-      "dmsg":"P86#26384", "comment":"Typ2, (ID 63,81 additionally)", "dispatch_repeats":"5", "user":"Stuetti",
+      "dmsg":"P86#26384", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"5", "user":"Stuetti",
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
       "readings": {"state":"delay", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
@@ -1311,14 +1311,14 @@
 },
 {"name":"CAME TOP 432EV", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#EEE", "comment":"(ID 81 additionally)", "user":"andies, andreasloe",
+      "dmsg":"P86#EEE", "comment":"Remote control (ID 81 additionally)", "user":"andies, andreasloe",
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
       "readings": {"state":"left_button", "deviceCode":"11101110"},
       "attributes": {"model":"CAME_TOP_432EV"},
       "rmsg":"MU;P0=-322;P1=136;P2=-15241;P3=288;P4=-735;P6=723;D=0123434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430;CP=3;R=27;"
     },
     {
-      "dmsg":"P86#EED", "comment":"(ID 81 additionally)", "dispatch_repeats":"5", "user":"andies, andreasloe",
+      "dmsg":"P86#EED", "comment":"Remote control (ID 81 additionally)", "dispatch_repeats":"5", "user":"andies, andreasloe",
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
       "readings": {"state":"right_button", "deviceCode":"11101110"},
       "attributes": {"model":"CAME_TOP_432EV"},
@@ -1328,21 +1328,21 @@
 },
 {"name":"Novy 840029", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#555", "comment":"hex_lengh 3 (ID 63,81 additionally)", "user":"Garfonso",
+      "dmsg":"P86#555", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 63,81 additionally)", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_plus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=22808;P1=-24232;P2=701;P3=-765;P4=357;P5=-15970;P7=-406;D=012345472347234723472347234723454723472347234723472347234547234723472347234723472345472347234723472347234723454723472347234723472347234;CP=4;R=39;"
     },
     {
-      "dmsg":"P86#556", "comment":"hex_lengh 3 (ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
+      "dmsg":"P86#556", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_minus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
       "rmsg":"MU;P0=-8032;P1=364;P2=-398;P3=700;P4=-760;P5=-15980;D=0123412341234123412341412351234123412341234123414123512341234123412341234141235123412341234123412341412351234123412341234123414123;CP=1;R=40;"
     },
     {
-      "dmsg":"P86#5574C", "comment":"hex_lengh 5 (ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
+      "dmsg":"P86#5574C", "comment":"Remote control for Novy kitchen hood / hex_lengh 5 (ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"power_on_off", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
@@ -1352,21 +1352,21 @@
 },
 {"name":"Novy 840039", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#556F8", "comment":"hex_lengh 5", "user":"Devirex",
+      "dmsg":"P86#556F8", "comment":"Remote control for Novy kitchen hood / hex_lengh 5", "user":"Devirex",
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
       "readings": {"state":"ambient_light_on", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
       "rmsg":"MU;P0=-9524;P1=364;P2=-414;P3=669;P4=-755;P5=-16076;CP=1;R=83;D=0123412341234123412341412341414141412351234123412341234123414123414141414123;e;w=0;"
     },
     {
-      "dmsg":"P86#555", "comment":"hex_lengh 3 (ID 81 additionally)", "user":"Devirex",
+      "dmsg":"P86#555", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 81 additionally)", "user":"Devirex",
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
       "readings": {"state":"fan_plus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
       "rmsg":"MU;P0=388;P1=-756;P2=264;P3=-399;P4=683;P5=-16082;CP=0;R=67;D=0123410341034103410341050341034103410341034103410;e;w=0;"
     },
     {
-      "dmsg":"P86#5574C", "comment":"hex_lengh 5", "dispatch_repeats":"1", "user":"Devirex",
+      "dmsg":"P86#5574C", "comment":"Remote control for Novy kitchen hood / hex_lengh 5", "dispatch_repeats":"1", "user":"Devirex",
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
       "readings": {"state":"power_on_off", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
@@ -1374,37 +1374,37 @@
     }
   ]
 },
-{"name":"SF01_01319004_A150", "id":"86", "module":"SD_UT", "data": [
+{"name":"SF01_01319004", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#A1530", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1530", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"plus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-220;P1=348;P2=-702;P3=-381;P4=662;P5=-15257;D=01213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451;CP=1;R=6;O;"
     },
     {
-      "dmsg":"P86#A1528", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1528", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"minus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-2112;P1=340;P2=-708;P3=-381;P4=660;P5=-15243;D=01213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421;CP=1;R=7;O;"
     },
     {
-      "dmsg":"P86#A1538", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1538", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"light_on_off", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-707;P1=332;P2=-376;P3=670;P5=-15243;D=01012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301;CP=1;R=3;O;"
     },
     {
-      "dmsg":"P86#A1524", "comment":"(ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1524", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"delay", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
       "rmsg":"MU;P0=-944;P1=341;P2=-695;P3=-375;P4=672;P5=-15261;D=01213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421;CP=1;R=2;O;"
     },
     {
-      "dmsg":"P86#A1534", "comment":"(ID 63 additionally)", "user":"user",
+      "dmsg":"P86#A1534", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "user":"user",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"interval", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
@@ -1499,21 +1499,21 @@
 },
 {"name":"enjoy motors HS-8", "id":"88", "module":"SD_Keeloq", "data": [
     {
-      "dmsg":"P88#31EB8B8A008B48058", "comment":"encoded, button up, Mod. = GFSK", "user":"plin",
+      "dmsg":"P88#31EB8B8A008B48058", "comment":"encoded, button up, (Mod. GFSK)", "user":"plin",
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"up", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
       "rmsg":"MS;P1=399;P2=-421;P3=-4034;P4=800;P5=-815;P6=-15516;D=1342421515424242151515154215421515154242421542151515424242154215424242424242424242154242421542151542154242154242424242424242154215161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
     },
     {
-      "dmsg":"P88#54F58AA3008B48038", "comment":"encoded, button down, Mod. = GFSK", "user":"plin",
+      "dmsg":"P88#54F58AA3008B48038", "comment":"encoded, button down, (Mod. GFSK)", "user":"plin",
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"down", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
       "rmsg":"MS;P1=415;P2=-400;P3=-4034;P4=810;P5=-803;P6=-15468;D=1342154215421542421515151542154215154242421542154215421542424215154242424242424242154242421542151542154242154242424242424242421515161212121212121212121212;CP=1;SP=3;R=84;O;m2;"
     },
     {
-      "dmsg":"P88#CBDA84D2008B48018", "comment":"encoded, button stop, Mod. = GFSK", "user":"plin",
+      "dmsg":"P88#CBDA84D2008B48018", "comment":"encoded, button stop, (Mod. GFSK)", "user":"plin",
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"stop", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
@@ -1573,7 +1573,7 @@
 },
 {"name":"MD-2018R", "id":"91", "module":"SD_UT", "data": [
     {
-      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration (ID 63 additionally)", "dispatch_repeats":"1", "user":"Harst",
+      "dmsg":"P91#80306644B", "comment":"Atlantic's - Vibration Sensor (ID 63 additionally) / decode as MU", "dispatch_repeats":"1", "user":"Harst",
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
@@ -1583,7 +1583,7 @@
 },
 {"name":"MD-210R", "id":"91", "module":"SD_UT", "data": [
     {
-      "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
+      "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - Door / Window Sensor / decode as MU", "user":"Harst",
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
@@ -1591,9 +1591,9 @@
     }
   ]
 },
-{"name":"MD_2003R_FCC17E", "id":"91", "module":"SD_UT", "data": [
+{"name":"MD_2003R", "id":"91", "module":"SD_UT", "data": [
     {
-      "dmsg":"P91#FCC17E1CA", "comment":"Atlantic's - gas (ID 63 additionally)", "user":"Harst",
+      "dmsg":"P91#FCC17E1CA", "comment":"Focus/Atlantic's - Gas detektor (ID 63 additionally) / decode as MU", "user":"Harst",
       "internals": {"DEF":"MD_2003R FCC17E", "NAME":"MD_2003R_FCC17E"},
       "readings": {"state":"normal", "batteryState":"ok", "contact":"no Alarm", "deviceTyp":"gas", "keepalive":"periodically"},
       "attributes": {"model":"MD_2003R"},
@@ -1603,7 +1603,7 @@
 },
 {"name":"MD-2018R", "id":"91.1", "module":"SD_UT", "data": [
     {
-      "dmsg":"P91#80306644B", "comment":"Atlantic's - vibration", "user":"Harst",
+      "dmsg":"P91#80306644B", "comment":"Atlantic's - Vibration Sensor / decode as MS", "user":"Harst",
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
@@ -1613,7 +1613,7 @@
 },
 {"name":"MD-210R", "id":"91.1", "module":"SD_UT", "data": [
     {
-      "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - switch", "user":"Harst",
+      "dmsg":"P91#91DF4F4EB", "comment":"Atlantic's - Door / Window Sensor / decode as MS", "user":"Harst",
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
@@ -1785,7 +1785,7 @@
 },
 {"name":"TX35-IT", "id":"103", "module":"LaCrosse", "data": [
     {
-      "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor example for a WDxxxx Weather Station (2-FSK modulation)", "user":"HomeAuto_User",
+      "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor example for a WDxxxx Weather Station (Mod. 2-FSK, Lacrosse mode 2)", "user":"HomeAuto_User",
       "internals": {"DEF":"29", "NAME":"LaCrosse_29"},
       "readings": {"state":"T: 1.9", "battery":"ok", "temperature":"1.9"},
       "rmsg":"MN;D=9A44196AC448640A;R=246;"
@@ -1816,23 +1816,23 @@
     }
   ]
 },
-{"name":"BF_301_FAD0", "id":"105", "module":"SD_UT", "data": [
+{"name":"BF-301", "id":"105", "module":"SD_UT", "data": [
     {
-      "dmsg":"P105#FAD08883A3", "comment":"Remote control BF-301", "user":"stsirakidis",
+      "dmsg":"P105#FAD08883A3", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd.", "user":"stsirakidis",
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"down", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
       "rmsg":"MU;P0=-697;P1=5629;P2=291;P3=3952;P4=-2459;P5=1644;P6=-298;P7=689;D=34567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614;CP=2;R=41;O;"
     },
     {
-      "dmsg":"P105#FAD08A83A1", "comment":"Remote control BF-301", "dispatch_repeats":"1", "user":"stsirakidis",
+      "dmsg":"P105#FAD08A83A1", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd.", "dispatch_repeats":"1", "user":"stsirakidis",
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
       "rmsg":"MU;P0=5630;P1=3968;P2=-2458;P3=1642;P4=-285;P5=690;P6=282;P7=-704;D=12345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402;CP=6;R=47;O;"
     },
     {
-      "dmsg":"P105#FAD08383A8", "comment":"Remote control BF-301", "dispatch_repeats":"2", "user":"stsirakidis",
+      "dmsg":"P105#FAD08383A8", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd.", "dispatch_repeats":"2", "user":"stsirakidis",
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
@@ -1840,21 +1840,21 @@
     }
   ]
 },
-{"name":"SD_WS_106_T", "id":"106", "module":"SD_WS", "data": [
+{"name":"GT-TMBBQ-01s", "id":"106", "module":"SD_WS", "data": [
     {
-      "dmsg":"W106#2632DC", "comment":"BBQ temperature sensor GT-TMBBQ-01s", "user":"elektron-bbs",
+      "dmsg":"W106#2632DC", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 22.6", "temperature":"22.6", "type":"GT-TMBBQ-01"},
       "rmsg":"MS;P0=525;P1=-2051;P3=-8905;P4=-4062;D=0301010401010404010101040401010401040401040404;CP=0;SP=3;R=35;e;b=2;m0;"
     },
     {
-      "dmsg":"W106#9A57A8", "comment":"BBQ temperature sensor GT-TMBBQ-01s", "user":"elektron-bbs",
+      "dmsg":"W106#9A57A8", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 88.1", "temperature":"88.1", "type":"GT-TMBBQ-01"},
       "rmsg":"MS;P1=-8514;P2=488;P3=-4075;P4=-2068;D=2123242423232423242423242324232323232423242324;CP=2;SP=1;R=31;e;b=70;s=4;m0;"
     },
     {
-      "dmsg":"W106#9A5D20", "comment":"BBQ temperature sensor GT-TMBBQ-01s", "user":"elektron-bbs",
+      "dmsg":"W106#9A5D20", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 97.8", "temperature":"97.8", "type":"GT-TMBBQ-01"},
       "rmsg":"MS;P1=-9144;P2=469;P3=-4101;P4=-2099;D=2123242423232423242423242323232423242423242424;CP=2;SP=1;R=58;O;b=70;s=4;m0;"
