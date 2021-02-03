@@ -2078,13 +2078,14 @@ sub SIGNALduino_TOOL_Get {
       return;
     } elsif ($Http_data ne '') {
       Log3 $name, 4, "$name: Get $cmd - check (12)";
+      #Log3 $name, 4, "$name: Get $cmd - Http_data = $Http_data";
 
       my @apache_split = split (/\n/,$Http_data);
       my @apache_testlist;
 
       ## loop - push tests ##
       foreach (@apache_split) {
-        if ($_ =~ /\stitle=".*txt"\shref=".*">(.*txt)<\/a>/) {
+        if ($_ =~ /\stitle=".*txt".*href=".*">(.*txt)<\/a>/) {
           Log3 $name, 4, "$name: $cmd, found $1";
           $_ =~ /.*href=".*">(.*)<\/a>.*/;
           push (@apache_testlist, $1);
@@ -2092,8 +2093,9 @@ sub SIGNALduino_TOOL_Get {
       }
 
       if (scalar(@apache_testlist) == 0) {
-        readingsSingleUpdate($hash, 'state' , "cmd $cmd - failed!", 0);
+        readingsSingleUpdate($hash, 'state' , "cmd $cmd - failed!", 1);
         Log3 $name, 2, "$name: $cmd failed, probably the website has been changed!";
+        Log3 $name, 4, "$name: $cmd failed, apache_split has ".@apache_split." entries | RegEx for Http_data wrong?";
         return;
       } else {
         $hash->{helper}->{UnitTests_from_SIGNALduino} = join (',' , @apache_testlist);
