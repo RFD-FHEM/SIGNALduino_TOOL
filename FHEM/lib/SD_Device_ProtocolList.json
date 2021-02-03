@@ -678,14 +678,24 @@
 },
 {"name":"Somfy RTS", "id":"43", "module":"SOMFY", "data": [
     {
-      "dmsg":"Ys98DBD153D631BB", "user":"SD_Protocol",
+      "dmsg":"Ys98DBD153D631BB", "comment":"parsestate on, https://forum.fhem.de/index.php/topic,64141.msg642800.html#msg642800", "user":"Elektrolurch",
       "internals": {"DEF":"8AE785 ", "NAME":"SOMFY_8AE785"},
       "readings": {"enc_key":"98", "parsestate":"on", "received":"40", "rolling_code":"0A82"},
       "attributes": {"model":"somfyshutter"},
       "rmsg":"MC;LL=-1405;LH=1269;SL=-723;SH=620;D=98DBD153D631BB;C=669;L=56;R=229;"
     },
     {
-      "dmsg":"Ys81CDCDCBB7DEDD84001D", "comment":"TELIS COMPOSIO - format error (length)", "user":"kpl",
+      "dmsg":"Ys62EB775D738144", "comment":"parsestate prog", "user":"Elektrolurch",
+      "internals": {"DEF":"C5F22E ", "NAME":"SOMFY_C5F22E"},
+      "readings": {"enc_key":"62", "parsestate":"prog", "received":"80", "rolling_code":"9C2A"},
+      "attributes": {"model":"somfyshutter"},
+      "rmsg":"MC;LL=-1428;LH=1275;SL=-755;SH=574;D=62EB775D738144;C=671;L=56;R=236;"
+    }
+  ]
+},
+{"name":"Somfy RTS - TELIS COMPOSIO", "id":"43", "module":"SOMFY", "data": [
+    {
+      "dmsg":"Ys81CDCDCBB7DEDD84001D", "comment":"This remote has a different length to other Somfy remotes, https://forum.fhem.de/index.php/topic,53319.msg926388.html#msg926388", "user":"kpl",
       "internals": {"DEF":"03697C ", "NAME":"SOMFY_03697C"},
       "readings": {"enc_key":"81", "parsestate":"on", "received":"40", "rolling_code":"0006"},
       "attributes": {"model":"somfyshutter"},
