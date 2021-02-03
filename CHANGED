@@ -1,3 +1,7 @@
+2021-02-03 - Update 88_SIGNALduino_TOOL.pm
+
+ - fix reset counters
+ - added some debug output´s
 2021-02-02 - Update SD_Device_ProtocolList.json
 
  - revised some comments
