@@ -96,6 +96,15 @@
     }
   ]
 },
+{"name":"Conrad RSL", "id":"1", "module":"SD_RSL", "data": [
+    {
+      "dmsg":"P1#9374A400", "comment":"Kanal 4 - Taste 3 on, https://forum.fhem.de/index.php/topic,58397.msg880350.html#msg880350 (ID 41 additionally)", "user":"gandi1791",
+      "internals": {"DEF":"74A400_ALL", "NAME":"RSL_74A400_ALL"},
+      "readings": {"state":"on"},
+      "rmsg":"MS;P1=1154;P2=-697;P3=559;P4=-1303;P5=-7173;D=351234341234341212341212123412343412341234341234343434343434343434;CP=3;SP=5;R=247;O;"
+    }
+  ]
+},
 {"name":"JCHENG SECURITY", "id":"3", "module":"IT", "data": [
     {
       "dmsg":"iF99726", "comment":"Wireless PIR - (D0 0/D1 1/D2 1/D3 0)", "user":"HomeAuto_User",
@@ -334,13 +343,33 @@
     }
   ]
 },
+{"name":"KD-101LA", "id":"13", "module":"FLAMINGO", "data": [
+    {
+      "dmsg":"P13#32E44F", "comment":"Smoke alarm device / decode as MS", "user":"Wahrschauer",
+      "internals": {"DEF":"32E44F", "NAME":"FLAMINGO_32E44F"},
+      "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13"},
+      "attributes": {"model":"KD-101LA"},
+      "rmsg":"MS;P0=-1413;P1=757;P2=-2779;P3=-16079;P4=8093;P5=-954;D=1345121210101212101210101012121012121210121210101010;CP=1;SP=3;R=33;O;"
+    }
+  ]
+},
 {"name":"FA22RF", "id":"13.1", "module":"FLAMINGO", "data": [
     {
-      "dmsg":"P13.1#CBFAD2", "comment":"Smoke alarm device", "dispatch_repeats":"3", "user":"HomeAuto_User",
+      "dmsg":"P13.1#CBFAD2", "comment":"Smoke alarm device / decode as MU", "dispatch_repeats":"3", "user":"HomeAuto_User",
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13.1"},
       "attributes": {"model":"FA22RF"},
       "rmsg":"MU;P0=-5684;P1=8149;P2=-887;P3=798;P4=-1393;P5=-2746;P6=-19956;D=0123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435353435361234343535343534343434343434353435343435343535343536123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435;CP=3;R=0;"
+    }
+  ]
+},
+{"name":"LM-101LD", "id":"13.2", "module":"FLAMINGO", "data": [
+    {
+      "dmsg":"P13#B0FFAF", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/233#issuecomment-382070720", "user":"unknown",
+      "internals": {"DEF":"B0FFAF", "NAME":"FLAMINGO_B0FFAF"},
+      "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13"},
+      "attributes": {"model":"LM-101LD"},
+      "rmsg":"MS;P1=-2708;P2=796;P3=-1387;P4=-8477;P5=8136;P6=-904;D=2456212321212323232321212121212121212123212321212121;CP=2;SP=4;"
     }
   ]
 },
@@ -534,7 +563,7 @@
 },
 {"name":"FreeTec PE-6946", "id":"32", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P32#154FFF", "comment":"(ID 40,62,63 additionally)", "user":"SD_Protocol",
+      "dmsg":"P32#154FFF", "comment":"wireless dorbell (ID 40,62,63 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"32 154FFF", "NAME":"SD_BELL_154FFF"},
       "readings": {"state":"ring"},
       "rmsg":"MU;P0=146;P1=245;P3=571;P4=-708;P5=-284;P7=-6689;D=14351435143514143535353535353535353535350704040435043504350435040435353535353535353535353507040404350435043504350404353535353535353535353535070404043504350435043504043535353535353535353535350704040435043504350435040435353535353535353535353507040404350435;CP=3;R=0;O;"
@@ -667,11 +696,63 @@
     }
   ]
 },
+{"name":"Doorbell DB200", "id":"41", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P41#F813D593", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes! https://github.com/RFD-FHEM/RFFHEM/issues/70", "user":"beatz0001",
+      "internals": {"DEF":"41 219D85D3_F813D593", "NAME":"SD_BELL_219D85D3_F813D593"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P0=-526;P1=1450;P2=467;P3=-6949;P4=-1519;D=231010101010242424242424102424101010102410241024101024241024241010;CP=2;SP=3;O;"
+    },
+    {
+      "dmsg":"P41#219D85D3", "comment":"doubleCode 2, autocreate need doubleCode 1&2, bell sends two codes! https://github.com/RFD-FHEM/RFFHEM/issues/70", "user":"beatz0001",
+      "internals": {"DEF":"41 219D85D3_F813D593", "NAME":"SD_BELL_219D85D3_F813D593"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P0=468;P1=-1516;P2=1450;P3=-533;P4=-7291;D=040101230101010123230101232323012323010101012301232323012301012323;CP=0;SP=4;O;"
+    }
+  ]
+},
+{"name":"unitec 98156+98YK", "id":"41", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P41#08E8D593", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
+      "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P0=1474;P1=-521;P2=495;P3=-1508;P4=-6996;D=242323232301232323010101230123232301012301230123010123230123230101;CP=2;SP=4;R=51;m=0;"
+    },
+    {
+      "dmsg":"P41#754485D3", "comment":"doubleCode 2, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
+      "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P1=-7005;P2=482;P3=-1511;P4=1487;P5=-510;D=212345454523452345234523232345232345232323234523454545234523234545;CP=2;SP=1;R=47;m=2;"
+    }
+  ]
+},
+{"name":"KANGTAI (Pollin 94-550405)", "id":"41", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P41#BA2885D3", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes! https://github.com/RFD-FHEM/RFFHEM/issues/365", "user":"trosenda",
+      "internals": {"DEF":"41 1791D593_BA2885D3", "NAME":"SD_BELL_1791D593_BA2885D3"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P0=1390;P1=-600;P2=409;P3=-1600;P4=-7083;D=240123010101230123232301230123232301232323230123010101230123230101;CP=2;SP=4;R=248;O;m0;"
+    },
+    {
+      "dmsg":"P41#1791D593", "comment":"doubleCode 2, autocreate need doubleCode 1&2, bell sends two codes! https://github.com/RFD-FHEM/RFFHEM/issues/365", "user":"trosenda",
+      "internals": {"DEF":"41 1791D593_BA2885D3", "NAME":"SD_BELL_1791D593_BA2885D3"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P1=403;P2=-7102;P3=-1608;P4=1378;P5=-620;D=121313134513454545451313451313134545451345134513454513134513134545;CP=1;SP=2;R=5;O;m0;"
+    }
+  ]
+},
 {"name":"Pollin_551227", "id":"42", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P42#FE1FF87FE1FF86", "user":"trosenda",
+      "dmsg":"P42#FE1FF87FE1FF86", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/390", "user":"trosenda",
       "internals": {"DEF":"42 FE1FF87", "NAME":"SD_BELL_FE1FF87"},
       "readings": {"state":"ring"},
+      "attributes": {"model":"Pollin_551227"},
       "rmsg":"MU;P0=-491;P1=471;P2=1445;D=0101010101010101010102020202010101010101010101010202020201010101010101010101020202020101010101010101010102020202010101;CP=1;R=67;"
     }
   ]
@@ -714,7 +795,7 @@
 },
 {"name":"Revolt", "id":"45", "module":"Revolt", "data": [
     {
-      "dmsg":"r49E7E800443204F4500E04", "comment":"", "user":"SD_Protocol",
+      "dmsg":"r49E7E800443204F4500E04", "comment":"https://forum.fhem.de/index.php/topic,58397.msg603092.html#msg603092", "user":"sash.sc",
       "internals": {"DEF":"49e7", "NAME":"Revolt_49e7"},
       "readings": {"state":"active", "current":"0.68", "energy":"35.88", "frequency":"50", "pf":"0.8", "power":"126.8", "voltage":"232"},
       "rmsg":"MU;P0=-8320;P1=9972;P2=-376;P3=117;P4=-251;P5=232;D=012345434345434345454545434345454545454543454343434343434343434343434543434345434343434545434345434343434343454343454545454345434343454345434343434343434345454543434343434345434345454543454343434543454345434545;CP=3;R=2;"
