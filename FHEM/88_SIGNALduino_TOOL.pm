@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET => 2,
   FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2021-02-02_pre-release',
+  SIGNALduino_TOOL_VERSION => '2021-02-03_pre-release',
   TIMEOUT_HttpUtils => 3,
   UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
   UNITTESTS_RAWFILE_URL =>          'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
@@ -782,9 +782,6 @@ sub SIGNALduino_TOOL_Set {
         for (my $i=0;$i<@{$ProtocolListRead};$i++) {
           $cnt_data_id++;
           $cnt_data_element_max = 0;
-          $cnt_internals_max = 0;
-          $cnt_internals = 0;
-          $cnt_readings = 0;
           my $clientmodule = "";
 
           ### for compatibility , getProperty ###
@@ -808,6 +805,9 @@ sub SIGNALduino_TOOL_Set {
           my $ref_data = @{$ProtocolListRead}[$i]->{data};
           for (my $i2=0;$i2<@$ref_data;$i2++) {
             $cnt_attributes = 0;
+            $cnt_internals = 0;
+            $cnt_internals_max = 0;
+            $cnt_readings = 0;
             print $SaveDoc '      ' if ($i2 != 0);
             print $SaveDoc '"dmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}.'",';
 
@@ -830,6 +830,7 @@ sub SIGNALduino_TOOL_Set {
                 print $SaveDoc '      "internals": {' if ($cnt_internals_max != 0);
 
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 internals=$cnt_internals";
                   $cnt_internals++;
                   print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'", ' if ($cnt_internals != $cnt_internals_max);
                   print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_internals == $cnt_internals_max);
@@ -853,6 +854,7 @@ sub SIGNALduino_TOOL_Set {
             foreach my $key (sort keys %{@$ref_data[$i2]}) {
               if ($key =~ /^readings/) {
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 readings=$cnt_readings";
                   $cnt_readings++;
                   print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings == 1);
                   print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings > 1);
@@ -870,6 +872,7 @@ sub SIGNALduino_TOOL_Set {
             foreach my $key (sort keys %{@$ref_data[$i2]}) {
               if ($key =~ /^attributes/) {
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 attributes=$cnt_attributes";
                   $cnt_attributes++;
                   print $SaveDoc '      "attributes": {' if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
                   print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes == 1);
@@ -2759,13 +2762,13 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   $searchID = $hash->{helper}->{decoded_Protocol_ID} if ( grep { /,/ } ReadingsVal($name, 'decoded_Protocol_ID', 'none') );
 
   ### search last_DMSG ###
-  my $searchDMSG;
+  my $searchDMSG = '';
   $searchDMSG = ReadingsVal($name, 'last_DMSG', 'none') if (ReadingsVal($name, 'last_DMSG', 'none') ne 'not clearly definable!');
   $searchDMSG = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_DMSG'} if (ReadingsVal($name, 'last_DMSG', 'none') eq 'not clearly definable!' && $hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname);
 
   my $searchID_found = 0;
   my $searchDMSG_found = 0;
-  my $searchDMSG_pos = "";
+  my $searchDMSG_pos = '';
 
   my $battery = '';
   my $dmsg = '';
@@ -2834,7 +2837,9 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
     $pos_array_data = 0;                   # reset, DMSG not found -> new empty
   } elsif ($searchDMSG_found == 1) {
     $hash->{helper}->{JSON_new_entry} = 0; # marker for script function, new emtpy need
-    $ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is documented on device $searchDMSG_pos with state ".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state}."</div></td> </tr>";
+    my $state = '';
+    $state = @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state} if (@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state});
+    $ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is documented on device $searchDMSG_pos with state ".$state."</div></td> </tr>";
   }
 
   $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
