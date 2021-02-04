@@ -1,3 +1,7 @@
+2021-02-04 - Update 88_SIGNALduino_TOOL.pm
+
+ - added internal version_modul
+ - revised categorys
 2021-02-03 - Update 88_SIGNALduino_TOOL.pm
 
  - fix regex for Http_data
