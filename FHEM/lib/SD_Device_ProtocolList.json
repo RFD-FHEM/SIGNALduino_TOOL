@@ -713,23 +713,6 @@
     }
   ]
 },
-{"name":"unitec 98156+98YK", "id":"41", "module":"SD_BELL", "data": [
-    {
-      "dmsg":"P41#08E8D593", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
-      "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
-      "readings": {"state":"ring"},
-      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "rmsg":"MS;P0=1474;P1=-521;P2=495;P3=-1508;P4=-6996;D=242323232301232323010101230123232301012301230123010123230123230101;CP=2;SP=4;R=51;m=0;"
-    },
-    {
-      "dmsg":"P41#754485D3", "comment":"doubleCode 2, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
-      "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
-      "readings": {"state":"ring"},
-      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "rmsg":"MS;P1=-7005;P2=482;P3=-1511;P4=1487;P5=-510;D=212345454523452345234523232345232345232323234523454545234523234545;CP=2;SP=1;R=47;m=2;"
-    }
-  ]
-},
 {"name":"KANGTAI (Pollin 94-550405)", "id":"41", "module":"SD_BELL", "data": [
     {
       "dmsg":"P41#BA2885D3", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes! https://github.com/RFD-FHEM/RFFHEM/issues/365", "user":"trosenda",
@@ -744,6 +727,23 @@
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
       "rmsg":"MS;P1=403;P2=-7102;P3=-1608;P4=1378;P5=-620;D=121313134513454545451313451313134545451345134513454513134513134545;CP=1;SP=2;R=5;O;m0;"
+    }
+  ]
+},
+{"name":"unitec 98156+98YK", "id":"41", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P41#08E8D593", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
+      "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P0=1474;P1=-521;P2=495;P3=-1508;P4=-6996;D=242323232301232323010101230123232301012301230123010123230123230101;CP=2;SP=4;R=51;m=0;"
+    },
+    {
+      "dmsg":"P41#754485D3", "comment":"doubleCode 2, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
+      "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "rmsg":"MS;P1=-7005;P2=482;P3=-1511;P4=1487;P5=-510;D=212345454523452345234523232345232345232323234523454545234523234545;CP=2;SP=1;R=47;m=2;"
     }
   ]
 },
@@ -1303,6 +1303,16 @@
     }
   ]
 },
+{"name":"BELL-201-TX", "id":"79", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P79#A0E", "comment":"https://forum.fhem.de/index.php/topic,58397.msg828464.html#msg828464", "dispatch_repeats":"7", "user":"a13xde",
+      "internals": {"DEF":"79 A0E", "NAME":"SD_BELL_A0E"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
+      "rmsg":"MU;P0=-7152;P1=872;P2=-593;P3=323;P4=-296;P5=622;P6=-4650;D=0123452323232323454545236345234523232323234545452363452345232323232345454523634523452323232323454545236345234523232323234545452363452345232323232345454523634523452323232323454545236345234523232323234545452363452345232323232345454523634523452323232323454;CP=3;R=26;O;"
+    }
+  ]
+},
 {"name":"HX 70372", "id":"79", "module":"SD_BELL", "data": [
     {
       "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"3", "user":"Holger-Arnold",
@@ -1322,7 +1332,7 @@
 },
 {"name":"HX 70372", "id":"79", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P79#3FC", "comment":"(ID 63 additionally)", "dispatch_repeats":"6", "user":"rcmcronny",
+      "dmsg":"P79#3FC", "comment":"Heidemann Doorbell (ID 63 additionally) https://forum.fhem.de/index.php/topic,58397.msg879878.html#msg879878", "dispatch_repeats":"6", "user":"rcmcronny",
       "internals": {"DEF":"79 3FC", "NAME":"SD_BELL_3FC"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
@@ -1834,14 +1844,14 @@
 },
 {"name":"Grothe_Mistral_SE_01", "id":"96", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P96#47024DB54B", "comment":"SD_BELL_024DB5", "user":"elektron-bbs",
+      "dmsg":"P96#47024DB54B", "comment":"message length = 10, https://forum.fhem.de/index.php/topic,64251.msg941331.html#msg941331", "user":"coolheizer",
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
       "rmsg":"MC;LL=-409;LH=448;SL=-172;SH=262;D=238126DAA58;C=215;L=41;R=238;"
     },
     {
-      "dmsg":"P96#47824DB5CB", "comment":"SD_BELL_024DB5", "user":"elektron-bbs",
+      "dmsg":"P96#47824DB5CB", "comment":"message length = 10, https://forum.fhem.de/index.php/topic,64251.msg942026.html#msg942026", "user":"coolheizer",
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"Alarm"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
@@ -1851,14 +1861,14 @@
 },
 {"name":"Grothe_Mistral_SE_03", "id":"96", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P96#47104762003F", "comment":"SD_BELL_104762", "user":"elektron-bbs",
+      "dmsg":"P96#47104762003F", "comment":"message length = 12, https://forum.fhem.de/index.php/topic,64251.msg940593.html#msg940593", "user":"coolheizer",
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"ring", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
       "rmsg":"MC;LL=-439;LH=419;SL=-221;SH=212;D=238823B1001F8;C=215;L=49;R=69;"
     },
     {
-      "dmsg":"P96#47904762803F", "comment":"SD_BELL_104762", "user":"elektron-bbs",
+      "dmsg":"P96#47904762803F", "comment":"message length = 12, https://forum.fhem.de/index.php/topic,64251.msg941904.html#msg941904", "user":"coolheizer",
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"Alarm", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
@@ -1892,7 +1902,7 @@
 },
 {"name":"GEA-028DB", "id":"98", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P98#6A2C", "comment":"Radio door chime", "user":"nagelreo",
+      "dmsg":"P98#6A2C", "comment":"Radio door chime", "dispatch_repeats":"5", "user":"nagelreo",
       "internals": {"DEF":"98 6A2C", "NAME":"SD_BELL_6A2C"},
       "readings": {"state":"ring"},
       "attributes": {"model":"GEA-028DB"},
