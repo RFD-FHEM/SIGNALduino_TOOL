@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET => 2,
   FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2021-02-03_pre-release',
+  SIGNALduino_TOOL_VERSION => '2021-02-04_pre-release',
   TIMEOUT_HttpUtils => 3,
   UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
   UNITTESTS_RAWFILE_URL =>          'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
@@ -86,17 +86,23 @@ my %category = (
   'FS20'           => 'Remote controls / wall buttons',
   'Hideki'         => 'Weather sensors',
   'IT'             => 'Remote controls',
+  'KOPP_FC'        => 'Remote controls',
+  'LaCrosse'       => 'Weather sensors',
   'OREGON'         => 'Weather sensors',
+  'PCA301'         => 'Switch socket for energy cost monitor',
   'RFXX10REC'      => 'RFXCOM-Receiver',
+  'SD_AS'          => 'Self build arduino sensors',
   'SD_BELL'        => 'Door Bells',
   'SD_GT'          => 'Remote control based on protocol GT-9000 with encoding',
   'SD_Keeloq'      => 'Remote controls with KeeLoq encoding',
+  'SD_RSL'         => 'Remote controls and switchs',
   'SD_UT'          => 'diverse',
   'SD_WS'          => 'Weather sensors',
   'SD_WS07'        => 'Weather sensors',
   'SD_WS09'        => 'Weather sensors',
   'SD_WS_Maverick' => 'Food thermometer',
-  'SOMFY'          => 'Shutters / awnings motors / doors'
+  'SOMFY'          => 'Shutters / awnings motors / doors',
+  'Siro'           => 'Shutters'
 );
 
 ################################
@@ -181,7 +187,7 @@ sub SIGNALduino_TOOL_Define {
 
   ### default value´s ###
   $hash->{STATE} = 'Defined';
-  $hash->{version} = SIGNALduino_TOOL_VERSION;
+  $hash->{version_modul} = SIGNALduino_TOOL_VERSION;
 
   readingsSingleUpdate($hash, 'state' , 'Defined' , 0);
 
