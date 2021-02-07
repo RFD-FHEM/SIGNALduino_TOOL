@@ -1170,7 +1170,7 @@
 },
 {"name":"HX 70372", "id":"79", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"3", "user":"Holger-Arnold",
+      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"8", "user":"Holger-Arnold",
       "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
