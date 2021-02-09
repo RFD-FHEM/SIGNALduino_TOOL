@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-01-28 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-02-09 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -52,12 +52,12 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 ################################
 
 use constant {
-  CCREG_OFFSET => 2,
-  FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2021-02-04_pre-release',
-  TIMEOUT_HttpUtils => 3,
-  UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
-  UNITTESTS_RAWFILE_URL =>          'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
+  CCREG_OFFSET                    =>  2,
+  FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
+  SIGNALduino_TOOL_VERSION        =>  '2021-02-09_pre-release',
+  TIMEOUT_HttpUtils               =>  3,
+  UNITTESTS_FROM_SIGNALduino_URL  =>  'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
+  UNITTESTS_RAWFILE_URL           =>  'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
 };
 
 my @ccregnames = (
@@ -2905,6 +2905,13 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
     } else {
       $ret .= "<tr class=\"$oddeven\"><td><div>- DEF</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> - </div></td> <td style=\"padding:1px 5px 1px 5px\"><font color=\"#FE2EF7\"><div>".$DispatchMemory->{DEF}."</font></div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> not documented </div></td> <td><div><input type=\"checkbox\" name=\"internal\" id=\"$searchDMSG\" value=\"DEF\" checked> </div></td></tr>";
     }
+
+    $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
+
+    ## read modul revision ##
+    my $revision = '';
+    $revision = SIGNALduino_TOOL_version_modul($hash,$DispatchMemory->{TYPE}) if ($DispatchMemory->{TYPE});
+    $ret .= "<tr class=\"$oddeven\"><td colspan=\"6\" rowspan=\"1\"><small><div> Revision Modul: ".$revision."</div></small></td></tr>";
     $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 
     ## overview 5 - attributes - only relevant model ##
@@ -3122,18 +3129,18 @@ sub SIGNALduino_TOOL_FW_updateData {
     if ($devicefound == 0) {
       Log3 $name, 4, "$name: FW_updateData - device can push";
 
-      push @{$ProtocolListRead}, { name => $devicename,
-                                         id => ReadingsVal($name, 'decoded_Protocol_ID', 'none'),
-                                         data => [ { dmsg => ReadingsVal($name, 'last_DMSG', 'none'),
-                                         comment => $comment,
-                                         user => $user,
-                                         internals => { %internals },
-                                         readings => { %readings },
-                                         attributes => { %attributes },                  # ggf need check
-                                         rmsg => ReadingsVal($name, 'last_MSG', 'none')
-                                                  }
+      push @{$ProtocolListRead}, { name       => $devicename,
+                                   id         => ReadingsVal($name, 'decoded_Protocol_ID', 'none'),
+                                   data       => [  { dmsg    => ReadingsVal($name, 'last_DMSG', 'none'),
+                                                      comment => $comment,
+                                                      user    => $user,
+                                                      internals  => { %internals },
+                                                      readings   => { %readings },
+                                                      attributes => { %attributes },                  # ggf need check
+                                                      rmsg       => ReadingsVal($name, 'last_MSG', 'none')
+                                                    }
                                                  ]
-                                       };
+                                 };
     } else {
       Log3 $name, 4, "$name: FW_updateData - device must update on fixed position $pos_array_device with currently $cnt_data_element_max data elements";
 
@@ -3667,6 +3674,25 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 
   Log3 $name, 4, "$name: readingsSingleUpdate_later running";
   readingsSingleUpdate($hash, 'state', $txt,1);
+}
+
+#####################
+sub SIGNALduino_TOOL_version_modul {
+  my ( $hash, $modultype ) = @_;
+  my $name = $hash->{NAME};
+
+  Log3 $name, 4, "$name: version_modul running";
+
+  my $verbose_old = AttrVal('global','verbose',3);
+  $attr{global}{verbose} = 2 if ($verbose_old <= 3);              # info version write to logfile with verbose 3 and more
+
+  my $revision = fhem("version $modultype");
+  $revision =~ /.*Change\n+(.*\.pm\s\d+\s\d+-\d+-\d+\s.*)$/;
+  $revision = $1;
+
+  $attr{global}{verbose} = $verbose_old if ($verbose_old <= 3 );  # reset verbose to old value to not write info version to logfile
+
+  return $revision;
 }
 
 ###############################################
