@@ -1,3 +1,13 @@
+2021-02-16 - added failing rmsg as comment
+2021-02-07 - Update SD_Device_ProtocolList.json
+
+Update dispatch repeats for HX 70372
+2021-02-07 - Update SD_Device_ProtocolList.json
+
+Fixed number of dispatch_repeats for HX 70372
+2021-02-07 - Update SD_Device_ProtocolList.json
+
+removed rmsg, because as comment, rmsg does not match to get dmsg
 2021-02-01 - Merge branch 'pre-release'
 2021-01-28 - Update 88_SIGNALduino_TOOL.pm
 

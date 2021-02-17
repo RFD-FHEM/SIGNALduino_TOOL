@@ -316,9 +316,8 @@
 },
 {"name":"Hama TS33C", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode", "user":"Ralf9",
-      "readings": {"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"},
-      "rmsg":"MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7;"
+      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode rmsg:MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7;","user":"Ralf9",
+      "readings": {"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"}
     }
   ]
 },
@@ -1171,14 +1170,14 @@
 },
 {"name":"HX 70372", "id":"79", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"3", "user":"Holger-Arnold",
+      "dmsg":"P79#611", "comment":"Heidemann Funkklingel Sender, letztes Bit ungerade 611 619 61D", "dispatch_repeats":"8", "user":"Holger-Arnold",
       "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
       "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
     },
     {
-      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "dispatch_repeats":"3", "user":"Holger-Arnold",
+      "dmsg":"P79#612", "comment":"Heidemann Funkklingel Sender, letztes Bit gerade 612 616 61A 61C 61E (ID 63 additionally)", "dispatch_repeats":"7", "user":"Holger-Arnold",
       "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
