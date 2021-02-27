@@ -1,3 +1,7 @@
+2021-02-27 - Update 88_SIGNALduino_TOOL.pm
+
+ - added JSON structure with minProtocolVersion, revision_entry, revision_modul
+- fix JSON loaded option
 2021-02-09 - Update 88_SIGNALduino_TOOL.pm
 
  - added modul revison info on "Check it" button window
