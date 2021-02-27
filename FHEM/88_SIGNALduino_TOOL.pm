@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-02-09 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-02-27 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET                    =>  2,
   FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION        =>  '2021-02-09_pre-release',
+  SIGNALduino_TOOL_VERSION        =>  '2021-02-27_pre-release',
   TIMEOUT_HttpUtils               =>  3,
   UNITTESTS_FROM_SIGNALduino_URL  =>  'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
   UNITTESTS_RAWFILE_URL           =>  'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
@@ -313,7 +313,7 @@ sub SIGNALduino_TOOL_Set {
 
       ### read file dispatch file
       if ($DispatchModule =~ /^.*\.txt$/) {
-        open my $FileCheck, '<', "$path$Filename_Dispatch$DispatchModule" || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
+        open my $FileCheck, '<', "$path$Filename_Dispatch$DispatchModule" or return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
           while (<$FileCheck>){
             if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
               $count++;
@@ -762,7 +762,7 @@ sub SIGNALduino_TOOL_Set {
         my $SaveDocData = '';
         ## read file for backup ##
         Log3 $name, 5, "$name: Set $cmd - read exist JSON data";
-        open my $SaveDoc, '<', "./FHEM/lib/$jsonDoc" || return "ERROR: file ($jsonDoc) can not open!";
+        open my $SaveDoc, '<', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!";
           while(<$SaveDoc>){
             $SaveDocData = $SaveDocData.$_;
           }
@@ -770,14 +770,16 @@ sub SIGNALduino_TOOL_Set {
 
         ## save backup data ##
         Log3 $name, 5, "$name: Set $cmd - save backup JSON data";
-        open my $Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5).'Backup.json' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'Backup.json) can not open!';
+        open my $Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5).'Backup.json' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."Backup.json) can not open!\n\n$!";
           print $Backup $SaveDocData;
         close $Backup;
       }
 
       ## write new data ##
-      Log3 $name, 5, "$name: Set $cmd - write new JSON data";
-      open my $SaveDoc, '>', "./FHEM/lib/$jsonDoc" || return "ERROR: file ($jsonDoc) can not open!";
+      Log3 $name, 4, "$name: Set $cmd - write new JSON data";
+      # Log3 $name, 3, Dumper\@{$ProtocolListRead}; ## ONLY DEBUG
+
+      open my $SaveDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
         print $SaveDoc "[\n";
 
         ## for max elements ##
@@ -817,9 +819,11 @@ sub SIGNALduino_TOOL_Set {
             print $SaveDoc '      ' if ($i2 != 0);
             print $SaveDoc '"dmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}.'",';
 
-            ## all values behind dmsg except readings, internals, rmsg, dmsg | example: dispatch_repeats
+            ## all values behind dmsg | example: dispatch_repeats
+            # note: new values how print behind attributes, exclude here !!
+            #       if value exclude, you can write to other position
             foreach my $key (sort keys %{@$ref_data[$i2]}) {
-              print $SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",' if ($key !~ /^readings/ && $key !~ /^internals/ && $key !~ /^rmsg/ && $key !~ /^dmsg/ && $key !~ /^attributes/);
+              print $SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",' if ($key !~ /^attributes/ && $key !~ /^dmsg/ && $key !~ /^internals/ && $key !~ /^readings/ && $key !~ /^minProtocolVersion/ && $key !~ /^revision_/ && $key !~ /^rmsg/);
             }
 
             ## all values in internals
@@ -892,6 +896,37 @@ sub SIGNALduino_TOOL_Set {
               print $SaveDoc "\n";
             }
             ## attributes END ##
+
+            ## minProtocolVersion, the protocol is supported from this version ##
+            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}) {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 minProtocolVersion=read value";
+              print $SaveDoc '      "minProtocolVersion":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}.'", ';
+            } else {
+              print $SaveDoc '      ';
+            }
+            ## minProtocolVersion END ##
+
+            ## revision_entry, print day of check ##
+            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}) {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_entry=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry};
+              print $SaveDoc '"revision_entry":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}.'",';
+            } else {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_entry=unknown";
+              print $SaveDoc '"revision_entry":"unknown",';
+            }
+            print $SaveDoc "\n";
+            ## revision_entry END ##
+
+            ## revision_modul, revison of modul on check day ##
+            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}) {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul};
+              print $SaveDoc '      "revision_modul":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}.'",';
+            } else {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=unknown";
+              print $SaveDoc '      "revision_modul":"unknown",';
+            }
+            print $SaveDoc "\n";
+            ## revision_modul END ##
 
             ## values rmsg ##
             print $SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
@@ -1190,7 +1225,7 @@ sub SIGNALduino_TOOL_Set {
             close $SaveDoc;
 
             if ($founded == 0) {
-              open my $SaveDoc, '>>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'ERRORs.txt) can not open!';
+              open my $SaveDoc, '>>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."ERRORs.txt) can not open!\n\n$!";
                 ### for compatibility , getProperty ###
                 if ($modus == 1) {
                   print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
@@ -1204,7 +1239,7 @@ sub SIGNALduino_TOOL_Set {
               close $SaveDoc;
             }
           } else {
-            open my $SaveDoc, '>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'ERRORs.txt) can not open!';
+            open my $SaveDoc, '>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."ERRORs.txt) can not open!\n\n$!";
               ### for compatibility , getProperty ###
               if ($modus == 1) {
                 print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
@@ -1458,7 +1493,7 @@ sub SIGNALduino_TOOL_Get {
 
     return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search/s){
           chomp ($_);                             # Zeilenende entfernen
@@ -1523,7 +1558,7 @@ sub SIGNALduino_TOOL_Get {
 
     return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search\d/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1598,7 +1633,7 @@ sub SIGNALduino_TOOL_Get {
     my $pos2;
     my $tol = 0.15;
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search\d/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1698,7 +1733,7 @@ sub SIGNALduino_TOOL_Get {
     my $MUerror = 0;
     my $MSerror = 0;
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /READredu:\sM(U|S);|M(U|S);P/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1745,7 +1780,7 @@ sub SIGNALduino_TOOL_Get {
     my $dataarray_min;
     my $dataarray_max;
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
     while (<$InputFile>){
       if ($_ =~ /M(U|S);/s){
         $_ = $1 if ($_ =~ /.*;D=(\d+?);.*/);      # cut bis D= & ab ;CP=   # NEW
@@ -1874,7 +1909,7 @@ sub SIGNALduino_TOOL_Get {
     my $json;
     {
       local $/; #Enable 'slurp' mode
-      open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc || return "ERROR: file ($jsonDoc) can not open!";
+      open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc or return "ERROR: file ($jsonDoc) can not open!";
         $json = <$LoadDoc>;
       close $LoadDoc;
     }
@@ -2186,7 +2221,7 @@ sub SIGNALduino_TOOL_Attr() {
       return "Your Attributes $attrName must defined!" if ($attrValue eq '1');
 
       ### all files in path
-      opendir(DIR,$path) || return "ERROR: attr $attrName follow with Error in opening dir $path!";
+      opendir(DIR,$path) or return "ERROR: attr $attrName follow with Error in opening dir $path!";
       my $fileend;
       $attrValue =~ /.*(\..*$)/;
 
@@ -2224,7 +2259,7 @@ sub SIGNALduino_TOOL_Attr() {
       if ($attrValue =~ /.txt$/) {
         $hash->{dispatchOption} = 'from file';
 
-        open my $FileCheck, '<', "$path$Filename_Dispatch$attrValue" || return "ERROR: No file $Filename_Dispatch$attrValue.txt exists!";
+        open my $FileCheck, '<', "$path$Filename_Dispatch$attrValue" or return "ERROR: No file $Filename_Dispatch$attrValue.txt exists!";
           while (<$FileCheck>){
             $count++;
             if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
@@ -2359,7 +2394,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
-  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
   while (<$InputFile>) {
     $_ =~ s/^\s+//g;             # cut space & tab | \s+ matches any whitespace character (equal to [\r\n\t\f\v ])
     $_ =~ s/\n//g;               # cut end
@@ -2376,7 +2411,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       $id_now = $linevalue[0];
 
       $ProtocolList[$cnt_ids_total]{id} = $id_now;                                                              ## id -> array
-      
+
       Log3 $name, 5, "$name: # # # # # # # # # # # # # # # # # # # # # # # # # #";
       Log3 $name, 5, "$name: id $id_now";
 
@@ -2503,7 +2538,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   } else {
     my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);    # lesbares JSON | Sort numerically
 
-    open my $SaveDoc, '>', $path.'SD_ProtocolData.json' || return 'ERROR: file (SD_ProtocolData.json) can not open!';
+    open my $SaveDoc, '>', $path.'SD_ProtocolData.json' or return "ERROR: file (SD_ProtocolData.json) can not open!\n\n$!";
       print $SaveDoc $json;
     close $SaveDoc;
     $return = 'JSON file created from ProtocolData!';
@@ -2779,12 +2814,12 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   my $searchDMSG_pos = '';
 
   my $battery = '';
-  my $dmsg = '';
-  my $comment = '';
-  my $oddeven = 'even';
-  my $state = '';
-
   my $buttons = '';
+  my $comment = '';
+  my $dmsg = '';
+  my $oddeven = 'even';
+  my $readings_diff = '';
+  my $state = '';
 
   ## overview 1 - loop to read information from ID ##
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
@@ -2863,6 +2898,14 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
     $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
     $ret .= "<tr class=\"even\"; style=\"text-align:left; text-decoration:underline\"> <td style=\"padding:1px 5px 1px 5px\"><div> readings </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> readed JSON </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> dispatch value </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> last change </div></td></tr>";
 
+    ## check reading from JSON in new device after dispatch
+    foreach my $key_check (sort keys %{@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}}) {
+      if (not exists $DispatchMemory->{READINGS}->{$key_check}) {
+        $readings_diff.= ', ' if ($readings_diff ne '');
+        $readings_diff.= $key_check;
+      };
+    }
+
     foreach my $key2 (sort keys %{$DispatchMemory->{READINGS}}) {
       ## to check - value exist a timestamp, any readings are not use a timestamp
       my $timestamp = "";
@@ -2908,12 +2951,6 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 
     $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 
-    ## read modul revision ##
-    my $revision = '';
-    $revision = SIGNALduino_TOOL_version_modul($hash,$DispatchMemory->{TYPE}) if ($DispatchMemory->{TYPE});
-    $ret .= "<tr class=\"$oddeven\"><td colspan=\"6\" rowspan=\"1\"><small><div> Revision Modul: ".$revision."</div></small></td></tr>";
-    $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
-
     ## overview 5 - attributes - only relevant model ##
     if (defined @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{attributes}->{model} && $searchDMSG_found == 1) {
       $ret .= "<tr class=\"even\"; style=\"text-align:left; text-decoration:underline\"> <td style=\"padding:1px 5px 1px 5px\"><div> attributes </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> readed JSON </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> dispatch value </div></td> </tr>";
@@ -2922,12 +2959,20 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
       } else {
         $ret .= "<tr class=\"$oddeven\"><td><div>- model</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{attributes}->{model}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".AttrVal($DispatchMemory->{NAME},"model",0)."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> documented </div></td> <td><div><input type=\"checkbox\" name=\"attributes\" id=\"$searchDMSG\" value=\"model\" > </div></td></tr>";
       }
+      $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
     } elsif (AttrVal($DispatchMemory->{NAME},"model",0) ne 0) {
       $ret .= "<tr class=\"even\"; style=\"text-align:left; text-decoration:underline\"> <td style=\"padding:1px 5px 1px 5px\"><div> attributes </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> readed JSON </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> dispatch value </div></td> </tr>";
       $ret .= "<tr class=\"$oddeven\"><td><div>- model</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> - </div></td> <td style=\"padding:1px 5px 1px 5px\"><font color=\"#FE2EF7\"><div>".AttrVal($DispatchMemory->{NAME},"model",0)."</font></div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> not documented </div></td> <td><div><input type=\"checkbox\" name=\"attributes\" id=\"$searchDMSG\" value=\"model\" checked> </div></td></tr>";
+      $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
     }
-    $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
   }
+
+  ## read modul revision ##
+  my $revision = 'unknown';
+  $revision = SIGNALduino_TOOL_version_moduls($hash,$DispatchMemory->{TYPE}) if ($DispatchMemory->{TYPE});
+  $ret .= "<tr class=\"$oddeven\"><td colspan=\"6\" rowspan=\"1\"><small><div> Revision Modul: ".$revision."</div></small></td></tr>";
+  $ret .= "<tr><td colspan=\"6\" rowspan=\"1\"><small> <font color=\"#FF0000\"> <div> !!! difference recognized, reading $readings_diff are now failed !!!</font> </div></small></td></tr>" if ($readings_diff ne '');
+  $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 
   ## text field name ##
   if (defined @{$ProtocolListRead}[$pos_array_device]->{name} && $searchDMSG_found == 1) {
@@ -2951,7 +2996,6 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   }
 
   $ret .="</tbody></table>";
-
   return $ret;
 }
 
@@ -2983,12 +3027,15 @@ sub SIGNALduino_TOOL_FW_updateData {
 
   my @array_value = split(/[X][y][Z],/, $modJSON);
   my $cnt_data_id_max;
+  my $Dummyname = AttrVal($name,'Dummyname','none');
   my $searchDMSG = ReadingsVal($name, 'last_DMSG', 'none');
 
   Log3 $name, 4, "$name: FW_updateData is running (button -> update)";
 
   ### device is find in JSON ###
   if (defined $pos_array_device && exists $hash->{helper}->{JSON_new_entry} && $hash->{helper}->{JSON_new_entry} == 0) {
+    Log3 $name, 4, "$name: FW_updateData - device is found in JSON";
+
     for (my $i=0;$i<@array_value;$i++){
       #Log3 $name, 4, "$name: FW_updateData - $i JavaString = ".$array_value[$i];
       my @modJSON_split = split /\|/, $array_value[$i];
@@ -3031,11 +3078,27 @@ sub SIGNALduino_TOOL_FW_updateData {
         Log3 $name, 4, "$name: FW_updateData - $i ".$modJSON_split[1].': '.$modJSON_split[2].' -> '.AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
         @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{attributes}->{$modJSON_split[2]} = AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
       }
+
+      ## write minProtocolVersion, revision_entry, revision_modul ##
+      if ($i == ( scalar(@array_value) - 1 ) ) {
+        if ( not defined @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{minProtocolVersion} ) {
+          Log3 $name, 4, "$name: FW_updateData - minProtocolVersion set to ".$defs{$Dummyname}->{versionProtocols};
+          @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{minProtocolVersion} = $defs{$Dummyname}->{versionProtocols};
+        }
+
+        Log3 $name, 4, "$name: FW_updateData - revision_entry set to ".FmtDateTime(time());
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{revision_entry} = FmtDateTime(time());
+
+        my $revision_modul = SIGNALduino_TOOL_version_moduls($hash,@{$ProtocolListRead}[$pos_array_device]->{module});
+        Log3 $name, 4, "$name: FW_updateData - revision_modul set to $revision_modul";
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{revision_modul} = $revision_modul;
+      }
     }
+
     Log3 $name, 4, "$name: ".@{$ProtocolListRead}[$pos_array_device]->{name}." with DMSG $searchDMSG is found and values are updated!";
   ### device is NOT in JSON ###
   } else {
-    Log3 $name, 4, "$name: ".InternalVal($name,'dispatchDevice','')." with DMSG $searchDMSG is NOT found and values are new writing in memory!";
+    Log3 $name, 4, "$name: FW_updateData - device is NOT found in JSON, ".InternalVal($name,'dispatchDevice','')." with DMSG $searchDMSG is new writing in memory!";
 
     my %attributes;
     my %internals;
@@ -3197,13 +3260,15 @@ sub SIGNALduino_TOOL_FW_updateData {
   $ProtocolListRead = eval { decode_json($output) };
 
   # ## for test ##
-  # open(SaveDoc, '>', "./FHEM/lib/$jsonDoc".'_TestWrite.json') || return "ERROR: file ($jsonDoc) can not open!";
+  # open(SaveDoc, '>', "./FHEM/lib/$jsonDoc".'_TestWrite.json') or return "ERROR: file ($jsonDoc) can not open!";
     # print SaveDoc $output;
   # close(SaveDoc);
 
   ### last step - reset ###
   $pos_array_device = undef;
   $pos_array_data = undef;
+
+  # Log3 $name, 4, "$name: FW_updateData - Dumper: ".Dumper\@{$ProtocolListRead}; # ONLY DEBUG
 }
 
 ################################
@@ -3677,11 +3742,11 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 }
 
 #####################
-sub SIGNALduino_TOOL_version_modul {
+sub SIGNALduino_TOOL_version_moduls {
   my ( $hash, $modultype ) = @_;
   my $name = $hash->{NAME};
 
-  Log3 $name, 4, "$name: version_modul running";
+  Log3 $name, 5, "$name: version_modul running";
 
   my $verbose_old = AttrVal('global','verbose',3);
   $attr{global}{verbose} = 2 if ($verbose_old <= 3);              # info version write to logfile with verbose 3 and more
@@ -3765,7 +3830,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   my $path = shift;
   my $text;
 
-  open my $cc1101Doc, '>', $path.'SIGNALduino_TOOL_cc1101read.txt' || return 'ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!';
+  open my $cc1101Doc, '>', $path.'SIGNALduino_TOOL_cc1101read.txt' or return "ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!\n\n$!";
     print $cc1101Doc "\n";
     print $cc1101Doc "---------+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+\n";
     print $cc1101Doc "CC1101 from $IODev_CC110x_Register\n";
