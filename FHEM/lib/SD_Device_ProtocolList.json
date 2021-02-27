@@ -5,6 +5,8 @@
       "internals": {"DEF":"CUL_TCM97001_79", "NAME":"ABS700_79"},
       "readings": {"state":"T: 3.3", "battery":"low", "batteryState":"low", "mode":"normal", "other":"3.3", "temperature":"3.3"},
       "attributes": {"model":"ABS700"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-7949;P2=492;P3=-1978;P4=-3970;D=21232423232424242423232323232324242423232323232424;CP=2;SP=1;R=245;O;"
     }
   ]
@@ -15,6 +17,8 @@
       "internals": {"DEF":"CUL_TCM97001_84", "NAME":"GT_WT_02_84"},
       "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "batteryState":"ok", "channel":"2", "humidity":"47", "mode":"normal", "temperature":"17.2"},
       "attributes": {"model":"GT_WT_02"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-4129;P2=550;P3=-2100;P4=-9055;D=2423212321232123232323232123232323212321232121232323212321212121212123232121;CP=2;SP=4;R=241;O;s=4;m1;"
     }
   ]
@@ -25,6 +29,8 @@
       "internals": {"DEF":"CUL_TCM97001_145", "NAME":"Prologue_145"},
       "readings": {"state":"T: 2.6", "battery":"ok", "batteryState":"ok", "channel":"0", "mode":"normal", "other":"2.6", "temperature":"2.6"},
       "attributes": {"model":"Prologue"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-4152;P1=643;P2=-2068;P3=-9066;D=1310121210121212101210101212121212121212121212121010121012121212121012101212;CP=1;SP=3;R=220;O;m2;"
     }
   ]
@@ -35,6 +41,8 @@
       "internals": {"DEF":"CUL_TCM97001_133", "NAME":"W044_133"},
       "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"38", "mode":"normal", "temperature":"20.2"},
       "attributes": {"model":"W044"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-1957;P1=573;P2=-3961;P3=-8913;D=13121010101012101210101010101210121010121210101010101010121212101012121010;CP=1;SP=3;e;m1;"
     }
   ]
@@ -45,6 +53,8 @@
       "internals": {"DEF":"CUL_TCM97001_151", "NAME":"Mebus_151"},
       "readings": {"state":"T: 1.2", "battery":"low", "batteryState":"low", "channel":"1", "mode":"normal", "other":"1.2", "temperature":"1.2"},
       "attributes": {"model":"Mebus"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-9690;P3=354;P4=-4662;P5=-2107;D=3034343434343535343534343435353535353535353434353535343535;CP=3;SP=0;R=209;O;m2;"
     }
   ]
@@ -55,6 +65,8 @@
       "internals": {"DEF":"CUL_TCM97001_53", "NAME":"W044_53"},
       "readings": {"state":"T: 23.8 H: 20", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"20", "mode":"normal", "temperature":"23.8"},
       "attributes": {"model":"TCM21...."},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=452;P4=-1989;P5=-4063;P6=-8942;D=16141415151415141514141514141515151415151514141414141414141415141415151514;CP=1;SP=6;R=36;O;m2;"
     }
   ]
@@ -65,6 +77,8 @@
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
       "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2"},
       "attributes": {"model":"W132"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121212141212121414141412141212141414141414141212;CP=1;SP=3;s6;e;m1;"
     },
     {
@@ -72,6 +86,8 @@
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
       "readings": {"state":"Ws: 0.8 ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2", "windSpeed":"0.8"},
       "attributes": {"model":"W132"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121414141414141414141414141412141414141412121414;CP=1;SP=3;s6;e;m2;"
     }
   ]
@@ -82,6 +98,8 @@
       "internals": {"DEF":"CUL_TCM97001_51", "NAME":"W174_51"},
       "readings": {"state":"R: 14.25", "battery":"ok", "batteryState":"ok", "israining":"yes", "rain":"14.25"},
       "attributes": {"model":"W174"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P3=478;P4=-4052;P5=-2022;P6=-9075;D=536353534343535343435343435343435353435353434343535353535353535353535353435;CP=3;SP=6;R=248;O;m0;"
     }
   ]
@@ -92,6 +110,8 @@
       "internals": {"DEF":"CUL_TCM97001_36", "NAME":"Rubicson_36"},
       "readings": {"state":"T: -2.8", "other":"-2.8", "temperature":"-2.8"},
       "attributes": {"model":"Rubicson"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-3946;P1=448;P2=-1998;P3=-9309;P4=284;D=131212101212101212101212121010101010101012121012121010101210101010124;CP=1;SP=3;e;m3;"
     }
   ]
@@ -101,6 +121,8 @@
       "dmsg":"P1#9374A400", "comment":"Kanal 4 - Taste 3 on, https://forum.fhem.de/index.php/topic,58397.msg880350.html#msg880350 (ID 41 additionally)", "user":"gandi1791",
       "internals": {"DEF":"74A400_ALL", "NAME":"RSL_74A400_ALL"},
       "readings": {"state":"on"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=1154;P2=-697;P3=559;P4=-1303;P5=-7173;D=351234341234341212341212123412343412341234341234343434343434343434;CP=3;SP=5;R=247;O;"
     }
   ]
@@ -110,7 +132,36 @@
       "dmsg":"iF99726", "comment":"Wireless PIR - (D0 0/D1 1/D2 1/D3 0)", "user":"HomeAuto_User",
       "internals": {"DEF":"1527xf9972 0110 0000", "NAME":"IT_1527xf9972"},
       "readings": {"state":"on", "protocol":"EV1527"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-12556;P2=1219;P3=-406;P4=412;P5=-1205;D=41232323232345452323454523452323234545234545232345;CP=4;SP=1;R=22;O;m2;E;"
+    }
+  ]
+},
+{"name":"RC-120", "id":"3", "module":"IT", "data": [
+    {
+      "dmsg":"i69E492", "comment":"Remote for ESMART / Motorleinwand, Button UP, Attributes userV1setCodes needed -> DOWN:0100 UP:0010 STOP:1000", "user":"betrev",
+      "internals": {"DEF":"1527x69e49 0010 0000", "NAME":"IT_1527x69e49"},
+      "readings": {"state":"UP", "protocol":"EV1527"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
+      "rmsg":"MS;P1=-5756;P2=188;P3=-563;P4=552;P5=-196;D=21234545234523234545454523234523234523234523234523;CP=2;SP=1;R=29;O;m0;"
+    },
+    {
+      "dmsg":"i69E498", "comment":"Remote for ESMART / Motorleinwand, Button STOP, Attributes userV1setCodes needed -> DOWN:0100 UP:0010 STOP:1000", "user":"betrev",
+      "internals": {"DEF":"1527x69e49 0010 0000", "NAME":"IT_1527x69e49"},
+      "readings": {"state":"STOP", "protocol":"EV1527"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
+      "rmsg":"MS;P1=-5752;P2=189;P3=-548;P4=543;P5=-194;D=21234545234523234545454523234523234523234545232323;CP=2;SP=1;R=40;O;m1;"
+    },
+    {
+      "dmsg":"i69E494", "comment":"Remote for ESMART / Motorleinwand, Button DOWN, Attributes userV1setCodes needed -> DOWN:0100 UP:0010 STOP:1000", "user":"betrev",
+      "internals": {"DEF":"1527x69e49 0010 0000", "NAME":"IT_1527x69e49"},
+      "readings": {"state":"DOWN", "protocol":"EV1527"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
+      "rmsg":"MS;P1=-5727;P2=188;P3=-551;P4=550;P5=-201;D=21234545234523234545454523234523234523234523452323;CP=2;SP=1;R=42;O;m1;"
     }
   ]
 },
@@ -119,12 +170,16 @@
       "dmsg":"i5554C0", "comment":"Remote control, Button 1 from 8", "user":"HomeAuto_User",
       "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
       "readings": {"state":"off", "protocol":"SBC_FreeTec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P2=1292;P3=-511;P4=389;P5=-1416;P6=-13975;D=46452345234523452345234523452345452323454545454545;CP=4;SP=6;m2;"
     },
     {
       "dmsg":"i555430", "comment":"Remote control, Button 2 from 8", "user":"HomeAuto_User",
       "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
       "readings": {"state":"on", "protocol":"SBC_FreeTec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=387;P1=-1397;P2=1294;P3=-503;P4=-13984;D=04012301230123012301230123012301010101232301010101;CP=0;SP=4;m2;"
     }
   ]
@@ -135,6 +190,8 @@
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
       "readings": {"state":"open", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-478;P2=1360;P3=468;P4=-1366;P5=-14045;D=35212134212134343421212134213434343434343421342134;CP=3;SP=5;R=30;O;m2;4;"
     },
     {
@@ -142,6 +199,8 @@
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
       "readings": {"state":"closed", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-474;P2=1373;P3=455;P4=-1367;P5=-14044;D=35212134212134343421212134213434343434343421212134;CP=3;SP=5;R=37;O;m2;"
     }
   ]
@@ -152,6 +211,8 @@
       "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
       "readings": {"state":"tamper", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P3=1387;P4=-464;P5=445;P6=-13990;P7=-1355;D=56575757573457343434345757573434575757575757343434;CP=5;SP=6;R=242;O;m2;"
     },
     {
@@ -159,6 +220,8 @@
       "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
       "readings": {"state":"open", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=447;P2=-1357;P3=1368;P4=-474;P5=-14012;D=15121212123412343434341212123434121212121234123412;CP=1;SP=5;R=15;O;m2;"
     },
     {
@@ -166,6 +229,8 @@
       "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
       "readings": {"state":"closed", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=466;P2=-470;P3=1367;P4=-1356;P5=-13955;D=15141414143214323232321414143232141414141432323214;CP=1;SP=5;R=250;O;m2;"
     }
   ]
@@ -175,12 +240,16 @@
       "dmsg":"i455414", "comment":"Remote control, on off (FF F0) - Unknown code i455414, help me! (device manually defined)", "user":"Stefan#",
       "internals": {"DEF":"F0FFFFF00F FF F0", "NAME":"IT_F0FFFFF00F"},
       "readings": {"state":"off"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-11440;P1=-1121;P2=-416;P5=309;P6=1017;D=150516251515162516251625162516251515151516251625151;CP=5;SP=0;R=66;"
     },
     {
       "dmsg":"i455515", "comment":"Remote control, on off (FF F0), Gruppentaste", "user":"Stefan#",
       "internals": {"DEF":"F0FFFFFF0F FF F0", "NAME":"IT_F0FFFFFF0F"},
       "readings": {"state":"on", "protocol":"V1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=309;P2=-1130;P3=1011;P4=-429;P5=-11466;D=15123412121234123412141214121412141212123412341234;CP=1;SP=5;R=38;"
     }
   ]
@@ -191,6 +260,8 @@
       "internals": {"DEF":"CUL_TCM97001_174", "NAME":"AURIOL_174"},
       "readings": {"state":"T: 22.9 H: 24", "battery":"ok", "batteryState":"ok", "humidity":"24", "mode":"normal", "temperature":"22.9", "trend":"falling"},
       "attributes": {"model":"TCM218943"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-970;P1=254;P3=-1983;P4=-8045;D=14101310131010101310101010101010101010101313101010101010101313131010131013;CP=1;SP=4;"
     },
     {
@@ -198,6 +269,8 @@
       "internals": {"DEF":"CUL_TCM97001_174", "NAME":"AURIOL_174"},
       "readings": {"state":"T: 22.7 H: 23", "battery":"ok", "batteryState":"ok", "humidity":"23", "mode":"forced", "temperature":"22.7", "trend":"falling"},
       "attributes": {"model":"TCM218943"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-2054;P1=236;P2=-1032;P3=-7760;D=13121012101212121012121210121212121212121012101010121212121010101212121010;CP=1;SP=3;"
     }
   ]
@@ -207,18 +280,24 @@
       "dmsg":"P7#B1811AA2C", "comment":"from https://forum.fhem.de/index.php/topic,101682.0.html", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
       "readings": {"state":"T: 28.2 H: 44", "batteryState":"ok", "channel":"1", "humidity":"44", "sendmode":"auto", "temperature":"28.2"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=494;P1=-1949;P2=-967;P3=-3901;D=03010201010202020101020202020202010202020101020102010201020202010201010202;CP=0;SP=3;R=37;m0;"
     },
     {
       "dmsg":"P7#B180F4A38", "comment":"from https://forum.fhem.de/index.php/topic,101682.0.html", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
       "readings": {"state":"T: 24.4 H: 56", "batteryState":"ok", "channel":"1", "humidity":"56", "sendmode":"auto", "temperature":"24.4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-1940;P2=495;P3=-957;P4=-3878;D=24212321212323232121232323232323232121212123212323212321232323212121232323;CP=2;SP=4;R=20;O;m1;"
     },
     {
       "dmsg":"P7#B1C0FAA49", "comment":"from https://forum.fhem.de/index.php/topic,101682.0.html", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
       "readings": {"state":"T: 25 H: 73", "batteryState":"ok", "channel":"1", "humidity":"73", "sendmode":"manual", "temperature":"25"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-1952;P2=495;P3=-966;P4=-3917;D=24212321212323232121212323232323232121212121232123212321232321232321232321;CP=2;SP=4;R=39;O;m2;"
     }
   ]
@@ -228,12 +307,16 @@
       "dmsg":"P7#6300C6F0B", "comment":"Channel 1", "user":"SD_Protocol",
       "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
       "readings": {"state":"T: 19.8 H: 11", "batteryState":"low", "channel":"1", "humidity":"11", "temperature":"19.8"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-3882;P2=504;P3=-957;P4=-1949;D=21232424232323242423232323232323232424232323242423242424242323232324232424;CP=2;SP=1;R=249;m=2;"
     },
     {
       "dmsg":"P7#8210A1F24", "comment":"Channel 2", "user":"Ralf9",
       "internals": {"DEF":"SD_WS07_TH_2", "NAME":"SD_WS07_TH_2"},
       "readings": {"state":"T: 16.1 H: 36", "batteryState":"low", "channel":"2", "humidity":"36", "temperature":"16.1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P2=-1945;P3=486;P4=-976;P5=-3927;D=35323434343434323434343432343434343234323434343432323232323434323434323434;CP=3;SP=5;R=13;O;m1;"
     }
   ]
@@ -243,6 +326,8 @@
       "dmsg":"P7#6190D8F3D", "comment":"Channel 2 / for some Weatherstation", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS07_TH_2", "NAME":"SD_WS07_TH_2"},
       "readings": {"state":"T: 21.6 H: 61", "batteryState":"ok", "channel":"2", "humidity":"61", "temperature":"21.6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P2=-2006;P4=-4065;P5=491;P6=-1005;D=54565252565656565252565652565656565252565252565656525252525656525252525652;CP=5;SP=4;R=48;O;m2;e;"
     }
   ]
@@ -252,6 +337,8 @@
       "dmsg":"P7#4180E2F3B", "comment":"Wetterstationen 1362 22,93,94", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS07_TH_1", "NAME":"SD_WS07_TH_1"},
       "readings": {"state":"T: 22.6 H: 59", "batteryState":"ok", "channel":"1", "humidity":"59", "temperature":"22.6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=498;P1=-965;P2=-1969;P3=-3900;D=03010201010101010202010101010101010202020101010201020202020101020202010202;CP=0;SP=3;R=0;O;m2;"
     }
   ]
@@ -261,6 +348,8 @@
       "dmsg":"TXAECA560564", "comment":"(ID 42,75 additionally)", "user":"sidey79",
       "internals": {"DEF":"101", "NAME":"CUL_TX_101"},
       "readings": {"state":"H: 56.0", "humidity":"56.0"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-392;P1=1285;P2=-1024;P3=506;P4=-27790;D=0121212123212321232323212323212123212321212321232123232121212121212321232123232121232121412121212321232123232321232321212321232121232123212323212121212121232123212323212123212141212121232123212323232123232121232123212123212321232321212121212123212321232;CP=3;R=0;O;"
     }
   ]
@@ -270,6 +359,8 @@
       "dmsg":"P9#FF4A63E4AA040802F40168", "comment":"(ID 42,75 additionally)", "user":"maddinthebrain",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"T: 9.8  H: 85  Ws:0.7  Wg:1.4 m/s Wd: N  R: 113.4", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"85", "id":"83", "rain":"113.4", "rain_total":"113.4", "temperature":"9.8", "windDirection":"0", "windDirectionAverage":"0", "windDirectionDegree":"0", "windDirectionText":"N", "windGust":"1.4", "windGust_fts":"4.6", "windGust_kmh":"5.0", "windGust_kn":"2.7", "windGust_mph":"3.1", "windSpeed":"0.7", "windSpeed_fts":"2.3", "windSpeed_kmh":"2.5", "windSpeed_kn":"1.4", "windSpeed_mph":"1.6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-31072;P1=486;P2=-986;P3=1454;D=01212121212121212321232321232123232121232323212121212123232123232123212321232123232323232321232323232323212323232323232323232123212121212321232323232323232323212321212321232301212121212121212321232321232123232121232323212121212123232123232123212321232123;CP=1;R=29;O;"
     }
   ]
@@ -279,12 +370,16 @@
       "dmsg":"P9#FEE7E2AA049E81F0", "comment":"Lux & UV RAWMSG with length 64", "user":"rob",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"UV: 1 Lux: 15136 ", "Lux":"15136", "UV":"1", "id":"63"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-10108;P1=495;P2=-1050;P3=1496;P4=-27564;P5=372;CP=1;R=245;D=012121212121212321212123232121212121212323232123212321232123212323232323232123232123232121212123212323232323232121212121232323450;e;"
     },
     {
       "dmsg":"P9#FF5BA39C8C020403C60822", "comment":"Temp,Hum,Rain,Wind RAWMSG with length 88 (ID 42 additionally)", "user":"rob",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"T: 6.2  H: 70  Ws:0.3  Wg:0.7 m/s Wd: E  R: 144.9", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"70", "id":"221", "rain":"144.9", "rain_total":"144.9", "temperature":"6.2", "windDirection":"4", "windDirectionAverage":"90", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"0.7", "windGust_fts":"2.3", "windGust_kmh":"2.5", "windGust_kn":"1.4", "windGust_mph":"1.6", "windSpeed":"0.3", "windSpeed_fts":"1.0", "windSpeed_kmh":"1.1", "windSpeed_kn":"0.6", "windSpeed_mph":"0.7"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=481;P2=-990;P3=1450;CP=1;R=244;D=012121212121212123212321212321212123212323232121212323212121232321232323212123232323232323232123232323232321232323232323232321212121232323212123232323232123232323232123232321;e;"
     }
   ]
@@ -294,6 +389,8 @@
       "dmsg":"P9#FF7C845508D87403", "comment":"reconstructed bit 1", "user":"Ralf9",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"UV: 4 Lux: 57970 ", "Lux":"57970", "UV":"4", "id":"200"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-1424;P1=1417;P2=-1058;P3=453;P4=-24774;P6=288;P7=-788;D=01212121232343232323232323232123232323232121232121212123212121232123212321232121212123212121232321232321212121232323212321212121212121212323467323232323232323212323232323212123212121212321212123212321232123212121212321212123232123232121212123232321232121;CP=3;R=247;O;"
     }
   ]
@@ -303,6 +400,8 @@
       "dmsg":"501A2D203C801720833E9E", "comment":"OSV2", "user":"Wetterhexe",
       "internals": {"DEF":"THGR228N_3c_2", "NAME":"THGR228N_3c_2"},
       "readings": {"state":"T: 17.8 H: 32 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"32", "temperature":"17.8"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;"
     }
   ]
@@ -312,6 +411,8 @@
       "dmsg":"50FA2844DC202070835092", "comment":"OSV3 (ID 52 additionally)", "user":"Wetterhexe",
       "internals": {"DEF":"THGR810_dc_4", "NAME":"THGR810_dc_4"},
       "readings": {"state":"T: 20.2 H: 37 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"37", "temperature":"20.2"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;"
     }
   ]
@@ -321,16 +422,19 @@
       "dmsg":"P12#75EFBA4A72BECC504F1801", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
       "readings": {"state":"T: 29.6 H: 54", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Hum. OK. Temp. uncomfortable (>24.9 or <20)", "humidity":"54", "package_number":"3", "temperature":"29.6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1010;LH=938;SL=-519;SH=457;D=A8C2345ADD8E0B99F586F9C;C=487;L=90;R=57;"
     }
   ]
 },
 {"name":"Hama TS33C", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode via RAWMSG, only DMSG", "user":"Ralf9",
+      "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode via RAWMSG MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7; / only DMSG", "user":"Ralf9",
       "internals": {"DEF":"Hideki_30_2", "NAME":"Hideki_30_2"},
       "readings": {"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"},
-      "rmsg":"MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7;"
+      "revision_entry":"unknown",
+      "revision_modul":"unknown"
     }
   ]
 },
@@ -339,6 +443,8 @@
       "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Thermo-hygro sensor for base station 35.1101.02", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
       "readings": {"state":"T: 23.9 H: 9", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Dry. Less than 40% RH", "humidity":"9", "package_number":"3", "temperature":"23.9"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1022;LH=927;SL=-531;SH=442;D=A8EA345AD8BE0A3F6AA3F94;C=486;L=90;R=37;"
     }
   ]
@@ -349,6 +455,8 @@
       "internals": {"DEF":"32E44F", "NAME":"FLAMINGO_32E44F"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13"},
       "attributes": {"model":"KD-101LA"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-1413;P1=757;P2=-2779;P3=-16079;P4=8093;P5=-954;D=1345121210101212101210101012121012121210121210101010;CP=1;SP=3;R=33;O;"
     }
   ]
@@ -359,6 +467,8 @@
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13.1"},
       "attributes": {"model":"FA22RF"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-5684;P1=8149;P2=-887;P3=798;P4=-1393;P5=-2746;P6=-19956;D=0123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435353435361234343535343534343434343434353435343435343535343536123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435;CP=3;R=0;"
     }
   ]
@@ -369,6 +479,8 @@
       "internals": {"DEF":"B0FFAF", "NAME":"FLAMINGO_B0FFAF"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13"},
       "attributes": {"model":"LM-101LD"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-2708;P2=796;P3=-1387;P4=-8477;P5=8136;P6=-904;D=2456212321212323232321212121212121212123212321212121;CP=2;SP=4;"
     }
   ]
@@ -379,6 +491,8 @@
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"power_on", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=988;P1=-384;P2=346;P3=-1026;P4=-4923;D=240123012301230123012323232323232301232323;CP=2;SP=4;R=0;O;m=1;"
     },
     {
@@ -386,6 +500,8 @@
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"brightness_plus", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-398;P1=974;P3=338;P4=-1034;P6=-4939;D=361034103410341034103434343434343410103434;CP=3;SP=6;R=0;"
     },
     {
@@ -393,6 +509,8 @@
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
       "readings": {"state":"flickering_slowly", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=976;P2=-397;P3=341;P4=-1029;P5=-4940;D=351234123412341234123434343434343412341234;CP=3;SP=5;R=0;"
     }
   ]
@@ -402,6 +520,8 @@
       "dmsg":"P16#4805B7B132", "comment":"(ID 40,72 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"0100100000000101101101111011_1", "NAME":"Dooya_0100100000000101101101111011_1"},
       "readings": {"state":"closed", "exact":"closed", "parsestate":"on", "position":"200"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-1562;P1=-411;P2=297;P3=-773;P4=668;P5=4754;D=1232341234141234141234141414123414123232341232341412323414150234123234123232323232323234123414123414123414141412341412323234123234141232341415023412323412323232323232323412341412341412341414141234141232323412323414123234142;CP=2;"
     }
   ]
@@ -411,12 +531,16 @@
       "dmsg":"i669A9A9A5555565600", "comment":"Remote control", "user":"dafosy",
       "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0001"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-287;P1=254;P2=-1315;P4=-2603;D=141012121010121210121010121210121012101012121012101210101212101210101210121012101210121012101210121012101210121210101210121012121013;CP=1;SP=4;R=46;O;m1;"
     },
     {
       "dmsg":"i669A9A9A5555555600", "comment":"Remote control", "user":"dafosy",
       "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0001"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=240;P1=-298;P2=-1321;P3=-10816;P4=-2591;D=040102020101020201020101020201020102010102020102010201010202010201010201020102010201020102010201020102010201020102010201020102020103;CP=0;SP=4;R=34;O;m1;"
     }
   ]
@@ -426,12 +550,16 @@
       "dmsg":"i5A5966695AA9965900", "comment":"Remote control", "user":"KoelnSolar",
       "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0010"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=235;P1=-1316;P2=-296;P3=-10204;P4=-2674;D=040201020101020102020102010102020102010102020101020201010201020201020102010102010201020102010202010102020102010102020102010102020103;CP=0;SP=4;R=44;O;m0;"
     },
     {
       "dmsg":"i5A5966695AA9955900", "comment":"Remote control", "user":"KoelnSolar",
       "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0010"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-2667;P2=219;P3=-1330;P5=-315;P7=-10188;D=212523252323252325252325232325252325232325252323252523232523252523252325232325232523252325232525232325252325232523252325232325252327;CP=2;SP=1;R=34;O;m1;"
     }
   ]
@@ -441,12 +569,16 @@
       "dmsg":"i5665A5AAA556965500", "comment":"(ID 63 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"00010100110011111100000110 0 0000", "NAME":"IT_V3_a67e0c0"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0000"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=346;P1=-1227;P2=-190;P4=-10224;P5=-2580;D=020101020201020102010201040502010201020101020201010202010201010201020201020101020102010201020102010202010201020102010201010201020201020101020201020102010201040502010201020101020201010202010201010201020201020101020102010201020102010202010201020102010201010201020201020101020201020102010201;CP=0;"
     },
     {
       "dmsg":"i5665A5AAA556955500", "comment":"(ID 63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"00010100110011111100000110 0 0000", "NAME":"IT_V3_a67e0c0"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0000"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=355;P1=-189;P2=-1222;P3=-10252;P4=-2604;D=0201020102030401020102010202010102020101020102020102010102010202010201020102010201020101020102010201020102020102010102010201020102010201020102030401020102010202010102020101020102020102010102010202010201020102010201020101020102010201020102020102010102010201020102010201020102;CP=0;"
     }
   ]
@@ -456,6 +588,8 @@
       "dmsg":"500A4D100E001000002100", "comment":"OSV1", "user":"Ralf9",
       "internals": {"DEF":"THR128_0e_1", "NAME":"THR128_0e_1"},
       "readings": {"state":"T: 10 BAT: ok", "battery":"ok", "batteryState":"ok", "temperature":"10"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-2486;LH=3348;SL=-1024;SH=1889;D=8FFF7F0F;C=1457;L=32;R=65;"
     }
   ]
@@ -465,6 +599,8 @@
       "dmsg":"u19#E2CA7C", "comment":"von Dez 2016", "user":"zag-o-mat",
       "internals": {"DEF":"SIGNALduino_unknown_19", "NAME":"SIGNALduino_unknown_19"},
       "readings": {"state":"E2CA7C"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=293;P1=-887;P2=-312;P6=-1900;P7=872;D=6727272010101720172720101720172010172727272720;CP=0;"
     }
   ]
@@ -475,6 +611,8 @@
       "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
       "readings": {"state":"on", "LastAction":"receive", "deviceCode":"17E9"},
       "attributes": {"model":"RCnoName20"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-740;P2=686;P3=-283;P5=229;P6=-7889;D=5650505023502323232323235023505023505050235050502323502323505050;CP=5;SP=6;R=67;O;m2;"
     },
     {
@@ -482,6 +620,8 @@
       "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
       "readings": {"state":"off", "LastAction":"receive", "deviceCode":"17E9"},
       "attributes": {"model":"RCnoName20"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-754;P2=213;P4=681;P5=-283;P6=-7869;D=2621212145214545454545452145212145212121212145214521212121452121;CP=2;SP=6;R=69;O;m2;"
     }
   ]
@@ -492,6 +632,8 @@
       "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"7DF825"},
       "attributes": {"model":"Visivo"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=505;P1=140;P2=-771;P3=-225;P5=4558;D=012031212030303030312030303030312030303030303121212121203121203120312121212121203120312120303031212121212031212121252031212030303030312030303030312030303030303121212121203121203120312121212121203120312120303031212121212031212121252031212030;CP=1;O;"
     },
     {
@@ -499,6 +641,8 @@
       "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"7DF825"},
       "attributes": {"model":"Visivo"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-764;P1=517;P2=-216;P3=148;P5=4550;D=012303012121212123012121212123012121212121230303030301230301230123030303012303030123012303030123030303012303030305012303012121212123012121212123012121212121230303030301230301230123030303012303030123012303030123030303012303030305012303012120;CP=3;O;"
     }
   ]
@@ -509,6 +653,8 @@
       "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
       "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"DAAB"},
       "attributes": {"model":"xavax"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=412;P1=-534;P2=-1356;P3=-20601;P4=3360;P5=-3470;D=01020102010201020201010201010201020102010201020101020101010102020203010145020201020201020102010201020102020101020101020102010201020102010102010101010202020301014502020102020102010201020102010202010102010102010201020102010201010201010101020202030101450202;CP=0;R=0;O;"
     },
     {
@@ -516,6 +662,8 @@
       "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
       "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"DAAB"},
       "attributes": {"model":"xavax"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-3504;P1=416;P2=-1356;P3=-535;P4=-20816;P5=3324;D=01212131212131213121312131213121213131213131213121312131213121313131212121213131314131350121213121213121312131213121312121313121313121312131213121312131313121212121313131413135012121312121312131213121312131212131312131312131213121312131213131312121212131;CP=1;R=50;O;"
     }
   ]
@@ -525,18 +673,24 @@
       "dmsg":"W27#113C49B04806", "comment":"EuroChron weatherstation EFTH-800 / Channel 2 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_2", "NAME":"SD_WS_27_TH_2"},
       "readings": {"state":"T: 15.5 H: 48", "batteryState":"ok", "channel":"2", "humidity":"48", "temperature":"15.5", "type":"EFTH-800, EFS-3110A"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-224;P1=258;P2=-487;P3=505;P4=-4884;P5=743;P6=-718;D=0121212301212303030301212123012123012123030123030121212121230121230121212121212121230301214565656561212123012121230121230303030121212301212301212303012303012121212123012123012121212121212123030121;CP=1;R=53;"
     },
     {
       "dmsg":"W27#21D442607679", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
       "readings": {"state":"T: 3.8 H: 76", "batteryState":"ok", "channel":"3", "humidity":"76", "temperature":"3.8", "type":"EFTH-800, EFS-3110A"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-241;P1=251;P2=-470;P3=500;P4=-4868;P5=743;P6=-718;D=012121212303030123012301212123012121212301212303012121212121230303012303012123030303012123014565656561212301212121230303012301230121212301212121230121230301212121212123030301230301212303030301212301;CP=1;R=23;"
     },
     {
       "dmsg":"W27#21D4435075DE", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
       "readings": {"state":"T: 5.3 H: 75", "batteryState":"ok", "channel":"3", "humidity":"75", "temperature":"5.3", "type":"EFTH-800, EFS-3110A"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-240;P1=253;P2=-487;P3=489;P4=-4860;P5=746;P6=-725;D=012121212303030123012301212123012121212303012301230121212121230303012301230303012303030301214565656561212301212121230303012301230121212301212121230301230123012121212123030301230123030301230303030121;CP=1;R=19;"
     }
   ]
@@ -547,6 +701,8 @@
       "internals": {"DEF":"Buttons_five E", "NAME":"Buttons_five_E"},
       "readings": {"state":"fan_off", "deviceCode":"1110 (off|off|off|on)"},
       "attributes": {"model":"Buttons_five"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=250;P1=-492;P2=166;P3=-255;P4=491;P5=-8588;D=052121212121234121212121234521212121212341212121212345212121212123412121212123452121212121234121212121234;CP=0;"
     }
   ]
@@ -557,6 +713,8 @@
       "internals": {"DEF":"Unitec_47031 95", "NAME":"Unitec_47031_95"},
       "readings": {"state":"1", "System-Housecode":"10010101 (on|off|off|on|off|on|off|on)", "Usersystem":"Unitec 47121", "Zone":"010 (off|on|off) - Zone 3"},
       "attributes": {"model":"Unitec_47031"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=309;P1=636;P2=-690;P3=-363;P4=-10027;D=012031203120402031312031203120312031204020313120312031203120312040203131203120312031203120402031312031203120312031204020313120312031203120312040203131203120312031203120402031312031203120312031204020313120312031203120312040203131203120312030;CP=0;O;"
     }
   ]
@@ -566,6 +724,8 @@
       "dmsg":"P32#154FFF", "comment":"wireless dorbell (ID 40,62,63 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"32 154FFF", "NAME":"SD_BELL_154FFF"},
       "readings": {"state":"ring"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=146;P1=245;P3=571;P4=-708;P5=-284;P7=-6689;D=14351435143514143535353535353535353535350704040435043504350435040435353535353535353535353507040404350435043504350404353535353535353535353535070404043504350435043504043535353535353535353535350704040435043504350435040435353535353535353535353507040404350435;CP=3;R=0;O;"
     }
   ]
@@ -576,6 +736,8 @@
       "internals": {"DEF":"32 7ED403", "NAME":"SD_BELL_7ED403"},
       "readings": {"state":"ring"},
       "attributes": {"model":"FreeTec_PE-6946"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=130;P1=-666;P2=533;P3=-273;P5=-6200;CP=0;R=15;D=01232301230123010101010101010123230501232323232323012323012301230101010101010101232305012323232323230123230123012301010101010101012323050123232323232301232301230123010101010101010123230501232323232323012323012301230101010101010101232305012323232323230123;O;"
     }
   ]
@@ -586,6 +748,8 @@
       "internals": {"DEF":"SD_WS_33_T_1", "NAME":"SD_WS_33_T_1"},
       "readings": {"state":"T: 24.2", "batteryState":"ok", "channel":"1", "temperature":"24.2", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "attributes": {"model":"S522"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-8035;P2=504;P3=-2027;P4=-3945;D=21232323232324232423232323232323242424232424242324242323232323232323232323232324242423;CP=2;SP=1;R=19;O;m0;"
     }
   ]
@@ -595,6 +759,8 @@
       "dmsg":"W33#26C6F570804", "comment":"Conrad (ID 33.2 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_33_TH_2", "NAME":"SD_WS_33_TH_2"},
       "readings": {"state":"T: 15.5 H: 44", "batteryState":"ok", "channel":"2", "humidity":"44", "temperature":"15.5", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-7990;P1=485;P3=-2061;P4=-4060;D=10131314131314141314141313131414131414141413141314131414141313131314131313131313131314;CP=1;SP=0;R=4;O;"
     }
   ]
@@ -604,6 +770,8 @@
       "dmsg":"W33#14C1C594C0C", "comment":"Thermo-hygro sensor for base station 35.1126", "user":"cxxcoder",
       "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
       "readings": {"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1", "humidity":"53", "temperature":"18.8", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-7796;P2=745;P3=-1976;P4=-3929;D=21232323242324232324242323232323242424232323242324242323242324232324242323232323232424;CP=2;SP=1;R=30;O;m2;"
     }
   ]
@@ -613,6 +781,8 @@
       "dmsg":"W33#3E23C564824", "comment":"(ID 0.3 additionally)", "user":"Doublefant",
       "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
       "readings": {"state":"T: 5.1 H: 41", "batteryState":"ok", "channel":"1", "humidity":"41", "temperature":"5.1", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=393;P2=-7752;P3=-2047;P4=-3993;D=12131314141414141313131413131314141414131313141314131414131314131314131313131314131314;CP=1;SP=2;R=230;O;m1;"
     }
   ]
@@ -623,6 +793,8 @@
       "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
       "readings": {"state":"Ch1_on", "deviceCode":"100010010001"},
       "attributes": {"model":"QUIGG_DMV"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-9584;P1=592;P2=-665;P3=1223;P4=-1311;D=01234141412341412341414123232323412323234;CP=1;R=0;"
     },
     {
@@ -630,6 +802,8 @@
       "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
       "readings": {"state":"Ch1_off", "deviceCode":"100010010001"},
       "attributes": {"model":"QUIGG_DMV"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
     }
   ]
@@ -640,6 +814,8 @@
       "internals": {"DEF":"QUIGG_DMV 9E4", "NAME":"QUIGG_DMV_9E4"},
       "readings": {"state":"Ch1_off", "deviceCode":"100111100100"},
       "attributes": {"model":"QUIGG_DMV"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-9812;P1=589;P2=-671;P3=1261;P4=-1320;D=012341412323232341412341412323232323232323;CP=3;R=19;"
     }
   ]
@@ -650,6 +826,8 @@
       "internals": {"DEF":"TR_502MSV FFF", "NAME":"TR_502MSV_FFF"},
       "readings": {"state":"Ch1_on", "deviceCode":"111111111111"},
       "attributes": {"model":"TR_502MSV"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=4192;P1=-663;P2=1325;P3=-1320;P4=668;P5=-9905;D=01212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541;CP=2;R=71;O;"
     }
   ]
@@ -659,12 +837,16 @@
       "dmsg":"ihD8ED0A1000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
       "internals": {"DEF":"HE800 8848 1", "NAME":"IT_HE800_8848_1"},
       "readings": {"state":"on", "protocol":"HE800"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-4906;P3=-992;P4=899;P5=-378;P7=283;D=7073734573734545457373734573734573454545457345734545454573;CP=7;SP=0;R=76;O;m1;"
     },
     {
       "dmsg":"ihD95E005000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
       "internals": {"DEF":"HE800 8848 1", "NAME":"IT_HE800_8848_1"},
       "readings": {"state":"off", "protocol":"HE800"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P2=896;P3=-375;P5=-1005;P6=269;P7=-4850;D=6765652365652323652365236565656523232323232323232323652365;CP=6;SP=7;R=76;e;m1;"
     }
   ]
@@ -674,6 +856,8 @@
       "dmsg":"W37#D9165C307B", "comment":"(ID 61,84,89 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"SD_WS37_TH_1", "NAME":"SD_WS37_TH_1"},
       "readings": {"state":"T: 22.7 H: 48", "batteryState":"ok", "channel":"1", "humidity":"48", "temperature":"22.7", "type":"Bresser 7009994"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=729;P1=-736;P2=483;P3=-251;P4=238;P5=-491;D=010101012323452323454523454545234523234545234523232345454545232345454545452323232345232340;CP=4;"
     }
   ]
@@ -683,6 +867,8 @@
       "dmsg":"W38#12A2C5D0C", "dispatch_repeats":"4", "user":"Harst",
       "internals": {"DEF":"SD_WS_38_T_2", "NAME":"SD_WS_38_T_2"},
       "readings": {"state":"T: 20.9", "batteryState":"ok", "beep":"off", "channel":"2", "temperature":"20.9", "type":"NC-3911"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-235;P1=496;P2=253;P3=-479;P4=-957;P5=743;P6=-720;CP=2;D=010231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102310231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102;O;"
     }
   ]
@@ -692,6 +878,8 @@
       "dmsg":"29454A847BD700", "dispatch_repeats":"2", "user":"wherzig",
       "internals": {"DEF":"ds10a d745 Window", "NAME":"RFXX10REC_d745"},
       "readings": {"Window":"Closed", "battery":"ok", "delay":"min", "statechange":"Closed"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=10530;P1=-2908;P2=533;P3=-598;P4=-1733;P5=767;D=0123242323232423242324232324232423242323232324232323242424242324242424232423242424232501232423232324232423242323242324232423232323242323232424242423242424242324232424242325012324232323242324232423232423242324232323232423232324242424232424242423242324242;CP=2;O;"
     }
   ]
@@ -702,6 +890,8 @@
       "internals": {"DEF":"41 219D85D3_F813D593", "NAME":"SD_BELL_219D85D3_F813D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-526;P1=1450;P2=467;P3=-6949;P4=-1519;D=231010101010242424242424102424101010102410241024101024241024241010;CP=2;SP=3;O;"
     },
     {
@@ -709,6 +899,8 @@
       "internals": {"DEF":"41 219D85D3_F813D593", "NAME":"SD_BELL_219D85D3_F813D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=468;P1=-1516;P2=1450;P3=-533;P4=-7291;D=040101230101010123230101232323012323010101012301232323012301012323;CP=0;SP=4;O;"
     }
   ]
@@ -719,6 +911,8 @@
       "internals": {"DEF":"41 1791D593_BA2885D3", "NAME":"SD_BELL_1791D593_BA2885D3"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=1390;P1=-600;P2=409;P3=-1600;P4=-7083;D=240123010101230123232301230123232301232323230123010101230123230101;CP=2;SP=4;R=248;O;m0;"
     },
     {
@@ -726,6 +920,8 @@
       "internals": {"DEF":"41 1791D593_BA2885D3", "NAME":"SD_BELL_1791D593_BA2885D3"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=403;P2=-7102;P3=-1608;P4=1378;P5=-620;D=121313134513454545451313451313134545451345134513454513134513134545;CP=1;SP=2;R=5;O;m0;"
     }
   ]
@@ -736,6 +932,8 @@
       "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=1474;P1=-521;P2=495;P3=-1508;P4=-6996;D=242323232301232323010101230123232301012301230123010123230123230101;CP=2;SP=4;R=51;m=0;"
     },
     {
@@ -743,6 +941,8 @@
       "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-7005;P2=482;P3=-1511;P4=1487;P5=-510;D=212345454523452345234523232345232345232323234523454545234523234545;CP=2;SP=1;R=47;m=2;"
     }
   ]
@@ -753,6 +953,8 @@
       "internals": {"DEF":"42 FE1FF87", "NAME":"SD_BELL_FE1FF87"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Pollin_551227"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-491;P1=471;P2=1445;D=0101010101010101010102020202010101010101010101010202020201010101010101010101020202020101010101010101010102020202010101;CP=1;R=67;"
     }
   ]
@@ -763,6 +965,8 @@
       "internals": {"DEF":"8AE785 ", "NAME":"SOMFY_8AE785"},
       "readings": {"enc_key":"98", "parsestate":"on", "received":"40", "rolling_code":"0A82"},
       "attributes": {"model":"somfyshutter"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1405;LH=1269;SL=-723;SH=620;D=98DBD153D631BB;C=669;L=56;R=229;"
     },
     {
@@ -770,6 +974,8 @@
       "internals": {"DEF":"C5F22E ", "NAME":"SOMFY_C5F22E"},
       "readings": {"enc_key":"62", "parsestate":"prog", "received":"80", "rolling_code":"9C2A"},
       "attributes": {"model":"somfyshutter"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1428;LH=1275;SL=-755;SH=574;D=62EB775D738144;C=671;L=56;R=236;"
     }
   ]
@@ -780,6 +986,8 @@
       "internals": {"DEF":"03697C ", "NAME":"SOMFY_03697C"},
       "readings": {"enc_key":"81", "parsestate":"on", "received":"40", "rolling_code":"0006"},
       "attributes": {"model":"somfyshutter"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1246;LH=1293;SL=-592;SH=660;D=81CDCDCBB7DEDD84001D;C=631;L=80;"
     }
   ]
@@ -789,6 +997,8 @@
       "dmsg":"W44#D12160652EDE9F9B10", "comment":"", "user":"unknown",
       "internals": {"DEF":"BresserTemeo_1", "NAME":"BresserTemeo_1"},
       "readings": {"state":"T: 3.2 H: 68", "batteryState":"ok", "channel":"1", "humidity":"68", "temperature":"3.2", "type":"BresserTemeo"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=32001;P1=-1939;P2=1967;P3=3896;P4=-3895;D=01213424242124212121242121242121212124212424212121212121242421212421242121242124242421242421242424242124212124242424242421212424212424212121242121212;CP=2;R=39;"
     }
   ]
@@ -798,6 +1008,8 @@
       "dmsg":"r49E7E800443204F4500E04", "comment":"https://forum.fhem.de/index.php/topic,58397.msg603092.html#msg603092", "user":"sash.sc",
       "internals": {"DEF":"49e7", "NAME":"Revolt_49e7"},
       "readings": {"state":"active", "current":"0.68", "energy":"35.88", "frequency":"50", "pf":"0.8", "power":"126.8", "voltage":"232"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-8320;P1=9972;P2=-376;P3=117;P4=-251;P5=232;D=012345434345434345454545434345454545454543454343434343434343434343434543434345434343434545434345434343434343454343454545454345434343454345434343434343434345454543434343434345434345454543454343434543454345434545;CP=3;R=2;"
     }
   ]
@@ -808,6 +1020,8 @@
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
       "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
       "attributes": {"model":"Tedsen_SKX2xx"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
@@ -815,6 +1029,8 @@
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
       "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
       "attributes": {"model":"Tedsen_SKX6xx"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=2072;P2=-260;P3=326;P4=-2015;P5=-15769;D=01212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151;CP=3;R=37;O;"
     }
   ]
@@ -824,6 +1040,8 @@
       "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
       "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
       "readings": {"state":"Food: 25 BBQ: 21", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType":"normal", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;"
     }
   ]
@@ -833,48 +1051,64 @@
       "dmsg":"P49#C9AFAC", "comment":"Button C off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C9AFAC"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=328;P1=-428;P3=1090;P4=-1190;P5=-2310;D=010131040431310431043131313131043104313104040531310404310404313104310431313131310431043131040405313104043104043131043104313131313104310431310404053131040431040431310431043131313131043104313104042;CP=0;"
     },
     {
       "dmsg":"P49#C22B9C", "comment":"Button C off, Rollingcode 2, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B9C"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1090;P1=-430;P2=328;P3=-1192;P4=-2319;P5=2988;D=01012323232301232323012301230101012323010101232324010123232323012323230123012301010123230101012323240101232323230123232301230123010101232301010123232401012323232301232323012301230101012323010101232353;CP=2;"
     },
     {
       "dmsg":"P49#CDD41C", "comment":"Button C off, Rollingcode 3, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"CDD41C"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1086;P1=-433;P2=327;P3=-1194;P4=-2318;P5=2988;D=01012323010123010101230123012323232323010101232324010123230101230101012301230123232323230101012323240101232301012301010123012301232323232301010123232401012323010123010101230123012323232323010101232353;CP=2;"
     },
     {
       "dmsg":"P49#C3802C", "comment":"Button C off, Rollingcode 4, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C3802C"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1090;P1=-428;P2=334;P3=-1190;P4=-2317;P5=2988;D=01012323232301010123232323232323232301230101232324010123232323010101232323232323232323012301012323240101232323230101012323232323232323230123010123232401012323232301010123232323232323232301230101232353;CP=2;"
     },
     {
       "dmsg":"P49#CA627C", "comment":"Button C on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"CA627C"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1092;P1=-429;P2=335;P3=-1184;P4=-2316;P5=2996;D=010123230123012323010123232301232301010101012323240101232301230123230101232323012323010101010123232401012323012301232301012323230123230101010101232355;CP=2;"
     },
     {
       "dmsg":"P49#C6B54C", "comment":"Button C on, Rollingcode 2, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B54C"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1090;P1=-429;P2=331;P3=-1189;P4=-2316;P5=2992;D=01012323230101230123010123012301230123230101232324010123232301012301230101230123012301232301012323240101232323010123012301012301230123012323010123232401012323230101230123010123012301230123230101232354;CP=2;"
     },
     {
       "dmsg":"P49#C6B542", "comment":"Button D off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B542"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-800;P1=-422;P2=346;P3=-1176;P4=1103;P5=-2302;D=0123234141234123414123412341234123232323412325414123232341412341234141234123412341232323234123254125;CP=2;"
     },
     {
       "dmsg":"P49#C22B92", "comment":"Button D on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B92"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-416;P1=1100;P2=345;P3=-1176;P4=-2298;P5=3008;D=0010232323102310231010102323102323102324101023232323102323231023102310101023231023231023241010232323231023232310231023101010232310232310232410102323232310232323102310231010102323102323102351;CP=2;"
     }
   ]
@@ -884,6 +1118,8 @@
       "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey79",
       "internals": {"DEF":"SD_WS_50_SM_1", "NAME":"SD_WS_50_SM_1"},
       "readings": {"state":"T: 25 H: 5", "channel":"1", "humidity":"5", "temperature":"25", "type":"XT300"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=248;P1=-21400;P2=545;P3=-925;P4=1368;P5=-12308;D=01232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343;CP=2;O;"
     }
   ]
@@ -893,6 +1129,8 @@
       "dmsg":"W51#11225FB401", "comment":"Lidl Weatherstation, Channel 1", "user":"6040",
       "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
       "readings": {"state":"T: 17.3 H: 40", "batteryState":"ok", "channel":"1", "humidity":"40", "sendmode":"auto", "temperature":"17.3", "trend":"falling", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-1848;P1=577;P2=-4066;P3=-15997;P4=1013;P5=-1001;P6=-7875;D=16101010121010101210101210101012101012101212121212121012121012101010101010101010121345454545;CP=1;SP=6;O;"
     }
   ]
@@ -902,6 +1140,8 @@
       "dmsg":"W51#0849536953", "comment":"Lidl Weatherstation, Channel 3", "user":"Stertzi",
       "internals": {"DEF":"SD_WS_51_TH_3", "NAME":"SD_WS_51_TH_3"},
       "readings": {"state":"T: 6.3 H: 95", "batteryState":"ok", "channel":"3", "humidity":"95", "sendmode":"manual", "temperature":"6.3", "trend":"rising", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-4074;P1=608;P2=-1825;P3=-15980;P4=1040;P5=-975;P6=-7862;D=16121212121012121212101212101212101210121012121010121010121012121012101210121210101345454545;CP=1;SP=6;"
     }
   ]
@@ -911,6 +1151,8 @@
       "dmsg":"W51#F03048F761", "comment":"Lidl Weatherstation, Channel 1", "user":"dennis82ni",
       "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
       "readings": {"state":"T: -2.9 H: 76", "batteryState":"ok", "channel":"1", "humidity":"76", "sendmode":"auto", "temperature":"-2.9", "trend":"consistent", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P2=594;P3=-7386;P4=-4081;P5=-1873;D=2324242424252525252525242425252525252425252425252524242424252424242524242525252524;CP=2;SP=3;R=242;"
     }
   ]
@@ -920,12 +1162,16 @@
       "dmsg":"W53#0700DF7A4E0", "comment":"CH1, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_53_TH_1", "NAME":"SD_WS_53_TH_1"},
       "readings": {"state":"T: 22.3 H: 61", "batteryState":"ok", "channel":"1", "humidity":"61", "temperature":"22.3", "type":"Auriol IAN 314695"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=608;P2=-2074;P3=-4138;P4=-9138;D=14121212121213131312121212121212121313121313131313121313131312131212131212131313121212;CP=1;SP=4;R=0;O;m1;"
     },
     {
       "dmsg":"W53#0700F2764A4", "comment":"CH1, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_53_TH_1", "NAME":"SD_WS_53_TH_1"},
       "readings": {"state":"T: 24.2 H: 59", "batteryState":"ok", "channel":"1", "humidity":"59", "temperature":"24.2", "type":"Auriol IAN 314695"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=611;P2=-2075;P3=-4160;P4=-9134;D=14121212121213131312121212121212121313131312121312121313131213131212131212131213121213;CP=1;SP=4;R=0;O;m2;"
     }
   ]
@@ -935,6 +1181,8 @@
       "dmsg":"W53#0710B88C4CC", "comment":"CH2, Lidl IAN 314695 (ID 33,51 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_53_TH_2", "NAME":"SD_WS_53_TH_2"},
       "readings": {"state":"T: 18.4 H: 70", "batteryState":"ok", "channel":"2", "humidity":"70", "temperature":"18.4", "type":"Auriol IAN 314695"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=606;P1=-2075;P2=-4136;P3=-9066;D=03010101010102020201010102010101010201020202010101020101010202010101020101020201010202;CP=0;SP=3;R=0;O;m2;"
     }
   ]
@@ -944,12 +1192,16 @@
       "dmsg":"W54#3D9C430618AA01340", "comment":"Rain sensor for base station 47.3005.01 / decode as MU", "user":"sido",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 73.66", "batteryState":"ok", "rain_total":"73.66", "rawRainCounter":"290", "sendCounter":"3", "type":"TFA 30.3233.01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P1=247;P2=-750;P3=722;P4=-489;P5=491;P6=-236;P7=-2184;D=1232141456565656145656141456565614141456141414145656141414141456561414141456561414145614561456145614141414141414145614145656145614141732321414565656561456561414565656141414561414141456561414141414565614141414565614141456145614561456141414141414141456141;CP=1;R=55;O;"
     },
     {
       "dmsg":"W54#3D9C430A1BAA01898", "comment":"Rain sensor for base station 47.3005.01 / decode as MU", "user":"sido",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 74.422", "batteryState":"ok", "rain_total":"74.422", "rawRainCounter":"293", "sendCounter":"5", "type":"TFA 30.3233.01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-1672;P1=740;P2=-724;P3=260;P4=-468;P5=504;P6=-230;D=012123434565656563456563434565656343434563434343456563434343456345634343434565634565656345634563456343434343434343456563434345634345656;CP=3;R=4;"
     }
   ]
@@ -959,12 +1211,16 @@
       "dmsg":"W54#3896E10467AA0068", "comment":"Rain sensor for base station 47.3005.01 / decode as MS", "user":"punker",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 28.702", "batteryState":"ok", "rain_total":"28.702", "rawRainCounter":"113", "sendCounter":"2", "type":"TFA 30.3233.01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-241;P1=486;P2=241;P3=-488;P4=-2098;P5=738;P6=-730;D=24565623231010102323231023231023101023101010232323231023232323231023232310102323101010102310231023102323232323232323232310102310232323;CP=2;SP=4;R=30;O;b=19;s=1;m0;"
     },
     {
       "dmsg":"W54#3896E1066AAA0076", "comment":"Rain sensor for base station 47.3005.01 / decode as MS", "user":"punker",
       "internals": {"DEF":"SD_WS_54_R", "NAME":"SD_WS_54_R"},
       "readings": {"state":"R: 29.464", "batteryState":"ok", "rain_total":"29.464", "rawRainCounter":"116", "sendCounter":"3", "type":"TFA 30.3233.01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-491;P1=242;P2=476;P3=-248;P4=-2096;P5=721;P6=-745;D=14565610102323231010102310102310232310232323101010102310101010102323101023231023102310231023102310231010101010101010101023232310232310;CP=1;SP=4;R=10;O;b=135;s=1;m0;"
     }
   ]
@@ -975,6 +1231,8 @@
       "internals": {"DEF":"AC114_01B 00587B", "NAME":"AC114_01B_00587B"},
       "readings": {"state":"down", "LastAction":"receive", "deviceCode":"00587B"},
       "attributes": {"model":"AC114_01B"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=5036;P1=-624;P2=591;P3=-227;P4=187;P5=-5048;D=0123412341414123234141414141414141412341232341414141232323234123234141414141414123414141414141414141234141414123234141412341232323250123412341414123234141414141414141412341232341414141232323234123234141414141414123414141414141414141234141414123234141412;CP=4;O;"
     }
   ]
@@ -985,6 +1243,8 @@
       "internals": {"DEF":"AC114_01B 479696", "NAME":"AC114_01B_479696"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"479696"},
       "attributes": {"model":"AC114_01B"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-16412;P1=5195;P2=-598;P3=585;P4=-208;P5=192;D=01234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252525252345234345234343434343434341234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252525252345234345234343;CP=5;R=105;O;"
     },
     {
@@ -992,6 +1252,8 @@
       "internals": {"DEF":"AC114_01B 479696", "NAME":"AC114_01B_479696"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"479696"},
       "attributes": {"model":"AC114_01B"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-2341;P1=5206;P2=-571;P3=591;P4=-211;P5=207;D=01234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252523452525234343452523452343434341234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252523452525234343452523;CP=5;R=107;O;"
     }
   ]
@@ -1001,6 +1263,8 @@
       "dmsg":"P57#2AA4A7", "comment":"radio gong transmitter for FG- and Basic-Serie", "user":"rippi46",
       "internals": {"DEF":"57 2AA4A7", "NAME":"SD_BELL_2AA4A7"},
       "readings": {"state":"ring"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-653;LH=665;SL=-317;SH=348;D=D55B58;C=330;L=21;"
     }
   ]
@@ -1010,12 +1274,16 @@
       "dmsg":"W58#468714600AED0", "user":"Burny4600",
       "internals": {"DEF":"SD_WS_58_T_2", "NAME":"SD_WS_58_T_2"},
       "readings": {"state":"T: 22.2", "batteryState":"ok", "channel":"2", "temperature":"22.2", "type":"TFA 30.3208.02, FT007xx"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1047;LH=903;SL=-545;SH=449;D=800AE5E3AE7FD44BC00572F1D73FEA25E002B9788;C=494;L=161;"
     },
     {
       "dmsg":"W58#468714610AAE0", "user":"Burny4600",
       "internals": {"DEF":"SD_WS_58_T_2", "NAME":"SD_WS_58_T_2"},
       "readings": {"state":"T: 22.3", "batteryState":"ok", "channel":"2", "temperature":"22.3", "type":"TFA 30.3208.02, FT007xx"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-1047;LH=902;SL=-546;SH=452;D=0015CBC75CF7AA8F800AE5E3AE7BD547C00572F1D0;C=487;L=165;"
     }
   ]
@@ -1025,6 +1293,8 @@
       "dmsg":"W58#45C8142445DB0", "comment":"Thermo-hygro sensor with 2 Repeats", "user":"Ralf9",
       "internals": {"DEF":"SD_WS_58_TH_2", "NAME":"SD_WS_58_TH_2"},
       "readings": {"state":"T: 18.9 H: 69", "batteryState":"ok", "channel":"2", "humidity":"69", "temperature":"18.9", "type":"TFA 30.3208.02, FT007xx"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-981;LH=964;SL=-480;SH=520;D=002BA37EBDBBA24F0015D1BF5EDDD127800AE8DFAF6EE893C;C=486;L=194;R=34;"
     }
   ]
@@ -1034,6 +1304,8 @@
       "dmsg":"K21380200", "comment":"Series WS2000/WS7000 of various sensors", "state":"T: 23.8", "user":"elektron-bbs",
       "internals": {"DEF":"3", "NAME":"CUL_WS_3"},
       "readings": {"state":"T: 23.8  H: 0", "DEVFAMILY":"WS300", "DEVTYPE":"S300TH", "humidity":"0", "temperature":"23.8"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=140;P1=-152;P2=817;P3=-397;P4=-279;P5=327;P6=-900;D=01232424242424232323235656232323562356232356232323565656562323562356232356232323235623232323562323232356235623565;CP=2;"
     }
   ]
@@ -1043,6 +1315,8 @@
       "dmsg":"K01900146", "comment":"Series WS2000/WS7000 of various sensors", "user":"elektron-bbs",
       "internals": {"DEF":"1", "NAME":"CUL_WS_1"},
       "readings": {"state":"T: 19.0  H: 46", "DEVFAMILY":"WS300", "DEVTYPE":"S300TH", "humidity":"46", "temperature":"19.0"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-14912;P1=822;P2=-430;P3=343;P4=-898;D=01212121212121212121234341212123412121212341212121234341212343434121212341212121234123434123412123412343434123434341234123;CP=3;"
     }
   ]
@@ -1052,6 +1326,8 @@
       "dmsg":"K747431381558", "comment":"Series WS2000/WS7000 of various sensors (ID 40 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"8 0 0 16 0", "NAME":"CUL_WS_8"},
       "readings": {"state":"T: 17.4  H: 38.3  P: 931", "DEVFAMILY":"WS7000", "DEVTYPE":"Indoor", "humidity":"38.3", "pressure":"931", "strangepress":"1008", "temperature":"17.4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=329;P1=-386;P2=829;P4=-884;D=0121212121042121042104040404210421210421040404042104042121210404042121042121210404040421210404210421040421212104212121040404210421042121212104042104040;CP=0;R=36;"
     }
   ]
@@ -1061,12 +1337,16 @@
       "dmsg":"P61#0011DC711A0", "comment":"Remote control", "user":"elektron-bbs",
       "internals": {"DEF":"2_13", "NAME":"FS10_2_13"},
       "readings": {"state":"on"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1776;P1=-410;P2=383;P3=-820;D=01212121212121212121212123212121232323212323232121212323232121212321212123232123212120;CP=2;R=74;"
     },
     {
       "dmsg":"P61#00096E388EC", "comment":"Remote control", "user":"elektron-bbs",
       "internals": {"DEF":"2_13", "NAME":"FS10_2_13"},
       "readings": {"state":"off"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-27584;P1=446;P2=-349;P3=-755;D=01212121212121212121212121312121312131312131313121212131313121212131212121313131213131;CP=1;"
     }
   ]
@@ -1076,6 +1356,8 @@
       "dmsg":"i415703", "comment":"Attributes userV1setCodes needed -> Unknown code i415703, help me! / Code 01 not supported by IT_F00FFFF100 (ID 32,62,63 additionally)", "dispatch_repeats":"3", "user":"SD_Protocol",
       "internals": {"DEF":"F00FFFF100 0F F0", "NAME":"IT_F00FFFF100"},
       "readings": {"state":"on", "protocol":"V1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-5893;P4=-634;P5=498;P6=-257;P7=116;D=45656567474747474745656707456747474747456745674567456565674747474747456567074567474747474567456745674565656747474747474565670745674747474745674567456745656567474747474745656707456747474747456745674567456565674747474747456567074567474747474567456745674567;CP=7;O;"
     }
   ]
@@ -1085,6 +1367,8 @@
       "dmsg":"ihC78F366DC8F2E58000", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/230", "user":"unknown",
       "internals": {"DEF":"1100011110001111001101100110110111001000111100 0 1001011", "NAME":"IT_11000111100011110011011001101101110010001111001001011"},
       "readings": {"state":"on", "mode":"single", "protocol":"HE_EU", "unit":"1001011"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=231;P2=-1336;P4=-312;P5=-8920;D=15121214141412121212141414121212121414121214121214141212141212141212121414121414141212121214141214121212141412141212;CP=1;SP=5;"
     }
   ]
@@ -1094,6 +1378,8 @@
       "dmsg":"TXA08473273C", "comment":"Remote temp transmitter model 7035 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"66", "NAME":"CUL_TX_66"},
       "readings": {"state":"T: 23.2", "temperature":"23.2"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=13312;P1=-2785;P2=4985;P3=1124;P4=-6442;P5=3181;P6=-31980;D=0121345434545454545434545454543454545434343454543434545434545454545454343434545434343434545621213454345454545454345454545434545454343434545434345454345454545454543434345454343434345456212134543454545454543454545454345454543434345454343454543454545454545;CP=3;R=73;O;"
     }
   ]
@@ -1103,6 +1389,8 @@
       "dmsg":"TXA0AE734730", "comment":"TX2 Protocol", "user":"HomeAuto_User",
       "internals": {"DEF":"87", "NAME":"CUL_TX_87"},
       "readings": {"state":"T: 23.4", "temperature":"23.4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=3371;P1=-27842;P2=132;P3=1137;P4=-744;P6=-4631;D=340636063606060606063606360636363606063636360606363606360606060606012;CP=3;R=27;"
     }
   ]
@@ -1112,6 +1400,8 @@
       "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"72", "NAME":"CUL_TX_72"},
       "readings": {"state":"T: 26.0", "temperature":"26.0"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=3381;P1=-672;P2=-4628;P3=1142;P4=-30768;D=010232023202020202023202023202020232023232320232320202020202020202040102320232020202020232020232020202320232323202323202020202020202020;CP=0;R=45;"
     }
   ]
@@ -1122,6 +1412,8 @@
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
       "readings": {"state":"channel_minus", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"OR28V"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=545;P2=-552;P4=-1652;P6=-4400;P7=2746;D=16741214141212121214141212121414121212121212;CP=1;SP=6;m2;"
     },
     {
@@ -1129,6 +1421,8 @@
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
       "readings": {"state":"channel_plus", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"OR28V"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=532;P2=-562;P3=-1666;P4=2544;P6=-4412;D=16431213131212121212131212121312131312121212;CP=1;SP=6;"
     },
     {
@@ -1136,6 +1430,8 @@
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
       "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"OR28V"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-544;P1=556;P2=-1653;P3=-4388;P4=2758;D=13421012101210121212121010101010121010101010;CP=1;SP=3;m2;"
     }
   ]
@@ -1146,6 +1442,8 @@
       "internals": {"DEF":"HS1_868_BS F62A9C01C", "NAME":"HS1_868_BS_F62A9C01C"},
       "readings": {"state":"receive", "deviceCode":"1111011000101010100111000000"},
       "attributes": {"model":"HS1_868_BS"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-578;P1=1033;P2=506;P3=-1110;P4=13632;D=0101010232323101040101010101010101023232323102323101010231023102310231010232323101010101010101010232323101040101010101010101023232323102323101010231023102310231010232323101010101010101010232323101040101010101010101023232323102323101010231023102310231010;CP=2;R=77;"
     }
   ]
@@ -1156,6 +1454,8 @@
       "internals": {"DEF":"HSM4 E6BE910", "NAME":"HSM4_E6BE910"},
       "readings": {"state":"button_1", "deviceCode":"1110011010111110100100010000"},
       "attributes": {"model":"HSM4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-508;P1=1029;P2=503;P3=-1023;P4=12388;D=01010232323232310104010101010101010102323231010232310231023232323231023101023101010231010101010232323232310104010101010101010102323231010232310231023232323231023101023101010231010101010232323232310104010101010101010102323231010232310231023232323231023101;CP=2;R=37;O;"
     }
   ]
@@ -1165,12 +1465,16 @@
       "dmsg":"T66E5DC01", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
       "readings": {"state":"Open", "Previous":"Open", "Reliability":"ok", "Window":"Open", "batteryState":"ok"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=426;P1=-367;P2=624;P3=-566;P4=-5404;D=0101010101010101010101012301232301012323010123232301012301232323230123232301012301010101010101232301012323012301012304;CP=0;"
     },
     {
       "dmsg":"T66E5DC02", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
       "readings": {"state":"Closed", "Previous":"Open", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=176;P1=-357;P2=428;P4=623;P5=-567;P6=-5160;D=012121212121212121212121214521454521214545212145454521214521454545452145454521214521212121212145214521214545214521452126;CP=2;"
     }
   ]
@@ -1180,6 +1484,8 @@
       "dmsg":"W71#589A829FDFF4", "comment":"PEARL infactory Poolthermometer", "user":"SD_Protocol",
       "internals": {"DEF":"SD_WS71_T_1", "NAME":"SD_WS71_T_1"},
       "readings": {"state":"T: 24.2", "channel":"1", "temperature":"24.2", "type":"PV-8644"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1735;P1=-1160;P2=591;P3=-876;D=0123012323010101230101232301230123010101010123012301012323232323232301232323232323232323012301012;CP=2;R=97;"
     }
   ]
@@ -1189,6 +1495,8 @@
       "dmsg":"P72#5B41708154", "comment":"decode as MU (ID 16,40 additionally)", "user":"Dr.Smag, Byte09",
       "internals": {"DEF":"5B417081", "NAME":"Siro_5B417081"},
       "readings": {"state":"notAvaible", "ActionTrigger":"remote", "batteryState":"unknown", "motor-term":"Function is not available without set runtime attribute, please define"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-760;P1=334;P2=693;P3=-399;P4=-8942;P5=4796;P6=-1540;D=01010102310232310101010102310232323101010102310101010101023102323102323102323102310101010102310232323101010102310101010101023102310231023102456102310232310232310231010101010231023232310101010231010101010102310231023102310245610231023231023231023101010101;CP=1;R=45;O;"
     }
   ]
@@ -1198,6 +1506,8 @@
       "dmsg":"P72#5B4170811E", "comment":"decode as MS", "user":"Dr.Smag",
       "internals": {"DEF":"5B417081", "NAME":"Siro_5B417081"},
       "readings": {"state":"0", "ActionTrigger":"remote", "BetweentActionTime":"57", "aktActionFinish":"0", "aktEndAction":"0", "aktRunningAction":"noAction", "aktTimeAction":"0", "batteryState":"unknown", "motor-term":"0", "pct":"0", "position":"0"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=4803;P1=-1522;P2=333;P3=-769;P4=699;P5=-393;P6=-9190;D=2601234523454523454523452323232323452345454523232323452323232323234523232345454545;CP=2;SP=6;R=61;"
     }
   ]
@@ -1207,6 +1517,8 @@
       "dmsg":"810c04xx0909a00117400000B600", "comment":"roomthermostat, only receive (ID 63 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"1740", "NAME":"FHT_1740"},
       "readings": {"state":"measured-temp: 25.5", "battery":"ok", "batteryState":"ok", "temperature":"25.5", "warnings":"Window open", "window":"open", "windowsensor":"ok"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=28736;P1=-402;P2=395;P3=593;P4=-619;P5=-8980;D=01212121212121212121212134212121342134343421213421212121212134212121212121212121342134342134342134212121212121212121212121343421213434252121212121212121212121213421212134213434342121342121212121213421212121212121212134213434213434213421212121212121212121;CP=2;R=21;O;"
     }
   ]
@@ -1216,12 +1528,16 @@
       "dmsg":"810b04f70101a001BF25010011", "user":"HomeAuto_User",
       "internals": {"DEF":"bf25 01", "NAME":"FS20_bf2501"},
       "readings": {"state":"on"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=381;P1=-413;P2=574;P3=-615;P4=-6428;D=0101010101010101010101012323012323232323232301012301012301232301010101010101232301010123010101230123232323232301010104;CP=0;"
     },
     {
       "dmsg":"810b04f70101a001BF25010000", "user":"HomeAuto_User",
       "internals": {"DEF":"bf25 01", "NAME":"FS20_bf2501"},
       "readings": {"state":"off"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=100;P1=-216;P2=-152;P3=577;P4=-412;P5=380;P6=-614;P7=-7296;D=01023454545454545454545454543636543636363636363654543654543654363654545454545454363654545454545454545436363654365436365457;CP=5;"
     }
   ]
@@ -1231,6 +1547,8 @@
       "dmsg":"810b04f70101a0011848070000", "comment":"decode as MU", "user":"HomeAuto_User",
       "internals": {"DEF":"1848 07", "NAME":"FS20_184807"},
       "readings": {"state":"off"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=390;P1=-413;P3=587;P4=-617;P5=-10512;D=01010101343401343401343405010101010101010101010101340101013434010101010134010134010101010101010101343434340101010101010101010134340134340134340;CP=0;R=71;"
     }
   ]
@@ -1240,6 +1558,8 @@
       "dmsg":"810b04f70101a001CF4B010011", "dispatch_repeats":"2", "user":"pejonp",
       "internals": {"DEF":"cf4b 01", "NAME":"FS20_cf4b01"},
       "readings": {"state":"on"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
     }
   ]
@@ -1249,6 +1569,8 @@
       "dmsg":"810b04f70101a0011848110011", "comment":"decode as MS", "user":"HomeAuto_User",
       "internals": {"DEF":"1848 11", "NAME":"FS20_184811"},
       "readings": {"state":"on"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-406;P2=406;P5=583;P6=-616;P7=-10484;D=2721212121212121212121212156212121565621212121215621215621212121212121562121215621212121562121215621562121215621212121;CP=2;SP=7;R=86;O;"
     }
   ]
@@ -1259,6 +1581,8 @@
       "internals": {"DEF":"LED_XM21_0 FFFFFFFFFFFFFF", "NAME":"LED_XM21_0_FFFFFFFFFFFFFF"},
       "readings": {"state":"on", "deviceCode":"11111111111111111111111111111111111111111111111111111111"},
       "attributes": {"model":"LED_XM21_0"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-205;P1=113;P3=406;D=010101010101010101010101010101010101010101010101010101010101030303030101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010103030303010101010101010101010100;CP=1;R=69;"
     },
     {
@@ -1266,6 +1590,8 @@
       "internals": {"DEF":"LED_XM21_0 FFFFFFFFFFFFFF", "NAME":"LED_XM21_0_FFFFFFFFFFFFFF"},
       "readings": {"state":"off", "deviceCode":"11111111111111111111111111111111111111111111111111111111"},
       "attributes": {"model":"LED_XM21_0"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-203;P1=412;P2=114;D=01010101020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020101010102020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200;CP=2;R=74;"
     }
   ]
@@ -1275,6 +1601,8 @@
       "dmsg":"TXA0D2728722", "comment":"self build sensor, is under development, https://github.com/juergs/NANO_DS1820_4Fach", "user":"unknown",
       "internals": {"DEF":"105", "NAME":"CUL_TX_105"},
       "readings": {"state":"T: 22.8", "temperature":"22.8"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-1483;P1=239;P2=970;P3=-21544;D=01020202010132020202010201020202020201010201020201020201010102020102010202020201010102020102020201013202020201020102020202020101020102020102020101010202010201020202020101010202010202020101;CP=1;"
     }
   ]
@@ -1285,6 +1613,8 @@
       "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
       "readings": {"state":"light_toggle", "LastAction":"receive", "deviceCode":"010100110100"},
       "attributes": {"model":"BeSmart_S4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-19987;P1=205;P2=-530;P3=501;P4=-253;P6=-4094;D=01234123412123434123412123412123412121216123412341212343412341212341212341212121612341234121234341234121234121234121212161234123412123434123412123412123412121216123412341212343412341212341212341212121;CP=1;R=70;"
     },
     {
@@ -1292,6 +1622,8 @@
       "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
       "readings": {"state":"level_up", "LastAction":"receive", "deviceCode":"010100110100"},
       "attributes": {"model":"BeSmart_S4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-8617;P1=204;P2=-544;P3=490;P4=-246;P6=-4106;D=01234123412123434123412123412121234121216123412341212343412341212341212123412121612341234121234341234121234121212341212161234123412123434123412123412121234121216123412341212343412341212341212123412121;CP=1;R=70;"
     },
     {
@@ -1299,6 +1631,8 @@
       "internals": {"DEF":"BeSmart_S4 534", "NAME":"BeSmart_S4_534"},
       "readings": {"state":"level_down", "LastAction":"receive", "deviceCode":"010100110100"},
       "attributes": {"model":"BeSmart_S4"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-14542;P1=221;P2=-522;P3=492;P4=-240;P5=-4114;D=01234123412123434123412123412121212341215123412341212343412341212341212121234121512341234121234341234121234121212123412151234123412123434123412123412121212341215123412341212343412341212341212121234121;CP=1;R=62;"
     }
   ]
@@ -1309,6 +1643,8 @@
       "internals": {"DEF":"79 A0E", "NAME":"SD_BELL_A0E"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-7152;P1=872;P2=-593;P3=323;P4=-296;P5=622;P6=-4650;D=0123452323232323454545236345234523232323234545452363452345232323232345454523634523452323232323454545236345234523232323234545452363452345232323232345454523634523452323232323454545236345234523232323234545452363452345232323232345454523634523452323232323454;CP=3;R=26;O;"
     }
   ]
@@ -1319,6 +1655,8 @@
       "internals": {"DEF":"79 611", "NAME":"SD_BELL_611"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-668;P1=365;P2=-325;P3=692;P4=-5209;CP=1;D=01230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323010101012301010123410123230101010123010101234101232301010101230101012341012323;O;"
     },
     {
@@ -1326,6 +1664,8 @@
       "internals": {"DEF":"79 612", "NAME":"SD_BELL_612"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-29724;P1=357;P2=-666;P4=-324;P5=698;P6=-5242;CP=1;D=01214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521214521612145452121212145212145216121454521212121452121452161214545212121214521;O;"
     }
   ]
@@ -1336,6 +1676,8 @@
       "internals": {"DEF":"79 3FC", "NAME":"SD_BELL_3FC"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Heidemann_|_Heidemann_HX_|_VTX-BELL"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-421;P1=344;P2=-699;P4=659;P6=-5203;P7=259;D=1612121040404040404040421216121210404040404040404212161212104040404040404042121612121040404040404040421216121210404040404040404272761212104040404040404042121612121040404040404040421216121210404040404040404212167272104040404040404042721612127040404040404;CP=4;R=0;O;"
     }
   ]
@@ -1345,6 +1687,8 @@
       "dmsg":"E01015B880803008305", "comment":"Energy-Monitor", "user":"Derwelcherichbin",
       "internals": {"DEF":"1", "NAME":"CUL_EM_1"},
       "readings": {"state":"CNT: 91 CUM: 14.560  5MIN: 0.240  TOP: 0.170", "RAW":"CNT: 91 CUM: 2184  5MIN: 3  TOP: 1411", "cum_day":"CUM_DAY: 0.000 CUM: 14.560 COST: 0.00", "current":"0.24", "current_cnt":"3", "peak":"0.170092133238838", "peak_cnt":"1411", "seqno":"91", "total":"14.56", "total_cnt":"2184", "tsecs":"1559846129"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P1=-417;P2=385;P3=-815;P4=-12058;D=42121212121212121212121212121212121232321212121212121232321212121212121232323212323212321232121212321212123232121212321212121232323212121212121232121212121212121232323212121212123232321232121212121232123232323212321;CP=2;R=87;"
     }
   ]
@@ -1355,6 +1699,8 @@
       "internals": {"DEF":"SA_434_1_mini 604", "NAME":"SA_434_1_mini_604"},
       "readings": {"state":"receive"},
       "attributes": {"model":"SA_434_1_mini"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=436;P1=-1033;P3=-537;P4=966;P5=-17209;P6=-7015;D=010103434343434341034345034101034343434343410343450341010343434343434103434506;CP=4;R=58;"
     }
   ]
@@ -1364,12 +1710,16 @@
       "dmsg":"P82#F0000100001F0000100010F0111101001F0111101010F0111111101F0111111110F0100010000F0100010011F1100000000F1100000011F1000100101F1000100110", "comment":"STOP, remote Easy Standard, (ID 63 additionally), 10_Fernotron.pm is under development", "user":"zwiebert",
       "internals": {"DEF":"scan", "NAME":"Fernotron_Scan"},
       "readings": {"state":"plain:105efe:stop"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=441;P2=-355;P3=-3153;P4=842;P5=-757;CP=1;D=0121212121212121342424242154242424215134242424215424242154213421515151542154242151342151515154215421542134215151515151515421513421515151515151515421342154242421542424242134215424242154242151513151542424242424242421315154242424242421515131542424215424215421513154242421542421515421;e;"
     },
     {
       "dmsg":"P82#F0000100001F0000100010F0111101001F0111101010F0111111101F0111111110F0100100000F0100100011F1010000000F1010000011F1100000101F1100000110", "comment":"DOWN, remote Easy Standard, (ID 63 additionally), 10_Fernotron.pm is under development", "user":"zwiebert",
       "internals": {"DEF":"scan", "NAME":"Fernotron_Scan"},
       "readings": {"state":"plain:105efe:down"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-200;P1=21748;P2=-25008;P3=410;P4=-388;P5=-3189;P6=811;P7=-785;CP=3;D=012343434343434343564646464376464646437356464646437646464376435643737373764376464373564373737376437643764356437373737373737643735643737373737373737643564376464376464646464356437646437646464373735376437646464646464643537643764646464643737353737646464646437643735373764646464643737643;e;"
     }
   ]
@@ -1380,6 +1730,8 @@
       "internals": {"DEF":"RH787T 0", "NAME":"RH787T_0"},
       "readings": {"state":"1_fan_minimum_speed", "deviceCode":"0000 (on|on|on|on)"},
       "attributes": {"model":"RH787T"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=388;P1=-112;P2=267;P3=-378;P5=585;P6=-693;P7=-11234;D=0123035353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262;CP=2;R=43;O;"
     }
   ]
@@ -1389,6 +1741,8 @@
       "dmsg":"W84#033B1FC328", "comment":"Version 06/2017", "state":"T: -6.1 H: 59", "user":"roobbb",
       "internals": {"DEF":"SD_WS_84_TH_2", "NAME":"SD_WS_84_TH_2"},
       "readings": {"state":"T: -6.1 H: 59", "batteryState":"ok", "channel":"2", "humidity":"59", "sendmode":"auto", "temperature":"-6.1", "type":"Auriol IAN 283582, TV-4848"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=595;P1=344;P2=-862;P3=846;P4=244;P5=-602;P7=-251;D=1232323245454545454507074545070707450707454545070707070707074545454507074545074507454540;CP=4;R=4;"
     }
   ]
@@ -1398,6 +1752,8 @@
       "dmsg":"W84#A64D20D570", "comment":"Aldi (ID 40 additionally)", "user":"w6s8",
       "internals": {"DEF":"SD_WS_84_TH_3", "NAME":"SD_WS_84_TH_3"},
       "readings": {"state":"T: 21.3 H: 77", "batteryState":"ok", "channel":"3", "humidity":"77", "sendmode":"auto", "temperature":"21.3", "type":"Auriol IAN 283582, TV-4848"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-30004;P1=815;P2=-910;P3=599;P4=-263;P5=234;P6=-621;D=0121212345634565634345656345656343456345656345656565656343456345634563456343434565656;CP=5;R=5;"
     }
   ]
@@ -1407,6 +1763,8 @@
       "dmsg":"W84#5E36012D24", "comment":"Amazon (ID 63 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_84_TH_1", "NAME":"SD_WS_84_TH_1"},
       "readings": {"state":"T: 30.1 H: 54", "batteryState":"ok", "channel":"1", "humidity":"54", "sendmode":"auto", "temperature":"30.1", "type":"Auriol IAN 283582, TV-4848"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=859;P1=-845;P2=-253;P3=240;P4=-598;P5=617;D=45252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345234010101013452345252525234343452523452523434343434343434523434523452523452343452343452345;CP=3;R=63;O;"
     }
   ]
@@ -1416,6 +1774,8 @@
       "dmsg":"W85#0C45C60124B0554F8", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-509;P1=474;P2=-260;P3=228;P4=718;P5=-745;D=01212303030303012301230123012301230301212121230454545453030303012123030301230303012301212123030301212303030303030303012303012303012303012301212303030303012301230123012301230301212121212454545453030303012123030301230303012301212123030301212303030303030303;CP=3;R=46;O;"
     }
   ]
@@ -1425,6 +1785,8 @@
       "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
     }
   ]
@@ -1435,6 +1797,8 @@
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
       "readings": {"state":"left_button", "deviceCode":"11101110"},
       "attributes": {"model":"CAME_TOP_432EV"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-322;P1=136;P2=-15241;P3=288;P4=-735;P6=723;D=0123434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430;CP=3;R=27;"
     },
     {
@@ -1442,6 +1806,8 @@
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
       "readings": {"state":"right_button", "deviceCode":"11101110"},
       "attributes": {"model":"CAME_TOP_432EV"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-15281;P1=293;P2=-745;P3=-319;P4=703;P5=212;P6=152;P7=-428;D=01212121342121213421213421012121213421212134212134210121212134212121342121342101212121342121213421213421012121213421212134212134210121243134212121342121342101252526742121213425213421012121213421212134212134210121212134212;CP=1;R=23;"
     }
   ]
@@ -1452,6 +1818,8 @@
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_plus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=22808;P1=-24232;P2=701;P3=-765;P4=357;P5=-15970;P7=-406;D=012345472347234723472347234723454723472347234723472347234547234723472347234723472345472347234723472347234723454723472347234723472347234;CP=4;R=39;"
     },
     {
@@ -1459,6 +1827,8 @@
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"speed_minus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-8032;P1=364;P2=-398;P3=700;P4=-760;P5=-15980;D=0123412341234123412341412351234123412341234123414123512341234123412341234141235123412341234123412341412351234123412341234123414123;CP=1;R=40;"
     },
     {
@@ -1466,6 +1836,8 @@
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
       "readings": {"state":"power_on_off", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-756;P1=718;P2=354;P3=-395;P4=-16056;D=01020202310231310202423102310231023102310202023102313102024231023102310231023102020231023131020242310231023102310231020202310231310202;CP=2;R=41;"
     }
   ]
@@ -1476,6 +1848,8 @@
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
       "readings": {"state":"ambient_light_on", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-9524;P1=364;P2=-414;P3=669;P4=-755;P5=-16076;CP=1;R=83;D=0123412341234123412341412341414141412351234123412341234123414123414141414123;e;w=0;"
     },
     {
@@ -1483,6 +1857,8 @@
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
       "readings": {"state":"fan_plus", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=388;P1=-756;P2=264;P3=-399;P4=683;P5=-16082;CP=0;R=67;D=0123410341034103410341050341034103410341034103410;e;w=0;"
     },
     {
@@ -1490,6 +1866,8 @@
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
       "readings": {"state":"power_on_off", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-749;P1=378;P2=-456;P3=684;P4=-16081;D=01230101012301232301014123012301230123012301010123012323010141230123012301230123010101230123230101412;CP=1;R=66;"
     }
   ]
@@ -1500,6 +1878,8 @@
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"plus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-220;P1=348;P2=-702;P3=-381;P4=662;P5=-15257;D=01213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451;CP=1;R=6;O;"
     },
     {
@@ -1507,6 +1887,8 @@
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"minus", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-2112;P1=340;P2=-708;P3=-381;P4=660;P5=-15243;D=01213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421;CP=1;R=7;O;"
     },
     {
@@ -1514,6 +1896,8 @@
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"light_on_off", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-707;P1=332;P2=-376;P3=670;P5=-15243;D=01012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301;CP=1;R=3;O;"
     },
     {
@@ -1521,6 +1905,8 @@
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"delay", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-944;P1=341;P2=-695;P3=-375;P4=672;P5=-15261;D=01213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421;CP=1;R=2;O;"
     },
     {
@@ -1528,6 +1914,8 @@
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
       "readings": {"state":"interval", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-372;P1=330;P2=684;P3=-699;P4=-14178;D=010231020202023102310231020231310231413102310202020231023102310202313102314;CP=1;R=253;"
     }
   ]
@@ -1538,6 +1926,8 @@
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
       "readings": {"state":"light_on_off", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=706;P1=-160;P2=140;P3=-335;P4=-664;P5=385;P6=-15226;P7=248;D=01210103045303045453030304545453030454530653030453030454530303045454530304747306530304530304545303030454545303045453065303045303045453030304545453030454530653030453030454530303045454530304545306530304530304545303030454545303045453065303045303045453030304;CP=5;O;"
     },
     {
@@ -1545,6 +1935,8 @@
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
       "readings": {"state":"delay", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=705;P1=-140;P2=-336;P3=-667;P4=377;P5=-15230;P6=248;D=01020342020343420202034343420202020345420203420203434202020343434202020203654202034202034342020203434342020202034542020342020343420202034343420202020345420203420203434202020343434202020203454202034202034342020203434342020202034542020342020343420202034343;CP=4;O;"
     }
   ]
@@ -1555,6 +1947,8 @@
       "internals": {"DEF":"FA6000", "NAME":"SD_Keeloq_FA6000"},
       "readings": {"state":"receive", "button":"stop", "channel":"1", "channel_control":"< 9", "last_digits":"encrypted", "serial_receive":"FA6000", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"JaroLift"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=1518;P2=-416;P3=370;P4=-3988;P5=-822;P6=793;P7=-16228;D=34356235623562353535623535353562623562623535626262626262353562623562626262626262626262626262626262623535626235623535353535626235626262626262626267123232323232323232323232;CP=3;SP=4;R=243;O;m2;"
     },
     {
@@ -1562,6 +1956,8 @@
       "internals": {"DEF":"2A6320", "NAME":"SD_Keeloq_2A6320"},
       "readings": {"state":"receive", "button":"stop", "channel":"2", "channel_control":"< 9", "last_digits":"encrypted", "serial_receive":"2A6320", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"JaroLift"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-408;P1=-16408;P2=407;P3=1588;P4=-826;P6=-4290;P7=793;D=26242424247070707024707024702424702470242424702424702424702470242424707070707070707024707024247070702424707024702470247070707024707070707070707071342424242424242424;CP=2;SP=6;R=34;O;s=24;m0;"
     }
   ]
@@ -1572,6 +1968,8 @@
       "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
       "readings": {"state":"receive", "batteryState":"low", "button":"one", "repeat_message":"no", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"RP_S1_HS_RF11"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=385;P2=-375;P3=-3756;P4=-745;P5=766;P6=-15000;D=131414525252521452141452521452525252145214521452525252141452145214141414141452521414145252525214521452525252145252141414525252521414561212121212121212121212;CP=1;SP=3;R=54;O;s=36;m0;"
     },
     {
@@ -1579,6 +1977,8 @@
       "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
       "readings": {"state":"receive", "batteryState":"low", "button":"two", "repeat_message":"yes", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"RP_S1_HS_RF11"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=735;P2=-375;P3=377;P4=-752;P6=-3748;D=3612343434343434123434343434341234343434343434343434341234343412343434343434121234343412121212341234121212123412123434341212341212343;CP=3;SP=6;R=42;e;m1;"
     }
   ]
@@ -1589,6 +1989,8 @@
       "internals": {"DEF":"F7F5709", "NAME":"SD_Keeloq_F7F5709"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"up", "repeat_message":"yes", "serial_receive":"F7F5709", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"Roto"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-16052;P1=363;P2=-437;P3=-4001;P4=-829;P5=755;D=131452521452145252521452145252521414141452521452145214141414525252145252145252525214141452145214521414141414141452141414145252145252101212121212121212121212;CP=1;SP=3;R=51;O;m1;"
     }
   ]
@@ -1599,6 +2001,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"one", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=844;P1=-4230;P2=420;P4=-860;P6=-17704;P7=-439;D=210707070724072407240707070724070707072407070724242424242407072424240707242424072407242407070707070707240707070707070707070724070707262727272727272727272727;CP=2;SP=1;R=18;O;s=36;m0;"
     },
     {
@@ -1606,6 +2010,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"two", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=417;P3=847;P4=-442;P5=-858;P7=-4258;D=1734343434343434341515343434151515153434153434153434341534153415151534341515153415341515343434343434341534343434343434343434341534341;CP=1;SP=7;R=25;e;m1;"
     },
     {
@@ -1613,6 +2019,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"three", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-855;P1=852;P2=-433;P3=432;P5=-17236;P6=-4250;D=363030303030121212121230121230123012301212121230121212121212123030301212303030123012303012121212121212301212121212121212121212123012353232323232323232323232;CP=3;SP=6;R=29;O;s=36;m0;"
     },
     {
@@ -1620,6 +2028,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"four", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-17496;P1=435;P2=-438;P4=-4269;P5=-845;P6=850;D=141515621515621515626262626215156262156215626215156262621515151515156262151515621562151562626262626262156262626262626262621562626262101212121212121212121212;CP=1;SP=4;R=34;O;m1;"
     }
   ]
@@ -1630,6 +2040,8 @@
       "internals": {"DEF":"04429B3", "NAME":"SD_Keeloq_04429B3"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"blue", "repeat_message":"yes", "serial_receive":"04429B3", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"Waeco_MA650_TX"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-425;P2=348;P3=-3925;P4=748;P5=-816;P6=-15724;D=234125412541254125252541254125254125254125412525412525254125252525252541412525412525414125412541414141254141412541414141414125414141262121212121212121212121;CP=2;SP=3;R=12;O;m1;"
     }
   ]
@@ -1640,6 +2052,8 @@
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"up", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=399;P2=-421;P3=-4034;P4=800;P5=-815;P6=-15516;D=1342421515424242151515154215421515154242421542151515424242154215424242424242424242154242421542151542154242154242424242424242154215161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
     },
     {
@@ -1647,6 +2061,8 @@
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"down", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=415;P2=-400;P3=-4034;P4=810;P5=-803;P6=-15468;D=1342154215421542421515151542154215154242421542154215421542424215154242424242424242154242421542151542154242154242424242424242421515161212121212121212121212;CP=1;SP=3;R=84;O;m2;"
     },
     {
@@ -1654,6 +2070,8 @@
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"stop", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=417;P2=-400;P3=-4032;P4=-789;P5=811;P6=-15540;D=1314145252145214141414521414521452145252525214525214145214525214525252525252525252145252521452141452145252145252525252525252525214161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
     }
   ]
@@ -1663,6 +2081,8 @@
       "dmsg":"W89#F012333E01", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_89_TH_2", "NAME":"SD_WS_89_TH_2"},
       "readings": {"state":"T: 6.3 H: 62", "batteryState":"ok", "channel":"2", "humidity":"62", "sendmode":"auto", "temperature":"6.3", "type":"TFA 30.3221.02"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=22960;P1=-893;P2=775;P3=409;P4=-296;P5=182;P6=-513;D=01212121343434345656565656565634565634565656343456563434565634343434345656565656565656342121212134343434565656565656563456563456565634345656343456563434343434565656565656565634212121213434343456565656565656345656345656563434565634345656343434343456565656;CP=5;R=22;O;"
     }
   ]
@@ -1673,6 +2093,8 @@
       "internals": {"DEF":"RC_10 43CB_A", "NAME":"RC_10_43CB_A"},
       "readings": {"state":"on", "deviceCode":"0100001111001011", "x_n4":"0000", "x_n5-8_on":"1111101000010"},
       "attributes": {"model":"RC_10"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-9964;P1=273;P4=-866;P5=792;P6=-343;D=10145614141414565656561414561456561414141456565656561456141414145614;CP=1;SP=0;R=35;O;m2;"
     }
   ]
@@ -1683,6 +2105,8 @@
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
       "readings": {"state":"on", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"1111001001010"},
       "attributes": {"model":"RC_10"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=781;P3=-372;P4=251;P5=-903;P6=-10342;D=46451313131345454545131345134545134545454513131313454513454513451345;CP=4;SP=6;O;m1;E;"
     },
     {
@@ -1690,6 +2114,8 @@
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
       "readings": {"state":"off", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1110001001000"},
       "attributes": {"model":"RC_10"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=790;P2=-363;P3=257;P4=-896;P5=-10283;D=35341212121234343434121234123434123434343412121234343412343412343434;CP=3;SP=5;O;m2;C;C;"
     },
     {
@@ -1697,6 +2123,8 @@
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
       "readings": {"state":"on", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"0100001010110"},
       "attributes": {"model":"RC_10"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-361;P2=267;P3=-884;P4=792;P5=-10342;D=25234141414123232323414123412323412323232323412323232341234123414123;CP=2;SP=5;O;m2;A;"
     },
     {
@@ -1704,6 +2132,8 @@
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
       "readings": {"state":"off", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1000001000110"},
       "attributes": {"model":"RC_10"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-363;P2=789;P3=267;P4=-887;P5=-10332;D=35342121212134343434212134213434213434343421343434343421343434212134;CP=3;SP=5;O;m2;4;"
     }
   ]
@@ -1714,6 +2144,8 @@
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-817;P1=406;P2=-415;P3=813;P5=-4068;CP=3;D=01232323232323232323010123232323230101232301012323012323230123230123010151012323232323232323230101232323232301012323010123230123232301232301230101510123232323232323232301012323232323010123230101232301232323012323012301015101232323232323232323010123232323;O;"
     }
   ]
@@ -1724,6 +2156,8 @@
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P1=392;P2=-416;P3=804;P4=-822;P5=-4029;P6=-32001;D=151412323412323234141412341414141412341232341414141234123234141412341234141660;CP=1;R=0;"
     }
   ]
@@ -1734,6 +2168,8 @@
       "internals": {"DEF":"MD_2003R FCC17E", "NAME":"MD_2003R_FCC17E"},
       "readings": {"state":"normal", "batteryState":"ok", "contact":"no Alarm", "deviceTyp":"gas", "keepalive":"periodically"},
       "attributes": {"model":"MD_2003R"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-164;P1=378;P2=-813;P3=-429;P4=764;P5=-3929;D=0121212134342121343434343421342121212121213434343421212134342134213451212121212121343421213434343434213421212121212134343434212121343421342134512121212121213434212134343434342134212121212121343434342121213434213421345121212121212134342121343434343421342;CP=1;R=0;O;"
     }
   ]
@@ -1744,6 +2180,8 @@
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-420;P1=809;P2=-835;P3=399;P4=-4080;D=34323010101010101010101232301010101012323010123230101230101012301012301232;CP=3;SP=4;s=64;e;m0;"
     }
   ]
@@ -1754,6 +2192,8 @@
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=-407;P1=402;P2=-4023;P3=-817;P4=806;D=12131040431040404313131043131313131043104043131313104310404313131043104313;CP=1;SP=2;R=0;m1;"
     }
   ]
@@ -1764,6 +2204,8 @@
       "internals": {"DEF":"Krinner_LUMIX A06C360", "NAME":"Krinner_LUMIX_A06C360"},
       "readings": {"state":"on", "deviceCode":"1010000001101100001101100000"},
       "attributes": {"model":"Krinner_LUMIX"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=24188;P1=-16308;P2=993;P3=-402;P4=416;P5=-967;P6=-10162;D=0123234545454523234523234545454545454545232623452345454545454523234523234545454523234523234545454545454545232623452345454545454523234523234545454523234523234545454545454545232623452345454545454523234523234545454523234523234545454545454545232;CP=4;R=25;"
     },
     {
@@ -1771,6 +2213,8 @@
       "internals": {"DEF":"Krinner_LUMIX A06C360", "NAME":"Krinner_LUMIX_A06C360"},
       "readings": {"state":"off", "deviceCode":"1010000001101100001101100000"},
       "attributes": {"model":"Krinner_LUMIX"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=11076;P1=-20524;P2=281;P3=-980;P4=982;P5=-411;P6=408;P7=-10156;D=0123232345456345456363636363636363634745634563636363636345456345456363636345456345456363636363636363634745634563636363636345456345456363636345456345456363636363636363634745634563636363636345456345456363636345456345456363636363636363634;CP=6;R=38;"
     }
   ]
@@ -1781,6 +2225,8 @@
       "internals": {"DEF":"KL_RF01 16F6", "NAME":"KL_RF01_16F6"},
       "readings": {"state":"light_color_cold_white", "deviceCode":"0001011011110110"},
       "attributes": {"model":"KL_RF01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=376;P4=-1200;P5=1170;P6=-409;P7=-12224;D=17141414561456561456565656145656141414145614141414565656145656565614;CP=1;SP=7;R=231;e;m0;"
     }
   ]
@@ -1790,30 +2236,40 @@
       "dmsg":"W94#0D830661B366C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: -14.6", "temperature":"-14.6", "type":"Atech"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=1525;P2=-303;P3=-7612;P4=-2008;D=01212121212121213141414141212141212141414141412121414141414121214141212141414141212141212141412121412121414121214121;CP=1;"
     },
     {
       "dmsg":"W94#0D830018CCC", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: -0.4", "temperature":"-0.4", "type":"Atech"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=1533;P2=-297;P3=-7612;P4=-2005;D=0121212121212121314141414121214121214141414141212141414141414141414141412121414141212141412121414121;CP=1;"
     },
     {
       "dmsg":"W94#0D8000336CC", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 0.2", "temperature":"0.2", "type":"Atech"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=1532;P2=-299;P3=-7608;P4=-2005;D=0121212121212121314141414121214121214141414141414141414141414141414141212141412121412121412121414121;CP=1;"
     },
     {
       "dmsg":"W94#0D80180CDB6C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "dispatch_repeats":"1", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 10.2", "temperature":"10.2", "type":"Atech"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-31292;P1=1529;P2=-300;P3=-7610;P4=-2009;D=012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121;CP=1;"
     },
     {
       "dmsg":"W94#0D8031B60C6C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "dispatch_repeats":"1", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 27", "temperature":"27", "type":"Atech"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-31290;P1=1533;P2=-297;P3=-7608;P4=-2006;D=012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121;CP=1;"
     }
   ]
@@ -1824,6 +2280,8 @@
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_1_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-972;P1=526;P2=-335;P3=-666;D=01213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131;CP=1;R=44;O;"
     },
     {
@@ -1831,6 +2289,8 @@
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_5_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-651;P1=530;P2=-345;P3=-969;D=01212121312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212101312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212121312101010121010101212121210121210101010101;CP=1;R=24;O;"
     },
     {
@@ -1838,6 +2298,8 @@
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_8_off", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=538;P1=-329;P2=-653;P3=-964;D=01020301020202010202020101010102010102020202020102010202020102020202010101010101010201020202020202010202010301020202010202020101010102010102020202020102010202020102020202010101010101010201020202020202010201010301020202010202020101010102010102020202020102;CP=0;R=19;O;"
     }
   ]
@@ -1848,6 +2310,8 @@
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-409;LH=448;SL=-172;SH=262;D=238126DAA58;C=215;L=41;R=238;"
     },
     {
@@ -1855,6 +2319,8 @@
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"Alarm"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-415;LH=454;SL=-200;SH=226;D=23C126DAE58;C=215;L=41;R=246;"
     }
   ]
@@ -1865,6 +2331,8 @@
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"ring", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-439;LH=419;SL=-221;SH=212;D=238823B1001F8;C=215;L=49;R=69;"
     },
     {
@@ -1872,6 +2340,8 @@
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"Alarm", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MC;LL=-430;LH=418;SL=-216;SH=226;D=23C823B1401F8;C=214;L=49;R=53;"
     }
   ]
@@ -1882,6 +2352,8 @@
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
       "readings": {"state":"play/pause", "LastAction":"receive", "deviceCode":"0000064"},
       "attributes": {"model":"Momento"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-294;P1=237;P2=5829;P3=-3887;P4=1001;P5=-523;P6=504;P7=-995;D=01010101010101010101010234545454545454545454545454545454545454545456767454567454545456745456745456745454523454545454545454545454545454545454545454545676745456745454545674545674545674545452345454545454545454545454545454545454545454567674545674545454567454;CP=4;R=45;O;"
     },
     {
@@ -1889,6 +2361,8 @@
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
       "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0000064"},
       "attributes": {"model":"Momento"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-998;P1=-273;P2=256;P3=5830;P4=-3906;P5=991;P6=-527;P7=508;D=12121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121345656565656565656565656565656565656565656567070565670565656565670567056565670707034565656565656565656565656565656565656565656707056567;CP=2;R=40;O;"
     },
     {
@@ -1896,6 +2370,8 @@
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"0000064"},
       "attributes": {"model":"Momento"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-1005;P1=-272;P2=258;P3=5856;P4=-3902;P5=1001;P6=-520;P7=508;D=0121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121213456565656565656565656565656565656565656565670705656705656567056565670565670567056345656565656565656565656565656565656565656567070565;CP=2;R=63;O;"
     }
   ]
@@ -1906,6 +2382,8 @@
       "internals": {"DEF":"98 6A2C", "NAME":"SD_BELL_6A2C"},
       "readings": {"state":"ring"},
       "attributes": {"model":"GEA-028DB"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=1488;P1=-585;P2=520;P3=-1509;P4=1949;P5=-5468;CP=2;R=38;D=01232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501;O;"
     }
   ]
@@ -1916,6 +2394,8 @@
       "internals": {"DEF":"Navaris 211073", "NAME":"Navaris_211073"},
       "readings": {"state":"receive", "LastAction":"receive"},
       "attributes": {"model":"Navaris"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-302;P1=180;P2=294;P3=-208;P4=419;P5=-423;D=01023101010101023232310102323451010231010101023101010231010101010232323101023234510102310101010231010102310101010102323231010232345101023101010102310101023101010101023232310102323451010231010101023101010231010101010232323101023234510102310101010231010102;CP=1;R=36;O;"
     }
   ]
@@ -1925,6 +2405,8 @@
       "dmsg":"OK 9 42 129 4 212 44", "comment":"Temp / Hum sensor (Mod. 2-FSK, Lacrosse mode 1)", "user":"Ralf9",
       "internals": {"DEF":"2A", "NAME":"LaCrosse_2A"},
       "readings": {"state":"T: 23.6 H: 44", "battery":"ok", "humidity":"44", "temperature":"23.6"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MN;D=9AA6362CC8AAAA000012F8F4;R=4;"
     }
   ]
@@ -1934,12 +2416,16 @@
       "dmsg":"OK 24 4 5 1 158 135 1 170 170 170 170 8F68", "comment":"Wireless switch socket with energy consumption measurement (Mod. 2-FSK)", "user":"Ralf9",
       "internals": {"DEF":"019E87 04", "NAME":"PCA301_019E87"},
       "readings": {"state":"on"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MN;D=0405019E8701AAAAAAAA8F68AAF21E3E22B4643AE51BE4A044365B2B87CDA50A;R=7;"
     },
     {
       "dmsg":"OK 24 4 5 1 158 135 0 170 170 170 170 0F13", "comment":"Wireless switch socket with energy consumption measurement (Mod. 2-FSK)", "user":"Ralf9",
       "internals": {"DEF":"019E87 04", "NAME":"PCA301_019E87"},
       "readings": {"state":"off"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MN;D=0405019E8700AAAAAAAA0F13AA16ACC0540AAA49C814473A2774D208AC0B0167;R=6;"
     }
   ]
@@ -1949,6 +2435,8 @@
       "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor for a WDxxxx Weather Station (Mod. 2-FSK, Lacrosse mode 2)", "user":"HomeAuto_User",
       "internals": {"DEF":"29", "NAME":"LaCrosse_29"},
       "readings": {"state":"T: 1.9", "battery":"ok", "temperature":"1.9"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MN;D=9A44196AC448640A;R=246;"
     }
   ]
@@ -1959,6 +2447,8 @@
       "internals": {"DEF":"TR60C1 0", "NAME":"TR60C1_0"},
       "readings": {"state":"light_off_fan_off", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"TR60C1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=18280;P1=-737;P2=419;P3=-331;P4=799;P5=-9574;P6=-7080;D=012121234343434341212121212121252121212123434343434121212121212125212121212343434343412121212121212521212121234343434341212121212121252121212123434343434121212121212126;CP=2;R=2;"
     },
     {
@@ -1966,6 +2456,8 @@
       "internals": {"DEF":"TR60C1 9", "NAME":"TR60C1_9"},
       "readings": {"state":"light_off_fan_4", "LastAction":"receive", "deviceCode":"9"},
       "attributes": {"model":"TR60C1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=14896;P1=-751;P2=394;P3=-370;P4=768;P5=-9572;P6=-21472;D=0121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212125234121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212126;CP=2;R=4;"
     },
     {
@@ -1973,6 +2465,8 @@
       "internals": {"DEF":"TR60C1 B", "NAME":"TR60C1_B"},
       "readings": {"state":"light_on_fan_2", "LastAction":"receive", "deviceCode":"B"},
       "attributes": {"model":"TR60C1"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-96;P1=152;P2=-753;P3=389;P4=-374;P5=769;P6=-9566;P7=-19920;D=012345454523232345454545634523454523234545452323234545454563452345452323454545232323454545456345234545232345454523232345454545634523454523234545452323234545454563452345452323454545232323454545457;CP=3;R=1;"
     }
   ]
@@ -1983,6 +2477,8 @@
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"down", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-697;P1=5629;P2=291;P3=3952;P4=-2459;P5=1644;P6=-298;P7=689;D=34567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614;CP=2;R=41;O;"
     },
     {
@@ -1990,6 +2486,8 @@
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=5630;P1=3968;P2=-2458;P3=1642;P4=-285;P5=690;P6=282;P7=-704;D=12345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402;CP=6;R=47;O;"
     },
     {
@@ -1997,6 +2495,8 @@
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MU;P0=-500;P1=5553;P2=-2462;P3=1644;P4=-299;P5=679;P6=298;P7=-687;D=01234545454545467546754546754676767675467676767675454546767676767545454675467546767671234545454545467546754546754676767675467676767675454546767676767545454675467546767671234545454545467546754546754676767675467676767675454546767676767545454675467546767671;CP=6;R=48;O;"
     }
   ]
@@ -2006,18 +2506,24 @@
       "dmsg":"W106#2632DC", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 22.6", "temperature":"22.6", "type":"GT-TMBBQ-01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P0=525;P1=-2051;P3=-8905;P4=-4062;D=0301010401010404010101040401010401040401040404;CP=0;SP=3;R=35;e;b=2;m0;"
     },
     {
       "dmsg":"W106#9A57A8", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 88.1", "temperature":"88.1", "type":"GT-TMBBQ-01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-8514;P2=488;P3=-4075;P4=-2068;D=2123242423232423242423242324232323232423242324;CP=2;SP=1;R=31;e;b=70;s=4;m0;"
     },
     {
       "dmsg":"W106#9A5D20", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 97.8", "temperature":"97.8", "type":"GT-TMBBQ-01"},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":"MS;P1=-9144;P2=469;P3=-4101;P4=-2099;D=2123242423232423242423242323232423242423242424;CP=2;SP=1;R=58;O;b=70;s=4;m0;"
     }
   ]
@@ -2027,6 +2533,8 @@
       "dmsg":"", "comment":"", "user":"",
       "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
+      "revision_entry":"unknown",
+      "revision_modul":"unknown",
       "rmsg":""
     }
   ]
