@@ -27,19 +27,19 @@
     if ($@) {
       diag( "ERROR: decode_json failed, invalid json!<br><br>$@\n");  # error if JSON not valid or syntax wrong
     }
-
   }
-
 
   ###
   ###  Tests koennten vermutlich mittels "Array Builder" auf korrekten Syntax vereinfacht werden
   ###  https://metacpan.org/pod/Test2::Tools::Compare#ARRAY-BUILDER
   ###
 
+  my $notes = 0;
   my $todo = undef;
+  $all_cnt++;
 
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-    if ( $i+2 <= scalar(@{$ProtocolListRead}) ) { # # check last entry on JSON (template)
+    if ( $i+2 <= scalar(@{$ProtocolListRead}) ) {  # check entry the last entry on JSON
       subtest "checking ID @{$ProtocolListRead}[$i]->{id} - @{$ProtocolListRead}[$i]->{name}" => sub {
         my $plan = 3;
         $all_cnt+= 3;
@@ -47,9 +47,9 @@
         isnt(@{$ProtocolListRead}[$i]->{data},undef,"Check if data exists",@{$ProtocolListRead}[$i]);
         isnt(@{$ProtocolListRead}[$i]->{name},undef,"Check if name exists",@{$ProtocolListRead}[$i]);
 
-
         my $ref_data = @{$ProtocolListRead}[$i]->{data};
         for (my $i2=0;$i2<@$ref_data;$i2++) {
+          $all_cnt+= 5;
           isnt(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}, undef, "Check TestNo: $i2, if dmsg exists");
           isnt(@{$ProtocolListRead}[$i]->{data}[$i2]->{internals}, undef, "Check TestNo: $i2, if Internals exists");
           isnt(@{$ProtocolListRead}[$i]->{data}[$i2]->{internals}{DEF}, undef, "Check TestNo: $i2, if Internal DEF exists");
@@ -57,36 +57,35 @@
           isnt(@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}, undef, "Check TestNo: $i2, if Readings exists");
 
           if ( @{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg} ) {
+            $plan++;
             isnt(@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}, undef, "Check TestNo: $i2, if rmsg exists");
           } else {
+            $notes++;
             $todo = Test2::Todo->new(reason => 'later, fix for full functionality');
             ok(0, "if rmsg exists");
           }
 
           if ( !@{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion} ) {
+            $notes++;
             $todo = Test2::Todo->new(reason => 'later, check rmsg or dmsg to dispach');
             ok(0, "no minProtocolVersion known, the result must be checked");
           }
 
           if ( @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry} && @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry} eq 'unknown') {
+            $notes++;
             $todo = Test2::Todo->new(reason => 'later, check result data from TestNo');
             ok(0, "revision_entry are unknown");
           }
 
-          $plan++;
           $all_cnt++;
           $todo = undef;
-        }
+        } # End - TestNo entry
+      }   # End - Subtest ID entry
+    }     # End - not last entry | last entry are one template on JSON
+  }       # End - loop from all entries
 
-        ##isnt(@{$ProtocolListRead}[$i]->{comment},undef,"Check if comment exists",@{$ProtocolListRead}[$i]);  ### Test funktioniert, erzeugt aber einen Fehler da comment nicht immer vorhanden
+  note("note: $all_cnt individual tests completed");
+  $todo->end if (defined $todo);
+  note('TODO: not all data complete, please check') if ($notes > 0);
 
-      } # End - Subtest entry
-    }   # End - not last entry | last entry are one template on JSON
-  }     # End - loop from all entries
-
-  note("$all_cnt individual tests completed #");
-  if (defined $todo) {
-    $todo->end;
-    note('ToDo: not all data complete, please check');
-  }
   done_testing;
