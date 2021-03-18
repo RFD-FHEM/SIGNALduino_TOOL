@@ -73,21 +73,21 @@
 },
 {"name":"Ventus W132", "id":"0.3", "module":"CUL_TCM97001", "data": [
     {
-      "dmsg":"sD66EE1603000", "comment":"Wind sensor", "user":"dirigent",
+      "dmsg":"sD66EE1603000", "comment":"Wind sensor, this sensor sends two different msg, 1/2", "user":"dirigent",
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
-      "readings": {"state":"Wg: 1.2  Wd: N ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2"},
+      "readings": {"state":"Wg: 1.2  Wd: W ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"6", "windDirectionDegree":"270", "windDirectionText":"W", "windGust":"1.2"},
       "attributes": {"model":"W132"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 14:44:59",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121212141212121414141412141212141414141414141212;CP=1;SP=3;s6;e;m1;"
     },
     {
-      "dmsg":"sD6680020C000", "comment":"Wind sensor", "user":"dirigent",
+      "dmsg":"sD6680020C000", "comment":"Wind sensor, this sensor sends two different msg, 2/2", "user":"dirigent",
       "internals": {"DEF":"CUL_TCM97001_214", "NAME":"W132_214"},
-      "readings": {"state":"Ws: 0.8 ", "battery":"ok", "batteryState":"ok", "channel":"1", "windDirection":"0", "windDirectionText":"N", "windGust":"1.2", "windSpeed":"0.8"},
+      "readings": {"state":"Ws: 0.8 ", "battery":"ok", "batteryState":"ok", "channel":"1", "windSpeed":"0.8"},
       "attributes": {"model":"W132"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 14:49:44",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=492;P2=-4005;P3=-8937;P4=-2023;D=13121214121412121414121214121414141414141414141414141412141414141412121414;CP=1;SP=3;s6;e;m2;"
     }
   ]
