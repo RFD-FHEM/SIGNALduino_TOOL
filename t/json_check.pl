@@ -40,7 +40,7 @@
 
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
     if ( $i+2 <= scalar(@{$ProtocolListRead}) ) {  # check entry the last entry on JSON
-      subtest "checking ID @{$ProtocolListRead}[$i]->{id} - @{$ProtocolListRead}[$i]->{name}" => sub {
+      subtest "checking ID @{$ProtocolListRead}[$i]->{id} - @{$ProtocolListRead}[$i]->{name} (JSON entry $i)" => sub {
         my $plan = 3;
         $all_cnt+= 3;
         isnt(@{$ProtocolListRead}[$i]->{id},undef,"Check if id exists",@{$ProtocolListRead}[$i]);
