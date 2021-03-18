@@ -1,15 +1,10 @@
 2021-03-18 - Update SD_Device_ProtocolList.json
 
  - revised data Ventus W132
-2021-03-18 - Update 88_SIGNALduino_TOOL.pm
-
- - fix write JSON
-2021-03-18 - Update SD_Device_ProtocolList.json
-2021-03-18 - Update SD_Device_ProtocolList.json
-
  - revised data from ABS700, Prologue, Mebus, Hama TS33C
 2021-03-18 - Update 88_SIGNALduino_TOOL.pm
 
+ - fix write JSON
  - fix html overview
  - remove old set cmd UnitTest_define
  - remove old get cmd UnitTests_from_SIGNALduino
