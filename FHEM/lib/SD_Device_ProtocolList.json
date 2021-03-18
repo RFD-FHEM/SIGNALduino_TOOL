@@ -1462,19 +1462,19 @@
 },
 {"name":"FHT80TF-2", "id":"70", "module":"CUL_FHTTK", "data": [
     {
-      "dmsg":"T66E5DC01", "user":"HomeAuto_User",
+      "dmsg":"T66E5DC01", "comment":"message for Open", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
-      "readings": {"state":"Open", "Previous":"Open", "Reliability":"ok", "Window":"Open", "batteryState":"ok"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"Open", "Previous":"", "Reliability":"ok", "Window":"Open", "batteryState":"ok"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 15:14:01",
+      "revision_modul":"09_CUL_FHTTK.pm 18391 2019-01-23 19:05:58Z Matscher",
       "rmsg":"MU;P0=426;P1=-367;P2=624;P3=-566;P4=-5404;D=0101010101010101010101012301232301012323010123232301012301232323230123232301012301010101010101232301012323012301012304;CP=0;"
     },
     {
-      "dmsg":"T66E5DC02", "user":"HomeAuto_User",
+      "dmsg":"T66E5DC02", "comment":"message for Closed", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
       "readings": {"state":"Closed", "Previous":"Open", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 15:17:33",
+      "revision_modul":"09_CUL_FHTTK.pm 18391 2019-01-23 19:05:58Z Matscher",
       "rmsg":"MU;P0=176;P1=-357;P2=428;P4=623;P5=-567;P6=-5160;D=012121212121212121212121214521454521214545212145454521214521454545452145454521214521212121212145214521214545214521452126;CP=2;"
     }
   ]
