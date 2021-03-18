@@ -75,6 +75,7 @@
 
           $plan++;
           $all_cnt++;
+          $todo = undef;
         }
 
         ##isnt(@{$ProtocolListRead}[$i]->{comment},undef,"Check if comment exists",@{$ProtocolListRead}[$i]);  ### Test funktioniert, erzeugt aber einen Fehler da comment nicht immer vorhanden
