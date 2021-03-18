@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-18 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-18 14:35:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -917,17 +917,21 @@ sub SIGNALduino_TOOL_Set {
             ## revision_modul, revison of modul on check day ##
             if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}) {
               Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul};
-              print $SaveDoc '      "revision_modul":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}.'",';
+              print $SaveDoc '      "revision_modul":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}.'"';
             } else {
               Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=unknown";
-              print $SaveDoc '      "revision_modul":"unknown",';
+              print $SaveDoc '      "revision_modul":"unknown"';
             }
+            print $SaveDoc ',' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg});
             print $SaveDoc "\n";
             ## revision_modul END ##
 
             ## values rmsg ##
-            print $SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
-            print $SaveDoc "\n";
+            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}) {
+              print $SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
+              print $SaveDoc "\n";
+            }
+
             print $SaveDoc '    }' if ($cnt_data_element_max == ($i2+1));
 
             if ($cnt_data_element_max > ($i2+1)) {
