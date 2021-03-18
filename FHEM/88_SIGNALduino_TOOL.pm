@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-02-27 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-18 20:20:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -54,10 +54,8 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET                    =>  2,
   FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION        =>  '2021-02-27_pre-release',
+  SIGNALduino_TOOL_VERSION        =>  '2021-03-18_pre-release',
   TIMEOUT_HttpUtils               =>  3,
-  UNITTESTS_FROM_SIGNALduino_URL  =>  'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
-  UNITTESTS_RAWFILE_URL           =>  'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
 };
 
 my @ccregnames = (
@@ -250,7 +248,6 @@ sub SIGNALduino_TOOL_Set {
   $setList .= ' RAWMSG_M3:noArg' if (AttrVal($name,'RAWMSG_M3','') ne '');
   $setList .= ' CC110x_Register_new:no,yes CC110x_Register_old:no,yes' if (AttrVal($name,'IODev_CC110x_Register',undef) && AttrVal($name,'CC110x_Register_new',undef) && AttrVal($name,'CC110x_Register_old',undef));
   $setList .= " $NameSendSet".'RAWMSG' if ($Sendername ne 'none');
-  $setList .= ' UnitTest_define:'.$hash->{helper}->{UnitTests_from_SIGNALduino} if (exists $hash->{helper}->{UnitTests_from_SIGNALduino} && $Dummyname ne 'none');
 
   SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'last') if (($RAWMSG_last eq 'none' && $DMSG_last eq 'none') && (AttrVal($name, 'webCmd', undef) && (AttrVal($name, 'webCmd', undef) =~ /$NameDispatchSet?last/)));
 
@@ -1158,55 +1155,6 @@ sub SIGNALduino_TOOL_Set {
       }
     }
 
-    ## available UnitTests to define ##
-    if ($cmd eq 'UnitTest_define') {
-      return 'ERROR: argument testfile is failed' if (!$a[1]);
-      return "ERROR: testfile $a[1] is not support" if ($a[1] !~ /\.txt$/);
-      return "ERROR: testfile $a[1] is not available" if (not grep { /$a[1]/ } $hash->{helper}->{UnitTests_from_SIGNALduino});
-
-      #### HTTP Requests #### Start ####
-      my $Http_err = '';
-      my $Http_data = '';
-
-      ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => UNITTESTS_RAWFILE_URL.$a[1],
-                                                        timeout => TIMEOUT_HttpUtils,
-                                                        method  => 'GET',                # Lesen von Inhalten
-                                                      });
-      #### HTTP Requests #### END ####
-
-      if ($Http_err ne '') {
-        readingsSingleUpdate($hash, 'state' , "cmd $cmd - need Internet or website are down!", 0);
-        Log3 $name, 2, "$name: $cmd failed, need Internet or website are down! ";
-        return;
-      } elsif ($Http_data ne '') {
-        my @apache_split = split (/\n/,$Http_data);
-        my $apache_testfile = '';
-        my $UnitTestName = '';
-
-        ## loop - push lines ##
-        foreach (@apache_split) {
-          if ($_ =~ /defmod\s.*\sUnitTest\s(\w+)\s/) {
-            $_ =~ s/$1/$Dummyname/g;
-          }
-          $apache_testfile.= $_."\n";
-        }
-        Log3 $name, 5, "$name: $cmd $a[1] used code: $apache_testfile";
-        $UnitTestName = $1 if ($apache_testfile =~ /defmod\s(.*)\sUnitTest\s/);
-        $apache_testfile =~ s/;/;;/g;
-        $apache_testfile =~ s/^defmod\s//g;
-
-        my $ret = CommandDefine(undef, $apache_testfile);
-        if ($ret) {
-          return "<html><a href=https://github.com/fhem/UnitTest target=\"_blank\">Unknown module UnitTest<br>The module is required to use the command.<br><br>Please install module from https://github.com/fhem/UnitTest</a></html>"  if ($ret =~ /Unknown module UnitTest/);
-          return $ret;
-        } else {
-          CommandAttr($hash,"$UnitTestName verbose 0");
-          CommandAttr($hash,"$UnitTestName disable 1");
-          return "UnitTest $a[1] has been installed on your system";
-        }
-      }
-    }
-
     $RAWMSG_last =~ s/;;/;/g if ($RAWMSG_last ne 'none');
     $hash->{dispatchOption} = $DispatchOption if ($hash->{dispatchOption});
 
@@ -1307,7 +1255,7 @@ sub SIGNALduino_TOOL_Get {
   my $onlyDataName = '-ONLY_DATA-';
   my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
   my $list = 'Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg '.
-        'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg UnitTests_from_SIGNALduino:noArg '.
+        'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg '.
         'change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec '.
         'invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg '.
         'search_ignore_Devices:noArg ';
@@ -2101,53 +2049,6 @@ sub SIGNALduino_TOOL_Get {
     }
   }
 
-  ## search all UnitTests from SIGNALduino DEV - project and define it an local system ##
-  if ($cmd eq 'UnitTests_from_SIGNALduino') {
-    #### HTTP Requests #### Start ####
-    my $Http_err = '';
-    my $Http_data = '';
-
-    ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => UNITTESTS_FROM_SIGNALduino_URL,
-                                                          timeout => TIMEOUT_HttpUtils,
-                                                          method  => 'GET',                           # Lesen von Inhalten
-                                                        });
-    #### HTTP Requests #### END ####
-
-    if ($Http_err ne '') {
-      readingsSingleUpdate($hash, 'state' , "cmd $cmd - need Internet or website are down!", 0);
-      Log3 $name, 2, "$name: $cmd failed, need Internet or website are down!";
-      return;
-    } elsif ($Http_data ne '') {
-      Log3 $name, 4, "$name: Get $cmd - check (12)";
-      #Log3 $name, 4, "$name: Get $cmd - Http_data = $Http_data";
-
-      my @apache_split = split (/\n/,$Http_data);
-      my @apache_testlist;
-
-      ## loop - push tests ##
-      foreach (@apache_split) {
-        if ($_ =~ /\stitle=".*txt".*href=".*">(.*txt)<\/a>/) {
-          Log3 $name, 4, "$name: $cmd, found $1";
-          $_ =~ /.*href=".*">(.*)<\/a>.*/;
-          push (@apache_testlist, $1);
-        }
-      }
-
-      if (scalar(@apache_testlist) == 0) {
-        readingsSingleUpdate($hash, 'state' , "cmd $cmd - failed!", 1);
-        Log3 $name, 2, "$name: $cmd failed, probably the website has been changed!";
-        Log3 $name, 4, "$name: $cmd failed, apache_split has ".@apache_split." entries | RegEx for Http_data wrong?";
-        return;
-      } else {
-        $hash->{helper}->{UnitTests_from_SIGNALduino} = join (',' , @apache_testlist);
-      }
-    }
-    readingsSingleUpdate($hash, 'state' , "$cmd retrieved successfully. Set command UnitTest_define available" , 0);
-    SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
-
-    return '';
-  }
-
   return "Unknown argument $cmd, choose one of $list";
 }
 
@@ -2331,7 +2232,7 @@ sub SIGNALduino_TOOL_Undef {
   delete($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}})
     if(defined($hash->{DEF}) && defined($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}}));
 
-  foreach my $value (qw(FW_SD_Device_ProtocolList_get FW_SD_ProtocolData_get JSON_new_entry NTFY_SEARCH_Time NTFY_SEARCH_Value NTFY_SEARCH_Value_count NTFY_dispatchcount NTFY_match RUNNING_PID UnitTests_from_SIGNALduino decoded_Protocol_ID option start_time)) {
+  foreach my $value (qw(FW_SD_Device_ProtocolList_get FW_SD_ProtocolData_get JSON_new_entry NTFY_SEARCH_Time NTFY_SEARCH_Value NTFY_SEARCH_Value_count NTFY_dispatchcount NTFY_match RUNNING_PID decoded_Protocol_ID option start_time)) {
     delete $hash->{helper}{$value} if(defined($hash->{helper}{$value}));
   }
 
@@ -3321,8 +3222,13 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
 
     if (@$ProtocolListRead[$i]->{id} ne '') {
       my $ref_data = @{$ProtocolListRead}[$i]->{data};
-      for (my $i2=0;$i2<@$ref_data;$i2++) {  
+      for (my $i2=0;$i2<@$ref_data;$i2++) {
+        $buttons = '';  # to reset value
+        $dmsg = '';     # to reset value
+        $RAWMSG = '';   # to reset value
+
         foreach my $key (sort keys %{@$ref_data[$i2]}) {
+          #Log3 $name, 5, "$name: FW_SD_Device_ProtocolList_get, ".sprintf("%03d", $i)." $i2, ".@{$ProtocolListRead}[$i]->{name}.", $key";
           $comment = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /comment/);
           $user = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /user/);
           $dmsg = urlEncode( @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} ) if ($key =~ /dmsg/); # need urlEncode https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42
@@ -4452,7 +4358,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
   &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="UnitTest_define"></a><code>UnitTest_define</code> - define the available UnitTest (command requires the GET query UnitTests_from_SIGNALduino)</li><a name=""></a></ul>
   <ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
   <ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - deletes the specified room with all devices</li><a name=""></a></ul>
   <ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - deletes logfiles from the system of devices that no longer exist</li><a name=""></a></ul>
@@ -4478,7 +4383,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
   <ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
   <ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
-  <ul><li><a name="UnitTests_from_SIGNALduino"></a><code>UnitTests_from_SIGNALduino</code> - retrieves the available UnitTests (after a successful call, the SET command UnitTest_define is available)</li><a name=""></a></ul>
   <ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
   <ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
   <ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li><a name=""></a></ul>
@@ -4596,7 +4500,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
   &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="UnitTest_define"></a><code>UnitTest_define</code> - definiert den zur Verf&uuml;gung stehenden UnitTest (Befehl erfordert die GET Abfrage UnitTests_from_SIGNALduino)</li><a name=""></a></ul>
   <ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
   <ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - l&ouml;scht den angegebenen Raum mit allen Ger&auml;ten</li><a name=""></a></ul>
   <ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - l&ouml;scht Logfiles von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
@@ -4625,7 +4528,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
   <ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
   <ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
-  <ul><li><a name="UnitTests_from_SIGNALduino"></a><code>UnitTests_from_SIGNALduino</code> - ruft die zur Verf&uuml;gung stehenden UnitTests ab (nach erfolgreichem Abruf ist der SET Befehl UnitTest_define verf&uuml;gbar)</li><a name=""></a></ul>
   <ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
   <ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
   <ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li><a name=""></a></ul>
