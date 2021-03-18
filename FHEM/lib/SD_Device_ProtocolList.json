@@ -2534,8 +2534,7 @@
       "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
       "revision_entry":"unknown",
-      "revision_modul":"unknown",
-      "rmsg":""
+      "revision_modul":"unknown"
     }
   ]
 }
