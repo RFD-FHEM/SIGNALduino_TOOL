@@ -108,10 +108,10 @@
     {
       "dmsg":"s248FE4EF0000", "user":"Ralf9",
       "internals": {"DEF":"CUL_TCM97001_36", "NAME":"Rubicson_36"},
-      "readings": {"state":"T: -2.8", "other":"-2.8", "temperature":"-2.8"},
+      "readings": {"state":"T: -2.8", "temperature":"-2.8"},
       "attributes": {"model":"Rubicson"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 10:37:52",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-3946;P1=448;P2=-1998;P3=-9309;P4=284;D=131212101212101212101212121010101010101012121012121010101210101010124;CP=1;SP=3;e;m3;"
     }
   ]
@@ -254,23 +254,23 @@
     }
   ]
 },
-{"name":"AURIOL_174", "id":"6", "module":"CUL_TCM97001", "data": [
+{"name":"TCM 218943", "id":"6", "module":"CUL_TCM97001", "data": [
     {
       "dmsg":"sAEFFE7F1A000", "comment":"14_CUL_TCM97001.pm is under development", "user":"elektron-bbs",
       "internals": {"DEF":"CUL_TCM97001_174", "NAME":"AURIOL_174"},
-      "readings": {"state":"T: 22.9 H: 24", "battery":"ok", "batteryState":"ok", "humidity":"24", "mode":"normal", "temperature":"22.9", "trend":"falling"},
+      "readings": {"state":"T: 22.9 H: 24", "battery":"ok", "batteryState":"ok", "humidity":"24", "mode":"normal", "temperature":"22.9"},
       "attributes": {"model":"TCM218943"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 10:41:30",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-970;P1=254;P3=-1983;P4=-8045;D=14101310131010101310101010101010101010101313101010101010101313131010131013;CP=1;SP=4;"
     },
     {
       "dmsg":"sAEEFE8F1C000", "comment":"14_CUL_TCM97001.pm is under development", "user":"elektron-bbs",
       "internals": {"DEF":"CUL_TCM97001_174", "NAME":"AURIOL_174"},
-      "readings": {"state":"T: 22.7 H: 23", "battery":"ok", "batteryState":"ok", "humidity":"23", "mode":"forced", "temperature":"22.7", "trend":"falling"},
+      "readings": {"state":"T: 22.7 H: 23", "battery":"ok", "batteryState":"ok", "humidity":"23", "mode":"forced", "temperature":"22.7"},
       "attributes": {"model":"TCM218943"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 10:43:56",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-2054;P1=236;P2=-1032;P3=-7760;D=13121012101212121012121210121212121212121012101010121212121010101212121010;CP=1;SP=3;"
     }
   ]
