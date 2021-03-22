@@ -965,8 +965,8 @@
       "internals": {"DEF":"8AE785 ", "NAME":"SOMFY_8AE785"},
       "readings": {"enc_key":"98", "parsestate":"on", "received":"40", "rolling_code":"0A82"},
       "attributes": {"model":"somfyshutter"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:48:54",
+      "revision_modul":"10_SOMFY.pm 22865 2020-09-27 15:55:14Z viegener",
       "rmsg":"MC;LL=-1405;LH=1269;SL=-723;SH=620;D=98DBD153D631BB;C=669;L=56;R=229;"
     },
     {
@@ -974,8 +974,8 @@
       "internals": {"DEF":"C5F22E ", "NAME":"SOMFY_C5F22E"},
       "readings": {"enc_key":"62", "parsestate":"prog", "received":"80", "rolling_code":"9C2A"},
       "attributes": {"model":"somfyshutter"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:52:08",
+      "revision_modul":"10_SOMFY.pm 22865 2020-09-27 15:55:14Z viegener",
       "rmsg":"MC;LL=-1428;LH=1275;SL=-755;SH=574;D=62EB775D738144;C=671;L=56;R=236;"
     }
   ]
@@ -986,8 +986,8 @@
       "internals": {"DEF":"03697C ", "NAME":"SOMFY_03697C"},
       "readings": {"enc_key":"81", "parsestate":"on", "received":"40", "rolling_code":"0006"},
       "attributes": {"model":"somfyshutter"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:47:13",
+      "revision_modul":"10_SOMFY.pm 22865 2020-09-27 15:55:14Z viegener",
       "rmsg":"MC;LL=-1246;LH=1293;SL=-592;SH=660;D=81CDCDCBB7DEDD84001D;C=631;L=80;"
     }
   ]
