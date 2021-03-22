@@ -1048,67 +1048,67 @@
 },
 {"name":"QUIGG_GT-9000", "id":"49.2", "module":"SD_GT", "data": [
     {
-      "dmsg":"P49#C9AFAC", "comment":"Button C off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "dmsg":"P49#C9AFAC", "comment":"Button C off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "dispatch_repeats":"2", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C9AFAC"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"C9AFAC"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:18:20",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=328;P1=-428;P3=1090;P4=-1190;P5=-2310;D=010131040431310431043131313131043104313104040531310404310404313104310431313131310431043131040405313104043104043131043104313131313104310431310404053131040431040431310431043131313131043104313104042;CP=0;"
     },
     {
-      "dmsg":"P49#C22B9C", "comment":"Button C off, Rollingcode 2, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
+      "dmsg":"P49#C22B9C", "comment":"Button C off, Rollingcode 2, V2, Penny 2335191R (ID 5,19 additionally)", "dispatch_repeats":"2", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B9C"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"C22B9C"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:20:44",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=1090;P1=-430;P2=328;P3=-1192;P4=-2319;P5=2988;D=01012323232301232323012301230101012323010101232324010123232323012323230123012301010123230101012323240101232323230123232301230123010101232301010123232401012323232301232323012301230101012323010101232353;CP=2;"
     },
     {
-      "dmsg":"P49#CDD41C", "comment":"Button C off, Rollingcode 3, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "dmsg":"P49#CDD41C", "comment":"Button C off, Rollingcode 3, V2, Penny 2335191R (ID 5 additionally)", "dispatch_repeats":"2", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"CDD41C"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"CDD41C"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:22:44",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=1086;P1=-433;P2=327;P3=-1194;P4=-2318;P5=2988;D=01012323010123010101230123012323232323010101232324010123230101230101012301230123232323230101012323240101232301012301010123012301232323232301010123232401012323010123010101230123012323232323010101232353;CP=2;"
     },
     {
-      "dmsg":"P49#C3802C", "comment":"Button C off, Rollingcode 4, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "dmsg":"P49#C3802C", "comment":"Button C off, Rollingcode 4, V2, Penny 2335191R (ID 5 additionally)", "dispatch_repeats":"2", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C3802C"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"C3802C"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:24:40",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=1090;P1=-428;P2=334;P3=-1190;P4=-2317;P5=2988;D=01012323232301010123232323232323232301230101232324010123232323010101232323232323232323012301012323240101232323230101012323232323232323230123010123232401012323232301010123232323232323232301230101232353;CP=2;"
     },
     {
-      "dmsg":"P49#CA627C", "comment":"Button C on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "dmsg":"P49#CA627C", "comment":"Button C on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "dispatch_repeats":"1", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"CA627C"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"CA627C"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:27:05",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=1092;P1=-429;P2=335;P3=-1184;P4=-2316;P5=2996;D=010123230123012323010123232301232301010101012323240101232301230123230101232323012323010101010123232401012323012301232301012323230123230101010101232355;CP=2;"
     },
     {
-      "dmsg":"P49#C6B54C", "comment":"Button C on, Rollingcode 2, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "dmsg":"P49#C6B54C", "comment":"Button C on, Rollingcode 2, V2, Penny 2335191R (ID 5 additionally)", "dispatch_repeats":"2", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B54C"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"C6B54C"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:28:26",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=1090;P1=-429;P2=331;P3=-1189;P4=-2316;P5=2992;D=01012323230101230123010123012301230123230101232324010123232301012301230101230123012301232301012323240101232323010123012301012301230123012323010123232401012323230101230123010123012301230123230101232354;CP=2;"
     },
     {
       "dmsg":"P49#C6B542", "comment":"Button D off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
       "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B542"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:30:43",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=-800;P1=-422;P2=346;P3=-1176;P4=1103;P5=-2302;D=0123234141234123414123412341234123232323412325414123232341412341234141234123412341232323234123254125;CP=2;"
     },
     {
-      "dmsg":"P49#C22B92", "comment":"Button D on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "user":"Tom71",
+      "dmsg":"P49#C22B92", "comment":"Button D on, Rollingcode 1, V2, Penny 2335191R (ID 5 additionally)", "dispatch_repeats":"2", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C22B92"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"C22B92"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:32:21",
+      "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=-416;P1=1100;P2=345;P3=-1176;P4=-2298;P5=3008;D=0010232323102310231010102323102323102324101023232323102323231023102310101023231023231023241010232323231023232310231023101010232310232310232410102323232310232323102310231010102323102323102351;CP=2;"
     }
   ]
@@ -1464,7 +1464,7 @@
     {
       "dmsg":"T66E5DC01", "comment":"message for Open", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
-      "readings": {"state":"Open", "Previous":"", "Reliability":"ok", "Window":"Open", "batteryState":"ok"},
+      "readings": {"state":"Open", "Reliability":"ok", "Window":"Open", "batteryState":"ok"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 15:14:01",
       "revision_modul":"09_CUL_FHTTK.pm 18391 2019-01-23 19:05:58Z Matscher",
       "rmsg":"MU;P0=426;P1=-367;P2=624;P3=-566;P4=-5404;D=0101010101010101010101012301232301012323010123232301012301232323230123232301012301010101010101232301012323012301012304;CP=0;"
@@ -1472,7 +1472,7 @@
     {
       "dmsg":"T66E5DC02", "comment":"message for Closed", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
-      "readings": {"state":"Closed", "Previous":"", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
+      "readings": {"state":"Closed", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 15:17:33",
       "revision_modul":"09_CUL_FHTTK.pm 18391 2019-01-23 19:05:58Z Matscher",
       "rmsg":"MU;P0=176;P1=-357;P2=428;P4=623;P5=-567;P6=-5160;D=012121212121212121212121214521454521214545212145454521214521454545452145454521214521212121212145214521214545214521452126;CP=2;"
@@ -1598,7 +1598,7 @@
 },
 {"name":"DS1820_4Fach", "id":"77", "module":"CUL_TX", "data": [
     {
-      "dmsg":"TXA0D2728722", "comment":"self build sensor, is under development, https://github.com/juergs/NANO_DS1820_4Fach", "user":"unknown",
+      "dmsg":"TXA0D2728722", "comment":"self build sensor, protocol is under development, https://github.com/juergs/NANO_DS1820_4Fach", "user":"unknown",
       "internals": {"DEF":"105", "NAME":"CUL_TX_105"},
       "readings": {"state":"T: 22.8", "temperature":"22.8"},
       "revision_entry":"unknown",
