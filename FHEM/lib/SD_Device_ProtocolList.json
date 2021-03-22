@@ -1353,11 +1353,11 @@
 },
 {"name":"Clarus_Switch", "id":"62", "module":"IT", "data": [
     {
-      "dmsg":"i415703", "comment":"Unknown code i415703, help me! / Code 01 not supported by IT_F00FFFF100 (ID 32,62,63 additionally) | Attributes userV1setCodes needed -> on:01", "dispatch_repeats":"3", "user":"SD_Protocol",
+      "dmsg":"i415703", "comment":"Unknown code i415703, help me! / Code 01 not supported by IT_F00FFFF100 (ID 32,62,63 additionally) / Attributes userV1setCodes needed -> on:01", "dispatch_repeats":"3", "user":"SD_Protocol",
       "internals": {"DEF":"F00FFFF100 0F F0", "NAME":"IT_F00FFFF100"},
       "readings": {"state":"on", "protocol":"V1"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:31:43",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MU;P0=-5893;P4=-634;P5=498;P6=-257;P7=116;D=45656567474747474745656707456747474747456745674567456565674747474747456567074567474747474567456745674565656747474747474565670745674747474745674567456745656567474747474745656707456747474747456745674567456565674747474747456567074567474747474567456745674567;CP=7;O;"
     }
   ]
