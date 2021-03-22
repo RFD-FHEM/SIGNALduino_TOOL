@@ -1039,9 +1039,9 @@
     {
       "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
       "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
-      "readings": {"state":"Food: 25 BBQ: 21", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType":"normal", "messageType ":"normal", "temp-bbq":"21", "temp-food":"25"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"Food: 25 BBQ: 21", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType":"normal", "temp-bbq":"21", "temp-food":"25"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:44:54",
+      "revision_modul":"14_SD_WS_Maverick.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;"
     }
   ]
@@ -1098,8 +1098,8 @@
     {
       "dmsg":"P49#C6B542", "comment":"Button D off, Rollingcode 1, V2, Penny 2335191R (ID 5,19 additionally)", "user":"Tom71",
       "internals": {"DEF":"LEARN", "NAME":"SD_GT_LEARN"},
-      "readings": {"state":"code already registered, please press another button", "LearnCodes":"C6B542"},
-      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:30:43",
+      "readings": {"state":"learned code 1, please press another button", "LearnCodes":"C6B542"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:42:14",
       "revision_modul":"10_SD_GT.pm     1 2020-05-25 21:00:00Z elektron-bbs",
       "rmsg":"MU;P0=-800;P1=-422;P2=346;P3=-1176;P4=1103;P5=-2302;D=0123234141234123414123412341234123232323412325414123232341412341234141234123412341232323234123254125;CP=2;"
     },
