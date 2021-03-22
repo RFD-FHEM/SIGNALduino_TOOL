@@ -963,7 +963,7 @@
     {
       "dmsg":"Ys98DBD153D631BB", "comment":"parsestate on, https://forum.fhem.de/index.php/topic,64141.msg642800.html#msg642800", "user":"Elektrolurch",
       "internals": {"DEF":"8AE785 ", "NAME":"SOMFY_8AE785"},
-      "readings": {"enc_key":"98", "parsestate":"on", "received":"40", "rolling_code":"0A82"},
+      "readings": {"parsestate":"on", "received":"40"},
       "attributes": {"model":"somfyshutter"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:48:54",
       "revision_modul":"10_SOMFY.pm 22865 2020-09-27 15:55:14Z viegener",
@@ -972,7 +972,7 @@
     {
       "dmsg":"Ys62EB775D738144", "comment":"parsestate prog", "user":"Elektrolurch",
       "internals": {"DEF":"C5F22E ", "NAME":"SOMFY_C5F22E"},
-      "readings": {"enc_key":"62", "parsestate":"prog", "received":"80", "rolling_code":"9C2A"},
+      "readings": {"parsestate":"prog", "received":"80"},
       "attributes": {"model":"somfyshutter"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:52:08",
       "revision_modul":"10_SOMFY.pm 22865 2020-09-27 15:55:14Z viegener",
@@ -984,7 +984,7 @@
     {
       "dmsg":"Ys81CDCDCBB7DEDD84001D", "comment":"This remote has a different length to other Somfy remotes, https://forum.fhem.de/index.php/topic,53319.msg926388.html#msg926388", "user":"kpl",
       "internals": {"DEF":"03697C ", "NAME":"SOMFY_03697C"},
-      "readings": {"enc_key":"81", "parsestate":"on", "received":"40", "rolling_code":"0006"},
+      "readings": {"parsestate":"on", "received":"40"},
       "attributes": {"model":"somfyshutter"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 21:47:13",
       "revision_modul":"10_SOMFY.pm 22865 2020-09-27 15:55:14Z viegener",
