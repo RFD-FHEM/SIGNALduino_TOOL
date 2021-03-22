@@ -1325,9 +1325,9 @@
     {
       "dmsg":"K747431381558", "comment":"Series WS2000/WS7000 of various sensors (ID 40 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"8 0 0 16 0", "NAME":"CUL_WS_8"},
-      "readings": {"state":"T: 17.4  H: 38.3  P: 931", "DEVFAMILY":"WS7000", "DEVTYPE":"Indoor", "humidity":"38.3", "pressure":"931", "strangepress":"1008", "temperature":"17.4"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"T: 17.4  H: 38.3  P: 931", "DEVFAMILY":"WS7000", "DEVTYPE":"Indoor", "humidity":"38.3", "pressure":"931", "temperature":"17.4"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 23:40:21",
+      "revision_modul":"14_CUL_WS.pm 20918 2020-01-08 19:20:38Z rudolfkoenig",
       "rmsg":"MU;P0=329;P1=-386;P2=829;P4=-884;D=0121212121042121042104040404210421210421040404042104042121210404042121042121210404040421210404210421040421212104212121040404210421042121212104042104040;CP=0;R=36;"
     }
   ]
