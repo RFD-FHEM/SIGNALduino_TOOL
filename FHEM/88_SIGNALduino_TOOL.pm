@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-18 14:35:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-22 14:35:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -54,7 +54,7 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET                    =>  2,
   FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION        =>  '2021-03-18_pre-release',
+  SIGNALduino_TOOL_VERSION        =>  '2021-03-22_pre-release',
   TIMEOUT_HttpUtils               =>  3,
 };
 
@@ -3662,8 +3662,13 @@ sub SIGNALduino_TOOL_version_moduls {
   $attr{global}{verbose} = 2 if ($verbose_old <= 3);              # info version write to logfile with verbose 3 and more
 
   my $revision = fhem("version $modultype");
-  $revision =~ /.*Change\n+(.*\.pm\s\d+\s\d+-\d+-\d+\s.*)$/;
+  #Log3 $name, 5, "$name: version_modul, modultype $modultype, versionsstring input -> $revision";
+
+  #$revision =~ /.*Change\n+(.*\.pm\s\d+\s\d+-\d+-\d+\s.*)$/m;  
+  $revision =~ /(\d{2}_$modultype\.pm\s+\d+\s\d{4}.*)/;
   $revision = $1;
+  $revision = 'unknown' if (!$revision);
+  Log3 $name, 5, "$name: version_modul, modultype $modultype, version found -> $revision";
 
   $attr{global}{verbose} = $verbose_old if ($verbose_old <= 3 );  # reset verbose to old value to not write info version to logfile
 
