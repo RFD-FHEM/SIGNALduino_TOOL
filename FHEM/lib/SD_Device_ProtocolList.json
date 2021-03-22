@@ -1353,7 +1353,7 @@
 },
 {"name":"Clarus_Switch", "id":"62", "module":"IT", "data": [
     {
-      "dmsg":"i415703", "comment":"Attributes userV1setCodes needed -> Unknown code i415703, help me! / Code 01 not supported by IT_F00FFFF100 (ID 32,62,63 additionally)", "dispatch_repeats":"3", "user":"SD_Protocol",
+      "dmsg":"i415703", "comment":"Unknown code i415703, help me! / Code 01 not supported by IT_F00FFFF100 (ID 32,62,63 additionally) | Attributes userV1setCodes needed -> on:01", "dispatch_repeats":"3", "user":"SD_Protocol",
       "internals": {"DEF":"F00FFFF100 0F F0", "NAME":"IT_F00FFFF100"},
       "readings": {"state":"on", "protocol":"V1"},
       "revision_entry":"unknown",
