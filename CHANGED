@@ -1,14 +1,10 @@
 2021-03-22 - Update 88_SIGNALduino_TOOL.pm
 
  - little fix
-2021-03-22 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
 2021-03-22 - Update SD_Device_ProtocolList.json
 
- -  revised data FHT80TF-2, FHT80b, EM1000WZ,
-2021-03-22 - Update SD_Device_ProtocolList.json
-
- - revised data Auriol Z31743B
- - revised data AURIOL_174
+ - revised data FHT80TF-2, FHT80b, EM1000WZ,
+ - revised data Auriol Z31743B, AURIOL_174
 2021-03-18 - Update SD_Device_ProtocolList.json
 
  - revised data FHT80TF-2
