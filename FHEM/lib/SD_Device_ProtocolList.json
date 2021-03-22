@@ -1472,7 +1472,7 @@
     {
       "dmsg":"T66E5DC02", "comment":"message for Closed", "user":"HomeAuto_User",
       "internals": {"DEF":"66e5dc", "NAME":"CUL_FHTTK_66e5dc"},
-      "readings": {"state":"Closed", "Previous":"Open", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
+      "readings": {"state":"Closed", "Previous":"", "Reliability":"ok", "Window":"Closed", "batteryState":"ok"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-18 15:17:33",
       "revision_modul":"09_CUL_FHTTK.pm 18391 2019-01-23 19:05:58Z Matscher",
       "rmsg":"MU;P0=176;P1=-357;P2=428;P4=623;P5=-567;P6=-5160;D=012121212121212121212121214521454521214545212145454521214521454545452145454521214521212121212145214521214545214521452126;CP=2;"
@@ -1516,9 +1516,9 @@
     {
       "dmsg":"810c04xx0909a00117400000B600", "comment":"roomthermostat, only receive (ID 63 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"1740", "NAME":"FHT_1740"},
-      "readings": {"state":"measured-temp: 25.5", "battery":"ok", "batteryState":"ok", "temperature":"25.5", "warnings":"Window open", "window":"open", "windowsensor":"ok"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"actuator":"0%"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 13:45:08",
+      "revision_modul":"11_FHT.pm       23183 2020-11-18 21:01:30Z rudolfkoenig",
       "rmsg":"MU;P0=28736;P1=-402;P2=395;P3=593;P4=-619;P5=-8980;D=01212121212121212121212134212121342134343421213421212121212134212121212121212121342134342134342134212121212121212121212121343421213434252121212121212121212121213421212134213434342121342121212121213421212121212121212134213434213434213421212121212121212121;CP=2;R=21;O;"
     }
   ]
@@ -1686,9 +1686,9 @@
     {
       "dmsg":"E01015B880803008305", "comment":"Energy-Monitor", "user":"Derwelcherichbin",
       "internals": {"DEF":"1", "NAME":"CUL_EM_1"},
-      "readings": {"state":"CNT: 91 CUM: 14.560  5MIN: 0.240  TOP: 0.170", "RAW":"CNT: 91 CUM: 2184  5MIN: 3  TOP: 1411", "cum_day":"CUM_DAY: 0.000 CUM: 14.560 COST: 0.00", "current":"0.24", "current_cnt":"3", "peak":"0.170092133238838", "peak_cnt":"1411", "seqno":"91", "total":"14.56", "total_cnt":"2184", "tsecs":"1559846129"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"CNT: 91 CUM: 14.560  5MIN: 0.240  TOP: 0.170", "RAW":"CNT: 91 CUM: 2184  5MIN: 3  TOP: 1411", "cum_day":"CUM_DAY: 0.000 CUM: 14.560 COST: 0.00", "current":"0.24", "current_cnt":"3", "peak":"0.170092133238838", "peak_cnt":"1411", "seqno":"91", "total":"14.56", "total_cnt":"2184"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 13:53:25",
+      "revision_modul":"15_CUL_EM.pm 16293 2018-02-28 21:33:57Z rudolfkoenig",
       "rmsg":"MU;P1=-417;P2=385;P3=-815;P4=-12058;D=42121212121212121212121212121212121232321212121212121232321212121212121232323212323212321232121212321212123232121212321212121232323212121212121232121212121212121232323212121212123232321232121212121232123232323212321;CP=2;R=87;"
     }
   ]
