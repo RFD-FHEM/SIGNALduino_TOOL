@@ -121,8 +121,8 @@
       "dmsg":"P1#9374A400", "comment":"Kanal 4 - Taste 3 on, https://forum.fhem.de/index.php/topic,58397.msg880350.html#msg880350 (ID 41 additionally)", "user":"gandi1791",
       "internals": {"DEF":"74A400_ALL", "NAME":"RSL_74A400_ALL"},
       "readings": {"state":"on"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:05:03",
+      "revision_modul":"14_SD_RSL.pm  7779 2019-01-04 18:00:00Z v3.34-dev",
       "rmsg":"MS;P1=1154;P2=-697;P3=559;P4=-1303;P5=-7173;D=351234341234341212341212123412343412341234341234343434343434343434;CP=3;SP=5;R=247;O;"
     }
   ]
@@ -132,8 +132,8 @@
       "dmsg":"iF99726", "comment":"Wireless PIR - (D0 0/D1 1/D2 1/D3 0)", "user":"HomeAuto_User",
       "internals": {"DEF":"1527xf9972 0110 0000", "NAME":"IT_1527xf9972"},
       "readings": {"state":"on", "protocol":"EV1527"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:06:35",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-12556;P2=1219;P3=-406;P4=412;P5=-1205;D=41232323232345452323454523452323234545234545232345;CP=4;SP=1;R=22;O;m2;E;"
     }
   ]
@@ -143,24 +143,24 @@
       "dmsg":"i69E492", "comment":"Remote for ESMART / Motorleinwand, Button UP, Attributes userV1setCodes needed -> DOWN:0100 UP:0010 STOP:1000", "user":"betrev",
       "internals": {"DEF":"1527x69e49 0010 0000", "NAME":"IT_1527x69e49"},
       "readings": {"state":"UP", "protocol":"EV1527"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:09:01",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-5756;P2=188;P3=-563;P4=552;P5=-196;D=21234545234523234545454523234523234523234523234523;CP=2;SP=1;R=29;O;m0;"
     },
     {
       "dmsg":"i69E498", "comment":"Remote for ESMART / Motorleinwand, Button STOP, Attributes userV1setCodes needed -> DOWN:0100 UP:0010 STOP:1000", "user":"betrev",
       "internals": {"DEF":"1527x69e49 0010 0000", "NAME":"IT_1527x69e49"},
       "readings": {"state":"STOP", "protocol":"EV1527"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:09:51",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-5752;P2=189;P3=-548;P4=543;P5=-194;D=21234545234523234545454523234523234523234545232323;CP=2;SP=1;R=40;O;m1;"
     },
     {
       "dmsg":"i69E494", "comment":"Remote for ESMART / Motorleinwand, Button DOWN, Attributes userV1setCodes needed -> DOWN:0100 UP:0010 STOP:1000", "user":"betrev",
       "internals": {"DEF":"1527x69e49 0010 0000", "NAME":"IT_1527x69e49"},
       "readings": {"state":"DOWN", "protocol":"EV1527"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:10:24",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-5727;P2=188;P3=-551;P4=550;P5=-201;D=21234545234523234545454523234523234523234523452323;CP=2;SP=1;R=42;O;m1;"
     }
   ]
@@ -170,16 +170,16 @@
       "dmsg":"i5554C0", "comment":"Remote control, Button 1 from 8", "user":"HomeAuto_User",
       "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
       "readings": {"state":"off", "protocol":"SBC_FreeTec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:11:41",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P2=1292;P3=-511;P4=389;P5=-1416;P6=-13975;D=46452345234523452345234523452345452323454545454545;CP=4;SP=6;m2;"
     },
     {
       "dmsg":"i555430", "comment":"Remote control, Button 2 from 8", "user":"HomeAuto_User",
       "internals": {"DEF":"FFFFFFF0 0100 1000", "NAME":"IT_FFFFFFF0"},
       "readings": {"state":"on", "protocol":"SBC_FreeTec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:12:42",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=387;P1=-1397;P2=1294;P3=-503;P4=-13984;D=04012301230123012301230123012301010101232301010101;CP=0;SP=4;m2;"
     }
   ]
