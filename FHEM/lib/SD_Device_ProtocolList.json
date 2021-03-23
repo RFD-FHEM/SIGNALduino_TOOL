@@ -1304,8 +1304,8 @@
       "dmsg":"K21380200", "comment":"Series WS2000/WS7000 of various sensors", "state":"T: 23.8", "user":"elektron-bbs",
       "internals": {"DEF":"3", "NAME":"CUL_WS_3"},
       "readings": {"state":"T: 23.8  H: 0", "DEVFAMILY":"WS300", "DEVTYPE":"S300TH", "humidity":"0", "temperature":"23.8"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 11:34:58",
+      "revision_modul":"14_CUL_WS.pm 20918 2020-01-08 19:20:38Z rudolfkoenig",
       "rmsg":"MU;P0=140;P1=-152;P2=817;P3=-397;P4=-279;P5=327;P6=-900;D=01232424242424232323235656232323562356232356232323565656562323562356232356232323235623232323562323232356235623565;CP=2;"
     }
   ]
@@ -1315,8 +1315,8 @@
       "dmsg":"K01900146", "comment":"Series WS2000/WS7000 of various sensors", "user":"elektron-bbs",
       "internals": {"DEF":"1", "NAME":"CUL_WS_1"},
       "readings": {"state":"T: 19.0  H: 46", "DEVFAMILY":"WS300", "DEVTYPE":"S300TH", "humidity":"46", "temperature":"19.0"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 11:38:20",
+      "revision_modul":"14_CUL_WS.pm 20918 2020-01-08 19:20:38Z rudolfkoenig",
       "rmsg":"MU;P0=-14912;P1=822;P2=-430;P3=343;P4=-898;D=01212121212121212121234341212123412121212341212121234341212343434121212341212121234123434123412123412343434123434341234123;CP=3;"
     }
   ]
