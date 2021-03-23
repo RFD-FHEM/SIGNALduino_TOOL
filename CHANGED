@@ -1,20 +1,13 @@
 2021-03-23 - Update SD_Device_ProtocolList.json
 
- - test data
-2021-03-23 - Update SD_Device_ProtocolList.json
-
- - tested data
-2021-03-23 - Update SD_Device_ProtocolList.json
-
+ - tested data & added minProtocolVersion
  - revision data AS2000, ASH2000
-2021-03-22 - Update SD_Device_ProtocolList.json
-
- - revised data S2000ID
 2021-03-22 - Update 88_SIGNALduino_TOOL.pm
 
  - little fix
 2021-03-22 - Update SD_Device_ProtocolList.json
 
+ - revised data S2000ID
  - revised data Clarus_Switch, Somfy
  - revised data QUIGG_GT-9000, ET-733
  - revised data FHT80TF-2, FHT80b, EM1000WZ,
