@@ -17,8 +17,8 @@
       "internals": {"DEF":"CUL_TCM97001_84", "NAME":"GT_WT_02_84"},
       "readings": {"state":"T: 17.2 H: 47", "battery":"ok", "batteryState":"ok", "channel":"2", "humidity":"47", "mode":"normal", "temperature":"17.2"},
       "attributes": {"model":"GT_WT_02"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 09:35:18",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-4129;P2=550;P3=-2100;P4=-9055;D=2423212321232123232323232123232323212321232121232323212321212121212123232121;CP=2;SP=4;R=241;O;s=4;m1;"
     }
   ]
@@ -41,8 +41,8 @@
       "internals": {"DEF":"CUL_TCM97001_133", "NAME":"W044_133"},
       "readings": {"state":"T: 20.2 H: 38", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"38", "mode":"normal", "temperature":"20.2"},
       "attributes": {"model":"W044"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 09:47:26",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-1957;P1=573;P2=-3961;P3=-8913;D=13121010101012101210101010101210121010121210101010101010121212101012121010;CP=1;SP=3;e;m1;"
     }
   ]
@@ -64,9 +64,9 @@
       "dmsg":"s35277004E000", "comment":"Temp / Hum sensor", "user":"killah78",
       "internals": {"DEF":"CUL_TCM97001_53", "NAME":"W044_53"},
       "readings": {"state":"T: 23.8 H: 20", "battery":"ok", "batteryState":"ok", "channel":"1", "humidity":"20", "mode":"normal", "temperature":"23.8"},
-      "attributes": {"model":"TCM21...."},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "attributes": {"model":"W044"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 09:52:19",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=452;P4=-1989;P5=-4063;P6=-8942;D=16141415151415141514141514141515151415151514141414141414141415141415151514;CP=1;SP=6;R=36;O;m2;"
     }
   ]
@@ -98,8 +98,8 @@
       "internals": {"DEF":"CUL_TCM97001_51", "NAME":"W174_51"},
       "readings": {"state":"R: 14.25", "battery":"ok", "batteryState":"ok", "israining":"yes", "rain":"14.25"},
       "attributes": {"model":"W174"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 09:54:07",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P3=478;P4=-4052;P5=-2022;P6=-9075;D=536353534343535343435343435343435353435353434343535353535353535353535353435;CP=3;SP=6;R=248;O;m0;"
     }
   ]
@@ -118,7 +118,7 @@
 },
 {"name":"Conrad RSL", "id":"1", "module":"SD_RSL", "data": [
     {
-      "dmsg":"P1#9374A400", "comment":"Kanal 4 - Taste 3 on, https://forum.fhem.de/index.php/topic,58397.msg880350.html#msg880350 (ID 41 additionally)", "user":"gandi1791",
+      "dmsg":"P1#9374A400", "comment":"Channel 4 - Button 3 on, https://forum.fhem.de/index.php/topic,58397.msg880350.html#msg880350 (ID 41 additionally)", "user":"gandi1791",
       "internals": {"DEF":"74A400_ALL", "NAME":"RSL_74A400_ALL"},
       "readings": {"state":"on"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-23 14:05:03",
@@ -359,8 +359,8 @@
       "dmsg":"P9#FF4A63E4AA040802F40168", "comment":"(ID 42,75 additionally)", "user":"maddinthebrain",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"T: 9.8  H: 85  Ws:0.7  Wg:1.4 m/s Wd: N  R: 113.4", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"85", "id":"83", "rain":"113.4", "rain_total":"113.4", "temperature":"9.8", "windDirection":"0", "windDirectionAverage":"0", "windDirectionDegree":"0", "windDirectionText":"N", "windGust":"1.4", "windGust_fts":"4.6", "windGust_kmh":"5.0", "windGust_kn":"2.7", "windGust_mph":"3.1", "windSpeed":"0.7", "windSpeed_fts":"2.3", "windSpeed_kmh":"2.5", "windSpeed_kn":"1.4", "windSpeed_mph":"1.6"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 09:57:33",
+      "revision_modul":"14_SD_WS09.pm 22415 2020-07-16 20:22:23Z Sidey",
       "rmsg":"MU;P0=-31072;P1=486;P2=-986;P3=1454;D=01212121212121212321232321232123232121232323212121212123232123232123212321232123232323232321232323232323212323232323232323232123212121212321232323232323232323212321212321232301212121212121212321232321232123232121232323212121212123232123232123212321232123;CP=1;R=29;O;"
     }
   ]
@@ -370,16 +370,16 @@
       "dmsg":"P9#FEE7E2AA049E81F0", "comment":"Lux & UV RAWMSG with length 64", "user":"rob",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"UV: 1 Lux: 15136 ", "Lux":"15136", "UV":"1", "id":"63"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:00:52",
+      "revision_modul":"14_SD_WS09.pm 22415 2020-07-16 20:22:23Z Sidey",
       "rmsg":"MU;P0=-10108;P1=495;P2=-1050;P3=1496;P4=-27564;P5=372;CP=1;R=245;D=012121212121212321212123232121212121212323232123212321232123212323232323232123232123232121212123212323232323232121212121232323450;e;"
     },
     {
       "dmsg":"P9#FF5BA39C8C020403C60822", "comment":"Temp,Hum,Rain,Wind RAWMSG with length 88 (ID 42 additionally)", "user":"rob",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"T: 6.2  H: 70  Ws:0.3  Wg:0.7 m/s Wd: E  R: 144.9", ".rainOffset":"0", "battery":"ok", "batteryState":"ok", "humidity":"70", "id":"221", "rain":"144.9", "rain_total":"144.9", "temperature":"6.2", "windDirection":"4", "windDirectionAverage":"90", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"0.7", "windGust_fts":"2.3", "windGust_kmh":"2.5", "windGust_kn":"1.4", "windGust_mph":"1.6", "windSpeed":"0.3", "windSpeed_fts":"1.0", "windSpeed_kmh":"1.1", "windSpeed_kn":"0.6", "windSpeed_mph":"0.7"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 09:59:00",
+      "revision_modul":"14_SD_WS09.pm 22415 2020-07-16 20:22:23Z Sidey",
       "rmsg":"MU;P0=-32001;P1=481;P2=-990;P3=1450;CP=1;R=244;D=012121212121212123212321212321212123212323232121212323212121232321232323212123232323232323232123232323232321232323232323232321212121232323212123232323232123232323232123232321;e;"
     }
   ]
@@ -389,8 +389,8 @@
       "dmsg":"P9#FF7C845508D87403", "comment":"reconstructed bit 1", "user":"Ralf9",
       "internals": {"DEF":"WH1080", "NAME":"WH1080"},
       "readings": {"state":"UV: 4 Lux: 57970 ", "Lux":"57970", "UV":"4", "id":"200"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:02:20",
+      "revision_modul":"14_SD_WS09.pm 22415 2020-07-16 20:22:23Z Sidey",
       "rmsg":"MU;P0=-1424;P1=1417;P2=-1058;P3=453;P4=-24774;P6=288;P7=-788;D=01212121232343232323232323232123232323232121232121212123212121232123212321232121212123212121232321232321212121232323212321212121212121212323467323232323232323212323232323212123212121212321212123212321232123212121212321212123232123232121212123232321232121;CP=3;R=247;O;"
     }
   ]
@@ -400,8 +400,8 @@
       "dmsg":"501A2D203C801720833E9E", "comment":"OSV2", "user":"Wetterhexe",
       "internals": {"DEF":"THGR228N_3c_2", "NAME":"THGR228N_3c_2"},
       "readings": {"state":"T: 17.8 H: 32 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"32", "temperature":"17.8"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:03:49",
+      "revision_modul":"41_OREGON.pm 34476 2017-12-26 13:23:00Z dev",
       "rmsg":"MC;LL=-997;LH=967;SL=-506;SH=460;D=AAAAAAAA66959A6555655AA55556A9955565A5566AA56A96;C=488;L=192;"
     }
   ]
@@ -411,8 +411,8 @@
       "dmsg":"50FA2844DC202070835092", "comment":"OSV3 (ID 52 additionally)", "user":"Wetterhexe",
       "internals": {"DEF":"THGR810_dc_4", "NAME":"THGR810_dc_4"},
       "readings": {"state":"T: 20.2 H: 37 BAT: ok", "battery":"ok", "batteryState":"ok", "humidity":"37", "temperature":"20.2"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:05:52",
+      "revision_modul":"41_OREGON.pm 34476 2017-12-26 13:23:00Z dev",
       "rmsg":"MC;LL=-1002;LH=952;SL=-489;SH=475;D=000000A0EBDDC4FBFBF13EF5B6;C=486;L=104;"
     }
   ]
@@ -422,8 +422,8 @@
       "dmsg":"P12#75EFBA4A72BECC504F1801", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
       "readings": {"state":"T: 29.6 H: 54", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Hum. OK. Temp. uncomfortable (>24.9 or <20)", "humidity":"54", "package_number":"3", "temperature":"29.6"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:11:26",
+      "revision_modul":"14_Hideki.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MC;LL=-1010;LH=938;SL=-519;SH=457;D=A8C2345ADD8E0B99F586F9C;C=487;L=90;R=57;"
     }
   ]
@@ -443,8 +443,8 @@
       "dmsg":"P12#75EABA4A17BE07A91D5801", "comment":"Thermo-hygro sensor for base station 35.1101.02", "user":"HomeAuto_User",
       "internals": {"DEF":"Hideki_30_1", "NAME":"Hideki_30_1"},
       "readings": {"state":"T: 23.9 H: 9", "battery":"ok", "batteryState":"ok", "channel":"1", "comfort_level":"Dry. Less than 40% RH", "humidity":"9", "package_number":"3", "temperature":"23.9"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:09:06",
+      "revision_modul":"14_Hideki.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MC;LL=-1022;LH=927;SL=-531;SH=442;D=A8EA345AD8BE0A3F6AA3F94;C=486;L=90;R=37;"
     }
   ]
@@ -455,8 +455,8 @@
       "internals": {"DEF":"32E44F", "NAME":"FLAMINGO_32E44F"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13"},
       "attributes": {"model":"KD-101LA"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:20:53",
+      "revision_modul":"14_FLAMINGO.pm 22619 2020-08-17 17:29:09Z HomeAuto_User",
       "rmsg":"MS;P0=-1413;P1=757;P2=-2779;P3=-16079;P4=8093;P5=-954;D=1345121210101212101210101012121012121210121210101010;CP=1;SP=3;R=33;O;"
     }
   ]
@@ -467,8 +467,8 @@
       "internals": {"DEF":"CBFAD2", "NAME":"FLAMINGO_CBFAD2"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13.1"},
       "attributes": {"model":"FA22RF"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:22:35",
+      "revision_modul":"14_FLAMINGO.pm 22619 2020-08-17 17:29:09Z HomeAuto_User",
       "rmsg":"MU;P0=-5684;P1=8149;P2=-887;P3=798;P4=-1393;P5=-2746;P6=-19956;D=0123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435353435361234343535343534343434343434353435343435343535343536123434353534353434343434343435343534343534353534353612343435353435343434343434343534353434353435;CP=3;R=0;"
     }
   ]
@@ -479,38 +479,38 @@
       "internals": {"DEF":"B0FFAF", "NAME":"FLAMINGO_B0FFAF"},
       "readings": {"state":"Alarm", "alarmcounter":"1", "lastReceive_ID":"13"},
       "attributes": {"model":"LM-101LD"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:24:16",
+      "revision_modul":"14_FLAMINGO.pm 22619 2020-08-17 17:29:09Z HomeAuto_User",
       "rmsg":"MS;P1=-2708;P2=796;P3=-1387;P4=-8477;P5=8136;P6=-904;D=2456212321212323232321212121212121212123212321212121;CP=2;SP=4;"
     }
   ]
 },
 {"name":"Chilitec_22640", "id":"14", "module":"SD_UT", "data": [
     {
-      "dmsg":"P14#AA808", "comment":"Remote control X-MAS LED", "user":"privat58",
+      "dmsg":"P14#AA808", "comment":"Remote control X-MAS LED, Button power_on", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
-      "readings": {"state":"power_on", "deviceCode":"1010101010000000"},
+      "readings": {"state":"power_on", "LastAction":"receive", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:28:42",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=988;P1=-384;P2=346;P3=-1026;P4=-4923;D=240123012301230123012323232323232301232323;CP=2;SP=4;R=0;O;m=1;"
     },
     {
-      "dmsg":"P14#AA80C", "comment":"Remote control X-MAS LED", "user":"privat58",
+      "dmsg":"P14#AA80C", "comment":"Remote control X-MAS LED, Button brightness_plus", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
-      "readings": {"state":"brightness_plus", "deviceCode":"1010101010000000"},
+      "readings": {"state":"brightness_plus", "LastAction":"receive", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:30:58",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=-398;P1=974;P3=338;P4=-1034;P6=-4939;D=361034103410341034103434343434343410103434;CP=3;SP=6;R=0;"
     },
     {
-      "dmsg":"P14#AA80A", "comment":"Remote control X-MAS LED", "user":"privat58",
+      "dmsg":"P14#AA80A", "comment":"Remote control X-MAS LED, Button flickering_slowly", "user":"privat58",
       "internals": {"DEF":"Chilitec_22640 AA80", "NAME":"Chilitec_22640_AA80"},
-      "readings": {"state":"flickering_slowly", "deviceCode":"1010101010000000"},
+      "readings": {"state":"flickering_slowly", "LastAction":"receive", "deviceCode":"1010101010000000"},
       "attributes": {"model":"Chilitec_22640"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:33:19",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=976;P2=-397;P3=341;P4=-1029;P5=-4940;D=351234123412341234123434343434343412341234;CP=3;SP=5;R=0;"
     }
   ]
@@ -520,65 +520,65 @@
       "dmsg":"P16#4805B7B132", "comment":"(ID 40,72 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"0100100000000101101101111011_1", "NAME":"Dooya_0100100000000101101101111011_1"},
       "readings": {"state":"closed", "exact":"closed", "parsestate":"on", "position":"200"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:26:03",
+      "revision_modul":"98_Dooya.pm 15400 2017-11-05 18:11:51Z Sidey",
       "rmsg":"MU;P0=-1562;P1=-411;P2=297;P3=-773;P4=668;P5=4754;D=1232341234141234141234141414123414123232341232341412323414150234123234123232323232323234123414123414123414141412341412323234123234141232341415023412323412323232323232323412341412341412341414141234141232323412323414123234142;CP=2;"
     }
   ]
 },
 {"name":"ITS-10", "id":"17", "module":"IT", "data": [
     {
-      "dmsg":"i669A9A9A5555565600", "comment":"Remote control", "user":"dafosy",
+      "dmsg":"i669A9A9A5555565600", "comment":"Remote control, Button on", "user":"dafosy",
       "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0001"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:37:37",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-287;P1=254;P2=-1315;P4=-2603;D=141012121010121210121010121210121012101012121012101210101212101210101210121012101210121012101210121012101210121210101210121012121013;CP=1;SP=4;R=46;O;m1;"
     },
     {
-      "dmsg":"i669A9A9A5555555600", "comment":"Remote control", "user":"dafosy",
+      "dmsg":"i669A9A9A5555555600", "comment":"Remote control, Button off", "user":"dafosy",
       "internals": {"DEF":"01011011101110110000000000 0 0001", "NAME":"IT_V3_2ddd8001"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0001"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:40:08",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=240;P1=-298;P2=-1321;P3=-10816;P4=-2591;D=040102020101020201020101020201020102010102020102010201010202010201010201020102010201020102010201020102010201020102010201020102020103;CP=0;SP=4;R=34;O;m1;"
     }
   ]
 },
 {"name":"ITT-1500", "id":"17", "module":"IT", "data": [
     {
-      "dmsg":"i5A5966695AA9965900", "comment":"Remote control", "user":"KoelnSolar",
+      "dmsg":"i5A5966695AA9965900", "comment":"Remote control, Button on", "user":"KoelnSolar",
       "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0010"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:44:02",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=235;P1=-1316;P2=-296;P3=-10204;P4=-2674;D=040201020101020102020102010102020102010102020101020201010201020201020102010102010201020102010202010102020102010102020102010102020103;CP=0;SP=4;R=44;O;m0;"
     },
     {
-      "dmsg":"i5A5966695AA9955900", "comment":"Remote control", "user":"KoelnSolar",
+      "dmsg":"i5A5966695AA9955900", "comment":"Remote control, Button off", "user":"KoelnSolar",
       "internals": {"DEF":"00110010010101100011111010 0 0010", "NAME":"IT_V3_192b1f42"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0010"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:45:38",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-2667;P2=219;P3=-1330;P5=-315;P7=-10188;D=212523252323252325252325232325252325232325252323252523232523252523252325232325232523252325232525232325252325232523252325232325252327;CP=2;SP=1;R=34;O;m1;"
     }
   ]
 },
 {"name":"PIR-1000 / ITT-1500", "id":"17.1", "module":"IT", "data": [
     {
-      "dmsg":"i5665A5AAA556965500", "comment":"(ID 63 additionally)", "user":"SD_Protocol",
+      "dmsg":"i5665A5AAA556965500", "comment":"(ID 63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"00010100110011111100000110 0 0000", "NAME":"IT_V3_a67e0c0"},
       "readings": {"state":"on", "group":"0", "protocol":"V3", "unit":"0000"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:47:40",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MU;P0=346;P1=-1227;P2=-190;P4=-10224;P5=-2580;D=020101020201020102010201040502010201020101020201010202010201010201020201020101020102010201020102010202010201020102010201010201020201020101020201020102010201040502010201020101020201010202010201010201020201020101020102010201020102010202010201020102010201010201020201020101020201020102010201;CP=0;"
     },
     {
       "dmsg":"i5665A5AAA556955500", "comment":"(ID 63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"00010100110011111100000110 0 0000", "NAME":"IT_V3_a67e0c0"},
       "readings": {"state":"off", "group":"0", "protocol":"V3", "unit":"0000"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:49:38",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MU;P0=355;P1=-189;P2=-1222;P3=-10252;P4=-2604;D=0201020102030401020102010202010102020101020102020102010102010202010201020102010201020101020102010201020102020102010102010201020102010201020102030401020102010202010102020101020102020102010102010202010201020102010201020101020102010201020102020102010102010201020102010201020102;CP=0;"
     }
   ]
@@ -588,8 +588,8 @@
       "dmsg":"500A4D100E001000002100", "comment":"OSV1", "user":"Ralf9",
       "internals": {"DEF":"THR128_0e_1", "NAME":"THR128_0e_1"},
       "readings": {"state":"T: 10 BAT: ok", "battery":"ok", "batteryState":"ok", "temperature":"10"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:51:46",
+      "revision_modul":"41_OREGON.pm 34476 2017-12-26 13:23:00Z dev",
       "rmsg":"MC;LL=-2486;LH=3348;SL=-1024;SH=1889;D=8FFF7F0F;C=1457;L=32;R=65;"
     }
   ]
@@ -607,54 +607,54 @@
 },
 {"name":"RCnoName20", "id":"20", "module":"SD_UT", "data": [
     {
-      "dmsg":"P20#17E911B0", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
+      "dmsg":"P20#17E911B0", "comment":"Remote control with 4 buttons for diesel heating, Button on", "user":"elektron-bbs",
       "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
       "readings": {"state":"on", "LastAction":"receive", "deviceCode":"17E9"},
       "attributes": {"model":"RCnoName20"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:54:11",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=-740;P2=686;P3=-283;P5=229;P6=-7889;D=5650505023502323232323235023505023505050235050502323502323505050;CP=5;SP=6;R=67;O;m2;"
     },
     {
-      "dmsg":"P20#17E90508", "comment":"Remote control with 4 buttons for diesel heating", "user":"elektron-bbs",
+      "dmsg":"P20#17E90508", "comment":"Remote control with 4 buttons for diesel heating, Button off", "user":"elektron-bbs",
       "internals": {"DEF":"RCnoName20 17E9", "NAME":"RCnoName20_17E9"},
       "readings": {"state":"off", "LastAction":"receive", "deviceCode":"17E9"},
       "attributes": {"model":"RCnoName20"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:55:29",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=-754;P2=213;P4=681;P5=-283;P6=-7869;D=2621212145214545454545452145212145212121212145214521212121452121;CP=2;SP=6;R=69;O;m2;"
     }
   ]
 },
 {"name":"Visivo", "id":"24", "module":"SD_UT", "data": [
     {
-      "dmsg":"P24#9F7DF825029C10", "comment":"Remote control for motorized screen", "user":"MikeRoxx",
+      "dmsg":"P24#9F7DF825029C10", "comment":"Remote control for motorized screen, Button up", "user":"MikeRoxx",
       "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"7DF825"},
       "attributes": {"model":"Visivo"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:57:16",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=505;P1=140;P2=-771;P3=-225;P5=4558;D=012031212030303030312030303030312030303030303121212121203121203120312121212121203120312120303031212121212031212121252031212030303030312030303030312030303030303121212121203121203120312121212121203120312120303031212121212031212121252031212030;CP=1;O;"
     },
     {
-      "dmsg":"P24#9F7DF82508A210", "comment":"Remote control for motorized screen", "user":"MikeRoxx",
+      "dmsg":"P24#9F7DF82508A210", "comment":"Remote control for motorized screen, Button stop", "user":"MikeRoxx",
       "internals": {"DEF":"Visivo 7DF825", "NAME":"Visivo_7DF825"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"7DF825"},
       "attributes": {"model":"Visivo"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:58:43",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-764;P1=517;P2=-216;P3=148;P5=4550;D=012303012121212123012121212123012121212121230303030301230301230123030303012303030123012303030123030303012303030305012303012121212123012121212123012121212121230303030301230301230123030303012303030123012303030123030303012303030305012303012120;CP=3;O;"
     }
   ]
 },
 {"name":"xavax", "id":"26", "module":"SD_UT", "data": [
     {
-      "dmsg":"P26#DAAB255487", "comment":"model 00111939 - Funksteckdosen Set", "user":"elektron-bbs",
+      "dmsg":"P26#DAAB255487", "comment":"model 00111939 - Funksteckdosen Set", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
       "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"DAAB"},
       "attributes": {"model":"xavax"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:00:44",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=412;P1=-534;P2=-1356;P3=-20601;P4=3360;P5=-3470;D=01020102010201020201010201010201020102010201020101020101010102020203010145020201020201020102010201020102020101020101020102010201020102010102010101010202020301014502020102020102010201020102010202010102010102010201020102010201010201010101020202030101450202;CP=0;R=0;O;"
     },
     {
@@ -662,8 +662,8 @@
       "internals": {"DEF":"xavax DAAB", "NAME":"xavax_DAAB"},
       "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"DAAB"},
       "attributes": {"model":"xavax"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:02:21",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-3504;P1=416;P2=-1356;P3=-535;P4=-20816;P5=3324;D=01212131212131213121312131213121213131213131213121312131213121313131212121213131314131350121213121213121312131213121312121313121313121312131213121312131313121212121313131413135012121312121312131213121312131212131312131312131213121312131213131312121212131;CP=1;R=50;O;"
     }
   ]
@@ -673,24 +673,24 @@
       "dmsg":"W27#113C49B04806", "comment":"EuroChron weatherstation EFTH-800 / Channel 2 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_2", "NAME":"SD_WS_27_TH_2"},
       "readings": {"state":"T: 15.5 H: 48", "batteryState":"ok", "channel":"2", "humidity":"48", "temperature":"15.5", "type":"EFTH-800, EFS-3110A"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:04:05",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-224;P1=258;P2=-487;P3=505;P4=-4884;P5=743;P6=-718;D=0121212301212303030301212123012123012123030123030121212121230121230121212121212121230301214565656561212123012121230121230303030121212301212301212303012303012121212123012123012121212121212123030121;CP=1;R=53;"
     },
     {
       "dmsg":"W27#21D442607679", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
       "readings": {"state":"T: 3.8 H: 76", "batteryState":"ok", "channel":"3", "humidity":"76", "temperature":"3.8", "type":"EFTH-800, EFS-3110A"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:05:38",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-241;P1=251;P2=-470;P3=500;P4=-4868;P5=743;P6=-718;D=012121212303030123012301212123012121212301212303012121212121230303012303012123030303012123014565656561212301212121230303012301230121212301212121230121230301212121212123030301230301212303030301212301;CP=1;R=23;"
     },
     {
       "dmsg":"W27#21D4435075DE", "comment":"EuroChron weatherstation EFTH-800 / Channel 3 (ID 61 additionally)", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_27_TH_3", "NAME":"SD_WS_27_TH_3"},
       "readings": {"state":"T: 5.3 H: 75", "batteryState":"ok", "channel":"3", "humidity":"75", "temperature":"5.3", "type":"EFTH-800, EFS-3110A"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:09:24",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-240;P1=253;P2=-487;P3=489;P4=-4860;P5=746;P6=-725;D=012121212303030123012301212123012121212303012301230121212121230303012301230303012303030301214565656561212301212121230303012301230121212301212121230301230123012121212123030301230123030301230303030121;CP=1;R=19;"
     }
   ]
@@ -699,33 +699,34 @@
     {
       "dmsg":"P29#FBE", "comment":"remote control for example Westinghouse airfan (ID 30 additionally)", "dispatch_repeats":"3", "user":"gadget",
       "internals": {"DEF":"Buttons_five E", "NAME":"Buttons_five_E"},
-      "readings": {"state":"fan_off", "deviceCode":"1110 (off|off|off|on)"},
+      "readings": {"state":"fan_off", "LastAction":"receive", "deviceCode":"1110 (off|off|off|on)"},
       "attributes": {"model":"Buttons_five"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:21:15",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=250;P1=-492;P2=166;P3=-255;P4=491;P5=-8588;D=052121212121234121212121234521212121212341212121212345212121212123412121212123452121212121234121212121234;CP=0;"
     }
   ]
 },
 {"name":"Unitec_47031", "id":"30", "module":"SD_UT", "data": [
     {
-      "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"7", "user":"Dr.E.Witz",
+      "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"3", "user":"Dr.E.Witz",
       "internals": {"DEF":"Unitec_47031 95", "NAME":"Unitec_47031_95"},
       "readings": {"state":"1", "System-Housecode":"10010101 (on|off|off|on|off|on|off|on)", "Usersystem":"Unitec 47121", "Zone":"010 (off|on|off) - Zone 3"},
       "attributes": {"model":"Unitec_47031"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:23:54",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=309;P1=636;P2=-690;P3=-363;P4=-10027;D=012031203120402031312031203120312031204020313120312031203120312040203131203120312031203120402031312031203120312031204020313120312031203120312040203131203120312031203120402031312031203120312031204020313120312031203120312040203131203120312030;CP=0;O;"
     }
   ]
 },
 {"name":"FreeTec PE-6946", "id":"32", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P32#154FFF", "comment":"wireless dorbell (ID 40,62,63 additionally)", "user":"SD_Protocol",
+      "dmsg":"P32#154FFF", "comment":"wireless dorbell (ID 40,62,63 additionally)", "dispatch_repeats":"3", "user":"SD_Protocol",
       "internals": {"DEF":"32 154FFF", "NAME":"SD_BELL_154FFF"},
       "readings": {"state":"ring"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "attributes": {"model":"FreeTec_PE-6946"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:26:13",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MU;P0=146;P1=245;P3=571;P4=-708;P5=-284;P7=-6689;D=14351435143514143535353535353535353535350704040435043504350435040435353535353535353535353507040404350435043504350404353535353535353535353535070404043504350435043504043535353535353535353535350704040435043504350435040435353535353535353535353507040404350435;CP=3;R=0;O;"
     }
   ]
@@ -736,8 +737,8 @@
       "internals": {"DEF":"32 7ED403", "NAME":"SD_BELL_7ED403"},
       "readings": {"state":"ring"},
       "attributes": {"model":"FreeTec_PE-6946"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:28:51",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MU;P0=130;P1=-666;P2=533;P3=-273;P5=-6200;CP=0;R=15;D=01232301230123010101010101010123230501232323232323012323012301230101010101010101232305012323232323230123230123012301010101010101012323050123232323232301232301230123010101010101010123230501232323232323012323012301230101010101010101232305012323232323230123;O;"
     }
   ]
