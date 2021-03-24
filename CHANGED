@@ -1,3 +1,7 @@
+2021-03-24 - Update 88_SIGNALduino_TOOL.pm
+
+ - added META informations
+ - little fix userattr DispatchModule
 2021-03-23 - Update SD_Device_ProtocolList.json
 
  - tested data & added minProtocolVersion
