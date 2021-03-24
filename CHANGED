@@ -1,9 +1,9 @@
-2021-03-24 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+2021-03-24 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
 2021-03-24 - Update 88_SIGNALduino_TOOL.pm
 
  - revised META informations
-2021-03-24 - Update 88_SIGNALduino_TOOL.pm
-
  - added META informations
  - little fix userattr DispatchModule
 2021-03-23 - Update SD_Device_ProtocolList.json
