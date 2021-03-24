@@ -4643,9 +4643,11 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   "prereqs": {
     "runtime": {
       "requires": {
+        "Data::Dumper": 0,
         "FHEM": 5.00918623,
         "FHEM::Meta": 0.001006,
-        "GPUtils": 0,
+        "HttpUtils": 0,
+        "JSON::PP": 0,
         "lib::SD_Protocols": "0",
         "perl": 5.018,
         "strict": "0",
