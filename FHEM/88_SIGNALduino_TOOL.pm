@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-22 14:35:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-24 14:35:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -27,6 +27,7 @@ eval {use JSON::PP qw( );1};
 eval {use HttpUtils;1};
 
 use lib::SD_Protocols;
+use FHEM::Meta;         # https://wiki.fhem.de/wiki/Meta for SVN Revision
 
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
@@ -54,7 +55,6 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 use constant {
   CCREG_OFFSET                    =>  2,
   FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION        =>  '2021-03-22_pre-release',
   TIMEOUT_HttpUtils               =>  3,
 };
 
@@ -122,6 +122,7 @@ sub SIGNALduino_TOOL_Initialize {
                                  .' IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
                                  .' JSON_Check_exceptions JSON_write_ERRORs:no,yes'
                                  .' RAWMSG_M1 RAWMSG_M2 RAWMSG_M3';
+  return FHEM::Meta::InitMod( __FILE__, $hash );
 }
 
 ################################
@@ -185,10 +186,10 @@ sub SIGNALduino_TOOL_Define {
 
   ### default value´s ###
   $hash->{STATE} = 'Defined';
-  $hash->{version_modul} = SIGNALduino_TOOL_VERSION;
 
   readingsSingleUpdate($hash, 'state' , 'Defined' , 0);
 
+  return $@ unless ( FHEM::Meta::SetInternals($hash) );
   return;
 }
 
@@ -295,7 +296,10 @@ sub SIGNALduino_TOOL_Set {
     ### END ###
 
     ## attributes automatic to standard or new value ##
-    $attr{$name}{userattr} = $userattr_list_new if ( (not exists $attr{$name}{userattr}) || ($userattr ne $userattr_list_new) );
+    if ( (not exists $attr{$name}{userattr}) || ($userattr ne $userattr_list_new) ) {
+      $userattr_list_new =~ s/,,/,/g if ($userattr_list_new =~ /,,/);
+      $attr{$name}{userattr} = $userattr_list_new;
+    }
     $attr{$name}{DispatchModule} = '-' if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && !$DispatchModule =~ /^.*\.txt$/);
 
     SIGNALduino_TOOL_deleteInternals($hash,'dispatchOption') if (!$ProtocolListRead && !@ProtocolList && $cmd !~ //);
@@ -4613,5 +4617,92 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <br>
 </ul>
 =end html_DE
+
+=for :application/json;q=META.json 88_SIGNALduino_TOOL.pm
+{
+  "author": [
+    "HomeAuto_User <>",
+    "elektron-bbs"
+  ],
+  "description": "Tool from SIGNALduino",
+  "dynamic_config": 1,
+  "keywords": [
+    "sduino",
+    "fhem-sonstige-systeme",
+    "signalduino",
+    "signalduino_tool"
+  ],
+  "license": [
+    "GPL_2"
+  ],
+  "meta-spec": {
+    "url": "https://metacpan.org/pod/CPAN::Meta::Spec",
+    "version": 2
+  },
+  "name": "FHEM::SIGNALduino_TOOL",
+  "prereqs": {
+    "runtime": {
+      "requires": {
+        "FHEM": 5.00918623,
+        "FHEM::Meta": 0.001006,
+        "GPUtils": 0,
+        "lib::SD_Protocols": "0",
+        "perl": 5.018,
+        "strict": "0",
+        "warnings": "0"
+      }
+    },
+    "develop": {
+      "requires": {
+        "lib::SD_Protocols": "0",
+        "strict": "0",
+        "warnings": "0"
+      }
+    }
+  },
+  "release_status": "stable",
+  "resources": {
+    "bugtracker": {
+      "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues"
+    },
+    "repository": {
+      "x_master": {
+        "type": "git",
+        "url": "https://github.com/RFD-FHEM/SIGNALduino_TOOL.git",
+        "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/master/FHEM/88_SIGNALduino_TOOL.pm"
+      },
+      "type": "",
+      "url": "https://github.com/RFD-FHEM/SIGNALduino_TOOL",
+      "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/master/FHEM/88_SIGNALduino_TOOL.pm",
+      "x_branch": "master",
+      "x_filepath": "FHEM/",
+      "x_raw": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/master/FHEM/88_SIGNALduino_TOOL.pm",
+      "x_dev": {
+        "type": "git",
+        "url": "https://github.com/RFD-FHEM/SIGNALduino_TOOL.git",
+        "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/pre-release/FHEM/88_SIGNALduino_TOOL.pm",
+        "x_branch": "pre-release",
+        "x_filepath": "FHEM/",
+        "x_raw": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/pre-release/FHEM/88_SIGNALduino_TOOL.pm"
+      }
+    },
+    "x_commandref": {
+      "web": "https://commandref.fhem.de/#SIGNALduino_TOOL"
+    },
+    "x_wiki": {
+      "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
+    }
+  },
+  "version": "v1.0.0",
+  "x_fhem_maintainer": [
+    "HomeAuto_User",
+    "elektron-bbs"
+  ],
+  "x_fhem_maintainer_github": [
+    "HomeAutoUser",
+    "elektron-bbs"
+  ]
+}
+=end :application/json;q=META.json
 
 =cut
