@@ -795,19 +795,19 @@
     {
       "dmsg":"P34#891EE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
       "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
-      "readings": {"state":"Ch1_on", "deviceCode":"100010010001"},
+      "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"100010010001"},
       "attributes": {"model":"QUIGG_DMV"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:31:15",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-9584;P1=592;P2=-665;P3=1223;P4=-1311;D=01234141412341412341414123232323412323234;CP=1;R=0;"
     },
     {
       "dmsg":"P34#891FF", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/44", "user":"kaihs",
       "internals": {"DEF":"QUIGG_DMV 891", "NAME":"QUIGG_DMV_891"},
-      "readings": {"state":"Ch1_off", "deviceCode":"100010010001"},
+      "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"100010010001"},
       "attributes": {"model":"QUIGG_DMV"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:33:44",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-12724;P1=597;P2=-667;P3=1253;P4=-1331;D=01234141412341412341414123232323232323232;CP=1;"
     }
   ]
@@ -816,41 +816,41 @@
     {
       "dmsg":"P34#9E4FF", "model":"QUIGG_DMV", "user":"SD_Protocol",
       "internals": {"DEF":"QUIGG_DMV 9E4", "NAME":"QUIGG_DMV_9E4"},
-      "readings": {"state":"Ch1_off", "deviceCode":"100111100100"},
+      "readings": {"state":"Ch1_off", "LastAction":"receive", "deviceCode":"100111100100"},
       "attributes": {"model":"QUIGG_DMV"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:35:48",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-9812;P1=589;P2=-671;P3=1261;P4=-1320;D=012341412323232341412341412323232323232323;CP=3;R=19;"
     }
   ]
 },
 {"name":"TR_502MSV", "id":"34", "module":"SD_UT", "data": [
     {
-      "dmsg":"P34#FFFEE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/716", "user":"codeartisan-de",
+      "dmsg":"P34#FFFEE", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/716", "dispatch_repeats":"3", "user":"codeartisan-de",
       "internals": {"DEF":"TR_502MSV FFF", "NAME":"TR_502MSV_FFF"},
-      "readings": {"state":"Ch1_on", "deviceCode":"111111111111"},
+      "readings": {"state":"Ch1_on", "LastAction":"receive", "deviceCode":"111111111111"},
       "attributes": {"model":"TR_502MSV"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:38:03",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=4192;P1=-663;P2=1325;P3=-1320;P4=668;P5=-9905;D=01212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541212121212121212121212121212123412121234541;CP=2;R=71;O;"
     }
   ]
 },
 {"name":"HE800", "id":"35", "module":"IT", "data": [
     {
-      "dmsg":"ihD8ED0A1000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
+      "dmsg":"ihD8ED0A1000", "comment":"Homeeasy Kanal 1, Button on", "user":"Ralf9",
       "internals": {"DEF":"HE800 8848 1", "NAME":"IT_HE800_8848_1"},
       "readings": {"state":"on", "protocol":"HE800"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:39:20",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-4906;P3=-992;P4=899;P5=-378;P7=283;D=7073734573734545457373734573734573454545457345734545454573;CP=7;SP=0;R=76;O;m1;"
     },
     {
-      "dmsg":"ihD95E005000", "comment":"Homeeasy Kanal 1", "user":"Ralf9",
+      "dmsg":"ihD95E005000", "comment":"Homeeasy Kanal 1, Button off", "user":"Ralf9",
       "internals": {"DEF":"HE800 8848 1", "NAME":"IT_HE800_8848_1"},
       "readings": {"state":"off", "protocol":"HE800"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:40:31",
+      "revision_modul":"10_IT.pm       20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P2=896;P3=-375;P5=-1005;P6=269;P7=-4850;D=6765652365652323652365236565656523232323232323232323652365;CP=6;SP=7;R=76;e;m1;"
     }
   ]
@@ -860,19 +860,19 @@
       "dmsg":"W37#D9165C307B", "comment":"(ID 61,84,89 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"SD_WS37_TH_1", "NAME":"SD_WS37_TH_1"},
       "readings": {"state":"T: 22.7 H: 48", "batteryState":"ok", "channel":"1", "humidity":"48", "temperature":"22.7", "type":"Bresser 7009994"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:42:23",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=729;P1=-736;P2=483;P3=-251;P4=238;P5=-491;D=010101012323452323454523454545234523234545234523232345454545232345454545452323232345232340;CP=4;"
     }
   ]
 },
 {"name":"NC-3911-675", "id":"38", "module":"SD_WS", "data": [
     {
-      "dmsg":"W38#12A2C5D0C", "dispatch_repeats":"4", "user":"Harst",
+      "dmsg":"W38#12A2C5D0C", "dispatch_repeats":"3", "user":"Harst",
       "internals": {"DEF":"SD_WS_38_T_2", "NAME":"SD_WS_38_T_2"},
       "readings": {"state":"T: 20.9", "batteryState":"ok", "beep":"off", "channel":"2", "temperature":"20.9", "type":"NC-3911"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 13:44:02",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-235;P1=496;P2=253;P3=-479;P4=-957;P5=743;P6=-720;CP=2;D=010231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102310231023232310231010232323102310101023102323232310102323245656565623232310232310231023102323231023101023232310231010102310232323231010232324565656562323231023231023102310232323102310102323231023101010231023232323101023232456565656232323102323102;O;"
     }
   ]
