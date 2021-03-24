@@ -745,34 +745,36 @@
 },
 {"name":"Conrad S522", "id":"33", "module":"SD_WS", "data": [
     {
-      "dmsg":"W33#0501DD80038", "comment":"(ID 33.2,51 additionally)", "user":"HomeAuto_User",
+      "dmsg":"W33#0501DD80038", "comment":"(ID 33.2,51,53 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_33_T_1", "NAME":"SD_WS_33_T_1"},
       "readings": {"state":"T: 24.2", "batteryState":"ok", "channel":"1", "temperature":"24.2", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "attributes": {"model":"S522"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:45:24",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P1=-8035;P2=504;P3=-2027;P4=-3945;D=21232323232324232423232323232323242424232424242324242323232323232323232323232324242423;CP=2;SP=1;R=19;O;m0;"
     }
   ]
 },
 {"name":"renkforce E0001PA", "id":"33", "module":"SD_WS", "data": [
     {
-      "dmsg":"W33#26C6F570804", "comment":"Conrad (ID 33.2 additionally)", "user":"HomeAuto_User",
+      "dmsg":"W33#26C6F570804", "comment":"Conrad (ID 33.2,51,53 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_33_TH_2", "NAME":"SD_WS_33_TH_2"},
-      "readings": {"state":"T: 15.5 H: 44", "batteryState":"ok", "channel":"2", "humidity":"44", "temperature":"15.5", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"T: 15.5 H: 44", "batteryState":"ok", "channel":"2", "humidity":"44", "sendmode":"auto", "temperature":"15.5", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "attributes": {"model":"E0001PA"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 12:01:11",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P0=-7990;P1=485;P3=-2061;P4=-4060;D=10131314131314141314141313131414131414141413141314131414141313131314131313131313131314;CP=1;SP=0;R=4;O;"
     }
   ]
 },
 {"name":"TFA 30.3200", "id":"33.1", "module":"SD_WS", "data": [
     {
-      "dmsg":"W33#14C1C594C0C", "comment":"Thermo-hygro sensor for base station 35.1126", "user":"cxxcoder",
+      "dmsg":"W33#14C1C594C0C", "comment":"Thermo-hygro sensor for base station 35.1126 (ID 53 additionally)", "user":"cxxcoder",
       "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
       "readings": {"state":"T: 18.8 H: 53", "batteryState":"ok", "channel":"1", "humidity":"53", "temperature":"18.8", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "attributes": {"model":"other"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:50:47",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P1=-7796;P2=745;P3=-1976;P4=-3929;D=21232323242324232324242323232323242424232323242324242323242324232324242323232323232424;CP=2;SP=1;R=30;O;m2;"
     }
   ]
@@ -782,8 +784,9 @@
       "dmsg":"W33#3E23C564824", "comment":"(ID 0.3 additionally)", "user":"Doublefant",
       "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
       "readings": {"state":"T: 5.1 H: 41", "batteryState":"ok", "channel":"1", "humidity":"41", "temperature":"5.1", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "attributes": {"model":"other"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:53:07",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P1=393;P2=-7752;P3=-2047;P4=-3993;D=12131314141414141313131413131314141414131313141314131414131314131314131313131314131314;CP=1;SP=2;R=230;O;m1;"
     }
   ]
