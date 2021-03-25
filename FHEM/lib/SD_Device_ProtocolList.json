@@ -879,12 +879,12 @@
 },
 {"name":"X10 Protocol", "id":"39", "module":"RFXX10REC", "data": [
     {
-      "dmsg":"29454A847BD700", "dispatch_repeats":"2", "user":"wherzig",
+      "dmsg":"29454A847BD700", "dispatch_repeats":"1", "user":"wherzig",
       "internals": {"DEF":"ds10a d745 Window", "NAME":"RFXX10REC_d745"},
       "readings": {"Window":"Closed", "battery":"ok", "delay":"min", "statechange":"Closed"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
-      "rmsg":"MU;P0=10530;P1=-2908;P2=533;P3=-598;P4=-1733;P5=767;D=0123242323232423242324232324232423242323232324232323242424242324242424232423242424232501232423232324232423242323242324232423232323242323232424242423242424242324232424242325012324232323242324232423232423242324232323232423232324242424232424242423242324242;CP=2;O;"
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:05:02",
+      "revision_modul":"43_RFXX10REC.pm  5599 2014-04-22 15:26:46Z wherzig",
+      "rmsg":"MU;P0=656;P1=10710;P2=-2730;P3=-586;P4=-1716;D=01203040303030403040304030304030403040303030304030303040404040304040404030403040404030012030403030304030403040303040304030403030303040303030404040403040404040304030404040300;CP=0;"
     }
   ]
 },
@@ -894,8 +894,8 @@
       "internals": {"DEF":"41 219D85D3_F813D593", "NAME":"SD_BELL_219D85D3_F813D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:16:12",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MS;P0=-526;P1=1450;P2=467;P3=-6949;P4=-1519;D=231010101010242424242424102424101010102410241024101024241024241010;CP=2;SP=3;O;"
     },
     {
@@ -903,8 +903,8 @@
       "internals": {"DEF":"41 219D85D3_F813D593", "NAME":"SD_BELL_219D85D3_F813D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:17:24",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MS;P0=468;P1=-1516;P2=1450;P3=-533;P4=-7291;D=040101230101010123230101232323012323010101012301232323012301012323;CP=0;SP=4;O;"
     }
   ]
@@ -915,8 +915,8 @@
       "internals": {"DEF":"41 1791D593_BA2885D3", "NAME":"SD_BELL_1791D593_BA2885D3"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:19:16",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MS;P0=1390;P1=-600;P2=409;P3=-1600;P4=-7083;D=240123010101230123232301230123232301232323230123010101230123230101;CP=2;SP=4;R=248;O;m0;"
     },
     {
@@ -924,20 +924,20 @@
       "internals": {"DEF":"41 1791D593_BA2885D3", "NAME":"SD_BELL_1791D593_BA2885D3"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:20:33",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MS;P1=403;P2=-7102;P3=-1608;P4=1378;P5=-620;D=121313134513454545451313451313134545451345134513454513134513134545;CP=1;SP=2;R=5;O;m0;"
     }
   ]
 },
 {"name":"unitec 98156+98YK", "id":"41", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P41#08E8D593", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes!", "user":"HomeAuto_User",
+      "dmsg":"P41#08E8D593", "comment":"doubleCode 1, autocreate need doubleCode 1&2, bell sends two codes! (ID 1 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:22:27",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MS;P0=1474;P1=-521;P2=495;P3=-1508;P4=-6996;D=242323232301232323010101230123232301012301230123010123230123230101;CP=2;SP=4;R=51;m=0;"
     },
     {
@@ -945,8 +945,8 @@
       "internals": {"DEF":"41 754485D3_08E8D593", "NAME":"SD_BELL_754485D3_08E8D593"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Elro_DB200_/_KANGTAI_/_unitec"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:24:32",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MS;P1=-7005;P2=482;P3=-1511;P4=1487;P5=-510;D=212345454523452345234523232345232345232323234523454545234523234545;CP=2;SP=1;R=47;m=2;"
     }
   ]
@@ -957,8 +957,8 @@
       "internals": {"DEF":"42 FE1FF87", "NAME":"SD_BELL_FE1FF87"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Pollin_551227"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:26:13",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MU;P0=-491;P1=471;P2=1445;D=0101010101010101010102020202010101010101010101010202020201010101010101010101020202020101010101010101010102020202010101;CP=1;R=67;"
     }
   ]
@@ -998,11 +998,11 @@
 },
 {"name":"Bresser Temeo Trend", "id":"44", "module":"SD_WS", "data": [
     {
-      "dmsg":"W44#D12160652EDE9F9B10", "comment":"", "user":"unknown",
+      "dmsg":"W44#D12160652EDE9F9B10", "user":"unknown",
       "internals": {"DEF":"BresserTemeo_1", "NAME":"BresserTemeo_1"},
       "readings": {"state":"T: 3.2 H: 68", "batteryState":"ok", "channel":"1", "humidity":"68", "temperature":"3.2", "type":"BresserTemeo"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:27:38",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=32001;P1=-1939;P2=1967;P3=3896;P4=-3895;D=01213424242124212121242121242121212124212424212121212121242421212421242121242124242421242421242424242124212124242424242421212424212424212121242121212;CP=2;R=39;"
     }
   ]
@@ -1012,8 +1012,8 @@
       "dmsg":"r49E7E800443204F4500E04", "comment":"https://forum.fhem.de/index.php/topic,58397.msg603092.html#msg603092", "user":"sash.sc",
       "internals": {"DEF":"49e7", "NAME":"Revolt_49e7"},
       "readings": {"state":"active", "current":"0.68", "energy":"35.88", "frequency":"50", "pf":"0.8", "power":"126.8", "voltage":"232"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:30:45",
+      "revision_modul":"19_Revolt.pm 17447 2018-10-01 19:13:48Z yoda_gh",
       "rmsg":"MU;P0=-8320;P1=9972;P2=-376;P3=117;P4=-251;P5=232;D=012345434345434345454545434345454545454543454343434343434343434343434543434345434343434545434345434343434343454343454545454345434343454345434343434343434345454543434343434345434345454543454343434543454345434545;CP=3;R=2;"
     }
   ]
@@ -1022,19 +1022,19 @@
     {
       "dmsg":"P46#ECF20", "comment":"Geiger Rolladen", "dispatch_repeats":"1", "user":"drhirn",
       "internals": {"DEF":"Tedsen_SKX2xx 1F10110", "NAME":"Tedsen_SKX2xx_1F10110"},
-      "readings": {"state":"Button_1", "tristateCode":"1F10110F0"},
+      "readings": {"state":"Button_1", "LastAction":"receive", "tristateCode":"1F10110F0"},
       "attributes": {"model":"Tedsen_SKX2xx"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:35:12",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-2009;P1=2076;P2=-259;P3=329;P4=-15751;P5=1216;D=012121212303012303034121212301212303012121212303012303034121212301212303012121212303012303034121212305;CP=3;R=37;"
     },
     {
-      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"5", "user":"self_build",
+      "dmsg":"P46#ECA2C", "comment":"reconstructed last bit 1", "dispatch_repeats":"3", "user":"self_build",
       "internals": {"DEF":"Tedsen_SKX6xx 1F10FF0", "NAME":"Tedsen_SKX6xx_1F10FF0"},
-      "readings": {"state":"Button_6", "tristateCode":"1F10FF0F1"},
+      "readings": {"state":"Button_6", "LastAction":"receive", "tristateCode":"1F10FF0F1"},
       "attributes": {"model":"Tedsen_SKX6xx"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:37:16",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-32001;P1=2072;P2=-260;P3=326;P4=-2015;P5=-15769;D=01212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151212123412123434123412343434123412151;CP=3;R=37;O;"
     }
   ]
@@ -1044,7 +1044,7 @@
       "dmsg":"P47#59959A695996A65A9566", "user":"Papaloewe",
       "internals": {"DEF":"SD_WS_Maverick", "NAME":"SD_WS_Maverick"},
       "readings": {"state":"Food: 25 BBQ: 21", "Sensor-1-food_state":"connected", "Sensor-2-bbq_state":"connected", "checksum":"31032011", "messageType":"normal", "temp-bbq":"21", "temp-food":"25"},
-      "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 14:44:54",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:32:44",
       "revision_modul":"14_SD_WS_Maverick.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MC;LL=-482;LH=511;SL=-230;SH=264;D=AA999559959A695996A65A9566;C=247;L=104;"
     }
@@ -1122,8 +1122,8 @@
       "dmsg":"W50#FF550541FF9A", "comment":"von 2016 (ID 42 additionally)", "dispatch_repeats":"1", "user":"sidey79",
       "internals": {"DEF":"SD_WS_50_SM_1", "NAME":"SD_WS_50_SM_1"},
       "readings": {"state":"T: 25 H: 5", "channel":"1", "humidity":"5", "temperature":"25", "type":"XT300"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:40:05",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=248;P1=-21400;P2=545;P3=-925;P4=1368;P5=-12308;D=01232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343432323232323232323232343432323432345232323232323232343234323432343234343434343234323432343434343;CP=2;O;"
     }
   ]
@@ -1133,30 +1133,30 @@
       "dmsg":"W51#11225FB401", "comment":"Lidl Weatherstation, Channel 1", "user":"6040",
       "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
       "readings": {"state":"T: 17.3 H: 40", "batteryState":"ok", "channel":"1", "humidity":"40", "sendmode":"auto", "temperature":"17.3", "trend":"falling", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:42:59",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P0=-1848;P1=577;P2=-4066;P3=-15997;P4=1013;P5=-1001;P6=-7875;D=16101010121010101210101210101012101012101212121212121012121012101010101010101010121345454545;CP=1;SP=6;O;"
     }
   ]
 },
 {"name":"IAN 275901", "id":"51", "module":"SD_WS", "data": [
     {
-      "dmsg":"W51#0849536953", "comment":"Lidl Weatherstation, Channel 3", "user":"Stertzi",
+      "dmsg":"W51#0849536953", "comment":"Lidl Weatherstation, Channel 3 (ID 0 additionally, DEF Auriol_IAN_8)", "user":"Stertzi",
       "internals": {"DEF":"SD_WS_51_TH_3", "NAME":"SD_WS_51_TH_3"},
       "readings": {"state":"T: 6.3 H: 95", "batteryState":"ok", "channel":"3", "humidity":"95", "sendmode":"manual", "temperature":"6.3", "trend":"rising", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:50:18",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P0=-4074;P1=608;P2=-1825;P3=-15980;P4=1040;P5=-975;P6=-7862;D=16121212121012121212101212101212101210121012121010121010121012121012101210121210101345454545;CP=1;SP=6;"
     }
   ]
 },
 {"name":"IAN 60107", "id":"51", "module":"SD_WS", "data": [
     {
-      "dmsg":"W51#F03048F761", "comment":"Lidl Weatherstation, Channel 1", "user":"dennis82ni",
+      "dmsg":"W51#F03048F761", "comment":"Lidl Weatherstation, Channel 1  (ID 0 additionally, DEF Auriol_IAN_240)", "user":"dennis82ni",
       "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
       "readings": {"state":"T: -2.9 H: 76", "batteryState":"ok", "channel":"1", "humidity":"76", "sendmode":"auto", "temperature":"-2.9", "trend":"consistent", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:56:42",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P2=594;P3=-7386;P4=-4081;P5=-1873;D=2324242424252525252525242425252525252425252425252524242424252424242524242525252524;CP=2;SP=3;R=242;"
     }
   ]
