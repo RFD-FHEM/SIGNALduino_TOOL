@@ -1,3 +1,6 @@
+2021-03-25 - Update 88_SIGNALduino_TOOL.pm
+
+ - revised logoutput
 2021-03-24 - Update SD_Device_ProtocolList.json
 
 - tested data & added minProtocolVersion
