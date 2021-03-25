@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-24 14:35:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-25 14:35:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -601,13 +601,13 @@ sub SIGNALduino_TOOL_Set {
       ## to start notify loop ##
       if ( (not exists($attr{$name}{disable})) || ((time() - $DummyTime) > 2) ) {
         CommandAttr($hash,"$name disable 0");
-        Log3 $name, 4, "$name: Set $cmd - set attribute disable to 0";
+        Log3 $name, 5, "$name: Set $cmd - set attribute disable to 0";
       }
 
       ### set attribut for events in dummy
       if (AttrVal($Dummyname,'eventlogging','none') eq 'none' || AttrVal($Dummyname,'eventlogging','none') == 0) {
         CommandAttr($hash,"$Dummyname eventlogging 1");
-        Log3 $name, 4, "$name: Set $cmd - set attribute eventlogging to 1";
+        Log3 $name, 5, "$name: Set $cmd - set attribute eventlogging to 1";
       }
 
       Log3 $name, 4, "$name: get $Dummyname rawmsg $msg" if (defined $a[1]);
@@ -2203,7 +2203,7 @@ sub SIGNALduino_TOOL_Attr() {
       return "ERROR: $attrValue is not definded or is not TYPE SIGNALduino" if not (defined($defs{$attrValue}) && $defs{$attrValue}{TYPE} eq 'SIGNALduino');
     }
 
-    Log3 $name, 4, "$name: Set attribute $attrName to $attrValue";
+    Log3 $name, 4, "$name: set attribute $attrName to $attrValue";
   }
 
 
@@ -2506,8 +2506,12 @@ sub SIGNALduino_TOOL_FW_Detail {
   $ret .="<td><a href='#button2' id='button2'>Display Information all Protocols</a></td>";
   $ret .="<td><a href='#button3' id='button3'>Display readed SD_ProtocolList.json</a></td>";
 
-  if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ && $hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
-    $ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
+  if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ ) {
+    Log3 $name, 5, "$name: FW_Detail, check (1)";
+    if ($hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
+      Log3 $name, 5, "$name: FW_Detail, check (2) -> Check it - button";
+      $ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
+    }
   }
 
   $ret .= '</tr></table></div>
@@ -2695,7 +2699,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   my $JSON_exceptions = AttrVal($name,'JSON_Check_exceptions','noInside');
   my $Dummyname = AttrVal($name,'Dummyname','none');
 
-  Log3 $name, 4, "$name: FW_SD_Device_ProtocolList_check is running (button -> Check it)";
+  Log3 $name, 4, "$name: FW_SD_Device_ProtocolList_check is running (button ".'"Check it" was pressed)';
   return "No data to check in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information." if (!$ProtocolListRead);
 
   if (!$hash->{dispatchSTATE}) {
@@ -3313,7 +3317,11 @@ sub SIGNALduino_TOOL_Notify {
   my $events = deviceEvents($dev_hash,1);
   return if( !$events );
 
-  #Log3 $name, 4, "$name: Notify - Events: ".Dumper\@{$events};
+  ## HELP to debug ##
+  #if ($devName ne $Dummyname && $devName ne 'global' && $devName !~ /SVG_/) {
+    #Log3 $name, 5, "$name: Notify - Events from device $devName";
+    #Log3 $name, 5, "$name: Notify - Events: ".Dumper\@{$events};
+  #}
 
   ## ... Parse_MC, Found manchester Protocol id .. clock ... RSSI -47.5 -> ...
   if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /manchester\sProtocol\sid/ } @{$events})) {
@@ -3336,6 +3344,8 @@ sub SIGNALduino_TOOL_Notify {
       ( ($ntfy_match) = grep { /Parse_.*Decoded\smatched\sMU.*dispatch\(\d+/ } @{$events} ) ||
       ( ($ntfy_match) = grep { /Parse_.*Decoded\smatched\sMS/ } @{$events} ) ||
       ( ($ntfy_match) = grep { /Dispatch,\s[uU]/ } @{$events}) ) {
+
+    Log3 $name, 4, "$name: Notify - ntfy_match check, Decoded ".'|| Dispatch';
 
     $ntfy_match =~ /id\s(\d+.?\d?)/ if (grep { /Decoded/ } $ntfy_match);
     $ntfy_match =~ /Dispatch,\s[uU](\d+)#/ if (grep { /Dispatch,\s[uU].*#/ } $ntfy_match);
