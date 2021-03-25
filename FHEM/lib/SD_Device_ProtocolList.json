@@ -1141,7 +1141,7 @@
 },
 {"name":"IAN 275901", "id":"51", "module":"SD_WS", "data": [
     {
-      "dmsg":"W51#0849536953", "comment":"Lidl Weatherstation, Channel 3 (ID 0 additionally, DEF Auriol_IAN_8)", "user":"Stertzi",
+      "dmsg":"W51#0849536953", "comment":"Lidl Weatherstation, Channel 3 (ID 0 additionally, CUL_TCM97001 -> with DEF Auriol_IAN_8)", "user":"Stertzi",
       "internals": {"DEF":"SD_WS_51_TH_3", "NAME":"SD_WS_51_TH_3"},
       "readings": {"state":"T: 6.3 H: 95", "batteryState":"ok", "channel":"3", "humidity":"95", "sendmode":"manual", "temperature":"6.3", "trend":"rising", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:50:18",
@@ -1152,7 +1152,7 @@
 },
 {"name":"IAN 60107", "id":"51", "module":"SD_WS", "data": [
     {
-      "dmsg":"W51#F03048F761", "comment":"Lidl Weatherstation, Channel 1  (ID 0 additionally, DEF Auriol_IAN_240)", "user":"dennis82ni",
+      "dmsg":"W51#F03048F761", "comment":"Lidl Weatherstation, Channel 1  (ID 0 additionally, CUL_TCM97001 -> with DEF Auriol_IAN_240)", "user":"dennis82ni",
       "internals": {"DEF":"SD_WS_51_TH_1", "NAME":"SD_WS_51_TH_1"},
       "readings": {"state":"T: -2.9 H: 76", "batteryState":"ok", "channel":"1", "humidity":"76", "sendmode":"auto", "temperature":"-2.9", "trend":"consistent", "type":"Auriol IAN 275901, IAN 114324, IAN 60107"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 13:56:42",
