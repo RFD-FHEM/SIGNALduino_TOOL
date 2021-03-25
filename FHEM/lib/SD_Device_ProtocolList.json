@@ -1732,10 +1732,10 @@
     {
       "dmsg":"P83#077", "comment":"example Westinghouse Deckenventilator Delancey (ID 30 additionally)", "dispatch_repeats":"7", "user":"zwiebelxxl",
       "internals": {"DEF":"RH787T 0", "NAME":"RH787T_0"},
-      "readings": {"state":"1_fan_minimum_speed", "deviceCode":"0000 (on|on|on|on)"},
+      "readings": {"state":"1_fan_minimum_speed", "LastAction":"receive", "deviceCode":"0000 (on|on|on|on)"},
       "attributes": {"model":"RH787T"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:30:35",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=388;P1=-112;P2=267;P3=-378;P5=585;P6=-693;P7=-11234;D=0123035353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262623562626272353535353562626235626262723535353535626262356262627235353535356262;CP=2;R=43;O;"
     }
   ]
@@ -2447,60 +2447,60 @@
 },
 {"name":"TR60C-1", "id":"104", "module":"SD_UT", "data": [
     {
-      "dmsg":"P104#0F80", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 0)", "user":"phoenix-anasazi",
+      "dmsg":"P104#0F80", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 0)", "dispatch_repeats":"3", "user":"phoenix-anasazi",
       "internals": {"DEF":"TR60C1 0", "NAME":"TR60C1_0"},
       "readings": {"state":"light_off_fan_off", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"TR60C1"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:46:28",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=18280;P1=-737;P2=419;P3=-331;P4=799;P5=-9574;P6=-7080;D=012121234343434341212121212121252121212123434343434121212121212125212121212343434343412121212121212521212121234343434341212121212121252121212123434343434121212121212126;CP=2;R=2;"
     },
     {
-      "dmsg":"P104#9780", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 9)", "user":"phoenix-anasazi",
+      "dmsg":"P104#9780", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode 9)", "dispatch_repeats":"4", "user":"phoenix-anasazi",
       "internals": {"DEF":"TR60C1 9", "NAME":"TR60C1_9"},
       "readings": {"state":"light_off_fan_4", "LastAction":"receive", "deviceCode":"9"},
       "attributes": {"model":"TR60C1"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:48:27",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=14896;P1=-751;P2=394;P3=-370;P4=768;P5=-9572;P6=-21472;D=0121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212125234121234123434343412121212121212523412123412343434341212121212121252341212341234343434121212121212126;CP=2;R=4;"
     },
     {
-      "dmsg":"P104#B38F", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode B)", "user":"phoenix-anasazi",
+      "dmsg":"P104#B38F", "comment":"Remote control 77841 for example Westinghouse Bendan (deviceCode B)", "dispatch_repeats":"4", "user":"phoenix-anasazi",
       "internals": {"DEF":"TR60C1 B", "NAME":"TR60C1_B"},
       "readings": {"state":"light_on_fan_2", "LastAction":"receive", "deviceCode":"B"},
       "attributes": {"model":"TR60C1"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:50:18",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-96;P1=152;P2=-753;P3=389;P4=-374;P5=769;P6=-9566;P7=-19920;D=012345454523232345454545634523454523234545452323234545454563452345452323454545232323454545456345234545232345454523232345454545634523454523234545452323234545454563452345452323454545232323454545457;CP=3;R=1;"
     }
   ]
 },
 {"name":"BF-301", "id":"105", "module":"SD_UT", "data": [
     {
-      "dmsg":"P105#FAD08883A3", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd.", "user":"stsirakidis",
+      "dmsg":"P105#FAD08883A3", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd. (ID 40 additionally)", "dispatch_repeats":"1", "user":"stsirakidis",
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"down", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:43:57",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-697;P1=5629;P2=291;P3=3952;P4=-2459;P5=1644;P6=-298;P7=689;D=34567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614567676767676207620767620762020202076202020762020207620202020207676762076202020767614;CP=2;R=41;O;"
     },
     {
-      "dmsg":"P105#FAD08A83A1", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd.", "dispatch_repeats":"1", "user":"stsirakidis",
+      "dmsg":"P105#FAD08A83A1", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd. (ID 40 additionally)", "dispatch_repeats":"1", "user":"stsirakidis",
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:42:03",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=5630;P1=3968;P2=-2458;P3=1642;P4=-285;P5=690;P6=282;P7=-704;D=12345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402345454545454675467545467546767676754676767546754675467676767675454546754676767675402;CP=6;R=47;O;"
     },
     {
-      "dmsg":"P105#FAD08383A8", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd.", "dispatch_repeats":"2", "user":"stsirakidis",
+      "dmsg":"P105#FAD08383A8", "comment":"Remote control from Shenzhen BOFU Mechanic & Electronic Co., Ltd. (ID 40 additionally)", "dispatch_repeats":"2", "user":"stsirakidis",
       "internals": {"DEF":"BF_301 FAD0", "NAME":"BF_301_FAD0"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"FAD0"},
       "attributes": {"model":"BF_301"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:40:32",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-500;P1=5553;P2=-2462;P3=1644;P4=-299;P5=679;P6=298;P7=-687;D=01234545454545467546754546754676767675467676767675454546767676767545454675467546767671234545454545467546754546754676767675467676767675454546767676767545454675467546767671234545454545467546754546754676767675467676767675454546767676767545454675467546767671;CP=6;R=48;O;"
     }
   ]
@@ -2510,24 +2510,24 @@
       "dmsg":"W106#2632DC", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 22.6", "temperature":"22.6", "type":"GT-TMBBQ-01"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:38:02",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P0=525;P1=-2051;P3=-8905;P4=-4062;D=0301010401010404010101040401010401040401040404;CP=0;SP=3;R=35;e;b=2;m0;"
     },
     {
       "dmsg":"W106#9A57A8", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 88.1", "temperature":"88.1", "type":"GT-TMBBQ-01"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:36:08",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P1=-8514;P2=488;P3=-4075;P4=-2068;D=2123242423232423242423242324232323232423242324;CP=2;SP=1;R=31;e;b=70;s=4;m0;"
     },
     {
       "dmsg":"W106#9A5D20", "comment":"BBQ temperature sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_106_T", "NAME":"SD_WS_106_T"},
       "readings": {"state":"T: 97.8", "temperature":"97.8", "type":"GT-TMBBQ-01"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:34:53",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P1=-9144;P2=469;P3=-4101;P4=-2099;D=2123242423232423242423242323232423242423242424;CP=2;SP=1;R=58;O;b=70;s=4;m0;"
     }
   ]
