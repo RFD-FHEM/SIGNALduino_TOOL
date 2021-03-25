@@ -2314,8 +2314,8 @@
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"ring"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 15:03:07",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MC;LL=-409;LH=448;SL=-172;SH=262;D=238126DAA58;C=215;L=41;R=238;"
     },
     {
@@ -2323,8 +2323,8 @@
       "internals": {"DEF":"96 024DB5", "NAME":"SD_BELL_024DB5"},
       "readings": {"state":"Alarm"},
       "attributes": {"model":"Grothe_Mistral_SE_01"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 15:04:32",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MC;LL=-415;LH=454;SL=-200;SH=226;D=23C126DAE58;C=215;L=41;R=246;"
     }
   ]
@@ -2335,8 +2335,8 @@
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"ring", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 15:01:56",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MC;LL=-439;LH=419;SL=-221;SH=212;D=238823B1001F8;C=215;L=49;R=69;"
     },
     {
@@ -2344,8 +2344,8 @@
       "internals": {"DEF":"96 104762", "NAME":"SD_BELL_104762"},
       "readings": {"state":"Alarm", "batteryState":"ok"},
       "attributes": {"model":"Grothe_Mistral_SE_03"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 15:00:34",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MC;LL=-430;LH=418;SL=-216;SH=226;D=23C823B1401F8;C=214;L=49;R=53;"
     }
   ]
@@ -2386,20 +2386,20 @@
       "internals": {"DEF":"98 6A2C", "NAME":"SD_BELL_6A2C"},
       "readings": {"state":"ring"},
       "attributes": {"model":"GEA-028DB"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:59:13",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MU;P0=1488;P1=-585;P2=520;P3=-1509;P4=1949;P5=-5468;CP=2;R=38;D=01232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501232301230123010101230123230101454501;O;"
     }
   ]
 },
 {"name":"NAVARIS 44344.04", "id":"99", "module":"SD_UT", "data": [
     {
-      "dmsg":"P99#211073", "comment":"NAVARIS touch light switch Model No.: 44344.04", "user":"DavidKing123456",
+      "dmsg":"P99#211073", "comment":"NAVARIS touch light switch Model No.: 44344.04", "dispatch_repeats":"3", "user":"DavidKing123456",
       "internals": {"DEF":"Navaris 211073", "NAME":"Navaris_211073"},
       "readings": {"state":"receive", "LastAction":"receive"},
       "attributes": {"model":"Navaris"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-25 14:57:21",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-302;P1=180;P2=294;P3=-208;P4=419;P5=-423;D=01023101010101023232310102323451010231010101023101010231010101010232323101023234510102310101010231010102310101010102323231010232345101023101010102310101023101010101023232310102323451010231010101023101010231010101010232323101023234510102310101010231010102;CP=1;R=36;O;"
     }
   ]
