@@ -1797,51 +1797,51 @@
 },
 {"name":"CAME TOP 432EV", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#EEE", "comment":"Remote control (ID 81 additionally)", "user":"andies, andreasloe",
+      "dmsg":"P86#EEE", "comment":"Remote control (ID 81 additionally)", "dispatch_repeats":"7", "user":"andies, andreasloe",
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
-      "readings": {"state":"left_button", "deviceCode":"11101110"},
+      "readings": {"state":"left_button", "LastAction":"receive", "deviceCode":"11101110"},
       "attributes": {"model":"CAME_TOP_432EV"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:45:34",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-322;P1=136;P2=-15241;P3=288;P4=-735;P6=723;D=0123434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430623434343064343430643434306234343430643434306434343062343434306434343064343430;CP=3;R=27;"
     },
     {
-      "dmsg":"P86#EED", "comment":"Remote control (ID 81 additionally)", "dispatch_repeats":"5", "user":"andies, andreasloe",
+      "dmsg":"P86#EED", "comment":"Remote control", "dispatch_repeats":"5", "user":"andies, andreasloe",
       "internals": {"DEF":"CAME_TOP_432EV EE", "NAME":"CAME_TOP_432EV_EE"},
-      "readings": {"state":"right_button", "deviceCode":"11101110"},
+      "readings": {"state":"right_button", "LastAction":"receive", "deviceCode":"11101110"},
       "attributes": {"model":"CAME_TOP_432EV"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:47:05",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-15281;P1=293;P2=-745;P3=-319;P4=703;P5=212;P6=152;P7=-428;D=01212121342121213421213421012121213421212134212134210121212134212121342121342101212121342121213421213421012121213421212134212134210121243134212121342121342101252526742121213425213421012121213421212134212134210121212134212;CP=1;R=23;"
     }
   ]
 },
 {"name":"Novy 840029", "id":"86", "module":"SD_UT", "data": [
     {
-      "dmsg":"P86#555", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 63,81 additionally)", "user":"Garfonso",
+      "dmsg":"P86#555", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
-      "readings": {"state":"speed_plus", "deviceCode":"01010101"},
+      "readings": {"state":"speed_plus", "LastAction":"receive", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 12:01:53",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=22808;P1=-24232;P2=701;P3=-765;P4=357;P5=-15970;P7=-406;D=012345472347234723472347234723454723472347234723472347234547234723472347234723472345472347234723472347234723454723472347234723472347234;CP=4;R=39;"
     },
     {
       "dmsg":"P86#556", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 63,81 additionally)", "dispatch_repeats":"3", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
-      "readings": {"state":"speed_minus", "deviceCode":"01010101"},
+      "readings": {"state":"speed_minus", "LastAction":"receive", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 12:03:25",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-8032;P1=364;P2=-398;P3=700;P4=-760;P5=-15980;D=0123412341234123412341412351234123412341234123414123512341234123412341234141235123412341234123412341412351234123412341234123414123;CP=1;R=40;"
     },
     {
-      "dmsg":"P86#5574C", "comment":"Remote control for Novy kitchen hood / hex_lengh 5 (ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
+      "dmsg":"P86#5574C", "comment":"Remote control for Novy kitchen hood / hex_lengh 5 (ID 63 additionally)", "dispatch_repeats":"2", "user":"Garfonso",
       "internals": {"DEF":"Novy_840029 55", "NAME":"Novy_840029_55"},
-      "readings": {"state":"power_on_off", "deviceCode":"01010101"},
+      "readings": {"state":"power_on_off", "LastAction":"receive", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840029"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 12:04:59",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-756;P1=718;P2=354;P3=-395;P4=-16056;D=01020202310231310202423102310231023102310202023102313102024231023102310231023102020231023131020242310231023102310231020202310231310202;CP=2;R=41;"
     }
   ]
@@ -1850,28 +1850,28 @@
     {
       "dmsg":"P86#556F8", "comment":"Remote control for Novy kitchen hood / hex_lengh 5", "user":"Devirex",
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
-      "readings": {"state":"ambient_light_on", "deviceCode":"01010101"},
+      "readings": {"state":"ambient_light_on", "LastAction":"receive", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:54:26",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-9524;P1=364;P2=-414;P3=669;P4=-755;P5=-16076;CP=1;R=83;D=0123412341234123412341412341414141412351234123412341234123414123414141414123;e;w=0;"
     },
     {
       "dmsg":"P86#555", "comment":"Remote control for Novy kitchen hood / hex_lengh 3 (ID 81 additionally)", "user":"Devirex",
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
-      "readings": {"state":"fan_plus", "deviceCode":"01010101"},
+      "readings": {"state":"fan_plus", "LastAction":"receive", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:52:35",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=388;P1=-756;P2=264;P3=-399;P4=683;P5=-16082;CP=0;R=67;D=0123410341034103410341050341034103410341034103410;e;w=0;"
     },
     {
       "dmsg":"P86#5574C", "comment":"Remote control for Novy kitchen hood / hex_lengh 5", "dispatch_repeats":"1", "user":"Devirex",
       "internals": {"DEF":"Novy_840039 55", "NAME":"Novy_840039_55"},
-      "readings": {"state":"power_on_off", "deviceCode":"01010101"},
+      "readings": {"state":"power_on_off", "LastAction":"receive", "deviceCode":"01010101"},
       "attributes": {"model":"Novy_840039"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:51:12",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-749;P1=378;P2=-456;P3=684;P4=-16081;D=01230101012301232301014123012301230123012301010123012323010141230123012301230123010101230123230101412;CP=1;R=66;"
     }
   ]
@@ -1880,46 +1880,46 @@
     {
       "dmsg":"P86#A1530", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
-      "readings": {"state":"plus", "deviceCode":"A150"},
+      "readings": {"state":"plus", "LastAction":"receive", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:41:58",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-220;P1=348;P2=-702;P3=-381;P4=662;P5=-15257;D=01213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451213421343434342134213421343421213434512134213434343421342134213434212134345121342134343434213421342134342121343451;CP=1;R=6;O;"
     },
     {
-      "dmsg":"P86#A1528", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1528", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"4", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
-      "readings": {"state":"minus", "deviceCode":"A150"},
+      "readings": {"state":"minus", "LastAction":"receive", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
-      "rmsg":"MU;P0=-2112;P1=340;P2=-708;P3=-381;P4=660;P5=-15243;D=01213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421;CP=1;R=7;O;"
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:43:24",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
+      "rmsg":"MU;P0=-2112;P1=340;P2=-708;P3=-381;P4=660;P5=-15243;D=012134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421343421342134512134213434343421342134213434213421345121342134343434213421342134342134213451213421343434342134213421343421342134512134213434343421342134;CP=1;R=7;"
     },
     {
-      "dmsg":"P86#A1538", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1538", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"4", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
-      "readings": {"state":"light_on_off", "deviceCode":"A150"},
+      "readings": {"state":"light_on_off", "LastAction":"receive", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
-      "rmsg":"MU;P0=-707;P1=332;P2=-376;P3=670;P5=-15243;D=01012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301;CP=1;R=3;O;"
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:38:50",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
+      "rmsg":"MU;P0=-707;P1=332;P2=-376;P3=670;P5=-15243;D=010123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301232301010123510123012323232301230123012323010101235101230123232323012301230123230101012351012301232323230123012301232301010123510123012323232301230123;CP=1;R=3;"
     },
     {
-      "dmsg":"P86#A1524", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"5", "user":"fhemjcm",
+      "dmsg":"P86#A1524", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "dispatch_repeats":"4", "user":"fhemjcm",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
-      "readings": {"state":"delay", "deviceCode":"A150"},
+      "readings": {"state":"delay", "LastAction":"receive", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
-      "rmsg":"MU;P0=-944;P1=341;P2=-695;P3=-375;P4=672;P5=-15261;D=01213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421;CP=1;R=2;O;"
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:30:55",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
+      "rmsg":"MU;P0=-944;P1=341;P2=-695;P3=-375;P4=672;P5=-15261;D=012134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421343421343421512134213434343421342134213434213434215121342134343434213421342134342134342151213421343434342134213421343421343421512134213434343421342134;CP=1;R=2;"
     },
     {
       "dmsg":"P86#A1534", "comment":"Remote control for Neff Transmitter SF01 01319004 (ID 63 additionally)", "user":"user",
       "internals": {"DEF":"SF01_01319004 A150", "NAME":"SF01_01319004_A150"},
-      "readings": {"state":"interval", "deviceCode":"A150"},
+      "readings": {"state":"interval", "LastAction":"receive", "deviceCode":"A150"},
       "attributes": {"model":"SF01_01319004"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:26:00",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-372;P1=330;P2=684;P3=-699;P4=-14178;D=010231020202023102310231020231310231413102310202020231023102310202313102314;CP=1;R=253;"
     }
   ]
@@ -1928,20 +1928,20 @@
     {
       "dmsg":"P86#26398", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"4", "user":"Stuetti",
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
-      "readings": {"state":"light_on_off", "deviceCode":"2638"},
+      "readings": {"state":"light_on_off", "LastAction":"receive", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:07:33",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=706;P1=-160;P2=140;P3=-335;P4=-664;P5=385;P6=-15226;P7=248;D=01210103045303045453030304545453030454530653030453030454530303045454530304747306530304530304545303030454545303045453065303045303045453030304545453030454530653030453030454530303045454530304545306530304530304545303030454545303045453065303045303045453030304;CP=5;O;"
     },
     {
-      "dmsg":"P86#26384", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"5", "user":"Stuetti",
+      "dmsg":"P86#26384", "comment":"Remote control for BOSCH Transmitter SF01 01319004 / Typ2 (ID 63,81 additionally)", "dispatch_repeats":"2", "user":"Stuetti",
       "internals": {"DEF":"SF01_01319004_Typ2 2638", "NAME":"SF01_01319004_Typ2_2638"},
-      "readings": {"state":"delay", "deviceCode":"2638"},
+      "readings": {"state":"delay", "LastAction":"receive", "deviceCode":"2638"},
       "attributes": {"model":"SF01_01319004_Typ2"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
-      "rmsg":"MU;P0=705;P1=-140;P2=-336;P3=-667;P4=377;P5=-15230;P6=248;D=01020342020343420202034343420202020345420203420203434202020343434202020203654202034202034342020203434342020202034542020342020343420202034343420202020345420203420203434202020343434202020203454202034202034342020203434342020202034542020342020343420202034343;CP=4;O;"
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:23:58",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
+      "rmsg":"MU;P0=379;P1=-330;P2=713;P3=-660;P4=-15209;D=01212121230401212301212303012121230303012121212304012123012123030121212303030121212123040121230121230301212123030301212121230;CP=0;"
     }
   ]
 },
@@ -1951,8 +1951,8 @@
       "internals": {"DEF":"FA6000", "NAME":"SD_Keeloq_FA6000"},
       "readings": {"state":"receive", "button":"stop", "channel":"1", "channel_control":"< 9", "last_digits":"encrypted", "serial_receive":"FA6000", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"JaroLift"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:04:50",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=1518;P2=-416;P3=370;P4=-3988;P5=-822;P6=793;P7=-16228;D=34356235623562353535623535353562623562623535626262626262353562623562626262626262626262626262626262623535626235623535353535626235626262626262626267123232323232323232323232;CP=3;SP=4;R=243;O;m2;"
     },
     {
@@ -1960,8 +1960,8 @@
       "internals": {"DEF":"2A6320", "NAME":"SD_Keeloq_2A6320"},
       "readings": {"state":"receive", "button":"stop", "channel":"2", "channel_control":"< 9", "last_digits":"encrypted", "serial_receive":"2A6320", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"JaroLift"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:05:58",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P0=-408;P1=-16408;P2=407;P3=1588;P4=-826;P6=-4290;P7=793;D=26242424247070707024707024702424702470242424702424702424702470242424707070707070707024707024247070702424707024702470247070707024707070707070707071342424242424242424;CP=2;SP=6;R=34;O;s=24;m0;"
     }
   ]
@@ -1972,8 +1972,8 @@
       "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
       "readings": {"state":"receive", "batteryState":"low", "button":"one", "repeat_message":"no", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"RP_S1_HS_RF11"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:02:16",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=385;P2=-375;P3=-3756;P4=-745;P5=766;P6=-15000;D=131414525252521452141452521452525252145214521452525252141452145214141414141452521414145252525214521452525252145252141414525252521414561212121212121212121212;CP=1;SP=3;R=54;O;s=36;m0;"
     },
     {
@@ -1981,8 +1981,8 @@
       "internals": {"DEF":"721439F", "NAME":"SD_Keeloq_721439F"},
       "readings": {"state":"receive", "batteryState":"low", "button":"two", "repeat_message":"yes", "serial_receive":"721439F", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"RP_S1_HS_RF11"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:03:15",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=735;P2=-375;P3=377;P4=-752;P6=-3748;D=3612343434343434123434343434341234343434343434343434341234343412343434343434121234343412121212341234121212123412123434341212341212343;CP=3;SP=6;R=42;e;m1;"
     }
   ]
@@ -1993,8 +1993,8 @@
       "internals": {"DEF":"F7F5709", "NAME":"SD_Keeloq_F7F5709"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"up", "repeat_message":"yes", "serial_receive":"F7F5709", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"Roto"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 11:01:06",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P0=-16052;P1=363;P2=-437;P3=-4001;P4=-829;P5=755;D=131452521452145252521452145252521414141452521452145214141414525252145252145252525214141452145214521414141414141452141414145252145252101212121212121212121212;CP=1;SP=3;R=51;O;m1;"
     }
   ]
@@ -2005,8 +2005,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"one", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:54:44",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P0=844;P1=-4230;P2=420;P4=-860;P6=-17704;P7=-439;D=210707070724072407240707070724070707072407070724242424242407072424240707242424072407242407070707070707240707070707070707070724070707262727272727272727272727;CP=2;SP=1;R=18;O;s=36;m0;"
     },
     {
@@ -2014,8 +2014,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"two", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:57:43",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=417;P3=847;P4=-442;P5=-858;P7=-4258;D=1734343434343434341515343434151515153434153434153434341534153415151534341515153415341515343434343434341534343434343434343434341534341;CP=1;SP=7;R=25;e;m1;"
     },
     {
@@ -2023,8 +2023,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"three", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:58:56",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P0=-855;P1=852;P2=-433;P3=432;P5=-17236;P6=-4250;D=363030303030121212121230121230123012301212121230121212121212123030301212303030123012303012121212121212301212121212121212121212123012353232323232323232323232;CP=3;SP=6;R=29;O;s=36;m0;"
     },
     {
@@ -2032,8 +2032,8 @@
       "internals": {"DEF":"00406B9", "NAME":"SD_Keeloq_00406B9"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"four", "repeat_message":"yes", "serial_receive":"00406B9", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"PR3_4207_002"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:59:53",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P0=-17496;P1=435;P2=-438;P4=-4269;P5=-845;P6=850;D=141515621515621515626262626215156262156215626215156262621515151515156262151515621562151562626262626262156262626262626262621562626262101212121212121212121212;CP=1;SP=4;R=34;O;m1;"
     }
   ]
@@ -2044,8 +2044,8 @@
       "internals": {"DEF":"04429B3", "NAME":"SD_Keeloq_04429B3"},
       "readings": {"state":"receive", "batteryState":"ok", "button":"blue", "repeat_message":"yes", "serial_receive":"04429B3", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"Waeco_MA650_TX"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:53:16",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=-425;P2=348;P3=-3925;P4=748;P5=-816;P6=-15724;D=234125412541254125252541254125254125254125412525412525254125252525252541412525412525414125412541414141254141412541414141414125414141262121212121212121212121;CP=2;SP=3;R=12;O;m1;"
     }
   ]
@@ -2056,8 +2056,8 @@
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"up", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:48:59",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=399;P2=-421;P3=-4034;P4=800;P5=-815;P6=-15516;D=1342421515424242151515154215421515154242421542151515424242154215424242424242424242154242421542151542154242154242424242424242154215161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
     },
     {
@@ -2065,8 +2065,8 @@
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"down", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:47:49",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=415;P2=-400;P3=-4034;P4=810;P5=-803;P6=-15468;D=1342154215421542421515151542154215154242421542154215421542424215154242424242424242154242421542151542154242154242424242424242421515161212121212121212121212;CP=1;SP=3;R=84;O;m2;"
     },
     {
@@ -2074,19 +2074,19 @@
       "internals": {"DEF":"012D100", "NAME":"SD_Keeloq_012D100"},
       "readings": {"state":"receive", "batteryState":"low", "button":"stop", "repeat_message":"no", "serial_receive":"012D100", "user_info":"Please input KeeLoq_NLF, MasterMSB and MasterLSB Key!", "user_modus":"only_limited"},
       "attributes": {"model":"enjoy_motors_HS"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:46:10",
+      "revision_modul":"14_SD_Keeloq.pm    32 2020-01-12 09:56:00Z v3.4",
       "rmsg":"MS;P1=417;P2=-400;P3=-4032;P4=-789;P5=811;P6=-15540;D=1314145252145214141414521414521452145252525214525214145214525214525252525252525252145252521452141452145252145252525252525252525214161212121212121212121212;CP=1;SP=3;R=86;O;m2;"
     }
   ]
 },
 {"name":"TFA 30.3221.02", "id":"89", "module":"SD_WS", "data": [
     {
-      "dmsg":"W89#F012333E01", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 37,61 additionally)", "user":"Iron-R1",
+      "dmsg":"W89#F012333E01", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 37,61 additionally)", "dispatch_repeats":"1", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_89_TH_2", "NAME":"SD_WS_89_TH_2"},
       "readings": {"state":"T: 6.3 H: 62", "batteryState":"ok", "channel":"2", "humidity":"62", "sendmode":"auto", "temperature":"6.3", "type":"TFA 30.3221.02"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:43:44",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=22960;P1=-893;P2=775;P3=409;P4=-296;P5=182;P6=-513;D=01212121343434345656565656565634565634565656343456563434565634343434345656565656565656342121212134343434565656565656563456563456565634345656343456563434343434565656565656565634212121213434343456565656565656345656345656563434565634345656343434343456565656;CP=5;R=22;O;"
     }
   ]
@@ -2095,10 +2095,10 @@
     {
       "dmsg":"P90#43CB0FA10", "comment":"button A", "user":"my-engel",
       "internals": {"DEF":"RC_10 43CB_A", "NAME":"RC_10_43CB_A"},
-      "readings": {"state":"on", "deviceCode":"0100001111001011", "x_n4":"0000", "x_n5-8_on":"1111101000010"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0100001111001011", "x_n4":"0000", "x_n5-8_on":"1111101000010"},
       "attributes": {"model":"RC_10"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:42:10",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=-9964;P1=273;P4=-866;P5=792;P6=-343;D=10145614141414565656561414561456561414141456565656561456141414145614;CP=1;SP=0;R=35;O;m2;"
     }
   ]
