@@ -2107,37 +2107,37 @@
     {
       "dmsg":"P90#78690F250", "comment":"button A", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
-      "readings": {"state":"on", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"1111001001010"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"1111001001010"},
       "attributes": {"model":"RC_10"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:21:27",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=781;P3=-372;P4=251;P5=-903;P6=-10342;D=46451313131345454545131345134545134545454513131313454513454513451345;CP=4;SP=6;O;m1;E;"
     },
     {
       "dmsg":"P90#78690E240", "comment":"button A", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_A", "NAME":"RC_10_7869_A"},
-      "readings": {"state":"off", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1110001001000"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1110001001000"},
       "attributes": {"model":"RC_10"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:22:40",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=790;P2=-363;P3=257;P4=-896;P5=-10283;D=35341212121234343434121234123434123434343412121234343412343412343434;CP=3;SP=5;O;m2;C;C;"
     },
     {
       "dmsg":"P90#7869042B0", "comment":"button all", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
-      "readings": {"state":"on", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"0100001010110"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_on":"0100001010110"},
       "attributes": {"model":"RC_10"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:24:30",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=-361;P2=267;P3=-884;P4=792;P5=-10342;D=25234141414123232323414123412323412323232323412323232341234123414123;CP=2;SP=5;O;m2;A;"
     },
     {
       "dmsg":"P90#786908230", "comment":"button all", "user":"peterboeckmann",
       "internals": {"DEF":"RC_10 7869_all", "NAME":"RC_10_7869_all"},
-      "readings": {"state":"off", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1000001000110"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0111100001101001", "x_n4":"0000", "x_n5-8_off":"1000001000110"},
       "attributes": {"model":"RC_10"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:25:58",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=-363;P2=789;P3=267;P4=-887;P5=-10332;D=35342121212134343434212134213434213434343421343434343421343434212134;CP=3;SP=5;O;m2;4;"
     }
   ]
@@ -2148,8 +2148,8 @@
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:19:45",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-817;P1=406;P2=-415;P3=813;P5=-4068;CP=3;D=01232323232323232323010123232323230101232301012323012323230123230123010151012323232323232323230101232323232301012323010123230123232301232301230101510123232323232323232301012323232323010123230101232301232323012323012301015101232323232323232323010123232323;O;"
     }
   ]
@@ -2160,20 +2160,20 @@
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:18:46",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P1=392;P2=-416;P3=804;P4=-822;P5=-4029;P6=-32001;D=151412323412323234141412341414141412341232341414141234123234141412341234141660;CP=1;R=0;"
     }
   ]
 },
 {"name":"MD_2003R", "id":"91", "module":"SD_UT", "data": [
     {
-      "dmsg":"P91#FCC17E1CA", "comment":"Focus/Atlantic's - Gas detektor (ID 63 additionally) / decode as MU", "user":"Harst",
+      "dmsg":"P91#FCC17E1CA", "comment":"Focus/Atlantic's - Gas detektor (ID 63 additionally) / decode as MU", "dispatch_repeats":"1", "user":"Harst",
       "internals": {"DEF":"MD_2003R FCC17E", "NAME":"MD_2003R_FCC17E"},
       "readings": {"state":"normal", "batteryState":"ok", "contact":"no Alarm", "deviceTyp":"gas", "keepalive":"periodically"},
       "attributes": {"model":"MD_2003R"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:17:39",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-164;P1=378;P2=-813;P3=-429;P4=764;P5=-3929;D=0121212134342121343434343421342121212121213434343421212134342134213451212121212121343421213434343434213421212121212134343434212121343421342134512121212121213434212134343434342134212121212121343434342121213434213421345121212121212134342121343434343421342;CP=1;R=0;O;"
     }
   ]
@@ -2184,8 +2184,8 @@
       "internals": {"DEF":"MD_2018R 803066", "NAME":"MD_2018R_803066"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"Alarm", "deviceTyp":"vibration", "keepalive":"event"},
       "attributes": {"model":"MD_2018R"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:15:56",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=-420;P1=809;P2=-835;P3=399;P4=-4080;D=34323010101010101010101232301010101012323010123230101230101012301012301232;CP=3;SP=4;s=64;e;m0;"
     }
   ]
@@ -2196,29 +2196,29 @@
       "internals": {"DEF":"MD_210R 91DF4F", "NAME":"MD_210R_91DF4F"},
       "readings": {"state":"warning", "batteryState":"ok", "contact":"open", "deviceTyp":"switch", "keepalive":"event", "sabotage":"closed"},
       "attributes": {"model":"MD_210R"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:15:06",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=-407;P1=402;P2=-4023;P3=-817;P4=806;D=12131040431040404313131043131313131043104043131313104310404313131043104313;CP=1;SP=2;R=0;m1;"
     }
   ]
 },
 {"name":"KRINNER Lumix - LED X-MAS", "id":"92", "module":"SD_UT", "data": [
     {
-      "dmsg":"P92#A06C3601", "comment":"(ID 19,63 additionally)", "user":"gestein",
+      "dmsg":"P92#A06C3601", "comment":"(ID 19,63 additionally)", "dispatch_repeats":"2", "user":"gestein",
       "internals": {"DEF":"Krinner_LUMIX A06C360", "NAME":"Krinner_LUMIX_A06C360"},
-      "readings": {"state":"on", "deviceCode":"1010000001101100001101100000"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"1010000001101100001101100000"},
       "attributes": {"model":"Krinner_LUMIX"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:11:12",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=24188;P1=-16308;P2=993;P3=-402;P4=416;P5=-967;P6=-10162;D=0123234545454523234523234545454545454545232623452345454545454523234523234545454523234523234545454545454545232623452345454545454523234523234545454523234523234545454545454545232623452345454545454523234523234545454523234523234545454545454545232;CP=4;R=25;"
     },
     {
-      "dmsg":"P92#A06C3600", "comment":"(ID 19,63 additionally)", "dispatch_repeats":"2", "user":"gestein",
+      "dmsg":"P92#A06C3600", "dispatch_repeats":"2", "user":"gestein",
       "internals": {"DEF":"Krinner_LUMIX A06C360", "NAME":"Krinner_LUMIX_A06C360"},
-      "readings": {"state":"off", "deviceCode":"1010000001101100001101100000"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"1010000001101100001101100000"},
       "attributes": {"model":"Krinner_LUMIX"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:13:39",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=11076;P1=-20524;P2=281;P3=-980;P4=982;P5=-411;P6=408;P7=-10156;D=0123232345456345456363636363636363634745634563636363636345456345456363636345456345456363636363636363634745634563636363636345456345456363636345456345456363636363636363634745634563636363636345456345456363636345456345456363636363636363634;CP=6;R=38;"
     }
   ]
@@ -2227,10 +2227,10 @@
     {
       "dmsg":"P93#16F610EF0", "comment":"ESTO Lighting GmbH, remote control (ID 90 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"KL_RF01 16F6", "NAME":"KL_RF01_16F6"},
-      "readings": {"state":"light_color_cold_white", "deviceCode":"0001011011110110"},
+      "readings": {"state":"light_color_cold_white", "LastAction":"receive", "deviceCode":"0001011011110110"},
       "attributes": {"model":"KL_RF01"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:09:06",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=376;P4=-1200;P5=1170;P6=-409;P7=-12224;D=17141414561456561456565656145656141414145614141414565656145656565614;CP=1;SP=7;R=231;e;m0;"
     }
   ]
@@ -2240,70 +2240,70 @@
       "dmsg":"W94#0D830661B366C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: -14.6", "temperature":"-14.6", "type":"Atech"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:04:23",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-32001;P1=1525;P2=-303;P3=-7612;P4=-2008;D=01212121212121213141414141212141212141414141412121414141414121214141212141414141212141212141412121412121414121214121;CP=1;"
     },
     {
       "dmsg":"W94#0D830018CCC", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: -0.4", "temperature":"-0.4", "type":"Atech"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:05:29",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-32001;P1=1533;P2=-297;P3=-7612;P4=-2005;D=0121212121212121314141414121214121214141414141212141414141414141414141412121414141212141412121414121;CP=1;"
     },
     {
       "dmsg":"W94#0D8000336CC", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 0.2", "temperature":"0.2", "type":"Atech"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:06:30",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-32001;P1=1532;P2=-299;P3=-7608;P4=-2005;D=0121212121212121314141414121214121214141414141414141414141414141414141212141412121412121412121414121;CP=1;"
     },
     {
       "dmsg":"W94#0D80180CDB6C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "dispatch_repeats":"1", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 10.2", "temperature":"10.2", "type":"Atech"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:07:18",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-31292;P1=1529;P2=-300;P3=-7610;P4=-2009;D=012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121012121212121212131414141412121412121414141414141414141412121414141414141412121414121214121214121214121214121;CP=1;"
     },
     {
       "dmsg":"W94#0D8031B60C6C", "comment":"Temp sensor Id: 0C (ID 63 additionally)", "dispatch_repeats":"1", "user":"Kreidler1221",
       "internals": {"DEF":"SD_WS_94_T", "NAME":"SD_WS_94_T"},
       "readings": {"state":"T: 27", "temperature":"27", "type":"Atech"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:03:12",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-31290;P1=1533;P2=-297;P3=-7608;P4=-2006;D=012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121012121212121212131414141412121412121414141414141414141212141414121214121214121214141414141212141414121214121;CP=1;"
     }
   ]
 },
 {"name":"Techmar", "id":"95", "module":"SD_UT", "data": [
     {
-      "dmsg":"P95#7709F5DE09F60", "comment":"Garden Lights remote control", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE09F60", "comment":"Garden Lights remote control (ID 31,63 additionally)", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_1_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:00:41",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-972;P1=526;P2=-335;P3=-666;D=01213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131313121313131312121212121312121313131313121313121212101213131312131313121212121312121313131313121312131;CP=1;R=44;O;"
     },
     {
-      "dmsg":"P95#7709F5DE11EE0", "comment":"Garden Lights remote control", "dispatch_repeats":"1", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE11EE0", "comment":"Garden Lights remote control (ID 31,63 additionally)", "dispatch_repeats":"1", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_5_on", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 10:01:49",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-651;P1=530;P2=-345;P3=-969;D=01212121312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212101312101010121010101212121210121210101010101210121010101210101010121212121012121210101010121010101212121312101010121010101212121210121210101010101;CP=1;R=24;O;"
     },
     {
-      "dmsg":"P95#7709F5DE02FD0", "comment":"Garden Lights remote control (ID 63 additionally)", "dispatch_repeats":"1", "user":"BlackcatSandy",
+      "dmsg":"P95#7709F5DE02FD0", "comment":"Garden Lights remote control (ID 31,63 additionally)", "dispatch_repeats":"1", "user":"BlackcatSandy",
       "internals": {"DEF":"Techmar 7709F5DE", "NAME":"Techmar_7709F5DE"},
       "readings": {"state":"Group_8_off", "LastAction":"receive", "deviceCode":"7709F5DE"},
       "attributes": {"model":"Techmar"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 09:59:28",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=538;P1=-329;P2=-653;P3=-964;D=01020301020202010202020101010102010102020202020102010202020102020202010101010101010201020202020202010202010301020202010202020101010102010102020202020102010202020102020202010101010101010201020202020202010201010301020202010202020101010102010102020202020102;CP=0;R=19;O;"
     }
   ]
@@ -2352,12 +2352,12 @@
 },
 {"name":"Momento", "id":"97", "module":"SD_UT", "data": [
     {
-      "dmsg":"P97#0000064248", "comment":"remote control for wireless digital picture frame", "user":"elektron-bbs",
+      "dmsg":"P97#0000064248", "comment":"remote control for wireless digital picture frame", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
       "readings": {"state":"play/pause", "LastAction":"receive", "deviceCode":"0000064"},
       "attributes": {"model":"Momento"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 09:57:02",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-294;P1=237;P2=5829;P3=-3887;P4=1001;P5=-523;P6=504;P7=-995;D=01010101010101010101010234545454545454545454545454545454545454545456767454567454545456745456745456745454523454545454545454545454545454545454545454545676745456745454545674545674545674545452345454545454545454545454545454545454545454567674545674545454567454;CP=4;R=45;O;"
     },
     {
@@ -2365,8 +2365,8 @@
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
       "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0000064"},
       "attributes": {"model":"Momento"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 09:55:38",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-998;P1=-273;P2=256;P3=5830;P4=-3906;P5=991;P6=-527;P7=508;D=12121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121345656565656565656565656565656565656565656567070565670565656565670567056565670707034565656565656565656565656565656565656565656707056567;CP=2;R=40;O;"
     },
     {
@@ -2374,8 +2374,8 @@
       "internals": {"DEF":"Momento 0000064", "NAME":"Momento_0000064"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"0000064"},
       "attributes": {"model":"Momento"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-03-26 09:54:27",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-1005;P1=-272;P2=258;P3=5856;P4=-3902;P5=1001;P6=-520;P7=508;D=0121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121212121213456565656565656565656565656565656565656565670705656705656567056565670565670567056345656565656565656565656565656565656565656567070565;CP=2;R=63;O;"
     }
   ]
