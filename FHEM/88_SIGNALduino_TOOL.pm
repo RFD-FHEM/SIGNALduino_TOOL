@@ -2507,11 +2507,13 @@ sub SIGNALduino_TOOL_FW_Detail {
   $ret .="<td><a href='#button3' id='button3'>Display readed SD_ProtocolList.json</a></td>";
 
   if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ ) {
-    Log3 $name, 5, "$name: FW_Detail, check (1)";
+    my $button = 'nothing';
     if ($hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
-      Log3 $name, 5, "$name: FW_Detail, check (2) -> Check it - button";
+      $button = 'ok';
+      Log3 $name, 4, "$name: FW_Detail, check -> Check it - button available";
       $ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
     }
+    Log3 $name, 4, "$name: FW_Detail, check -> Check it - button NOT available" if ($button ne 'ok');
   }
 
   $ret .= '</tr></table></div>
