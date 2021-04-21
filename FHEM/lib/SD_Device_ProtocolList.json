@@ -1775,7 +1775,7 @@
 },
 {"name":"TFA 30.3222.02, Temp", "id":"85", "module":"SD_WS", "data": [
     {
-      "dmsg":"W85#0C45C60124B0554F8", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
+      "dmsg":"W85#0C45C60124B0554F8", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 54,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02"},
       "revision_entry":"unknown",
@@ -1786,7 +1786,7 @@
 },
 {"name":"TFA 30.3222.02, Wind", "id":"85", "module":"SD_WS", "data": [
     {
-      "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01", "user":"Iron-R1",
+      "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 54,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
       "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
       "revision_entry":"unknown",
