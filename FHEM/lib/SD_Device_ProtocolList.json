@@ -190,8 +190,8 @@
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
       "readings": {"state":"open", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:28:47",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-478;P2=1360;P3=468;P4=-1366;P5=-14045;D=35212134212134343421212134213434343434343421342134;CP=3;SP=5;R=30;O;m2;4;"
     },
     {
@@ -199,8 +199,8 @@
       "internals": {"DEF":"1527xd8e80 1110 0000", "NAME":"IT_1527xd8e80"},
       "readings": {"state":"closed", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:28:24",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=-474;P2=1373;P3=455;P4=-1367;P5=-14044;D=35212134212134343421212134213434343434343421212134;CP=3;SP=5;R=37;O;m2;"
     }
   ]
@@ -211,8 +211,8 @@
       "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
       "readings": {"state":"tamper", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:27:28",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P3=1387;P4=-464;P5=445;P6=-13990;P7=-1355;D=56575757573457343434345757573434575757575757343434;CP=5;SP=6;R=242;O;m2;"
     },
     {
@@ -220,8 +220,8 @@
       "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
       "readings": {"state":"open", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:27:08",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=447;P2=-1357;P3=1368;P4=-474;P5=-14012;D=15121212123412343434341212123434121212121234123412;CP=1;SP=5;R=15;O;m2;"
     },
     {
@@ -229,8 +229,8 @@
       "internals": {"DEF":"1527x0bc60 1110 0000", "NAME":"IT_1527x0bc60"},
       "readings": {"state":"closed", "protocol":"EV1527"},
       "attributes": {"model":"itswitch_CHN"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:26:47",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=466;P2=-470;P3=1367;P4=-1356;P5=-13955;D=15141414143214323232321414143232141414141432323214;CP=1;SP=5;R=250;O;m2;"
     }
   ]
@@ -598,8 +598,8 @@
     {
       "dmsg":"u19#E2CA7C", "comment":"von Dez 2016", "user":"zag-o-mat",
       "internals": {"DEF":"SIGNALduino_unknown_19", "NAME":"SIGNALduino_unknown_19"},
-      "readings": {"state":"E2CA7C"},
-      "revision_entry":"unknown",
+      "readings": {"state":"E2CA7C", "hexMsg":"E2CA7C", "hexMsg_invert":"1D3583"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:21:08",
       "revision_modul":"unknown",
       "rmsg":"MU;P0=293;P1=-887;P2=-312;P6=-1900;P7=872;D=6727272010101720172720101720172010172727272720;CP=0;"
     }
@@ -1372,8 +1372,8 @@
       "dmsg":"ihC78F366DC8F2E58000", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/230", "user":"unknown",
       "internals": {"DEF":"1100011110001111001101100110110111001000111100 0 1001011", "NAME":"IT_11000111100011110011011001101101110010001111001001011"},
       "readings": {"state":"on", "mode":"single", "protocol":"HE_EU", "unit":"1001011"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:19:07",
+      "revision_modul":"10_IT.pm             20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P1=231;P2=-1336;P4=-312;P5=-8920;D=15121214141412121212141414121212121414121214121214141212141212141212121414121414141212121214141214121212141412141212;CP=1;SP=5;"
     }
   ]
@@ -1417,8 +1417,8 @@
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
       "readings": {"state":"channel_minus", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"OR28V"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:17:37",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=545;P2=-552;P4=-1652;P6=-4400;P7=2746;D=16741214141212121214141212121414121212121212;CP=1;SP=6;m2;"
     },
     {
