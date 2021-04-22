@@ -1235,8 +1235,8 @@
       "internals": {"DEF":"AC114_01B 00587B", "NAME":"AC114_01B_00587B"},
       "readings": {"state":"down", "LastAction":"receive", "deviceCode":"00587B"},
       "attributes": {"model":"AC114_01B"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:10:53",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=5036;P1=-624;P2=591;P3=-227;P4=187;P5=-5048;D=0123412341414123234141414141414141412341232341414141232323234123234141414141414123414141414141414141234141414123234141412341232323250123412341414123234141414141414141412341232341414141232323234123234141414141414123414141414141414141234141414123234141412;CP=4;O;"
     }
   ]
@@ -1247,8 +1247,8 @@
       "internals": {"DEF":"AC114_01B 479696", "NAME":"AC114_01B_479696"},
       "readings": {"state":"up", "LastAction":"receive", "deviceCode":"479696"},
       "attributes": {"model":"AC114_01B"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:11:39",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-16412;P1=5195;P2=-598;P3=585;P4=-208;P5=192;D=01234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252525252345234345234343434343434341234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252525252345234345234343;CP=5;R=105;O;"
     },
     {
@@ -1256,8 +1256,8 @@
       "internals": {"DEF":"AC114_01B 479696", "NAME":"AC114_01B_479696"},
       "readings": {"state":"stop", "LastAction":"receive", "deviceCode":"479696"},
       "attributes": {"model":"AC114_01B"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:12:06",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-2341;P1=5206;P2=-571;P3=591;P4=-211;P5=207;D=01234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252523452525234343452523452343434341234523452525234345234525252343434345252345234345234525234523434525252525252525234525252525252525252523452525234343452523;CP=5;R=107;O;"
     }
   ]
@@ -1267,8 +1267,9 @@
       "dmsg":"P57#2AA4A7", "comment":"radio gong transmitter for FG- and Basic-Serie", "user":"rippi46",
       "internals": {"DEF":"57 2AA4A7", "NAME":"SD_BELL_2AA4A7"},
       "readings": {"state":"ring"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "attributes": {"model":"FG_/_Basic-Serie"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:13:41",
+      "revision_modul":"14_SD_BELL.pm     0 2021-03-22 22:30:35Z HomeAuto_User",
       "rmsg":"MC;LL=-653;LH=665;SL=-317;SH=348;D=D55B58;C=330;L=21;"
     }
   ]
@@ -1341,16 +1342,16 @@
       "dmsg":"P61#0011DC711A0", "comment":"Remote control", "user":"elektron-bbs",
       "internals": {"DEF":"2_13", "NAME":"FS10_2_13"},
       "readings": {"state":"on"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:08:51",
+      "revision_modul":"10_FS10.pm    11 2020-06-06 21:30:00Z elektron-bbs",
       "rmsg":"MU;P0=1776;P1=-410;P2=383;P3=-820;D=01212121212121212121212123212121232323212323232121212323232121212321212123232123212120;CP=2;R=74;"
     },
     {
       "dmsg":"P61#00096E388EC", "comment":"Remote control", "user":"elektron-bbs",
       "internals": {"DEF":"2_13", "NAME":"FS10_2_13"},
       "readings": {"state":"off"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:09:16",
+      "revision_modul":"10_FS10.pm    11 2020-06-06 21:30:00Z elektron-bbs",
       "rmsg":"MU;P0=-27584;P1=446;P2=-349;P3=-755;D=01212121212121212121212121312121312131312131313121212131313121212131212121313131213131;CP=1;"
     }
   ]
@@ -1425,8 +1426,8 @@
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
       "readings": {"state":"channel_plus", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"OR28V"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:07:14",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=532;P2=-562;P3=-1666;P4=2544;P6=-4412;D=16431213131212121212131212121312131312121212;CP=1;SP=6;"
     },
     {
@@ -1434,8 +1435,8 @@
       "internals": {"DEF":"OR28V 1", "NAME":"OR28V_1"},
       "readings": {"state":"power", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"OR28V"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:07:38",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P0=-544;P1=556;P2=-1653;P3=-4388;P4=2758;D=13421012101210121212121010101010121010101010;CP=1;SP=3;m2;"
     }
   ]
@@ -1446,20 +1447,20 @@
       "internals": {"DEF":"HS1_868_BS F62A9C01C", "NAME":"HS1_868_BS_F62A9C01C"},
       "readings": {"state":"receive", "deviceCode":"1111011000101010100111000000"},
       "attributes": {"model":"HS1_868_BS"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:05:13",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-578;P1=1033;P2=506;P3=-1110;P4=13632;D=0101010232323101040101010101010101023232323102323101010231023102310231010232323101010101010101010232323101040101010101010101023232323102323101010231023102310231010232323101010101010101010232323101040101010101010101023232323102323101010231023102310231010;CP=2;R=77;"
     }
   ]
 },
 {"name":"HSM4", "id":"69", "module":"SD_UT", "data": [
     {
-      "dmsg":"P69#00E6BE9107C", "comment":"(ID 8,63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
+      "dmsg":"P69#00E6BE9107C", "comment":"(ID 8,42,63 additionally)", "dispatch_repeats":"1", "user":"SD_Protocol",
       "internals": {"DEF":"HSM4 E6BE910", "NAME":"HSM4_E6BE910"},
       "readings": {"state":"button_1", "deviceCode":"1110011010111110100100010000"},
       "attributes": {"model":"HSM4"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:03:10",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-508;P1=1029;P2=503;P3=-1023;P4=12388;D=01010232323232310104010101010101010102323231010232310231023232323231023101023101010231010101010232323232310104010101010101010102323231010232310231023232323231023101023101010231010101010232323232310104010101010101010102323231010232310231023232323231023101;CP=2;R=37;O;"
     }
   ]
@@ -1485,11 +1486,11 @@
 },
 {"name":"PV-8644", "id":"71", "module":"SD_WS", "data": [
     {
-      "dmsg":"W71#589A829FDFF4", "comment":"PEARL infactory Poolthermometer", "user":"SD_Protocol",
+      "dmsg":"W71#589A829FDFF4", "comment":"PEARL infactory Poolthermometer (ID 64 additionally)", "user":"SD_Protocol",
       "internals": {"DEF":"SD_WS71_T_1", "NAME":"SD_WS71_T_1"},
       "readings": {"state":"T: 24.2", "channel":"1", "temperature":"24.2", "type":"PV-8644"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:00:00",
+      "revision_modul":"14_SD_WS.pm   21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=1735;P1=-1160;P2=591;P3=-876;D=0123012323010101230101232301230123010101010123012301012323232323232301232323232323232323012301012;CP=2;R=97;"
     }
   ]
@@ -1551,8 +1552,8 @@
       "dmsg":"810b04f70101a0011848070000", "comment":"decode as MU", "user":"HomeAuto_User",
       "internals": {"DEF":"1848 07", "NAME":"FS20_184807"},
       "readings": {"state":"off"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 21:57:10",
+      "revision_modul":"10_FS20.pm 14888 2017-08-13 12:07:12Z rudolfkoenig",
       "rmsg":"MU;P0=390;P1=-413;P3=587;P4=-617;P5=-10512;D=01010101343401343401343405010101010101010101010101340101013434010101010134010134010101010101010101343434340101010101010101010134340134340134340;CP=0;R=71;"
     }
   ]
