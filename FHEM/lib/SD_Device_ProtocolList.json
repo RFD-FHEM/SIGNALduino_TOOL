@@ -1499,9 +1499,9 @@
     {
       "dmsg":"P72#5B41708154", "comment":"decode as MU (ID 16,40 additionally)", "user":"Dr.Smag, Byte09",
       "internals": {"DEF":"5B417081", "NAME":"Siro_5B417081"},
-      "readings": {"state":"notAvaible", "ActionTrigger":"remote", "batteryState":"unknown", "motor-term":"Function is not available without set runtime attribute, please define"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"notAvaible", "ActionTrigger":"remote", "BetweentActionTime":"0", "batteryState":"unknown", "motor-term":"Function is not available without set runtime attribute, please define"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:38:43",
+      "revision_modul":"98_Siro.pm 20772 2019-12-17 16:52:51Z Byte09",
       "rmsg":"MU;P0=-760;P1=334;P2=693;P3=-399;P4=-8942;P5=4796;P6=-1540;D=01010102310232310101010102310232323101010102310101010101023102323102323102323102310101010102310232323101010102310101010101023102310231023102456102310232310232310231010101010231023232310101010231010101010102310231023102310245610231023231023231023101010101;CP=1;R=45;O;"
     }
   ]
@@ -1510,9 +1510,9 @@
     {
       "dmsg":"P72#5B4170811E", "comment":"decode as MS", "user":"Dr.Smag",
       "internals": {"DEF":"5B417081", "NAME":"Siro_5B417081"},
-      "readings": {"state":"0", "ActionTrigger":"remote", "BetweentActionTime":"57", "aktActionFinish":"0", "aktEndAction":"0", "aktRunningAction":"noAction", "aktTimeAction":"0", "batteryState":"unknown", "motor-term":"0", "pct":"0", "position":"0"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "readings": {"state":"0", "ActionTrigger":"remote", "BetweentActionTime":"0", "aktActionFinish":"0", "aktEndAction":"0", "aktRunningAction":"noAction", "aktTimeAction":"0", "batteryState":"unknown", "motor-term":"0", "pct":"0", "position":"0"},
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:35:39",
+      "revision_modul":"98_Siro.pm 20772 2019-12-17 16:52:51Z Byte09",
       "rmsg":"MS;P0=4803;P1=-1522;P2=333;P3=-769;P4=699;P5=-393;P6=-9190;D=2601234523454523454523452323232323452345454523232323452323232323234523232345454545;CP=2;SP=6;R=61;"
     }
   ]
@@ -1715,7 +1715,7 @@
       "dmsg":"P82#F0000100001F0000100010F0111101001F0111101010F0111111101F0111111110F0100010000F0100010011F1100000000F1100000011F1000100101F1000100110", "comment":"STOP, remote Easy Standard, (ID 63 additionally), 10_Fernotron.pm is under development", "user":"zwiebert",
       "internals": {"DEF":"scan", "NAME":"Fernotron_Scan"},
       "readings": {"state":"plain:105efe:stop"},
-      "revision_entry":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:32:18",
       "revision_modul":"unknown",
       "rmsg":"MU;P0=-32001;P1=441;P2=-355;P3=-3153;P4=842;P5=-757;CP=1;D=0121212121212121342424242154242424215134242424215424242154213421515151542154242151342151515154215421542134215151515151515421513421515151515151515421342154242421542424242134215424242154242151513151542424242424242421315154242424242421515131542424215424215421513154242421542421515421;e;"
     },
@@ -1723,7 +1723,7 @@
       "dmsg":"P82#F0000100001F0000100010F0111101001F0111101010F0111111101F0111111110F0100100000F0100100011F1010000000F1010000011F1100000101F1100000110", "comment":"DOWN, remote Easy Standard, (ID 63 additionally), 10_Fernotron.pm is under development", "user":"zwiebert",
       "internals": {"DEF":"scan", "NAME":"Fernotron_Scan"},
       "readings": {"state":"plain:105efe:down"},
-      "revision_entry":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:31:30",
       "revision_modul":"unknown",
       "rmsg":"MU;P0=-200;P1=21748;P2=-25008;P3=410;P4=-388;P5=-3189;P6=811;P7=-785;CP=3;D=012343434343434343564646464376464646437356464646437646464376435643737373764376464373564373737376437643764356437373737373737643735643737373737373737643564376464376464646464356437646437646464373735376437646464646464643537643764646464643737353737646464646437643735373764646464643737643;e;"
     }
