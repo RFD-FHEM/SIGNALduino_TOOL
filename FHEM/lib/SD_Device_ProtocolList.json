@@ -1382,8 +1382,8 @@
       "dmsg":"TXA08473273C", "comment":"Remote temp transmitter model 7035 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"66", "NAME":"CUL_TX_66"},
       "readings": {"state":"T: 23.2", "temperature":"23.2"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:31:17",
+      "revision_modul":"14_CUL_TX.pm 17102 2018-08-08 05:34:42Z rudolfkoenig",
       "rmsg":"MU;P0=13312;P1=-2785;P2=4985;P3=1124;P4=-6442;P5=3181;P6=-31980;D=0121345434545454545434545454543454545434343454543434545434545454545454343434545434343434545621213454345454545454345454545434545454343434545434345454345454545454543434345454343434345456212134543454545454543454545454345454543434345454343454543454545454545;CP=3;R=73;O;"
     }
   ]
@@ -1393,8 +1393,8 @@
       "dmsg":"TXA0AE734730", "comment":"TX2 Protocol", "user":"HomeAuto_User",
       "internals": {"DEF":"87", "NAME":"CUL_TX_87"},
       "readings": {"state":"T: 23.4", "temperature":"23.4"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:32:09",
+      "revision_modul":"14_CUL_TX.pm 17102 2018-08-08 05:34:42Z rudolfkoenig",
       "rmsg":"MU;P0=3371;P1=-27842;P2=132;P3=1137;P4=-744;P6=-4631;D=340636063606060606063606360636363606063636360606363606360606060606012;CP=3;R=27;"
     }
   ]
@@ -1404,8 +1404,8 @@
       "dmsg":"TXA091760760", "comment":"Remote datalink & remote thermo model 7053 (TX2 Protocol)", "dispatch_repeats":"1", "user":"elektron-bbs",
       "internals": {"DEF":"72", "NAME":"CUL_TX_72"},
       "readings": {"state":"T: 26.0", "temperature":"26.0"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:33:15",
+      "revision_modul":"14_CUL_TX.pm 17102 2018-08-08 05:34:42Z rudolfkoenig",
       "rmsg":"MU;P0=3381;P1=-672;P2=-4628;P3=1142;P4=-30768;D=010232023202020202023202023202020232023232320232320202020202020202040102320232020202020232020232020202320232323202323202020202020202020;CP=0;R=45;"
     }
   ]
@@ -1532,16 +1532,16 @@
       "dmsg":"810b04f70101a001BF25010011", "user":"HomeAuto_User",
       "internals": {"DEF":"bf25 01", "NAME":"FS20_bf2501"},
       "readings": {"state":"on"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:27:49",
+      "revision_modul":"10_FS20.pm 14888 2017-08-13 12:07:12Z rudolfkoenig",
       "rmsg":"MU;P0=381;P1=-413;P2=574;P3=-615;P4=-6428;D=0101010101010101010101012323012323232323232301012301012301232301010101010101232301010123010101230123232323232301010104;CP=0;"
     },
     {
       "dmsg":"810b04f70101a001BF25010000", "user":"HomeAuto_User",
       "internals": {"DEF":"bf25 01", "NAME":"FS20_bf2501"},
       "readings": {"state":"off"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:27:07",
+      "revision_modul":"10_FS20.pm 14888 2017-08-13 12:07:12Z rudolfkoenig",
       "rmsg":"MU;P0=100;P1=-216;P2=-152;P3=577;P4=-412;P5=380;P6=-614;P7=-7296;D=01023454545454545454545454543636543636363636363654543654543654363654545454545454363654545454545454545436363654365436365457;CP=5;"
     }
   ]
@@ -1559,11 +1559,11 @@
 },
 {"name":"FS20 S8-2", "id":"74", "module":"FS20", "data": [
     {
-      "dmsg":"810b04f70101a001CF4B010011", "dispatch_repeats":"2", "user":"pejonp",
+      "dmsg":"810b04f70101a001CF4B010011", "comment":"(ID 29 additionally)", "dispatch_repeats":"2", "user":"pejonp",
       "internals": {"DEF":"cf4b 01", "NAME":"FS20_cf4b01"},
       "readings": {"state":"on"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:26:02",
+      "revision_modul":"10_FS20.pm 14888 2017-08-13 12:07:12Z rudolfkoenig",
       "rmsg":"MU;P0=-13468;P1=366;P2=-430;P3=570;P4=-618;P5=-9342;CP=1;R=37;D=012121212121212121212121234343412123434343412123412123412343412121212121212123434121212341212123412121234341212341234151212121212121212121212123434341212343434341212341212341234341212121212121212343412121234121212341212123434121234123415121212121212121212121212343434121234343434121234121234123434121212121212121234341212123412121234121212343412123412341;"
     }
   ]
@@ -1573,8 +1573,8 @@
       "dmsg":"810b04f70101a0011848110011", "comment":"decode as MS", "user":"HomeAuto_User",
       "internals": {"DEF":"1848 11", "NAME":"FS20_184811"},
       "readings": {"state":"on"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:24:08",
+      "revision_modul":"10_FS20.pm 14888 2017-08-13 12:07:12Z rudolfkoenig",
       "rmsg":"MS;P1=-406;P2=406;P5=583;P6=-616;P7=-10484;D=2721212121212121212121212156212121565621212121215621215621212121212121562121215621212121562121215621562121215621212121;CP=2;SP=7;R=86;O;"
     }
   ]
@@ -1585,8 +1585,8 @@
       "internals": {"DEF":"LED_XM21_0 FFFFFFFFFFFFFF", "NAME":"LED_XM21_0_FFFFFFFFFFFFFF"},
       "readings": {"state":"on", "deviceCode":"11111111111111111111111111111111111111111111111111111111"},
       "attributes": {"model":"LED_XM21_0"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:22:13",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-205;P1=113;P3=406;D=010101010101010101010101010101010101010101010101010101010101030303030101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010103030303010101010101010101010100;CP=1;R=69;"
     },
     {
@@ -1594,19 +1594,19 @@
       "internals": {"DEF":"LED_XM21_0 FFFFFFFFFFFFFF", "NAME":"LED_XM21_0_FFFFFFFFFFFFFF"},
       "readings": {"state":"off", "deviceCode":"11111111111111111111111111111111111111111111111111111111"},
       "attributes": {"model":"LED_XM21_0"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:21:42",
+      "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=-203;P1=412;P2=114;D=01010101020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020101010102020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020200;CP=2;R=74;"
     }
   ]
 },
 {"name":"DS1820_4Fach", "id":"77", "module":"CUL_TX", "data": [
     {
-      "dmsg":"TXA0D2728722", "comment":"self build sensor, protocol is under development, https://github.com/juergs/NANO_DS1820_4Fach", "user":"unknown",
+      "dmsg":"TXA0D2728722", "comment":"self build sensor, protocol is under development, https://github.com/juergs/NANO_DS1820_4Fach", "dispatch_repeats":"1", "user":"unknown",
       "internals": {"DEF":"105", "NAME":"CUL_TX_105"},
       "readings": {"state":"T: 22.8", "temperature":"22.8"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 19:19:28",
+      "revision_modul":"14_CUL_TX.pm 17102 2018-08-08 05:34:42Z rudolfkoenig",
       "rmsg":"MU;P0=-1483;P1=239;P2=970;P3=-21544;D=01020202010132020202010201020202020201010201020201020201010102020102010202020201010102020102020201013202020201020102020202020101020102020102020101010202010201020202020101010202010202020101;CP=1;"
     }
   ]
