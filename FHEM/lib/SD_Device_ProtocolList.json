@@ -23,6 +23,18 @@
     }
   ]
 },
+{"name":"Pearl NC7159", "id":"0", "module":"CUL_TCM97001", "data": [
+    {
+      "dmsg":"s52880C411000", "comment":"https://forum.fhem.de/index.php/topic,101425.msg1132257.html?PHPSESSID=8ghjdel8emmpcds5ku97uihamt#msg1132257", "model":"NC_WS", "user":"killah78",
+      "internals": {"DEF":"CUL_TCM97001_82", "NAME":"NC_WS_82"},
+      "readings": {"state":"T: 19.6 H: 17", "channel":"1", "humidity":"17", "mode":"normal", "temperature":"19.6"},
+      "attributes": {"model":"NC_WS"},
+      "minProtocolVersion":"1.28", "revision_entry":"2021-05-20 00:04:50",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
+      "rmsg":"MS;P3=-1929;P4=509;P5=-3888;P6=-9158;D=46434543454343454345434343454343434343434345454343434543434343434543434345;CP=4;SP=6;R=36;O;m2;"
+    }
+  ]
+},
 {"name":"Prologue", "id":"0", "module":"CUL_TCM97001", "data": [
     {
       "dmsg":"s916001A0A000", "comment":"Temp sensor", "user":"SD_Protocol",
@@ -113,6 +125,18 @@
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-22 10:37:52",
       "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
       "rmsg":"MS;P0=-3946;P1=448;P2=-1998;P3=-9309;P4=284;D=131212101212101212101212121010101010101012121012121010101210101010124;CP=1;SP=3;e;m3;"
+    }
+  ]
+},
+{"name":"Auriol HG04641A", "id":"0.5", "module":"CUL_TCM97001", "data": [
+    {
+      "dmsg":"s6AB20000", "comment":"14_CUL_TCM97001.pm is under development / https://forum.fhem.de/index.php/topic,101425.msg1068357.html#msg1068357", "user":"Damian",
+      "internals": {"DEF":"CUL_TCM97001_Unknown", "NAME":"Unknown"},
+      "readings": {"state":"Code: 6AB200", "temperature":"-2.8"},
+      "attributes": {"model":"Unknown"},
+      "minProtocolVersion":"1.28", "revision_entry":"2021-05-20 00:17:00",
+      "revision_modul":"14_CUL_TCM97001.pm 20839 2019-12-28 09:41:47Z bjoernh",
+      "rmsg":"MS;P0=-4135;P1=424;P2=-2042;P3=-8691;D=13121010121012101210121010121210121212121212121212;CP=1;SP=3;R=238;O;"
     }
   ]
 },
