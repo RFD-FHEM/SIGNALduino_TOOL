@@ -12,15 +12,15 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: Checkout Repostory
-      uses: actions/checkout@master
+      uses: actions/checkout@v2.3.4
       with:
         fetch-depth: 0
     - name: update controls files
-      uses: fhem/fhem-controls-actions@master
+      uses: fhem/fhem-controls-actions@v2.0.1
       with:
         filename: controls_SD_TOOL.txt 
     - name: update controls files (append)
-      uses: fhem/fhem-controls-actions@master
+      uses: fhem/fhem-controls-actions@v2.0.1
       with:
         filename: controls_SD_TOOL.txt 
         writemode: a
@@ -38,7 +38,7 @@ jobs:
         git add  CHANGED ${CONTROLS_FILENAME} || true
         git log -n1 --grep="^Automaitc updated controls" --format=format:%H | xargs -n 1 -i{} git log {}~1..HEAD --name-only --pretty=format: | grep -Eo '[0-9]{2}_.*.pm$|*.json$' && git commit CHANGED ${CONTROLS_FILENAME} -m "Automaitc updated controls and CHANGED" || true
     - name: git push
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@v0.6.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ steps.extract_branch.outputs.branch }}
