@@ -3,13 +3,14 @@
  - fix minProtocolVersion, revision_entry, revision_modul for first entry
 2021-05-25 - Update 88_SIGNALduino_TOOL.pm
 
-- added MN; string
-2021-05-25 - Update SD_Device_ProtocolList.json
+ - added MN; string
 2021-05-25 - Update SD_Device_ProtocolList.json
 
- -  added KOPP_FC
+ - added KOPP_FC
  - revised data ADE WS 1907 revision_modul & minProtocolVersion
 2021-05-22 - Update SD_Device_ProtocolList.json
+
+ - added data ADE WS 1907
 2021-05-19 - Update SD_Device_ProtocolList.json
 
  - added data for Pearl NC7159, Auriol HG04641A
