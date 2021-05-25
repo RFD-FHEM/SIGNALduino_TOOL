@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-05-25 11:25:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-05-25 14:25:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -867,8 +867,13 @@ sub SIGNALduino_TOOL_Set {
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
                   Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 readings=$cnt_readings";
                   $cnt_readings++;
-                  print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings == 1);
-                  print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings > 1);
+                  ### note !!! ###
+                  # diverse discussions about new reading IODev !!!
+                  # reading is not relevant for tests -> possibly expand code for skipping
+                  # if {$key2 !~ /^IODev$/} (
+                    print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings == 1);
+                    print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings > 1);
+                  #);
                 }
               }
             }
@@ -3112,10 +3117,13 @@ sub SIGNALduino_TOOL_FW_updateData {
                                    data       => [  { dmsg    => ReadingsVal($name, 'last_DMSG', 'none'),
                                                       comment => $comment,
                                                       user    => $user,
-                                                      internals  => { %internals },
-                                                      readings   => { %readings },
-                                                      attributes => { %attributes },                  # ggf need check
-                                                      rmsg       => ReadingsVal($name, 'last_MSG', 'none')
+                                                      internals           => { %internals },
+                                                      readings            => { %readings },
+                                                      attributes          => { %attributes },                  # ggf need check
+                                                      minProtocolVersion  => $defs{$Dummyname}->{versionProtocols},
+                                                      revision_entry      => FmtDateTime(time()),
+                                                      revision_modul      => SIGNALduino_TOOL_version_moduls($hash,$defs{$devicename}->{TYPE}),
+                                                      rmsg                => ReadingsVal($name, 'last_MSG', 'none')
                                                     }
                                                  ]
                                  };
