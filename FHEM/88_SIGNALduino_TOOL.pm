@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-03-25 14:35:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-05-25 11:25:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -116,7 +116,7 @@ sub SIGNALduino_TOOL_Initialize {
   $hash->{NotifyFn}           = 'SIGNALduino_TOOL_Notify';
   $hash->{FW_detailFn}        = 'SIGNALduino_TOOL_FW_Detail';
   $hash->{FW_deviceOverview}  = 1;
-  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MU;,MC;,MS;'
+  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MU;,MC;,MS;,MN;'
                                  .' CC110x_Register_old:textField-long CC110x_Register_new:textField-long'
                                  .' Filename_export Filename_input'
                                  .' IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
@@ -1267,7 +1267,7 @@ sub SIGNALduino_TOOL_Get {
         'change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec '.
         'invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg '.
         'search_ignore_Devices:noArg ';
-  $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
+  $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MN;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
         "bitMsg_invert:,hexMsg:,hexMsg_invert:,msg:,UserInfo:,$onlyDataName ".
         'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg '.
         'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ' if ($Filename_input ne '');
