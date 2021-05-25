@@ -2475,6 +2475,17 @@
     }
   ]
 },
+{"name":"KOPP_FC", "id":"102", "module":"KOPP_FC", "data": [
+    {
+      "dmsg":"kr07FA5E1721CC0F02", "comment":"state is toggled! (Mod. GFSK)", "user":"unknown",
+      "internals": {"DEF":"21 FA5E 02", "NAME":"Kopp"},
+      "readings": {"state":"on"},
+      "minProtocolVersion":"1.29", "revision_entry":"2021-05-25 10:35:42",
+      "revision_modul":"10_KOPP_FC.pm 12860 2016-12-21 21:09:41Z RaspII",
+      "rmsg":"MN;D=07FA5E1721CC0F02FE000000000000;"
+    }
+  ]
+},
 {"name":"TX35-IT", "id":"103", "module":"LaCrosse", "data": [
     {
       "dmsg":"OK 9 41 1 3 251 106", "comment":"Temp sensor for a WDxxxx Weather Station (Mod. 2-FSK, Lacrosse mode 2)", "user":"HomeAuto_User",
@@ -2573,29 +2584,29 @@
     }
   ]
 },
-{"name":"SD_WS_110_TR", "id":"110", "module":"SD_WS", "data": [
+{"name":"ADE WS 1907", "id":"110", "module":"SD_WS", "data": [
     {
-      "dmsg":"W110#9C1B060001EA05AD4", "comment":"ADE_WS_1907, Weather station with rain gauge", "user":"docolli",
+      "dmsg":"W110#9C1B060001EA05AD4", "comment":"Weather station with rain gauge", "user":"docolli",
       "internals": {"DEF":"SD_WS_110_TR", "NAME":"SD_WS_110_TR"},
       "readings": {"state":"T: 16.3 R: 26.6", "batteryChanged":"1", "batteryState":"ok", "rain":"26.6", "rawRainCounter":"266", "sendCounter":"3", "temperature":"16.3", "type":"ADE WS1907"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.29", "revision_entry":"2021-05-25 10:37:36",
+      "revision_modul":"14_SD_WS.pm 21666 2020-05-22 21:30:00Z Sidey",
       "rmsg":"MU;P0=970;P1=-112;P2=516;P3=-984;P4=2577;P5=-2692;P6=7350;D=01234343450503450503434343434505034343434343434343434343434343434505050503450345034343434343450345050345034505034503456503434505050343434343450503450503434343434505034343434343434343434343434343434505050503450345034343434343450345050345034505034503456503;CP=0;R=12;O;"
     },
     {
-      "dmsg":"W110#9C1B041E03A705884", "comment":"ADE_WS_1907, Weather station with rain gauge", "user":"docolli",
+      "dmsg":"W110#9C1B041E03A705884", "comment":"Weather station with rain gauge", "user":"docolli",
       "internals": {"DEF":"SD_WS_110_TR", "NAME":"SD_WS_110_TR"},
       "readings": {"state":"T: 12.6 R: 80.8", "batteryChanged":"1", "batteryState":"ok", "rain":"80.8", "rawRainCounter":"808", "sendCounter":"2", "temperature":"12.6", "type":"ADE WS1907"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.29", "revision_entry":"2021-05-25 10:39:21",
+      "revision_modul":"14_SD_WS.pm 21666 2020-05-22 21:30:00Z Sidey",
       "rmsg":"MU;P0=7344;P1=384;P2=-31380;P3=272;P4=-972;P5=2581;P6=-2689;P7=990;D=12345454545676745676745454545456745454545456767676745454545454545676767456745456767674545454545674567674545456745454545606745456767674545454545676745676745454545456745454545456767676745454545454545676767456745456767674545454545674567674545456745454545606;CP=7;R=19;O;"
     },
     {
-      "dmsg":"W110#9C1B042B039805864", "comment":"ADE_WS_1907, Weather station with rain gauge", "user":"docolli",
+      "dmsg":"W110#9C1B042B039805864", "comment":"Weather station with rain gauge", "user":"docolli",
       "internals": {"DEF":"SD_WS_110_TR", "NAME":"SD_WS_110_TR"},
       "readings": {"state":"T: 11.8 R: 82.1", "batteryChanged":"1", "batteryState":"ok", "rain":"82.1", "rawRainCounter":"821", "sendCounter":"2", "temperature":"11.8", "type":"ADE WS1907"},
-      "revision_entry":"unknown",
-      "revision_modul":"unknown",
+      "minProtocolVersion":"1.29", "revision_entry":"2021-05-25 10:41:01",
+      "revision_modul":"14_SD_WS.pm 21666 2020-05-22 21:30:00Z Sidey",
       "rmsg":"MU;P0=-5332;P1=6864;P2=-2678;P3=994;P4=-977;P5=2693;D=01234545232323454545454523234523234545454545234545454523452345232345454545454523232345452323454545454545454523452323454545452323454521234545232323454545454523234523234545454545234545454523452345232345454545454523232345452323454545454545454523452323454545;CP=3;R=248;O;"
     }
   ]
