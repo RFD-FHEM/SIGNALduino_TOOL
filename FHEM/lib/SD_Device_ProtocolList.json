@@ -264,7 +264,7 @@
       "dmsg":"i455414", "comment":"Remote control, on off (FF F0) - Unknown code i455414, help me! (device manually defined)", "user":"Stefan#",
       "internals": {"DEF":"F0FFFFF00F FF F0", "NAME":"IT_F0FFFFF00F"},
       "readings": {"state":"off"},
-      "revision_entry":"unknown",
+      "minProtocolVersion":"unknown", "revision_entry":"unknown",
       "revision_modul":"unknown",
       "rmsg":"MS;P0=-11440;P1=-1121;P2=-416;P5=309;P6=1017;D=150516251515162516251625162516251515151516251625151;CP=5;SP=0;R=66;"
     },
@@ -272,7 +272,7 @@
       "dmsg":"i455515", "comment":"Remote control, on off (FF F0), Gruppentaste", "user":"Stefan#",
       "internals": {"DEF":"F0FFFFFF0F FF F0", "NAME":"IT_F0FFFFFF0F"},
       "readings": {"state":"on", "protocol":"V1"},
-      "revision_entry":"unknown",
+      "minProtocolVersion":"unknown", "revision_entry":"unknown",
       "revision_modul":"unknown",
       "rmsg":"MS;P1=309;P2=-1130;P3=1011;P4=-429;P5=-11466;D=15123412121234123412141214121412141212123412341234;CP=1;SP=5;R=38;"
     }
@@ -457,7 +457,7 @@
       "dmsg":"P12#7536BA8A82BFC151AB6401", "comment":"no decode via RAWMSG MC;LL=-1018;LH=914;SL=-539;SH=436;D=A8E4F45AEDF40AF97595766;C=484;L=91;R=7; / only DMSG", "user":"Ralf9",
       "internals": {"DEF":"Hideki_30_2", "NAME":"Hideki_30_2"},
       "readings": {"state":"T: 18.6 H: 43", "batteryState":"ok", "channel":"2"},
-      "revision_entry":"unknown",
+      "minProtocolVersion":"unknown", "revision_entry":"unknown",
       "revision_modul":"unknown"
     }
   ]
@@ -624,7 +624,6 @@
       "internals": {"DEF":"SIGNALduino_unknown_19", "NAME":"SIGNALduino_unknown_19"},
       "readings": {"state":"E2CA7C", "hexMsg":"E2CA7C", "hexMsg_invert":"1D3583"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-04-22 22:21:08",
-      "revision_modul":"unknown",
       "rmsg":"MU;P0=293;P1=-887;P2=-312;P6=-1900;P7=872;D=6727272010101720172720101720172010172727272720;CP=0;"
     }
   ]
@@ -2589,24 +2588,24 @@
       "dmsg":"W108#AD8008700810070228443500", "comment":"BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_108", "NAME":"SD_WS_108"},
       "readings": {"state":"T: 20.7 H: 28 W: 0.8 R: 354.4", "batteryState":"ok", "humidity":"28", "rain":"354.4", "temperature":"20.7", "type":"Bresser_5in1, Bresser_rain_gauge", "winddir":"157.5", "winddirtxt":"SSE", "windgust":"0.8", "windspeed":"0.8"},
-      "minProtocolVersion":"1.30", "revision_entry":"2021-05-25 20:41:30",
-      "revision_modul":"14_SD_WS.pm   21666 2020-05-02 16:00:53Z Sidey",
+      "minProtocolVersion":"1.30", "revision_entry":"2021-05-26 20:23:07",
+      "revision_modul":"14_SD_WS.pm   21666 2021-05-25 16:00:53Z Sidey",
       "rmsg":"MN;D=E7527FF78FF7EFF8FDD7BBCAFF18AD80087008100702284435000002;R=213;"
     },
     {
       "dmsg":"W108#AD8000D00010280078443508", "comment":"BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_108", "NAME":"SD_WS_108"},
       "readings": {"state":"T: -2.8 H: 78 W: 0 R: 354.4", "batteryState":"ok", "humidity":"78", "rain":"354.4", "temperature":"-2.8", "type":"Bresser_5in1, Bresser_rain_gauge", "winddir":"292.5", "winddirtxt":"WNW", "windgust":"0", "windspeed":"0"},
-      "minProtocolVersion":"1.30", "revision_entry":"2021-05-25 20:41:30",
-      "revision_modul":"14_SD_WS.pm   21666 2020-05-02 16:00:53Z Sidey",
+      "minProtocolVersion":"1.30", "revision_entry":"2021-05-26 20:25:20",
+      "revision_modul":"14_SD_WS.pm   21666 2021-05-25 16:00:53Z Sidey",
       "rmsg":"MN;D=E8527FFF2FFFEFD7FF87BBCAF717AD8000D000102800784435080000;R=214;"
     },
     {
       "dmsg":"W108#AD8014F01310800088483600", "comment":"BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_108", "NAME":"SD_WS_108"},
       "readings": {"state":"T: 8 H: 88 W: 1.3 R: 364.8", "batteryState":"ok", "humidity":"88", "rain":"364.8", "temperature":"8", "type":"Bresser_5in1, Bresser_rain_gauge", "winddir":"337.5", "winddirtxt":"NNW", "windgust":"2", "windspeed":"1.3"},
-      "minProtocolVersion":"1.30", "revision_entry":"2021-05-25 20:41:30",
-      "revision_modul":"14_SD_WS.pm   21666 2020-05-02 16:00:53Z Sidey",
+      "minProtocolVersion":"1.30", "revision_entry":"2021-05-26 20:26:32",
+      "revision_modul":"14_SD_WS.pm   21666 2021-05-25 16:00:53Z Sidey",
       "rmsg":"MN;D=E6527FEB0FECEF7FFF77B7C9FF19AD8014F013108000884836000003;R=211;"
     }
   ]
@@ -2643,7 +2642,7 @@
       "dmsg":"", "comment":"", "user":"",
       "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
-      "revision_entry":"unknown",
+      "minProtocolVersion":"unknown", "revision_entry":"unknown",
       "revision_modul":"unknown"
     }
   ]
