@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-05-25 14:25:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-05-26 19:25:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -116,7 +116,7 @@ sub SIGNALduino_TOOL_Initialize {
   $hash->{NotifyFn}           = 'SIGNALduino_TOOL_Notify';
   $hash->{FW_detailFn}        = 'SIGNALduino_TOOL_FW_Detail';
   $hash->{FW_deviceOverview}  = 1;
-  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MU;,MC;,MS;,MN;'
+  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MC;,MN;,MS;,MU;'
                                  .' CC110x_Register_old:textField-long CC110x_Register_new:textField-long'
                                  .' Filename_export Filename_input'
                                  .' IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
@@ -856,7 +856,7 @@ sub SIGNALduino_TOOL_Set {
             ## internals END ##
 
             ## all values in readings
-            print $SaveDoc '      "readings": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
+            print $SaveDoc '      "readings": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/);
             if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}) {
               print $SaveDoc '"state":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}.'"' ;
               $cnt_readings++;
@@ -878,7 +878,7 @@ sub SIGNALduino_TOOL_Set {
               }
             }
 
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/) {
+            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/) {
               print $SaveDoc '},';
               print $SaveDoc "\n";
             }
@@ -890,14 +890,14 @@ sub SIGNALduino_TOOL_Set {
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
                   Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 attributes=$cnt_attributes";
                   $cnt_attributes++;
-                  print $SaveDoc '      "attributes": {' if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
+                  print $SaveDoc '      "attributes": {' if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/);
                   print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes == 1);
                   print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes > 1);
                 }
               }
             }
 
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/ && $cnt_attributes >= 1) {
+            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/ && $cnt_attributes >= 1) {
               print $SaveDoc '},';
               print $SaveDoc "\n";
             }
@@ -908,7 +908,7 @@ sub SIGNALduino_TOOL_Set {
               Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 minProtocolVersion=read value";
               print $SaveDoc '      "minProtocolVersion":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}.'", ';
             } else {
-              print $SaveDoc '      ';
+              print $SaveDoc '      "minProtocolVersion":"unknown", ';
             }
             ## minProtocolVersion END ##
 
@@ -929,7 +929,7 @@ sub SIGNALduino_TOOL_Set {
               print $SaveDoc '      "revision_modul":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}.'"';
             } else {
               Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=unknown";
-              print $SaveDoc '      "revision_modul":"unknown"';
+              print $SaveDoc '      "revision_modul":"unknown"' if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[u|U]\d+#/);
             }
             print $SaveDoc ',' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg});
             print $SaveDoc "\n";
@@ -2635,7 +2635,8 @@ function function4(txt) {
 
         /* JavaMod need !!! not support -> # = %23 | , = %2C .... */
         allVals = encodeURIComponent(allVals);
-        
+
+        /* action by clicking on "update" in the "Check It" window */
         FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_updateData("'.$name.'","\'+allVals+\'")}\');
          $(this).dialog("close");
          $(div).remove();
@@ -2940,9 +2941,9 @@ sub SIGNALduino_TOOL_FW_pushed_button {
 }
 
 ################################
-sub SIGNALduino_TOOL_FW_updateData {
+sub SIGNALduino_TOOL_FW_updateData {    # action by clicking on "update" in the "Check It" window
   my $name = shift;
-  my $modJSON = shift;       # values how checked on from overview
+  my $modJSON = shift;                  # values how checked on from overview
   my $hash = $defs{$name};
 
   my @array_value = split(/[X][y][Z],/, $modJSON);
@@ -3002,21 +3003,21 @@ sub SIGNALduino_TOOL_FW_updateData {
       ## write minProtocolVersion, revision_entry, revision_modul ##
       if ($i == ( scalar(@array_value) - 1 ) ) {
         if ( not defined @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{minProtocolVersion} ) {
-          Log3 $name, 4, "$name: FW_updateData - minProtocolVersion set to ".$defs{$Dummyname}->{versionProtocols};
+          Log3 $name, 4, "$name: FW_updateData - minProtocolVersion set to '".$defs{$Dummyname}->{versionProtocols}."'";
           @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{minProtocolVersion} = $defs{$Dummyname}->{versionProtocols};
         }
 
-        Log3 $name, 4, "$name: FW_updateData - revision_entry set to ".FmtDateTime(time());
+        Log3 $name, 4, "$name: FW_updateData - revision_entry set to '".FmtDateTime(time())."'";
         @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{revision_entry} = FmtDateTime(time());
 
         my $revision_modul = SIGNALduino_TOOL_version_moduls($hash,@{$ProtocolListRead}[$pos_array_device]->{module});
-        Log3 $name, 4, "$name: FW_updateData - revision_modul set to $revision_modul";
+        Log3 $name, 4, "$name: FW_updateData - revision_modul set to '$revision_modul'";
         @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{revision_modul} = $revision_modul;
       }
     }
 
     Log3 $name, 4, "$name: ".@{$ProtocolListRead}[$pos_array_device]->{name}." with DMSG $searchDMSG is found and values are updated!";
-  ### device is NOT in JSON ###
+   ### device is NOT in JSON ###
   } else {
     Log3 $name, 4, "$name: FW_updateData - device is NOT found in JSON, ".InternalVal($name,'dispatchDevice','')." with DMSG $searchDMSG is new writing in memory!";
 
@@ -3074,8 +3075,7 @@ sub SIGNALduino_TOOL_FW_updateData {
       $cnt_data_element_max = 0;
       ## variant 1) name device = internal NAME
       if (@{$ProtocolListRead}[$i]->{name} eq $defs{$defs{$name}->{dispatchDevice}}->{NAME}) {
-        Log3 $name, 4, "$name: FW_updateData - NAME ".$defs{$defs{$name}->{dispatchDevice}}->{NAME}.' is exists in '.@{$ProtocolListRead}[$i]->{name}." ($i)";
-        Log3 $name, 4, "$name: FW_updateData -> device position is fixed! ($i)";
+        Log3 $name, 4, "$name: FW_updateData - NAME ".$defs{$defs{$name}->{dispatchDevice}}->{NAME}.' is exists in '.@{$ProtocolListRead}[$i]->{name}." (position $i)";
         $devicefound++;
         $pos_array_device = $i;
       }
@@ -3091,7 +3091,7 @@ sub SIGNALduino_TOOL_FW_updateData {
               if ($key2 eq 'DEF') {
                 if (@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}->{DEF} eq $defs{$defs{$name}->{dispatchDevice}}->{DEF} && @{$ProtocolListRead}[$i]->{name} eq $devicename) {
                   Log3 $name, 4, "$name: FW_updateData - DEF ".@{$ProtocolListRead}[$i]->{name}.' check: device exists with DEF, need update data key!';
-                  Log3 $name, 4, "$name: FW_updateData -> device position is fixed! ($i)";
+                  Log3 $name, 4, "$name: FW_updateData - device position is fixed! ($i)";
                   $devicefound++;
                   $pos_array_device = $i;
                   last;
@@ -3110,7 +3110,8 @@ sub SIGNALduino_TOOL_FW_updateData {
 
     ### option to write ###
     if ($devicefound == 0) {
-      Log3 $name, 4, "$name: FW_updateData - device can push";
+      ## first data from device
+      Log3 $name, 4, "$name: FW_updateData - NEW device push to list";
 
       push @{$ProtocolListRead}, { name       => $devicename,
                                    id         => ReadingsVal($name, 'decoded_Protocol_ID', 'none'),
@@ -3127,6 +3128,7 @@ sub SIGNALduino_TOOL_FW_updateData {
                                                     }
                                                  ]
                                  };
+      ## second and all other data´s from device
     } else {
       Log3 $name, 4, "$name: FW_updateData - device must update on fixed position $pos_array_device with currently $cnt_data_element_max data elements";
 
@@ -3154,6 +3156,9 @@ sub SIGNALduino_TOOL_FW_updateData {
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{internals} = \%internals;
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{readings} = \%readings;
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{attributes} = \%attributes;
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{minProtocolVersion} = $defs{$Dummyname}->{versionProtocols};
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{revision_entry} = FmtDateTime(time());
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{revision_modul} = SIGNALduino_TOOL_version_moduls($hash,$defs{$devicename}->{TYPE});
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{rmsg} = ReadingsVal($name, 'last_MSG', 'none');
       }
     }
