@@ -779,7 +779,7 @@
 },
 {"name":"FreeTec PE-6946", "id":"32", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P32#154FFF", "comment":"wireless dorbell (ID 40,62,63 additionally)", "dispatch_repeats":"3", "user":"SD_Protocol",
+      "dmsg":"P32#154FFF", "comment":"wireless doorbell (ID 40,62,63 additionally)", "dispatch_repeats":"3", "user":"SD_Protocol",
       "internals": {"DEF":"32 154FFF", "NAME":"SD_BELL_154FFF"},
       "readings": {"state":"ring"},
       "attributes": {"model":"FreeTec_PE-6946"},
@@ -791,7 +791,7 @@
 },
 {"name":"VLOXO", "id":"32", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P32#7ED403", "comment":"wireless dorbell (ID 40,62,63 additionally)", "dispatch_repeats":"3", "user":"schwatter",
+      "dmsg":"P32#7ED403", "comment":"wireless doorbell (ID 40,62,63 additionally)", "dispatch_repeats":"3", "user":"schwatter",
       "internals": {"DEF":"32 7ED403", "NAME":"SD_BELL_7ED403"},
       "readings": {"state":"ring"},
       "attributes": {"model":"FreeTec_PE-6946"},
@@ -2674,7 +2674,7 @@
 },
 {"name":"AVANTEK DB-LE", "id":"112", "module":"SD_BELL", "data": [
     {
-      "dmsg":"P112#08C114844FDA5CA2", "comment":"wireless dorbell (bell button without battery)", "user":"HomeAuto_User",
+      "dmsg":"P112#08C114844FDA5CA2", "comment":"wireless doorbell (bell button without battery)", "user":"HomeAuto_User",
       "internals": {"DEF":"112 08C114844", "NAME":"SD_BELL_08C114844"},
       "readings": {"state":"ring"},
       "attributes": {"model":"AVANTEK"},
