@@ -2672,6 +2672,18 @@
     }
   ]
 },
+{"name":"AVANTEK DB-LE", "id":"112", "module":"SD_BELL", "data": [
+    {
+      "dmsg":"P112#08C114844FDA5CA2", "comment":"wireless dorbell (bell button without battery)", "user":"HomeAuto_User",
+      "internals": {"DEF":"112 08C114844", "NAME":"SD_BELL_08C114844"},
+      "readings": {"state":"ring"},
+      "attributes": {"model":"AVANTEK"},
+      "minProtocolVersion":"1.31", "revision_entry":"2021-06-23 19:46:06",
+      "revision_modul":"14_SD_BELL.pm     0 2021-06-21 22:30:35Z HomeAuto_User",
+      "rmsg":"MN;D=08C114844FDA5CA2;R=48;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
