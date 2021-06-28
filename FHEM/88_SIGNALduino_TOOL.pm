@@ -1271,11 +1271,11 @@ sub SIGNALduino_TOOL_Get {
         'search_ignore_Devices:noArg ';
   $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MN;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
         "bitMsg_invert:,hexMsg:,hexMsg_invert:,msg:,UserInfo:,$onlyDataName ".
-        'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg '.
-        'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ' if ($Filename_input ne '');
-  $list .= 'Github_device_documentation_for_README:noArg ' if ($ProtocolListRead);
-  $list .= 'CC110x_Register_comparison:noArg ' if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef));
-  $list .= 'CC110x_Register_read:noArg ' if ($IODev_CC110x_Register);
+        'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg ';
+  if ($Filename_input ne '') { $list .= 'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse '; }
+  if ($ProtocolListRead) { $list .= 'Github_device_documentation_for_README:noArg '; }
+  if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef)) { $list .= 'CC110x_Register_comparison:noArg '; }
+  if ($IODev_CC110x_Register) { $list .= 'CC110x_Register_read:noArg '; }
   my $linecount = 0;
   my $founded = 0;
   my $search = '';
@@ -1315,8 +1315,8 @@ sub SIGNALduino_TOOL_Get {
     foreach my $timings_protocol(sort {$a <=> $b} keys %ProtocolListSIGNALduino) {
       ### max Werte von value_name array ###
       for my $i (0..scalar(@value_name)-1) {
-        $value_max[$i] = 0 if (not exists $value_max[$i]);
-        $value_max[$i] = scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}})  if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) > $value_max[$i]);
+        if (not exists $value_max[$i]) { $value_max[$i] = 0; }
+        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) > $value_max[$i]) { $value_max[$i] = scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}); }
       }
     }
 
@@ -1391,7 +1391,7 @@ sub SIGNALduino_TOOL_Get {
         print $TIMINGS_LOG ';';
       }
 
-      print $TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{name}.';' if exists($ProtocolListSIGNALduino{$timings_protocol}{name});
+      if (exists $ProtocolListSIGNALduino{$timings_protocol}{name}) { print $TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{name}.';'; }
 
       if (exists $ProtocolListSIGNALduino{$timings_protocol}{comment}) {
         print $TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{comment}."\n";
@@ -1414,11 +1414,11 @@ sub SIGNALduino_TOOL_Get {
     my $pos;
     my $save = '';
 
-    return 'ERROR: Your arguments in Filename_input is not definded!' if (not defined $a[0]);
+    if (not defined $a[0]) { return 'ERROR: Your arguments in Filename_input is not definded!'; }
 
     Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0]";
-    Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a0=$a[1]" if (defined $a[1]);
-    Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a1=$a[1] a2=$a[2]" if (defined $a[1] && defined $a[2]);
+    if (defined $a[1]) { Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a0=$a[1]"; }
+    if (defined $a[1] && defined $a[2]) { Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a1=$a[1] a2=$a[2]"; }
 
     ### Auswahl checkboxen - ohne Textfeld Eingabe ###
     my $check = 0;
@@ -1429,16 +1429,12 @@ sub SIGNALduino_TOOL_Get {
       $a[0] = $search;
     }
 
-    if (defined $a[1] && $a[1] =~ /.*$onlyDataName.*/) {
-      return 'This option is supported with only one argument!';
-    }
+    if (defined $a[1] && $a[1] =~ /.*$onlyDataName.*/) { return 'This option is supported with only one argument!'; }
 
     my @arg = split(",", $a[0]);
 
     ### check - mehr als 1 Auswahlbox selektiert ###
-    if (scalar(@arg) != 1) {
-      $search =~ tr/,/|/;
-    }
+    if (scalar(@arg) != 1) { $search =~ tr/,/|/; }
 
     ### check - Option only_Data in Auswahl selektiert ###
     if (grep { /$onlyDataName/ } @arg) {
@@ -1449,7 +1445,7 @@ sub SIGNALduino_TOOL_Get {
 
     Log3 $name, 4, "$name: Get cmd $cmd - searcharg=$search  splitting arg from a0=".scalar(@arg)."  manually=$manually  only_Data=$only_Data";
 
-    return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
+    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
 
     open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
