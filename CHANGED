@@ -1,3 +1,6 @@
+2021-07-08 - Update 88_SIGNALduino_TOOL.pm
+
+- revised some lines for Perl::Critic
 2021-06-28 - Merge branch 'pre_release_pc_and_fix' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre_release_pc_and_fix
 2021-06-28 - Update 88_SIGNALduino_TOOL.pm
 
