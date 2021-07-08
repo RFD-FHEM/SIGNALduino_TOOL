@@ -1993,15 +1993,22 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'CC110x_Register_comparison') {
     my $CC110x_Register_old = AttrVal($name,'CC110x_Register_old','');    # Register default
     my $CC110x_Register_new = AttrVal($name,'CC110x_Register_new','');    # Register new wanted
-    if ($CC110x_Register_old !~ /^ccreg:/ || $CC110x_Register_new !~ /^ccreg:/) { return 'ERROR: not compatible formats! Accepts only starts with ccreg.'; }
-    if (substr($CC110x_Register_new,0,2) ne substr($CC110x_Register_old,0,2)) { return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old'; }
+
+    if ($CC110x_Register_old !~ /ccreg\s[012]0:\s/ || $CC110x_Register_new !~ /ccreg\s[012]0:\s/) { return 'ERROR: not compatible formats! Accepts only starts with ccreg.'; }
+    if (substr($CC110x_Register_new,0,7) ne substr($CC110x_Register_old,0,7)) { return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old (start value attribute must be same)'; }
 
     my $return = 'The two registers have no differences.';
-
-    $CC110x_Register_old =~ s/ccreg:(\s+)?//g;
+    $CC110x_Register_old = substr($CC110x_Register_old, index($CC110x_Register_old,'ccreg 00:') ); # cut to ccreg 00:
     $CC110x_Register_old =~ s/\n/ /g;
-    $CC110x_Register_new =~ s/ccreg:(\s+)?//g;
+    $CC110x_Register_old =~ s/ccreg\s[012]0:\s//g;                  # start
+    $CC110x_Register_old =~ s/Configuration register detail:.*//g;  # end
+    $CC110x_Register_old =~ s/\s+$//g;
+
+    $CC110x_Register_new = substr($CC110x_Register_new, index($CC110x_Register_new,'ccreg 00:') ); # cut to ccreg 00:
     $CC110x_Register_new =~ s/\n/ /g;
+    $CC110x_Register_new =~ s/ccreg\s[012]0:\s//g;                  # start
+    $CC110x_Register_new =~ s/Configuration register detail:.*//g;  # end
+    $CC110x_Register_new =~ s/\s+$//g;
 
     Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
     Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
@@ -2183,7 +2190,7 @@ sub SIGNALduino_TOOL_Attr() {
 
     ### set CC110x_Register´s
     if ($attrName eq 'CC110x_Register_old' || $attrName eq 'CC110x_Register_new') {
-      if ($attrValue !~ /^(ccreg(\s|:)|CW)/) { return "ERROR: your $attrName start not with text [ccreg] , [ccreg:] or [CW]"; }
+      if ($attrValue !~ /ccreg\s00:\s.*\n?ccreg\s10:\s.*\n?ccreg\s20:.*/) { return "ERROR: your $attrName has wrong value! ccreg 00: ... ccreg 01: and ccreg 02:] not exist"; }
     }
 
     ### check IODev for CC110x_Register exist and SIGNALduino
