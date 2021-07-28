@@ -1863,7 +1863,7 @@
     {
       "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 54,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
-      "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windspeed":"2.1"},
+      "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windSpeed":"2.1"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-04-21 20:24:18",
       "revision_modul":"14_SD_WS.pm   21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
@@ -2622,25 +2622,25 @@
     {
       "dmsg":"W108#AD8008700810070228443500", "comment":"BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_108", "NAME":"SD_WS_108"},
-      "readings": {"state":"T: 20.7 H: 28 W: 0.8 R: 354.4", "batteryState":"ok", "humidity":"28", "rain":"354.4", "temperature":"20.7", "type":"Bresser_5in1, Bresser_rain_gauge", "winddir":"157.5", "winddirtxt":"SSE", "windgust":"0.8", "windspeed":"0.8"},
-      "minProtocolVersion":"1.30", "revision_entry":"2021-05-26 20:23:07",
-      "revision_modul":"14_SD_WS.pm   21666 2021-05-25 16:00:53Z Sidey",
+      "readings": {"state":"T: 20.7 H: 28 W: 0.8 R: 354.4", "batteryState":"ok", "humidity":"28", "rain":"354.4", "temperature":"20.7", "type":"Bresser_5in1, Bresser_rain_gauge", "windDirection":"157.5", "windDirectionText":"SSE", "windGust":"0.8", "windSpeed":"0.8"},
+      "minProtocolVersion":"1.30", "revision_entry":"2021-07-28 20:23:07",
+      "revision_modul":"14_SD_WS.pm 21666 2021-06-03 16:00:53Z Sidey",
       "rmsg":"MN;D=E7527FF78FF7EFF8FDD7BBCAFF18AD80087008100702284435000002;R=213;"
     },
     {
       "dmsg":"W108#AD8000D00010280078443508", "comment":"BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_108", "NAME":"SD_WS_108"},
-      "readings": {"state":"T: -2.8 H: 78 W: 0 R: 354.4", "batteryState":"ok", "humidity":"78", "rain":"354.4", "temperature":"-2.8", "type":"Bresser_5in1, Bresser_rain_gauge", "winddir":"292.5", "winddirtxt":"WNW", "windgust":"0", "windspeed":"0"},
-      "minProtocolVersion":"1.30", "revision_entry":"2021-05-26 20:25:20",
-      "revision_modul":"14_SD_WS.pm   21666 2021-05-25 16:00:53Z Sidey",
+      "readings": {"state":"T: -2.8 H: 78 W: 0 R: 354.4", "batteryState":"ok", "humidity":"78", "rain":"354.4", "temperature":"-2.8", "type":"Bresser_5in1, Bresser_rain_gauge", "windDirection":"292.5", "windDirectionText":"WNW", "windGust":"0", "windSpeed":"0"},
+      "minProtocolVersion":"1.30", "revision_entry":"2021-07-28 20:25:17",
+      "revision_modul":"14_SD_WS.pm 21666 2021-06-03 16:00:53Z Sidey",
       "rmsg":"MN;D=E8527FFF2FFFEFD7FF87BBCAF717AD8000D000102800784435080000;R=214;"
     },
     {
       "dmsg":"W108#AD8014F01310800088483600", "comment":"BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_108", "NAME":"SD_WS_108"},
-      "readings": {"state":"T: 8 H: 88 W: 1.3 R: 364.8", "batteryState":"ok", "humidity":"88", "rain":"364.8", "temperature":"8", "type":"Bresser_5in1, Bresser_rain_gauge", "winddir":"337.5", "winddirtxt":"NNW", "windgust":"2", "windspeed":"1.3"},
-      "minProtocolVersion":"1.30", "revision_entry":"2021-05-26 20:26:32",
-      "revision_modul":"14_SD_WS.pm   21666 2021-05-25 16:00:53Z Sidey",
+      "readings": {"state":"T: 8 H: 88 W: 1.3 R: 364.8", "batteryState":"ok", "humidity":"88", "rain":"364.8", "temperature":"8", "type":"Bresser_5in1, Bresser_rain_gauge", "windDirection":"337.5", "windDirectionText":"NNW", "windGust":"2", "windSpeed":"1.3"},
+      "minProtocolVersion":"1.30", "revision_entry":"2021-07-28 20:24:58",
+      "revision_modul":"14_SD_WS.pm 21666 2021-06-03 16:00:53Z Sidey",
       "rmsg":"MN;D=E6527FEB0FECEF7FFF77B7C9FF19AD8014F013108000884836000003;R=211;"
     }
   ]
