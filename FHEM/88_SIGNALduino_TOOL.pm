@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-01-28 20:20:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-07-08 15:16:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -27,6 +27,7 @@ eval {use JSON::PP qw( );1};
 eval {use HttpUtils;1};
 
 use lib::SD_Protocols;
+use FHEM::Meta;         # https://wiki.fhem.de/wiki/Meta for SVN Revision
 
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
@@ -52,12 +53,9 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 ################################
 
 use constant {
-  CCREG_OFFSET => 2,
-  FHEM_SVN_gplot_URL => 'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
-  SIGNALduino_TOOL_VERSION => '2021-01-28_pre-release',
-  TIMEOUT_HttpUtils => 3,
-  UNITTESTS_FROM_SIGNALduino_URL => 'https://github.com/RFD-FHEM/RFFHEM/tree/master/UnitTest/tests/',           # URL to view all tests on web
-  UNITTESTS_RAWFILE_URL =>          'https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/UnitTest/tests/', # URL prefix to view in RAW code from file
+  CCREG_OFFSET                    =>  2,
+  FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
+  TIMEOUT_HttpUtils               =>  3,
 };
 
 my @ccregnames = (
@@ -86,17 +84,23 @@ my %category = (
   'FS20'           => 'Remote controls / wall buttons',
   'Hideki'         => 'Weather sensors',
   'IT'             => 'Remote controls',
+  'KOPP_FC'        => 'Remote controls',
+  'LaCrosse'       => 'Weather sensors',
   'OREGON'         => 'Weather sensors',
+  'PCA301'         => 'Switch socket for energy cost monitor',
   'RFXX10REC'      => 'RFXCOM-Receiver',
+  'SD_AS'          => 'Self build arduino sensors',
   'SD_BELL'        => 'Door Bells',
   'SD_GT'          => 'Remote control based on protocol GT-9000 with encoding',
   'SD_Keeloq'      => 'Remote controls with KeeLoq encoding',
+  'SD_RSL'         => 'Remote controls and switchs',
   'SD_UT'          => 'diverse',
   'SD_WS'          => 'Weather sensors',
   'SD_WS07'        => 'Weather sensors',
   'SD_WS09'        => 'Weather sensors',
   'SD_WS_Maverick' => 'Food thermometer',
-  'SOMFY'          => 'Shutters / awnings motors / doors'
+  'SOMFY'          => 'Shutters / awnings motors / doors',
+  'Siro'           => 'Shutters'
 );
 
 ################################
@@ -112,12 +116,13 @@ sub SIGNALduino_TOOL_Initialize {
   $hash->{NotifyFn}           = 'SIGNALduino_TOOL_Notify';
   $hash->{FW_detailFn}        = 'SIGNALduino_TOOL_FW_Detail';
   $hash->{FW_deviceOverview}  = 1;
-  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MU;,MC;,MS;'
+  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MC;,MN;,MS;,MU;'
                                  .' CC110x_Register_old:textField-long CC110x_Register_new:textField-long'
                                  .' Filename_export Filename_input'
                                  .' IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
                                  .' JSON_Check_exceptions JSON_write_ERRORs:no,yes'
                                  .' RAWMSG_M1 RAWMSG_M2 RAWMSG_M3';
+  return FHEM::Meta::InitMod( __FILE__, $hash );
 }
 
 ################################
@@ -134,8 +139,7 @@ sub SIGNALduino_TOOL_Define {
   my $typ = $hash->{TYPE};
   my $file = AttrVal($name,'Filename_input','');
 
-  return "Usage: define <name> $name"  if(@arg != 2);
-
+  if(@arg != 2) { return "Usage: define <name> $name"; }
 
   ### Check SIGNALduino min one definded ###
   my $Device_count = 0;
@@ -145,28 +149,26 @@ sub SIGNALduino_TOOL_Define {
       $Device_count++;
     }
   }
-  return 'ERROR: You can use this TOOL only with a definded SIGNALduino!' if ($Device_count == 0);
+  if ($Device_count == 0) { return 'ERROR: You can use this TOOL only with a definded SIGNALduino!'; }
 
   if ( $init_done == 1 ) {
     ### Attributes ###
-    CommandAttr($hash,"$name room SIGNALduino_un") if ( not exists($attr{$name}{room}) );                                                                                                             # set room, if only undef --> new def
-    SIGNALduino_TOOL_add_cmdIcon($hash,$NameDispatchSet."file:remotecontrol/black_btn_PS3Start $NameDispatchSet".'last:remotecontrol/black_btn_BACKDroid') if ( not exists($attr{$name}{cmdIcon}) );  # set Icon
+    CommandAttr($hash,"$name room SIGNALduino_un") if ( not exists($attr{$name}{room}) );                                                                                                                 # set room, if only undef --> new def
+    if ( not exists($attr{$name}{cmdIcon}) ) { SIGNALduino_TOOL_add_cmdIcon($hash,$NameDispatchSet."file:remotecontrol/black_btn_PS3Start $NameDispatchSet".'last:remotecontrol/black_btn_BACKDroid'); }  # set Icon
 
     ## set dummy - if system ONLY ONE dummy ##
     if (not $attr{$name}{Dummyname}) {
       my @dummy = ();
       foreach my $d (keys %defs) {
-        if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino' && $defs{$d}{DeviceName} eq 'none') {
-          push(@dummy,$d);
-        }
+        if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino' && $defs{$d}{DeviceName} eq 'none') { push(@dummy,$d); }
       }
-      CommandAttr($hash,"$name Dummyname $dummy[0]") if (scalar(@dummy) == 1);
+      if (scalar(@dummy) == 1) { CommandAttr($hash,"$name Dummyname $dummy[0]"); }
     }
   }
 
   ### for compatibility , getProperty ###
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
-  return "ERROR: $name does not support the version of the SIGNALduino." if ($modus == 0);
+  if ($modus == 0) { return "ERROR: $name does not support the version of the SIGNALduino."; }
 
   if ($modus == 2) {
     $hash->{protocolObject} = new lib::SD_Protocols();
@@ -181,10 +183,10 @@ sub SIGNALduino_TOOL_Define {
 
   ### default value´s ###
   $hash->{STATE} = 'Defined';
-  $hash->{version} = SIGNALduino_TOOL_VERSION;
 
   readingsSingleUpdate($hash, 'state' , 'Defined' , 0);
 
+  return $@ unless ( FHEM::Meta::SetInternals($hash) );
   return;
 }
 
@@ -203,7 +205,7 @@ sub SIGNALduino_TOOL_Shutdown {
 sub SIGNALduino_TOOL_Set {
   my ( $hash, $name, @a ) = @_;
 
-  return 'no set value specified' if(int(@a) < 1);
+  if(int(@a) < 1) { return 'no set value specified'; }
   my $RAWMSG_last = ReadingsVal($name, 'last_MSG', 'none');    # check RAWMSG exists
   my $DMSG_last = ReadingsVal($name, 'last_DMSG', 'none');     # check RAWMSG exists
 
@@ -237,16 +239,15 @@ sub SIGNALduino_TOOL_Set {
 
   my $setList = $NameDispatchSet.'DMSG '.$NameDispatchSet.'RAWMSG';
   $setList .= ' delete_Device delete_room_with_all_Devices delete_unused_Logfiles:noArg delete_unused_Plots:noArg';
-  $setList .= " $NameDispatchSet".'last:noArg '  if ($RAWMSG_last ne 'none' || $DMSG_last ne 'none');
-  $setList .= " $NameDispatchSet".'file:noArg' if (AttrVal($name,'Filename_input','') ne '');
-  $setList .= ' RAWMSG_M1:noArg' if (AttrVal($name,'RAWMSG_M1','') ne '');
-  $setList .= ' RAWMSG_M2:noArg' if (AttrVal($name,'RAWMSG_M2','') ne '');
-  $setList .= ' RAWMSG_M3:noArg' if (AttrVal($name,'RAWMSG_M3','') ne '');
-  $setList .= ' CC110x_Register_new:no,yes CC110x_Register_old:no,yes' if (AttrVal($name,'IODev_CC110x_Register',undef) && AttrVal($name,'CC110x_Register_new',undef) && AttrVal($name,'CC110x_Register_old',undef));
-  $setList .= " $NameSendSet".'RAWMSG' if ($Sendername ne 'none');
-  $setList .= ' UnitTest_define:'.$hash->{helper}->{UnitTests_from_SIGNALduino} if (exists $hash->{helper}->{UnitTests_from_SIGNALduino} && $Dummyname ne 'none');
+  if ($RAWMSG_last ne 'none' || $DMSG_last ne 'none') { $setList .= " $NameDispatchSet".'last:noArg '; }
+  if (AttrVal($name,'Filename_input','') ne '') { $setList .= " $NameDispatchSet".'file:noArg'; }
+  if (AttrVal($name,'RAWMSG_M1','') ne '') { $setList .= ' RAWMSG_M1:noArg'; }
+  if (AttrVal($name,'RAWMSG_M2','') ne '') { $setList .= ' RAWMSG_M2:noArg'; }
+  if (AttrVal($name,'RAWMSG_M3','') ne '') { $setList .= ' RAWMSG_M3:noArg'; }
+  if (AttrVal($name,'IODev_CC110x_Register',undef) && AttrVal($name,'CC110x_Register_new',undef) && AttrVal($name,'CC110x_Register_old',undef)) { $setList .= ' CC110x_Register_new:no,yes CC110x_Register_old:no,yes'; }
+  if ($Sendername ne 'none') { $setList .= " $NameSendSet".'RAWMSG'; }
 
-  SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'last') if (($RAWMSG_last eq 'none' && $DMSG_last eq 'none') && (AttrVal($name, 'webCmd', undef) && (AttrVal($name, 'webCmd', undef) =~ /$NameDispatchSet?last/)));
+  if (($RAWMSG_last eq 'none' && $DMSG_last eq 'none') && (AttrVal($name, 'webCmd', undef) && (AttrVal($name, 'webCmd', undef) =~ /$NameDispatchSet?last/))) { SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'last'); }
 
   ### for compatibility , getProperty ###
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
@@ -258,8 +259,8 @@ sub SIGNALduino_TOOL_Set {
     my $DispatchFile;
     $cnt_loop++;
 
-    readingsSingleUpdate($hash, 'state' , "ERROR: $path not found! Please check Attributes Path." , 0) if not (-d $path);
-    readingsSingleUpdate($hash, 'state' , 'ready' , 0) if (-d $path && ReadingsVal($name, 'state', 'none') =~ /^ERROR.*Path.$/);
+    if (not -d $path) { readingsSingleUpdate($hash, 'state' , "ERROR: $path not found! Please check Attributes Path." , 0); }
+    if (-d $path && ReadingsVal($name, 'state', 'none') =~ /^ERROR.*Path.$/) { readingsSingleUpdate($hash, 'state' , 'ready' , 0); }
 
     ## read all .txt to dispatch from path
     if (-d $path) {
@@ -292,10 +293,13 @@ sub SIGNALduino_TOOL_Set {
     ### END ###
 
     ## attributes automatic to standard or new value ##
-    $attr{$name}{userattr} = $userattr_list_new if ( (not exists $attr{$name}{userattr}) || ($userattr ne $userattr_list_new) );
-    $attr{$name}{DispatchModule} = '-' if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && !$DispatchModule =~ /^.*\.txt$/);
+    if ( (not exists $attr{$name}{userattr}) || ($userattr ne $userattr_list_new) ) {
+      if ($userattr_list_new =~ /,,/) { $userattr_list_new =~ s/,,/,/g; }
+      $attr{$name}{userattr} = $userattr_list_new;
+    }
+    if ($userattr =~ /^DispatchModule:-,$/ || (!$ProtocolListRead && !@ProtocolList) && !$DispatchModule =~ /^.*\.txt$/) { $attr{$name}{DispatchModule} = '-'; }
 
-    SIGNALduino_TOOL_deleteInternals($hash,'dispatchOption') if (!$ProtocolListRead && !@ProtocolList && $cmd !~ //);
+    if (!$ProtocolListRead && !@ProtocolList && $cmd !~ //) { SIGNALduino_TOOL_deleteInternals($hash,'dispatchOption'); }
 
     if ($DispatchModule ne '-') {
       my $count = 0;
@@ -307,22 +311,22 @@ sub SIGNALduino_TOOL_Set {
 
       ### read file dispatch file
       if ($DispatchModule =~ /^.*\.txt$/) {
-        open my $FileCheck, '<', "$path$Filename_Dispatch$DispatchModule" || return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
+        open my $FileCheck, '<', "$path$Filename_Dispatch$DispatchModule" or return "ERROR: No file ($Filename_Dispatch$DispatchModule) exists!";
           while (<$FileCheck>){
             if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
               $count++;
               my @arg = split(',', $_);                     # a0=Modell | a1=Zustand | a2=RAWMSG
-              $arg[1] = 'noArg' if ($arg[1] eq '');
+              if ($arg[1] eq '') { $arg[1] = 'noArg'; }
               $arg[1] =~ s/[^A-Za-z0-9\-;.:=_|#?]//g;;      # nur zulässige Zeichen erlauben sonst leicht ERROR
               $List{$arg[0]}{$arg[1]} = $arg[2];
             }
           }
         close $FileCheck;
-        return 'ERROR: your File is not support!' if ($count == 0);
+        if ($count == 0) { return 'ERROR: your File is not support!'; }
 
         ### build new list for setlist | dispatch option
         foreach my $keys (sort keys %List) {
-          Log3 $name, 5, "$name: Set $cmd - check setList from file - $DispatchModule with $keys found" if ($cnt_loop == 1);
+          if ($cnt_loop == 1) { Log3 $name, 5, "$name: Set $cmd - check setList from file - $DispatchModule with $keys found"; }
           $returnList.= $NameDispatchSet.$DispatchModule.'_'.$keys . ':' . join(',', sort keys(%{$List{$keys}})) . ' ';
         }
         $setList .= " $returnList";
@@ -341,9 +345,9 @@ sub SIGNALduino_TOOL_Set {
 
         $returnList.= $NameDispatchSet.$DispatchModule.':' . join(',', @setlist_new) . ' ';
         if ($returnList =~ /.*(#).*,?/) {
-          Log3 $name, 5, "$name: Set $cmd - check setList is failed! syntax $1 not allowed in setlist!" if ($cnt_loop == 1);
+          if ($cnt_loop == 1) { Log3 $name, 5, "$name: Set $cmd - check setList is failed! syntax $1 not allowed in setlist!"; }
           $returnList =~ s/#/||/g;       # !! for no allowed # syntax in setlist - modified to later remodified
-          Log3 $name, 5, "$name: Set $cmd - check setList modified to |" if ($cnt_loop == 1);
+          if ($cnt_loop == 1) { Log3 $name, 5, "$name: Set $cmd - check setList modified to |"; }
         }
         $setList .= " $returnList";
 
@@ -384,9 +388,9 @@ sub SIGNALduino_TOOL_Set {
                     }
                   }
                   Log3 $name, 5, "$name: state=$state comment=$comment";
-                  push(@setlist_new , $state) if ($state ne '' && $comment eq '');
-                  push(@setlist_new , $comment) if ($state eq '' && $comment ne '');
-                  push(@setlist_new , $state.'_'.$comment) if ($state ne '' && $comment ne '');
+                  if ($state ne '' && $comment eq '') { push(@setlist_new , $state); }
+                  if ($state eq '' && $comment ne '') { push(@setlist_new , $comment); }
+                  if ($state ne '' && $comment ne '') { push(@setlist_new , $state.'_'.$comment); }
                 }
               }
 
@@ -402,13 +406,11 @@ sub SIGNALduino_TOOL_Set {
         }
         $setList .= " $returnList";
       }
-      Log3 $name, 5, "$name: Set $cmd - check setList=$setList" if ($cnt_loop == 1);
+      if ($cnt_loop == 1) { Log3 $name, 5, "$name: Set $cmd - check setList=$setList"; }
     }
 
     ### for SD_Device_ProtocolList | new empty and save file
-    if ($ProtocolListRead && InternalVal($name, 'STATE', undef) =~ /^RAWMSG dispatched/) {
-      $setList .= ' ProtocolList_save_to_file:noArg';
-    }
+    if ($ProtocolListRead && InternalVal($name, 'STATE', undef) =~ /^RAWMSG dispatched/) { $setList .= ' ProtocolList_save_to_file:noArg'; }
   }
 
 
@@ -423,18 +425,18 @@ sub SIGNALduino_TOOL_Set {
     SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
 
     foreach my $value (qw(NTFY_dispatchcount NTFY_dispatchcount_allover NTFY_match)) {
-      delete $hash->{helper}{$value} if(defined($hash->{helper}{$value}));
+      if (defined $hash->{helper}{$value}) { delete $hash->{helper}{$value}; }
     }
 
     $hash->{helper}->{NTFY_SEARCH_Value_count} = 0;
-    $DispatchOption = '-' if (not defined $hash->{helper}->{option});
+    if (not defined $hash->{helper}->{option}) { $DispatchOption = '-'; }
 
-    return 'ERROR: no Dummydevice with Attributes (Dummyname) defined!' if ($Dummyname eq 'none' && $cmd !~ /delete_/);
+    if ($Dummyname eq 'none' && $cmd !~ /delete_/) { return 'ERROR: no Dummydevice with Attributes (Dummyname) defined!'; }
 
     ### Liste von RAWMSG´s dispatchen ###
     if ($cmd eq $NameDispatchSet.'file') {
       Log3 $name, 4, "$name: Set $cmd - check (1)";
-      return 'ERROR: no StartString is defined in Attributes!' if ($string1pos eq '');
+      if ($string1pos eq '') { return 'ERROR: no StartString is defined in Attributes!'; }
 
       readingsSingleUpdate($hash, 'state', 'Dispatch all RAMSG´s in the background are started',1);
       $hash->{helper}->{start_time} = time();
@@ -476,8 +478,8 @@ sub SIGNALduino_TOOL_Set {
 
     ### RAWMSG from DispatchModule Attributes ###
     if ($cmd ne '-' && $cmd =~ /$NameDispatchSet$DispatchModule.*/ ) {
-      Log3 $name, 4, "$name: Set $cmd $a[1] - check (4)" if (defined $a[1]);
-      Log3 $name, 4, "$name: Set $cmd - check (4)" if (not defined $a[1]);
+      if (defined $a[1]) { Log3 $name, 4, "$name: Set $cmd $a[1] - check (4)"; }
+      if (not defined $a[1]) { Log3 $name, 4, "$name: Set $cmd - check (4)"; }
 
       my $setcommand;
       my $RAWMSG;
@@ -489,7 +491,7 @@ sub SIGNALduino_TOOL_Set {
         if ($a[1] =~/id(\d+.?\d?)_(.*)/) {
           my $id = $1;
           my $state = $2;
-          $state =~ s/\|\|/#/g if ($state =~ /|/);    # !! for no allowed # syntax in setlist - back modified
+          if ($state =~ /|/) { $state =~ s/\|\|/#/g; }    # !! for no allowed # syntax in setlist - back modified
           Log3 $name, 4, "$name: Set $cmd - id:$id state=$state ready to search";
 
           for (my $i=0;$i<@ProtocolList;$i++) {
@@ -557,8 +559,8 @@ sub SIGNALduino_TOOL_Set {
         foreach my $keys (sort keys %List) {
           if ($cmd =~ /^$NameDispatchSet$DispatchModule\_$keys$/) {
             $setcommand = $DispatchModule.'_'.$keys;
-            $RAWMSG = $List{$keys}{$cmd2} if (defined $cmd2);
-            $RAWMSG = $List{$keys}{noArg} if (not defined $cmd2);
+            if (defined $cmd2) { $RAWMSG = $List{$keys}{$cmd2}; }
+            if (not defined $cmd2) { $RAWMSG = $List{$keys}{noArg}; }
             $error_break--;
             last;
           }
@@ -573,7 +575,7 @@ sub SIGNALduino_TOOL_Set {
       }
 
       my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$RAWMSG,$cmd);      # check RAWMSG
-      return $error if ($error ne '');                                    # if check RAWMSG failed
+      if ($error ne '') { return $error; }                                # if check RAWMSG failed
 
       chomp ($RAWMSG);                                                    # Zeilenende entfernen
       $RAWMSG =~ s/[^A-Za-z0-9\-;=#\$]//g;;                               # nur zulässige Zeichen erlauben
@@ -584,9 +586,9 @@ sub SIGNALduino_TOOL_Set {
     ### neue RAWMSG benutzen ###
     if ($cmd eq $NameDispatchSet.'RAWMSG') {
       Log3 $name, 4, "$name: Set $cmd - check (5)";
-      return 'ERROR: no RAWMSG' if !defined $a[1];                        # no RAWMSG
+      if (! defined $a[1]) { return 'ERROR: no RAWMSG'; }                 # no RAWMSG
       my $error = SIGNALduino_TOOL_RAWMSG_Check($name,$a[1],$cmd);        # check RAWMSG
-      return $error if ($error ne '');                                    # if check RAWMSG failed
+      if ($error ne '') { return $error; }                                # if check RAWMSG failed
 
       $a[1] =~ s/;+/;/g;                                                  # ersetze ;+ durch ;
       my $msg = $a[1];
@@ -594,16 +596,16 @@ sub SIGNALduino_TOOL_Set {
       ## to start notify loop ##
       if ( (not exists($attr{$name}{disable})) || ((time() - $DummyTime) > 2) ) {
         CommandAttr($hash,"$name disable 0");
-        Log3 $name, 4, "$name: Set $cmd - set attribute disable to 0";
+        Log3 $name, 5, "$name: Set $cmd - set attribute disable to 0";
       }
 
       ### set attribut for events in dummy
       if (AttrVal($Dummyname,'eventlogging','none') eq 'none' || AttrVal($Dummyname,'eventlogging','none') == 0) {
         CommandAttr($hash,"$Dummyname eventlogging 1");
-        Log3 $name, 4, "$name: Set $cmd - set attribute eventlogging to 1";
+        Log3 $name, 5, "$name: Set $cmd - set attribute eventlogging to 1";
       }
 
-      Log3 $name, 4, "$name: get $Dummyname rawmsg $msg" if (defined $a[1]);
+      if (defined $a[1]) { Log3 $name, 4, "$name: get $Dummyname rawmsg $msg"; }
 
       CommandGet($hash, "$Dummyname rawmsg $msg $FW_CSRF");
       if ($hash->{dispatchDevice}) {
@@ -623,15 +625,15 @@ sub SIGNALduino_TOOL_Set {
     if ($cmd eq $NameDispatchSet.'DMSG') {
       Log3 $name, 4, "$name: Set $cmd - check (6)";
 
-      return 'ERROR: argument failed!' if (not $a[1]);
-      return 'ERROR: wrong argument! (no space at Start & End)' if (not $a[1] =~ /^\S.*\S$/s);
-      return 'ERROR: wrong DMSG message format!' if ($a[1] =~ /(^(MU|MS|MC)|.*;)/s);
+      if (not $a[1]) { return 'ERROR: argument failed!'; }
+      if (not $a[1] =~ /^\S.*\S$/s) { return 'ERROR: wrong argument! (no space at Start & End)'; }
+      if ($a[1] =~ /(^(MU|MS|MC)|.*;)/s) { return 'ERROR: wrong DMSG message format!'; }
 
       ### delete reading ###
       readingsDelete($hash,'cmd_raw');
 
       Dispatch($defs{$Dummyname}, $a[1], undef);
-      $DispatchOption = 'DMSG from set command' if ($DispatchOption eq '-');
+      if ($DispatchOption eq '-') { $DispatchOption = 'DMSG from set command'; }
       $RAWMSG_last = 'none';
       $DMSG_last = $a[1];
       $cmd_sendMSG = "set $Dummyname sendMsg $DMSG_last#R5";
@@ -648,14 +650,14 @@ sub SIGNALduino_TOOL_Set {
 
       ### for compatibility , getProperty ###
       if ($modus == 1) {
-        $ID_preamble = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'preamble' ) if ($decoded_Protocol_ID ne 'nothing');
+        if ($decoded_Protocol_ID ne 'nothing') { $ID_preamble = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'preamble' ); }
       } else {
-        $ID_preamble = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'preamble' ) if ($decoded_Protocol_ID ne 'nothing');
+        if ($decoded_Protocol_ID ne 'nothing') { $ID_preamble = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'preamble' ); }
       }
 
-      $DMSG_last = InternalVal($Dummyname, 'LASTDMSG', '-') if (!$DMSG_last);
+      if (!$DMSG_last) { $DMSG_last = InternalVal($Dummyname, 'LASTDMSG', '-'); }
       my $rawData = $DMSG_last;
-      $rawData =~ s/$ID_preamble//g if ($ID_preamble);           # cut preamble
+      if ($ID_preamble) { $rawData =~ s/$ID_preamble//g; }       # cut preamble
       my $hlen = length($rawData);
       my $blen = $hlen * 4;
       my $bitData = unpack("B$blen", pack("H$hlen", $rawData));
@@ -668,12 +670,12 @@ sub SIGNALduino_TOOL_Set {
       ### counter message_to_module ###
       my $DummyMSGCNT = InternalVal($Dummyname, 'MSGCNT', 0);
       $DummyMSGCNTvalue = $DummyMSGCNT - $DummyMSGCNT_old;
-      $DummyMSGCNTvalue = $hash->{helper}->{NTFY_SEARCH_Value_count} if ($DummyMSGCNTvalue > 1);
+      if ($DummyMSGCNTvalue > 1) { $DummyMSGCNTvalue = $hash->{helper}->{NTFY_SEARCH_Value_count}; }
 
       if ($DummyMSGCNTvalue == 1) {
         Log3 $name, 4, "$name: Set $cmd - check (7.1)";
-        $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_Protocol_ID'} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname);
-        $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{LASTDMSGID} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} eq $Dummyname);
+        if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname) { $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_Protocol_ID'}; }
+        if ($hash->{dispatchDevice} && $hash->{dispatchDevice} eq $Dummyname) { $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{LASTDMSGID}; }
       
         ### for compatibility , getProperty ###
         if ($modus == 1) {
@@ -690,8 +692,8 @@ sub SIGNALduino_TOOL_Set {
         if ($DispatchOption =~ /ID:(\d{1,}\.?\d?)/) {
           $hash->{helper}->{decoded_Protocol_ID} = $1;
         } else {
-          $hash->{helper}->{decoded_Protocol_ID} = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_Protocol_ID'} if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname);
-        };
+          if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname) { $hash->{helper}->{decoded_Protocol_ID} = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_Protocol_ID'}; }
+        }
 
         $decoded_Protocol_ID = $hash->{helper}->{NTFY_match};
         $cmd_raw = 'not clearly definable';
@@ -709,13 +711,13 @@ sub SIGNALduino_TOOL_Set {
     ### Readings cmd_raw cmd_sendMSG ###
     if ($cmd eq $NameSendSet.'RAWMSG') {
       Log3 $name, 4, "$name: Set $cmd - check (8)";
-      return 'ERROR: argument failed!' if (not $a[1]);
-      return 'ERROR: wrong message! syntax is wrong!' if (not $a[1] =~ /^(MU|MS|MC);.*D=/);
+      if (not $a[1]) { return 'ERROR: argument failed!'; }
+      if (not $a[1] =~ /^(MU|MS|MC);.*D=/) { return 'ERROR: wrong message! syntax is wrong!'; }
 
       my $RAWMSG = $a[1];
       chomp ($RAWMSG);                                                # Zeilenende entfernen
       $RAWMSG =~ s/[^A-Za-z0-9\-;=]//g;;                              # nur zulässige Zeichen erlauben sonst leicht ERROR
-      $RAWMSG = $1 if ($RAWMSG =~ /^(.*;D=\d+?;).*/);                 # cut ab ;CP=
+      if ($RAWMSG =~ /^(.*;D=\d+?;).*/) { $RAWMSG = $1; }             # cut ab ;CP=
 
       if (substr($RAWMSG,0,2) eq 'MU') {
         $RAWMSG = "SR;R=$IODev_Repeats".substr($RAWMSG,2,length($RAWMSG)-2); # testes with repeat 1
@@ -756,7 +758,7 @@ sub SIGNALduino_TOOL_Set {
         my $SaveDocData = '';
         ## read file for backup ##
         Log3 $name, 5, "$name: Set $cmd - read exist JSON data";
-        open my $SaveDoc, '<', "./FHEM/lib/$jsonDoc" || return "ERROR: file ($jsonDoc) can not open!";
+        open my $SaveDoc, '<', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!";
           while(<$SaveDoc>){
             $SaveDocData = $SaveDocData.$_;
           }
@@ -764,14 +766,16 @@ sub SIGNALduino_TOOL_Set {
 
         ## save backup data ##
         Log3 $name, 5, "$name: Set $cmd - save backup JSON data";
-        open my $Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5).'Backup.json' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'Backup.json) can not open!';
+        open my $Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5).'Backup.json' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."Backup.json) can not open!\n\n$!";
           print $Backup $SaveDocData;
         close $Backup;
       }
 
       ## write new data ##
-      Log3 $name, 5, "$name: Set $cmd - write new JSON data";
-      open my $SaveDoc, '>', "./FHEM/lib/$jsonDoc" || return "ERROR: file ($jsonDoc) can not open!";
+      Log3 $name, 4, "$name: Set $cmd - write new JSON data";
+      # Log3 $name, 3, Dumper\@{$ProtocolListRead}; ## ONLY DEBUG
+
+      open my $SaveDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
         print $SaveDoc "[\n";
 
         ## for max elements ##
@@ -782,19 +786,16 @@ sub SIGNALduino_TOOL_Set {
         for (my $i=0;$i<@{$ProtocolListRead};$i++) {
           $cnt_data_id++;
           $cnt_data_element_max = 0;
-          $cnt_internals_max = 0;
-          $cnt_internals = 0;
-          $cnt_readings = 0;
           my $clientmodule = "";
 
           ### for compatibility , getProperty ###
           if ($modus == 1) {
-            $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+            if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
           } else {
-            $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+            if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
           }
 
-          print $SaveDoc "\n" if ($i > 0);
+          if ($i > 0) { print $SaveDoc "\n"; }
           print $SaveDoc '{"name":"'.@$ProtocolListRead[$i]->{name}.'", "id":"'.@$ProtocolListRead[$i]->{id}.'", "module":"'.$clientmodule.'", "data": ['."\n";
           print $SaveDoc "    {\n";
           print $SaveDoc "      ";
@@ -808,12 +809,17 @@ sub SIGNALduino_TOOL_Set {
           my $ref_data = @{$ProtocolListRead}[$i]->{data};
           for (my $i2=0;$i2<@$ref_data;$i2++) {
             $cnt_attributes = 0;
-            print $SaveDoc '      ' if ($i2 != 0);
+            $cnt_internals = 0;
+            $cnt_internals_max = 0;
+            $cnt_readings = 0;
+            if ($i2 != 0) { print $SaveDoc '      '; }
             print $SaveDoc '"dmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}.'",';
 
-            ## all values behind dmsg except readings, internals, rmsg, dmsg | example: dispatch_repeats
+            ## all values behind dmsg | example: dispatch_repeats
+            # note: new values how print behind attributes, exclude here !!
+            #       if value exclude, you can write to other position
             foreach my $key (sort keys %{@$ref_data[$i2]}) {
-              print $SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",' if ($key !~ /^readings/ && $key !~ /^internals/ && $key !~ /^rmsg/ && $key !~ /^dmsg/ && $key !~ /^attributes/);
+              if ($key !~ /^attributes/ && $key !~ /^dmsg/ && $key !~ /^internals/ && $key !~ /^readings/ && $key !~ /^minProtocolVersion/ && $key !~ /^revision_/ && $key !~ /^rmsg/) { print $SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",'; }
             }
 
             ## all values in internals
@@ -827,12 +833,13 @@ sub SIGNALduino_TOOL_Set {
                   $cnt_internals_max++;
                 }
 
-                print $SaveDoc '      "internals": {' if ($cnt_internals_max != 0);
+                if ($cnt_internals_max != 0) { print $SaveDoc '      "internals": {'; }
 
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 internals=$cnt_internals";
                   $cnt_internals++;
-                  print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'", ' if ($cnt_internals != $cnt_internals_max);
-                  print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_internals == $cnt_internals_max);
+                  if ($cnt_internals != $cnt_internals_max) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'", '; }
+                  if ($cnt_internals == $cnt_internals_max) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
                 }
               }
             }
@@ -844,7 +851,7 @@ sub SIGNALduino_TOOL_Set {
             ## internals END ##
 
             ## all values in readings
-            print $SaveDoc '      "readings": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
+            print $SaveDoc '      "readings": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/);
             if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}) {
               print $SaveDoc '"state":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}.'"' ;
               $cnt_readings++;
@@ -853,14 +860,20 @@ sub SIGNALduino_TOOL_Set {
             foreach my $key (sort keys %{@$ref_data[$i2]}) {
               if ($key =~ /^readings/) {
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 readings=$cnt_readings";
                   $cnt_readings++;
-                  print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings == 1);
-                  print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($key2 !~ /^state$/ && $cnt_readings > 1);
+                  ### note !!! ###
+                  # diverse discussions about new reading IODev !!!
+                  # reading is not relevant for tests -> possibly expand code for skipping
+                  # if {$key2 !~ /^IODev$/} (
+                    if ($key2 !~ /^state$/ && $cnt_readings == 1) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
+                    if ($key2 !~ /^state$/ && $cnt_readings > 1) { print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
+                  #);
                 }
               }
             }
 
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/) {
+            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/) {
               print $SaveDoc '},';
               print $SaveDoc "\n";
             }
@@ -870,24 +883,60 @@ sub SIGNALduino_TOOL_Set {
             foreach my $key (sort keys %{@$ref_data[$i2]}) {
               if ($key =~ /^attributes/) {
                 foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
+                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 attributes=$cnt_attributes";
                   $cnt_attributes++;
-                  print $SaveDoc '      "attributes": {' if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/);
-                  print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes == 1);
-                  print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"' if ($cnt_attributes > 1);
+                  if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/) { print $SaveDoc '      "attributes": {'; }
+                  if ($cnt_attributes == 1) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
+                  if ($cnt_attributes > 1) { print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
                 }
               }
             }
 
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /U\d+#/ && $cnt_attributes >= 1) {
+            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/ && $cnt_attributes >= 1) {
               print $SaveDoc '},';
               print $SaveDoc "\n";
             }
             ## attributes END ##
 
-            ## values rmsg ##
-            print $SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
+            ## minProtocolVersion, the protocol is supported from this version ##
+            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}) {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 minProtocolVersion=read value";
+              print $SaveDoc '      "minProtocolVersion":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}.'", ';
+            } else {
+              print $SaveDoc '      "minProtocolVersion":"unknown", ';
+            }
+            ## minProtocolVersion END ##
+
+            ## revision_entry, print day of check ##
+            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}) {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_entry=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry};
+              print $SaveDoc '"revision_entry":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}.'",';
+            } else {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_entry=unknown";
+              print $SaveDoc '"revision_entry":"unknown",';
+            }
             print $SaveDoc "\n";
-            print $SaveDoc '    }' if ($cnt_data_element_max == ($i2+1));
+            ## revision_entry END ##
+
+            ## revision_modul, revison of modul on check day ##
+            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}) {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul};
+              if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc '      "revision_modul":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}.'"'; }
+            } else {
+              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=unknown";
+              if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc '      "revision_modul":"unknown"'; }
+            }
+            if (@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg} && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc ','; }
+            if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc "\n"; }
+            ## revision_modul END ##
+
+            ## values rmsg ##
+            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}) {
+              print $SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
+              print $SaveDoc "\n";
+            }
+
+            if ($cnt_data_element_max == ($i2+1)) { print $SaveDoc '    }'; }
 
             if ($cnt_data_element_max > ($i2+1)) {
               print $SaveDoc '    },'."\n" ;
@@ -918,13 +967,13 @@ sub SIGNALduino_TOOL_Set {
     ### delete device + logfile & plot ###
     if ($cmd eq 'delete_Device') {
       Log3 $name, 4, "$name: Set $cmd - check (9)";
-      return 'ERROR: Your device input failed!' if (not defined $a[1]);
+      if (not defined $a[1]) { return 'ERROR: Your device input failed!'; }
 
       SIGNALduino_TOOL_deleteReadings($hash,'cmd_raw,cmd_sendMSG');
 
       my $devices_arg;
       foreach (@a){
-        $devices_arg.= $_."," if($_ ne $cmd);
+        if($_ ne $cmd) { $devices_arg.= $_.","; }
       }
 
       $devices_arg =~ s/,,/,/g;
@@ -937,8 +986,8 @@ sub SIGNALduino_TOOL_Set {
         if (exists $defs{$devicedef}) {
           CommandDelete($hash, $devicedef);
           Log3 $name, 2, "$name: cmd $cmd delete ".$devicedef;
-          $return.= $devicedef if (scalar(@devices) == 1);
-          $return.= $devicedef.", " if (scalar(@devices) > 1);
+          if (scalar(@devices) == 1) { $return.= $devicedef; }
+          if (scalar(@devices) > 1) { $return.= $devicedef.", "; }
         }
 
         ## device filelog ##
@@ -955,8 +1004,8 @@ sub SIGNALduino_TOOL_Set {
       }
 
       $return =~ s/[,]\s$//;
-      $return.= ' deleted' if ($return ne '');
-      $return = 'no device deleted (no existing definition)' if ($return eq '');
+      if ($return ne '') { $return.= ' deleted'; }
+      if ($return eq '') { $return = 'no device deleted (no existing definition)'; }
 
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
 
@@ -997,8 +1046,8 @@ sub SIGNALduino_TOOL_Set {
           $count1++;
         }
       }
-      $return = "logfiles deleted ($count1)" if ($count1 != 0);
-      $return = 'no unsed logfile´s found' if ($return eq '');
+      if ($count1 != 0) { $return = "logfiles deleted ($count1)"; }
+      if ($return eq '') { $return = 'no unsed logfile´s found'; }
 
       $count3 = undef;                    # message_dispatched
       $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
@@ -1038,9 +1087,7 @@ sub SIGNALduino_TOOL_Set {
         foreach my $d (sort keys %defs) {
           if(defined($defs{$d}) && defined($defs{$d}{TYPE}) && $defs{$d}{TYPE} eq 'SVG') {
             my $SVG = $defs{$d}{GPLOTFILE};
-            if (not grep { /$SVG/ } @apache_gplotlist) {
-              push (@apache_gplotlist,$SVG.'.gplot');
-            }
+            if (not grep { /$SVG/ } @apache_gplotlist) { push (@apache_gplotlist,$SVG.'.gplot'); }
           }
         }
         @apache_gplotlist = sort { lc($a) cmp lc($b) } @apache_gplotlist;
@@ -1053,9 +1100,9 @@ sub SIGNALduino_TOOL_Set {
             $count1++;
           }
         }
-        $return = "gplots deleted ($count1)" if ($count1 != 0);
+        if ($count1 != 0) { $return = "gplots deleted ($count1)"; }
       }
-      $return = 'no unsed gplots´s found' if ($return eq '');
+      if ($return eq '') { $return = 'no unsed gplots´s found'; }
 
       $count3 = undef;                    # message_dispatched
       $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
@@ -1066,8 +1113,8 @@ sub SIGNALduino_TOOL_Set {
     if ($cmd =~ /^CC110x_Register_/) {
       if ($cmd2 eq "yes") {
         my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
-        return "ERROR: IODev $IODev_CC110x_Register is not TYPE SIGNALduino" if not ($defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino');
-        return "ERROR: IODev $IODev_CC110x_Register is not opened" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected');
+        if (not $defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino') { return "ERROR: IODev $IODev_CC110x_Register is not TYPE SIGNALduino"; }
+        if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected') { return "ERROR: IODev $IODev_CC110x_Register is not opened"; }
 
         my $CC110x_Register_value = AttrVal($name,$cmd,undef);
         my $command;
@@ -1078,12 +1125,12 @@ sub SIGNALduino_TOOL_Set {
           $CC110x_Register_value =~ s/\s+/ /g;
           $CC110x_Register_value =~ s/\n/ /g;
 
-          return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_value !~ /^[0-9A-Fa-f\s]+$/);
+          if ($CC110x_Register_value !~ /^[0-9A-Fa-f\s]+$/) { return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.'; }
           my @CC110x_Register = split(/ /, $CC110x_Register_value);
 
           for(my $i=0;$i<=$#CC110x_Register;$i++) {
             my $adress = sprintf("%02X", hex(substr($ccregnames[$i],0,2)));
-            $command.= $adress.$CC110x_Register[$i].' ' if($adress =~ /^[0-2]{1}[0-9A-F]{1}$/);
+            if($adress =~ /^[0-2]{1}[0-9A-F]{1}$/) { $command.= $adress.$CC110x_Register[$i].' '; }
           }
           $command = substr($command,0,-1);
         }
@@ -1094,7 +1141,7 @@ sub SIGNALduino_TOOL_Set {
             my $num;
             for my $i (3...4){
               $num = index($CC110x_Register_value, ",$i");
-              $CC110x_Register_value = substr($CC110x_Register_value,0,$num) if ($num >= 0);
+              if ($num >= 0) { $CC110x_Register_value = substr($CC110x_Register_value,0,$num); }
             }
           }
 
@@ -1114,57 +1161,8 @@ sub SIGNALduino_TOOL_Set {
       }
     }
 
-    ## available UnitTests to define ##
-    if ($cmd eq 'UnitTest_define') {
-      return 'ERROR: argument testfile is failed' if (!$a[1]);
-      return "ERROR: testfile $a[1] is not support" if ($a[1] !~ /\.txt$/);
-      return "ERROR: testfile $a[1] is not available" if (not grep { /$a[1]/ } $hash->{helper}->{UnitTests_from_SIGNALduino});
-
-      #### HTTP Requests #### Start ####
-      my $Http_err = '';
-      my $Http_data = '';
-
-      ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => UNITTESTS_RAWFILE_URL.$a[1],
-                                                        timeout => TIMEOUT_HttpUtils,
-                                                        method  => 'GET',                # Lesen von Inhalten
-                                                      });
-      #### HTTP Requests #### END ####
-
-      if ($Http_err ne '') {
-        readingsSingleUpdate($hash, 'state' , "cmd $cmd - need Internet or website are down!", 0);
-        Log3 $name, 2, "$name: $cmd failed, need Internet or website are down! ";
-        return;
-      } elsif ($Http_data ne '') {
-        my @apache_split = split (/\n/,$Http_data);
-        my $apache_testfile = '';
-        my $UnitTestName = '';
-
-        ## loop - push lines ##
-        foreach (@apache_split) {
-          if ($_ =~ /defmod\s.*\sUnitTest\s(\w+)\s/) {
-            $_ =~ s/$1/$Dummyname/g;
-          }
-          $apache_testfile.= $_."\n";
-        }
-        Log3 $name, 5, "$name: $cmd $a[1] used code: $apache_testfile";
-        $UnitTestName = $1 if ($apache_testfile =~ /defmod\s(.*)\sUnitTest\s/);
-        $apache_testfile =~ s/;/;;/g;
-        $apache_testfile =~ s/^defmod\s//g;
-
-        my $ret = CommandDefine(undef, $apache_testfile);
-        if ($ret) {
-          return "<html><a href=https://github.com/fhem/UnitTest target=\"_blank\">Unknown module UnitTest<br>The module is required to use the command.<br><br>Please install module from https://github.com/fhem/UnitTest</a></html>"  if ($ret =~ /Unknown module UnitTest/);
-          return $ret;
-        } else {
-          CommandAttr($hash,"$UnitTestName verbose 0");
-          CommandAttr($hash,"$UnitTestName disable 1");
-          return "UnitTest $a[1] has been installed on your system";
-        }
-      }
-    }
-
-    $RAWMSG_last =~ s/;;/;/g if ($RAWMSG_last ne 'none');
-    $hash->{dispatchOption} = $DispatchOption if ($hash->{dispatchOption});
+    if ($RAWMSG_last ne 'none') { $RAWMSG_last =~ s/;;/;/g; }
+    if ($hash->{dispatchOption}) { $hash->{dispatchOption} = $DispatchOption; }
 
     ### for test, for all versions (later can be delete) ###
     if ( AttrVal($name,'JSON_write_ERRORs','no') eq 'yes' && $ProtocolListRead ) {
@@ -1176,57 +1174,57 @@ sub SIGNALduino_TOOL_Set {
           if (-e './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt') {
             open my $SaveDoc, '<', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt';
               while (<$SaveDoc>) {
-                $founded++ if (grep { /$RAWMSG_last/ } $_);
+                if (grep { /$RAWMSG_last/ } $_) { $founded++; }
               }
             close $SaveDoc;
 
             if ($founded == 0) {
-              open my $SaveDoc, '>>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'ERRORs.txt) can not open!';
+              open my $SaveDoc, '>>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."ERRORs.txt) can not open!\n\n$!";
                 ### for compatibility , getProperty ###
                 if ($modus == 1) {
-                  print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
-                  print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' ));
+                  if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
+                  if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
                 } else {
-                  print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
-                  print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
+                  if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
+                  if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
                 }
 
-                print $SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
+                if ($RAWMSG_last) { print $SaveDoc $RAWMSG_last."\n"; }
               close $SaveDoc;
             }
           } else {
-            open my $SaveDoc, '>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' || return 'ERROR: file ('.substr($jsonDoc,0,-5).'ERRORs.txt) can not open!';
+            open my $SaveDoc, '>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."ERRORs.txt) can not open!\n\n$!";
               ### for compatibility , getProperty ###
               if ($modus == 1) {
-                print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' ));
-                print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' ));
+                if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
+                if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
               } else {
-                print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
-                print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n" if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' ));
+                if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
+                if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
               }
 
-              print $SaveDoc $RAWMSG_last."\n" if ($RAWMSG_last);
+              if ($RAWMSG_last) { print $SaveDoc $RAWMSG_last."\n"; }
             close $SaveDoc;
           }
         }
       }
     }
 
-    readingsDelete($hash,'line_read') if ($cmd ne $NameDispatchSet.'file');
+    if ($cmd ne $NameDispatchSet.'file') { readingsDelete($hash,'line_read'); }
 
     readingsBeginUpdate($hash);
     readingsBulkUpdate($hash, 'state' , $return);
-    readingsBulkUpdate($hash, 'cmd_raw' , $cmd_raw) if (defined $cmd_raw);
-    readingsBulkUpdate($hash, 'cmd_sendMSG' , $cmd_sendMSG) if (defined $cmd_sendMSG);
-    readingsBulkUpdate($hash, 'decoded_Protocol_ID' , $decoded_Protocol_ID) if (defined $decoded_Protocol_ID && $cmd ne $NameDispatchSet.'DMSG' && $cmd ne $NameDispatchSet.'file');
-    readingsBulkUpdate($hash, 'last_MSG' , $RAWMSG_last) if ($RAWMSG_last ne 'none');
-    readingsBulkUpdate($hash, 'last_DMSG' , $DMSG_last) if ($DMSG_last ne 'none');
-    readingsBulkUpdate($hash, 'message_dispatched' , $count3) if (defined $count3);
-    readingsBulkUpdate($hash, 'message_dispatch_repeats' , $hash->{helper}->{NTFY_dispatchcount}) if ($hash->{helper}->{NTFY_dispatchcount});
-    readingsBulkUpdate($hash, 'message_to_module' , $DummyMSGCNTvalue) if (defined $DummyMSGCNTvalue && $cmd ne $NameDispatchSet.'DMSG');
+    if (defined $cmd_raw) { readingsBulkUpdate($hash, 'cmd_raw' , $cmd_raw); }
+    if (defined $cmd_sendMSG) { readingsBulkUpdate($hash, 'cmd_sendMSG' , $cmd_sendMSG); }
+    if (defined $decoded_Protocol_ID && $cmd ne $NameDispatchSet.'DMSG' && $cmd ne $NameDispatchSet.'file') { readingsBulkUpdate($hash, 'decoded_Protocol_ID' , $decoded_Protocol_ID); }
+    if ($RAWMSG_last ne 'none') { readingsBulkUpdate($hash, 'last_MSG' , $RAWMSG_last); }
+    if ($DMSG_last ne 'none') { readingsBulkUpdate($hash, 'last_DMSG' , $DMSG_last); }
+    if (defined $count3) { readingsBulkUpdate($hash, 'message_dispatched' , $count3); }
+    if ($hash->{helper}->{NTFY_dispatchcount}) { readingsBulkUpdate($hash, 'message_dispatch_repeats' , $hash->{helper}->{NTFY_dispatchcount}); }
+    if (defined $DummyMSGCNTvalue && $cmd ne $NameDispatchSet.'DMSG') { readingsBulkUpdate($hash, 'message_to_module' , $DummyMSGCNTvalue); }
     readingsEndUpdate($hash, 1);
 
-    Log3 $name, 5, "$name: Set $cmd - RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd" if ($cmd ne '?');
+    if ($cmd ne '?') { Log3 $name, 5, "$name: Set $cmd - RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd"; }
 
     ## to end notify loop ##
     if ( (not exists($attr{$name}{disable})) || $attr{$name}{disable} ne '1' ) {
@@ -1240,7 +1238,7 @@ sub SIGNALduino_TOOL_Set {
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDevice,dispatchSTATE');
     }
 
-    delete $hash->{helper}->{option} if ($hash->{helper}->{option});
+    if ($hash->{helper}->{option}) { delete $hash->{helper}->{option}; }
 
     if (($RAWMSG_last ne 'none' || $DMSG_last ne 'none') && $cmd ne '?') {
       Log3 $name, 4, "$name: Set $cmd - check (last)";
@@ -1263,17 +1261,17 @@ sub SIGNALduino_TOOL_Get {
   my $onlyDataName = '-ONLY_DATA-';
   my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
   my $list = 'Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg '.
-        'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg UnitTests_from_SIGNALduino:noArg '.
+        'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg '.
         'change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec '.
         'invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg '.
         'search_ignore_Devices:noArg ';
-  $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
+  $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MN;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
         "bitMsg_invert:,hexMsg:,hexMsg_invert:,msg:,UserInfo:,$onlyDataName ".
-        'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg '.
-        'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse ' if ($Filename_input ne '');
-  $list .= 'Github_device_documentation_for_README:noArg ' if ($ProtocolListRead);
-  $list .= 'CC110x_Register_comparison:noArg ' if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef));
-  $list .= 'CC110x_Register_read:noArg ' if ($IODev_CC110x_Register);
+        'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg ';
+  if ($Filename_input ne '') { $list .= 'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse '; }
+  if ($ProtocolListRead) { $list .= 'Github_device_documentation_for_README:noArg '; }
+  if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef)) { $list .= 'CC110x_Register_comparison:noArg '; }
+  if ($IODev_CC110x_Register) { $list .= 'CC110x_Register_read:noArg '; }
   my $linecount = 0;
   my $founded = 0;
   my $search = '';
@@ -1313,8 +1311,8 @@ sub SIGNALduino_TOOL_Get {
     foreach my $timings_protocol(sort {$a <=> $b} keys %ProtocolListSIGNALduino) {
       ### max Werte von value_name array ###
       for my $i (0..scalar(@value_name)-1) {
-        $value_max[$i] = 0 if (not exists $value_max[$i]);
-        $value_max[$i] = scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}})  if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) > $value_max[$i]);
+        if (not exists $value_max[$i]) { $value_max[$i] = 0; }
+        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) > $value_max[$i]) { $value_max[$i] = scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}); }
       }
     }
 
@@ -1389,7 +1387,7 @@ sub SIGNALduino_TOOL_Get {
         print $TIMINGS_LOG ';';
       }
 
-      print $TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{name}.';' if exists($ProtocolListSIGNALduino{$timings_protocol}{name});
+      if (exists $ProtocolListSIGNALduino{$timings_protocol}{name}) { print $TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{name}.';'; }
 
       if (exists $ProtocolListSIGNALduino{$timings_protocol}{comment}) {
         print $TIMINGS_LOG $ProtocolListSIGNALduino{$timings_protocol}{comment}."\n";
@@ -1412,11 +1410,11 @@ sub SIGNALduino_TOOL_Get {
     my $pos;
     my $save = '';
 
-    return 'ERROR: Your arguments in Filename_input is not definded!' if (not defined $a[0]);
+    if (not defined $a[0]) { return 'ERROR: Your arguments in Filename_input is not definded!'; }
 
     Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0]";
-    Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a0=$a[1]" if (defined $a[1]);
-    Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a1=$a[1] a2=$a[2]" if (defined $a[1] && defined $a[2]);
+    if (defined $a[1]) { Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a0=$a[1]"; }
+    if (defined $a[1] && defined $a[2]) { Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a1=$a[1] a2=$a[2]"; }
 
     ### Auswahl checkboxen - ohne Textfeld Eingabe ###
     my $check = 0;
@@ -1427,16 +1425,12 @@ sub SIGNALduino_TOOL_Get {
       $a[0] = $search;
     }
 
-    if (defined $a[1] && $a[1] =~ /.*$onlyDataName.*/) {
-      return 'This option is supported with only one argument!';
-    }
+    if (defined $a[1] && $a[1] =~ /.*$onlyDataName.*/) { return 'This option is supported with only one argument!'; }
 
     my @arg = split(",", $a[0]);
 
     ### check - mehr als 1 Auswahlbox selektiert ###
-    if (scalar(@arg) != 1) {
-      $search =~ tr/,/|/;
-    }
+    if (scalar(@arg) != 1) { $search =~ tr/,/|/; }
 
     ### check - Option only_Data in Auswahl selektiert ###
     if (grep { /$onlyDataName/ } @arg) {
@@ -1447,9 +1441,9 @@ sub SIGNALduino_TOOL_Get {
 
     Log3 $name, 4, "$name: Get cmd $cmd - searcharg=$search  splitting arg from a0=".scalar(@arg)."  manually=$manually  only_Data=$only_Data";
 
-    return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
+    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search/s){
           chomp ($_);                             # Zeilenende entfernen
@@ -1459,20 +1453,18 @@ sub SIGNALduino_TOOL_Get {
               $save = substr($_,$pos+length($search)+1,(length($_)-$pos)) if not ($search =~ /MC;|MS;|MU;/);
               $save = substr($_,$pos,(length($_)-$pos)) if ($search =~ /MC;|MS;|MU;/);
               Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
-              push(@Zeilen,$save);                # Zeile in array
+              push(@Zeilen,$save);                      # Zeile in array
             } else {
               foreach my $i (0 ... $Data_parts-1) {
                 $pos = index($_,$arg[$i]);
                 $save = substr($_,$pos+length($arg[$i])+1,(length($_)-$pos));
                 Log3 $name, 5, "$name: Get cmd $cmd - startpos=$pos line save=$save";
-                if ($pos >= 0) {
-                  push(@Zeilen,$save);            # Zeile in array
-                }
+                if ($pos >= 0) { push(@Zeilen,$save); } # Zeile in array
               }
             }
           } else {
             $save = $_;
-            push(@Zeilen,$save);                  # Zeile in array
+            push(@Zeilen,$save);                        # Zeile in array
           }
           $founded++;
         }
@@ -1485,8 +1477,8 @@ sub SIGNALduino_TOOL_Get {
     readingsSingleUpdate($hash, 'line_read' , $linecount, 0);
     readingsSingleUpdate($hash, 'state' , 'data filtered', 0);
 
-    return 'ERROR: Your filter ('.$search.") found nothing!\nNo file saved!" if ($founded == 0);
-    return 'ERROR: Your Attributes Filename_export is not definded!' if ($Filename_export eq '');
+    if ($founded == 0) { return 'ERROR: Your filter ('.$search.") found nothing!\nNo file saved!"; }
+    if ($Filename_export eq '') { return 'ERROR: Your Attributes Filename_export is not definded!'; }
 
     open my $OutFile, '>', "$path$Filename_export";
       for (@Zeilen) {
@@ -1502,8 +1494,8 @@ sub SIGNALduino_TOOL_Get {
     Log3 $name, 4, "$name: Get $cmd - check (3)";
     my $ClockPulse = 0;
     my $SyncPulse = 0;
-    $search = 'CP=' if ($cmd eq 'InputFile_ClockPulse');
-    $search = 'SP=' if ($cmd eq 'InputFile_SyncPulse');
+    if ($cmd eq 'InputFile_ClockPulse') { $search = 'CP='; }
+    if ($cmd eq 'InputFile_SyncPulse') { $search = 'SP='; }
     my $CP;
     my $SP;
     my $max = 0;
@@ -1512,9 +1504,9 @@ sub SIGNALduino_TOOL_Get {
     my $valuepercentmax;
     my $valuepercentmin;
 
-    return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
+    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search\d/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1556,12 +1548,12 @@ sub SIGNALduino_TOOL_Get {
       }
     close $InputFile;
 
-    return 'ERROR: no '.substr($cmd,10).' found!' if ($founded == 0);
+    if ($founded == 0) { return 'ERROR: no '.substr($cmd,10).' found!'; }
     readingsSingleUpdate($hash, 'line_read' , $linecount, 0);
     readingsSingleUpdate($hash, 'state' , substr($cmd,10).' calculated', 0);
 
-    $value = $ClockPulse/$founded if ($cmd eq 'InputFile_ClockPulse');
-    $value = $SyncPulse/$founded if ($cmd eq 'InputFile_SyncPulse');
+    if ($cmd eq 'InputFile_ClockPulse') { $value = $ClockPulse/$founded; }
+    if ($cmd eq 'InputFile_SyncPulse') { $value = $SyncPulse/$founded; }
 
     SIGNALduino_TOOL_deleteReadings($hash,'cmd_raw,cmd_sendMSG,last_MSG,message_dispatched,message_to_module');
 
@@ -1575,21 +1567,21 @@ sub SIGNALduino_TOOL_Get {
   ## read information from InputFile and search ClockPulse or SyncPulse with tol ##
   if ($cmd eq 'InputFile_one_ClockPulse' || $cmd eq 'InputFile_one_SyncPulse') {
     Log3 $name, 4, "$name: Get $cmd - check (4)";
-    return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
-    return 'ERROR: Your Attributes Filename_export is not definded!' if ($Filename_export eq '');
-    return 'ERROR: '.substr($cmd,14).' is not definded' if (!$a[0]);
-    return "ERROR: wrong value of $cmd! only [0-9]!" if (!$a[0] =~ /^(-\d+|\d+$)/ && $a[0] > 1);
+    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
+    if ($Filename_export eq '') { return 'ERROR: Your Attributes Filename_export is not definded!'; }
+    if (!$a[0]) { return 'ERROR: '.substr($cmd,14).' is not definded'; }
+    if (!$a[0] =~ /^(-\d+|\d+$)/ && $a[0] > 1) { return "ERROR: wrong value of $cmd! only [0-9]!"; }
 
     my $ClockPulse = 0;     # array Zeilen
     my $SyncPulse = 0;      # array Zeilen
-    $search = 'CP=' if ($cmd eq 'InputFile_one_ClockPulse');
-    $search = 'SP=' if ($cmd eq 'InputFile_one_SyncPulse');
+    if ($cmd eq 'InputFile_one_ClockPulse') { $search = 'CP='; }
+    if ($cmd eq 'InputFile_one_SyncPulse') { $search = 'SP='; }
     my $CP;
     my $SP;
     my $pos2;
     my $tol = 0.15;
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search\d/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1631,8 +1623,8 @@ sub SIGNALduino_TOOL_Get {
     close $InputFile;
 
     readingsSingleUpdate($hash, 'line_read' , $linecount, 0);
-    readingsSingleUpdate($hash, 'state' , substr($cmd,14).' NOT in tol found!', 0) if ($founded == 0);
-    readingsSingleUpdate($hash, 'state' , substr($cmd,14)." in tol found ($founded)", 0) if ($founded != 0);
+    if ($founded == 0) { readingsSingleUpdate($hash, 'state' , substr($cmd,14).' NOT in tol found!', 0); }
+    if ($founded != 0) { readingsSingleUpdate($hash, 'state' , substr($cmd,14)." in tol found ($founded)", 0); }
 
     open my $OutFile, '>', "$path$Filename_export";
       for (@Zeilen) {
@@ -1640,15 +1632,15 @@ sub SIGNALduino_TOOL_Get {
       }
     close $OutFile;
 
-    return "ERROR: no $cmd with value $a[0] in tol!" if ($founded == 0);
+    if ($founded == 0) { return "ERROR: no $cmd with value $a[0] in tol!"; }
     return substr($cmd,14).' in tol found!';
   }
 
   if ($cmd eq 'invert_bitMsg' || $cmd eq 'invert_hexMsg') {
     Log3 $name, 4, "$name: Get $cmd - check (5)";
-    return 'ERROR: Your input failed!' if (not defined $a[0]);
-    return "ERROR: wrong value $a[0]! only [0-1]!" if ($cmd eq 'invert_bitMsg' && !$a[0] =~ /^[0-1]+$/);
-    return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!" if ($cmd eq 'invert_hexMsg' && !$a[0] =~ /^[a-fA-f0-9]+$/);
+    if (not defined $a[0]) { return 'ERROR: Your input failed!'; }
+    if ($cmd eq 'invert_bitMsg' && !$a[0] =~ /^[0-1]+$/) { return "ERROR: wrong value $a[0]! only [0-1]!"; }
+    if ($cmd eq 'invert_hexMsg' && !$a[0] =~ /^[a-fA-f0-9]+$/) { return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!"; }
 
     if ($cmd eq 'invert_bitMsg') {
       $value = $a[0];
@@ -1666,9 +1658,9 @@ sub SIGNALduino_TOOL_Get {
 
   if ($cmd eq 'change_hex_to_bin' || $cmd eq 'change_bin_to_hex') {
     Log3 $name, 4, "$name: Get $cmd - check (6)";
-    return 'ERROR: Your input failed!' if (not defined $a[0]);
-    return "ERROR: wrong value $a[0]! only [0-1]!" if ($cmd eq 'change_bin_to_hex' && !$a[0] =~ /^[0-1]+$/);
-    return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!" if ($cmd eq 'change_hex_to_bin' && $a[0] !~ /^[a-fA-f0-9]+$/);
+    if (not defined $a[0]) { return 'ERROR: Your input failed!'; }
+    if ($cmd eq 'change_bin_to_hex' && !$a[0] =~ /^[0-1]+$/) { return "ERROR: wrong value $a[0]! only [0-1]!"; }
+    if ($cmd eq 'change_hex_to_bin' && $a[0] !~ /^[a-fA-f0-9]+$/) { return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!"; }
 
     if ($cmd eq 'change_bin_to_hex') {
       $value = sprintf('%0*X' , (length($a[0]) % 4 == 0 ? length($a[0]) / 4 : int(length($a[0]) / 4) + 1) , oct("0b$a[0]"));
@@ -1682,20 +1674,20 @@ sub SIGNALduino_TOOL_Get {
   ## read information from InputFile and check RAWMSG of one doublePulse ##
   if ($cmd eq 'InputFile_doublePulse') {
     Log3 $name, 4, "$name: Get $cmd - check (7)";
-    return 'ERROR: Your Attributes Filename_export is not definded!' if ($Filename_export eq '');
-    return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
+    if ($Filename_export eq '') { return 'ERROR: Your Attributes Filename_export is not definded!'; }
+    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
 
     my $counterror = 0;
     my $MUerror = 0;
     my $MSerror = 0;
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /READredu:\sM(U|S);|M(U|S);P/s){
           chomp ($_);                               # Zeilenende entfernen
           my $checkData = $_;
 
-          $_ = $1 if ($_ =~ /.*;D=(\d+?);.*/);      # cut bis D= & ab ;CP=
+          if ($_ =~ /.*;D=(\d+?);.*/) { $_ = $1; }  # cut bis D= & ab ;CP=
 
           my @array_Data = split("",$_);
           my $pushbefore = '';
@@ -1721,7 +1713,7 @@ sub SIGNALduino_TOOL_Get {
       }
     close $OutFile;
 
-    return 'no doublePulse found!' if $founded == 0;
+    if ($founded == 0) { return 'no doublePulse found!'; }
 
     my $percenterrorMU = sprintf ("%.2f", ($MUerror*100)/$founded);
     my $percenterrorMS = sprintf ("%.2f", ($MSerror*100)/$founded);
@@ -1731,15 +1723,15 @@ sub SIGNALduino_TOOL_Get {
 
   if ($cmd eq 'InputFile_length_Datapart') {
     Log3 $name, 4, "$name: Get $cmd - check (8)";
-    return 'ERROR: Your Attributes Filename_input is not definded!' if ($Filename_input eq '');
+    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
     my @dataarray;
     my $dataarray_min;
     my $dataarray_max;
 
-    open my $InputFile, '<', "$path$Filename_input" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
     while (<$InputFile>){
       if ($_ =~ /M(U|S);/s){
-        $_ = $1 if ($_ =~ /.*;D=(\d+?);.*/);      # cut bis D= & ab ;CP=   # NEW
+        if ($_ =~ /.*;D=(\d+?);.*/) { $_ = $1; }     # cut bis D= & ab ;CP=   # NEW
         my $length_data = length($_);
         push (@dataarray,$length_data);
         ($dataarray_min,$dataarray_max) = (sort {$a <=> $b} @dataarray)[0,-1];
@@ -1753,12 +1745,12 @@ sub SIGNALduino_TOOL_Get {
 
   if ($cmd eq 'Durration_of_Message') {
     Log3 $name, 4, "$name: Get $cmd - check (9)";
-    return 'ERROR: Your input failed!' if (not defined $a[0]);
-    return 'ERROR: wrong input! only READredu: MU|MS Message or SendMsg: SR|SM' if (not $a[0] =~ /^(SR|SM|MU|MS);/);
-    return 'ERROR: wrong value! the part of timings Px= failed!' if (not $a[0] =~ /^.*P\d=/);
-    return 'ERROR: wrong value! the part of data D= failed!' if (not $a[0] =~ /^.*D=/);
-    return 'ERROR: wrong value! the part of data not correct! only [0-9]' if (not $a[0] =~ /^.*D=\d+;/);
-    return 'ERROR: wrong value! the end of line not correct! only ;' if (not $a[0] =~ /^.*;$/);
+    if (not defined $a[0]) { return 'ERROR: Your input failed!'; }
+    if (not $a[0] =~ /^(SR|SM|MU|MS);/) { return 'ERROR: wrong input! only READredu: MU|MS Message or SendMsg: SR|SM'; }
+    if (not $a[0] =~ /^.*P\d=/) { return 'ERROR: wrong value! the part of timings Px= failed!'; }
+    if (not $a[0] =~ /^.*D=/) { return 'ERROR: wrong value! the part of data D= failed!'; }
+    if (not $a[0] =~ /^.*D=\d+;/) { return 'ERROR: wrong value! the part of data not correct! only [0-9]'; }
+    if (not $a[0] =~ /^.*;$/) { return 'ERROR: wrong value! the end of line not correct! only ;'; }
 
     my @msg_parts = split(/;/, $a[0]);
     my %patternList;
@@ -1794,18 +1786,18 @@ sub SIGNALduino_TOOL_Get {
     if ($Durration_of_Message_total > 1000000) {
       $Durration_of_Message_total /= 1000000;
       $Durration_of_Message /= 1000000;
-      $Durration_of_Message_total.= ' Sekunden' if ($msg_repeats == 1);
-      $Durration_of_Message_total.= " Sekunden with $msg_repeats repeats" if ($msg_repeats > 1);
+      if ($msg_repeats == 1) { $Durration_of_Message_total.= ' Sekunden'; }
+      if ($msg_repeats > 1) { $Durration_of_Message_total.= " Sekunden with $msg_repeats repeats"; }
       $Durration_of_Message.= ' Sekunden';
     } elsif ($Durration_of_Message_total > 1000) {
       $Durration_of_Message_total /= 1000;
       $Durration_of_Message /= 1000;
-      $Durration_of_Message_total.= ' Millisekunden' if ($msg_repeats == 1);
-      $Durration_of_Message_total.= " Millisekunden with $msg_repeats repeats" if ($msg_repeats > 1);
+      if ($msg_repeats == 1) { $Durration_of_Message_total.= ' Millisekunden'; }
+      if ($msg_repeats > 1) { $Durration_of_Message_total.= " Millisekunden with $msg_repeats repeats"; }
       $Durration_of_Message.= ' Millisekunden';
     } else {
-      $Durration_of_Message_total.= ' Mikrosekunden' if ($msg_repeats == 1);
-      $Durration_of_Message_total.= " Mikrosekunden with $msg_repeats repeats" if ($msg_repeats > 1);
+      if ($msg_repeats == 1) { $Durration_of_Message_total.= ' Mikrosekunden'; }
+      if ($msg_repeats > 1) { $Durration_of_Message_total.= " Mikrosekunden with $msg_repeats repeats"; }
       $Durration_of_Message.= ' Mikrosekunden';
     }
 
@@ -1818,27 +1810,27 @@ sub SIGNALduino_TOOL_Get {
       }
     }
 
-    $return.= $Durration_of_Message."\n" if ($msg_repeats > 1);
+    if ($msg_repeats > 1) { $return.= $Durration_of_Message."\n"; }
     $return.= $Durration_of_Message_total;
 
     return $return;
   }
 
   if ($cmd eq 'reverse_Input') {
-    return "ERROR: Your arguments in $cmd is not definded!" if (not defined $a[0]);
-    return 'ERROR: You need at least 2 arguments to use this function!' if (length($a[0] == 1));
+    if (not defined $a[0]) { return "ERROR: Your arguments in $cmd is not definded!"; }
+    if (length($a[0] == 1)) { return 'ERROR: You need at least 2 arguments to use this function!'; }
     return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".reverse $a[0];
   }
 
   if ($cmd eq 'change_dec_to_hex') {
-    return "ERROR: Your arguments in $cmd is not definded!" if (not defined $a[0]);
-    return "ERROR: wrong value $a[0]! only [0-9]!" if ($a[0] !~ /^[0-9]+$/);
+    if (not defined $a[0]) { return "ERROR: Your arguments in $cmd is not definded!"; }
+    if ($a[0] !~ /^[0-9]+$/) { return "ERROR: wrong value $a[0]! only [0-9]!"; }
     return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".sprintf("%x", $a[0]);;
   }
 
   if ($cmd eq 'change_hex_to_dec') {
-    return "ERROR: Your arguments in $cmd is not definded!" if (not defined $a[0]);
-    return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!" if ($a[0] !~ /^[0-9a-fA-F]+$/);
+    if (not defined $a[0]) { return "ERROR: Your arguments in $cmd is not definded!"; }
+    if ($a[0] !~ /^[0-9a-fA-F]+$/) { return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!"; }
     return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".hex($a[0]);
   }
 
@@ -1865,7 +1857,7 @@ sub SIGNALduino_TOOL_Get {
     my $json;
     {
       local $/; #Enable 'slurp' mode
-      open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc || return "ERROR: file ($jsonDoc) can not open!";
+      open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc or return "ERROR: file ($jsonDoc) can not open!";
         $json = <$LoadDoc>;
       close $LoadDoc;
     }
@@ -1889,7 +1881,7 @@ sub SIGNALduino_TOOL_Get {
         }
 
         if (defined $search) {  # for id´s with no clientmodule
-          push (@List_from_pm, $search) if (not grep { /$search$/ } @List_from_pm);
+          if (not grep { /$search$/ } @List_from_pm) { push (@List_from_pm, $search); }
         }
       }
     }
@@ -1923,27 +1915,27 @@ sub SIGNALduino_TOOL_Get {
         if ($modus == 1) {
           $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
           $comment = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
-          $comment = $category{$clientmodule} if ( !(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) );
+          if ( !(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) ) { $comment = $category{$clientmodule}; }
 
           if (!$clientmodule) {
             my $preamble = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
-            $clientmodule = 'notify' if ($preamble =~ "^U.*#");
-            $clientmodule = 'development' if ($preamble =~ "^u.*#");
+            if ($preamble =~ "^U.*#") { $clientmodule = 'notify'; }
+            if ($preamble =~ "^u.*#") { $clientmodule = 'development'; }
           }
         } else {
           $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
           $comment = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
-          $comment = $category{$clientmodule} if ( !($hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) );
+          if ( !($hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) ) { $comment = $category{$clientmodule}; }
           
           if (!$clientmodule) {
             my $preamble = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
-            $clientmodule = 'notify' if ($preamble =~ "^U.*#");
-            $clientmodule = 'development' if ($preamble =~ "^u.*#");
+            if ($preamble =~ "^U.*#") { $clientmodule = 'notify'; }
+            if ($preamble =~ "^u.*#") { $clientmodule = 'development'; }
           }
         }
 
         # no info found
-        $comment = 'no additional information' if !($comment);
+        if (!$comment) { $comment = 'no additional information'; }
         $comment =~ s/\|/\//g;
 
         if (not grep { /$device\s\|/ } @testet_devices) {
@@ -1976,7 +1968,7 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'search_disable_Devices') {
     my $return = '';
     $return = CommandList($hash,"a:disable=1");
-    return 'no device disabled!' if ($return eq '');
+    if ($return eq '') { return 'no device disabled!'; }
     return "$cmd found the following devices:\n\n$return";
   }
 
@@ -1989,7 +1981,7 @@ sub SIGNALduino_TOOL_Get {
     foreach my $d (sort keys %defs) {
       push(@ignored,$d) if(defined($defs{$d}) && AttrVal($d,'ignore',undef) && AttrVal($d,'ignore',undef) eq '1');
     }
-    return 'no ignored devices found!' if (scalar(@ignored) == 0);
+    if (scalar(@ignored) == 0) { return 'no ignored devices found!'; }
 
     foreach (@ignored) {
       $return.= "\n$_"
@@ -2001,24 +1993,31 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'CC110x_Register_comparison') {
     my $CC110x_Register_old = AttrVal($name,'CC110x_Register_old','');    # Register default
     my $CC110x_Register_new = AttrVal($name,'CC110x_Register_new','');    # Register new wanted
-    return 'ERROR: not compatible formats! Accepts only starts with ccreg.' if ($CC110x_Register_old !~ /^ccreg:/ || $CC110x_Register_new !~ /^ccreg:/);
-    return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old' if (substr($CC110x_Register_new,0,2) ne substr($CC110x_Register_old,0,2));
+
+    if ($CC110x_Register_old !~ /ccreg\s[012]0:\s/ || $CC110x_Register_new !~ /ccreg\s[012]0:\s/) { return 'ERROR: not compatible formats! Accepts only starts with ccreg.'; }
+    if (substr($CC110x_Register_new,0,7) ne substr($CC110x_Register_old,0,7)) { return 'ERROR: your CC110x_Register_new has other format to CC110x_Register_old (start value attribute must be same)'; }
 
     my $return = 'The two registers have no differences.';
-
-    $CC110x_Register_old =~ s/ccreg:(\s+)?//g;
+    $CC110x_Register_old = substr($CC110x_Register_old, index($CC110x_Register_old,'ccreg 00:') ); # cut to ccreg 00:
     $CC110x_Register_old =~ s/\n/ /g;
-    $CC110x_Register_new =~ s/ccreg:(\s+)?//g;
+    $CC110x_Register_old =~ s/ccreg\s[012]0:\s//g;                  # start
+    $CC110x_Register_old =~ s/Configuration register detail:.*//g;  # end
+    $CC110x_Register_old =~ s/\s+$//g;
+
+    $CC110x_Register_new = substr($CC110x_Register_new, index($CC110x_Register_new,'ccreg 00:') ); # cut to ccreg 00:
     $CC110x_Register_new =~ s/\n/ /g;
+    $CC110x_Register_new =~ s/ccreg\s[012]0:\s//g;                  # start
+    $CC110x_Register_new =~ s/Configuration register detail:.*//g;  # end
+    $CC110x_Register_new =~ s/\s+$//g;
 
     Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_old:\n$CC110x_Register_old";
     Log3 $name, 5, "$name: CC110x_Register_comparison - CC110x_Register_new:\n$CC110x_Register_new";
-    return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/);
-    return 'ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed.' if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/);
+    if ($CC110x_Register_old !~ /^[0-9A-F\s]+$/) { return 'ERROR: your CC110x_Register_old has invalid values. Only hexadecimal values ​​allowed.'; }
+    if ($CC110x_Register_new !~ /^[0-9A-F\s]+$/) { return 'ERROR: your CC110x_Register_new has invalid values. Only hexadecimal values ​​allowed.'; }
 
     my @CC110x_Register_old = split(/ /, $CC110x_Register_old);
     my @CC110x_Register_new = split(/ /, $CC110x_Register_new);
-    return 'ERROR: The registers have different lengths. Please check your values.' if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old));
+    if (scalar(@CC110x_Register_new) != scalar(@CC110x_Register_old)) { return 'ERROR: The registers have different lengths. Please check your values.'; }
 
     my $differences = 0;
 
@@ -2030,7 +2029,7 @@ sub SIGNALduino_TOOL_Get {
           $return.= "               old -> new , command\n";
         }
         my $adress = sprintf("%X", hex(substr($ccregnames[$i],0,2)) + CCREG_OFFSET);
-        $adress = "0".$adress if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + CCREG_OFFSET)) == 1);
+        if (length(sprintf("%X", hex(substr($ccregnames[$i],0,2)) + CCREG_OFFSET)) == 1) { $adress = "0".$adress; }
         $return.= "0x".$ccregnames[$i]." | ".$CC110x_Register_old[$i]." -> ".$CC110x_Register_new[$i]."  , set &lt;name&gt; raw W".$adress.$CC110x_Register_new[$i]."\n";
       }
     }
@@ -2044,8 +2043,8 @@ sub SIGNALduino_TOOL_Get {
 
     if ($defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino') {
       if (exists &SIGNALduino_Get_Callback) {
-        return "The $IODev_CC110x_Register device is disconnected. Read nothing!" if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected');
-        return "The $IODev_CC110x_Register device has no cc1101!" if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef));
+        if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected') { return "The $IODev_CC110x_Register device is disconnected. Read nothing!"; }
+        if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef)) { return "The $IODev_CC110x_Register device has no cc1101!"; }
 
         SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
         return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
@@ -2055,51 +2054,6 @@ sub SIGNALduino_TOOL_Get {
     } else {
       return "ERROR: This TYPE of receiver are not supported";
     }
-  }
-
-  ## search all UnitTests from SIGNALduino DEV - project and define it an local system ##
-  if ($cmd eq 'UnitTests_from_SIGNALduino') {
-    #### HTTP Requests #### Start ####
-    my $Http_err = '';
-    my $Http_data = '';
-
-    ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => UNITTESTS_FROM_SIGNALduino_URL,
-                                                          timeout => TIMEOUT_HttpUtils,
-                                                          method  => 'GET',                           # Lesen von Inhalten
-                                                        });
-    #### HTTP Requests #### END ####
-
-    if ($Http_err ne '') {
-      readingsSingleUpdate($hash, 'state' , "cmd $cmd - need Internet or website are down!", 0);
-      Log3 $name, 2, "$name: $cmd failed, need Internet or website are down!";
-      return;
-    } elsif ($Http_data ne '') {
-      Log3 $name, 4, "$name: Get $cmd - check (12)";
-
-      my @apache_split = split (/\n/,$Http_data);
-      my @apache_testlist;
-
-      ## loop - push tests ##
-      foreach (@apache_split) {
-        if ($_ =~ /\stitle=".*txt"\shref=".*">(.*txt)<\/a>/) {
-          Log3 $name, 4, "$name: $cmd, found $1";
-          $_ =~ /.*href=".*">(.*)<\/a>.*/;
-          push (@apache_testlist, $1);
-        }
-      }
-
-      if (scalar(@apache_testlist) == 0) {
-        readingsSingleUpdate($hash, 'state' , "cmd $cmd - failed!", 0);
-        Log3 $name, 2, "$name: $cmd failed, probably the website has been changed!";
-        return;
-      } else {
-        $hash->{helper}->{UnitTests_from_SIGNALduino} = join (',' , @apache_testlist);
-      }
-    }
-    readingsSingleUpdate($hash, 'state' , "$cmd retrieved successfully. Set command UnitTest_define available" , 0);
-    SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
-
-    return '';
   }
 
   return "Unknown argument $cmd, choose one of $list";
@@ -2122,7 +2076,7 @@ sub SIGNALduino_TOOL_Attr() {
     ### memory for three message
     if ($attrName eq 'RAWMSG_M1' || $attrName eq 'RAWMSG_M2' || $attrName eq 'RAWMSG_M3' && $attrValue ne '') {
       my $error = SIGNALduino_TOOL_RAWMSG_Check($name, $attrValue, $cmd);    # check RAWMSG
-      return $error if $error ne '';                                         # if check RAWMSG failed
+      if ($error ne '') { return $error; }                                   # if check RAWMSG failed
 
       ### set new webCmd & cmdIcon ###
       SIGNALduino_TOOL_add_webCmd($hash,$attrName);
@@ -2134,18 +2088,16 @@ sub SIGNALduino_TOOL_Attr() {
       ### Check, eingegebener Dummyname als Device definiert?
       my @dummy = ();
       foreach my $d (sort keys %defs) {
-        if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino' && $defs{$d}{DeviceName} eq 'none') {
-          push(@dummy,$d);
-        }
+        if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino' && $defs{$d}{DeviceName} eq 'none') { push(@dummy,$d); }
       }
-      return "ERROR: Your $attrName is not found!\n\nNo Dummy defined on this system." if (scalar(@dummy) == 0);
-      return "ERROR: Your $attrName is wrong!\n\nDevices to use: \n- ".join("\n- ",@dummy) if (not grep { /^$attrValue$/ } @dummy);
+      if (scalar(@dummy) == 0) { return "ERROR: Your $attrName is not found!\n\nNo Dummy defined on this system."; }
+      if (not grep { /^$attrValue$/ } @dummy) { return "ERROR: Your $attrName is wrong!\n\nDevices to use: \n- ".join("\n- ",@dummy); }
     }
 
     ### name of initialized sender to work with this tool
     if ($attrName eq 'Path') {
       if (-d $attrValue) {
-        return "ERROR: wrong value! $attrName must end with /" if (not $attrValue =~ /^.*\/$/);
+        if (not $attrValue =~ /^.*\/$/) { return "ERROR: wrong value! $attrName must end with /"; }
       } else {
         return "ERROR: $attrName $attrValue not exist!";
       }
@@ -2160,22 +2112,22 @@ sub SIGNALduino_TOOL_Attr() {
           push(@sender,$d);
         }
       }
-      return "ERROR: Your $attrName is wrong!\n\nDevices to use: \n- ".join("\n- ",@sender) if (not grep { /^$attrValue$/ } @sender);
+      if (not grep { /^$attrValue$/ } @sender) { return "ERROR: Your $attrName is wrong!\n\nDevices to use: \n- ".join("\n- ",@sender); }
     }
 
     ### max value for dispatch
     if ($attrName eq 'DispatchMax') {
-      return "Your $attrName value must only numbers!" if (not $attrValue =~ /^[0-9]/s);
-      return "Your $attrName value is to great! (max 10000)" if ($attrValue > 10000);
-      return "Your $attrName value is to short!" if ($attrValue < 1);
+      if (not $attrValue =~ /^[0-9]/s) { return "Your $attrName value must only numbers!"; }
+      if ($attrValue > 10000) { return "Your $attrName value is to great! (max 10000)"; }
+      if ($attrValue < 1) { return "Your $attrName value is to short!"; }
     }
 
     ### input file for data
     if ($attrName eq 'Filename_input') {
-      return "Your Attributes $attrName must defined!" if ($attrValue eq '1');
+      if ($attrValue eq '1') { return "Your Attributes $attrName must defined!"; }
 
       ### all files in path
-      opendir(DIR,$path) || return "ERROR: attr $attrName follow with Error in opening dir $path!";
+      opendir(DIR,$path) or return "ERROR: attr $attrName follow with Error in opening dir $path!";
       my $fileend;
       $attrValue =~ /.*(\..*$)/;
 
@@ -2187,17 +2139,15 @@ sub SIGNALduino_TOOL_Attr() {
 
       my @errorlist = ();
       while( my $directory_value = readdir DIR ) {
-        push(@errorlist,$directory_value) if ($directory_value =~ /$fileend/);
+        if ($directory_value =~ /$fileend/) { push(@errorlist,$directory_value); }
       }
       close DIR;
       @errorlist = sort { lc($a) cmp lc($b) } @errorlist;
 
-      $fileend = "" if ($fileend eq "[^\.\.?]");
+      if ($fileend eq "[^\.\.?]") { $fileend = ""; }
 
       ### check file from attrib
-      if (!-e $path.$attrValue) {
-        return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist);
-      }
+      if (!-e $path.$attrValue) { return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist); }
 
       SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet.'file');
     }
@@ -2206,14 +2156,14 @@ sub SIGNALduino_TOOL_Attr() {
     if ($attrName eq 'DispatchModule' && $attrValue ne '-') {
       my $DispatchModuleOld = $DispatchModule;
       my $DispatchModuleNew = $attrValue;
-      %List = () if ($DispatchModuleOld ne $attrValue);
+      if ($DispatchModuleOld ne $attrValue) { %List = (); }
 
       my $count;
 
       if ($attrValue =~ /.txt$/) {
         $hash->{dispatchOption} = 'from file';
 
-        open my $FileCheck, '<', "$path$Filename_Dispatch$attrValue" || return "ERROR: No file $Filename_Dispatch$attrValue.txt exists!";
+        open my $FileCheck, '<', "$path$Filename_Dispatch$attrValue" or return "ERROR: No file $Filename_Dispatch$attrValue.txt exists!";
           while (<$FileCheck>){
             $count++;
             if ($_ !~ /^#.*/ && $_ ne "\r\n" && $_ ne "\r" && $_ ne "\n") {
@@ -2233,14 +2183,14 @@ sub SIGNALduino_TOOL_Attr() {
         Log3 $name, 4, "$name: Attr - You used $attrName from memory!";
       }
 
-      return "Your Attributes $attrName must defined!" if ($attrValue eq "1");
+      if ($attrValue eq "1") { return "Your Attributes $attrName must defined!"; }
     } elsif ($attrName eq 'DispatchModule' && $attrValue eq '-') {
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchOption');
     }
 
     ### set CC110x_Register´s
     if ($attrName eq 'CC110x_Register_old' || $attrName eq 'CC110x_Register_new') {
-      return "ERROR: your $attrName start not with text [ccreg] , [ccreg:] or [CW]" if ($attrValue !~ /^(ccreg(\s|:)|CW)/);
+      if ($attrValue !~ /ccreg\s00:\s.*\n?ccreg\s10:\s.*\n?ccreg\s20:.*/) { return "ERROR: your $attrName has wrong value! ccreg 00: ... ccreg 01: and ccreg 02:] not exist"; }
     }
 
     ### check IODev for CC110x_Register exist and SIGNALduino
@@ -2248,7 +2198,7 @@ sub SIGNALduino_TOOL_Attr() {
       return "ERROR: $attrValue is not definded or is not TYPE SIGNALduino" if not (defined($defs{$attrValue}) && $defs{$attrValue}{TYPE} eq 'SIGNALduino');
     }
 
-    Log3 $name, 4, "$name: Set attribute $attrName to $attrValue";
+    Log3 $name, 4, "$name: set attribute $attrName to $attrValue";
   }
 
 
@@ -2285,8 +2235,8 @@ sub SIGNALduino_TOOL_Undef {
   delete($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}})
     if(defined($hash->{DEF}) && defined($modules{SIGNALduino_TOOL}{defptr}{$hash->{DEF}}));
 
-  foreach my $value (qw(FW_SD_Device_ProtocolList_get FW_SD_ProtocolData_get JSON_new_entry NTFY_SEARCH_Time NTFY_SEARCH_Value NTFY_SEARCH_Value_count NTFY_dispatchcount NTFY_match RUNNING_PID UnitTests_from_SIGNALduino decoded_Protocol_ID option start_time)) {
-    delete $hash->{helper}{$value} if(defined($hash->{helper}{$value}));
+  foreach my $value (qw(FW_SD_Device_ProtocolList_get FW_SD_ProtocolData_get JSON_new_entry NTFY_SEARCH_Time NTFY_SEARCH_Value NTFY_SEARCH_Value_count NTFY_dispatchcount NTFY_match RUNNING_PID decoded_Protocol_ID option start_time)) {
+    if (defined($hash->{helper}{$value})) { delete $hash->{helper}{$value}; }
   }
 
   return;
@@ -2300,11 +2250,11 @@ sub SIGNALduino_TOOL_RAWMSG_Check {
   $message =~ s/[^A-Za-z0-9\-;=#\$]//g;;     # nur zulässige Zeichen erlauben
   Log3 $name, 5, "$name: RAWMSG_Check cleaned message: $message";
 
-  return 'ERROR: no attribute value defined'   if ($message =~ /^1/ && $cmd eq 'set');                                     # attr without value
-  return 'ERROR: wrong RAWMSG - no MU;|MC;|MS;|MN; at start'   if not $message =~ /^(?:M[UCSN];).*/;
-  return 'ERROR: wrong RAWMSG - D= are not [0-9]'     if ($message =~ /^(?:MU;|MS;).*/ && !$message =~ /D=[0-9]*;/);  # MU|MS D= with [0-9]
-  return 'ERROR: wrong RAWMSG - D= are not [0-9][A-F]'   if ($message =~ /^(?:MC).*/ && !$message =~ /D=[0-9A-F]*;/);    # MC D= with [0-9A-F]
-  return 'ERROR: wrong RAWMSG - End of Line missing ;'   if not $message =~ /;\Z/;                                       # End Line with ;
+  if ($message =~ /^1/ && $cmd eq 'set') { return 'ERROR: no attribute value defined'; }                                # attr without value
+  if (not $message =~ /^(?:M[UCSN];).*/) { return 'ERROR: wrong RAWMSG - no MU;|MC;|MS;|MN; at start'; }
+  if ($message =~ /^(?:MU;|MS;).*/ && !$message =~ /D=[0-9]*;/) { return 'ERROR: wrong RAWMSG - D= are not [0-9]'; }    # MU|MS D= with [0-9]
+  if ($message =~ /^(?:MC).*/ && !$message =~ /D=[0-9A-F]*;/) { return 'ERROR: wrong RAWMSG - D= are not [0-9][A-F]'; } # MC D= with [0-9A-F]
+  if (not $message =~ /;\Z/) { return 'ERROR: wrong RAWMSG - End of Line missing ;'; }                                  # End Line with ;
   return '';    # check END
 }
 
@@ -2348,7 +2298,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
-  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" || return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
   while (<$InputFile>) {
     $_ =~ s/^\s+//g;             # cut space & tab | \s+ matches any whitespace character (equal to [\r\n\t\f\v ])
     $_ =~ s/\n//g;               # cut end
@@ -2365,7 +2315,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       $id_now = $linevalue[0];
 
       $ProtocolList[$cnt_ids_total]{id} = $id_now;                                                              ## id -> array
-      
+
       Log3 $name, 5, "$name: # # # # # # # # # # # # # # # # # # # # # # # # # #";
       Log3 $name, 5, "$name: id $id_now";
 
@@ -2430,7 +2380,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       #Log3 $name, 4, "$name: message $_";
       $comment = '';
 
-      $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{user} = $RAWMSG_user if ($RAWMSG_user ne ''); ## user -> array
+      if ($RAWMSG_user ne '') { $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{user} = $RAWMSG_user; } ## user -> array
 
       if (defined $1) {
         #Log3 $name, 4, "$name: \$1";
@@ -2441,21 +2391,19 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
         $comment_infront =~ s/_#//g;
         $comment_infront =~ s/#_//g;
         $comment_infront =~ s/^#//g;
-        if ($comment_infront =~ /:$/) {
-          $comment_infront =~ s/:$//g;
-        }
+        if ($comment_infront =~ /:$/) { $comment_infront =~ s/:$//g; }
       }
 
       if (defined $5) {
-        $comment_behind = $5 if ($5 ne '');
+        if ($5 ne '') { $comment_behind = $5; }
         $comment_behind =~ s/^\s+//g;
         $comment_behind =~ s/\s+/_/g;
         $comment_behind =~ s/_+/_/g;
         $comment_behind =~ s/\/+/\//g;
       }
 
-      $comment = $comment_infront if ($comment_infront ne '');
-      $comment = $comment_behind if ($comment_behind ne '');
+      if ($comment_infront ne '') { $comment = $comment_infront; }
+      if ($comment_behind ne '') { $comment = $comment_behind; }
 
       if (defined $2) {
         #Log3 $name, 4, "$name: \$2 $_";
@@ -2492,7 +2440,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   } else {
     my $json = JSON::PP->new()->pretty->utf8->sort_by( sub { $JSON::PP::a cmp $JSON::PP::b })->encode(\@ProtocolList);    # lesbares JSON | Sort numerically
 
-    open my $SaveDoc, '>', $path.'SD_ProtocolData.json' || return 'ERROR: file (SD_ProtocolData.json) can not open!';
+    open my $SaveDoc, '>', $path.'SD_ProtocolData.json' or return "ERROR: file (SD_ProtocolData.json) can not open!\n\n$!";
       print $SaveDoc $json;
     close $SaveDoc;
     $return = 'JSON file created from ProtocolData!';
@@ -2540,8 +2488,8 @@ sub SIGNALduino_TOOL_FW_Detail {
 
   Log3 $name, 5, "$name: FW_Detail is running";
 
-  $hash->{helper}{FW_SD_Device_ProtocolList_get} = 0 if (!$hash->{helper}{FW_SD_Device_ProtocolList_get});
-  $hash->{helper}{FW_SD_ProtocolData_get} = 0 if (!$hash->{helper}{FW_SD_ProtocolData_get});
+  if (!$hash->{helper}{FW_SD_Device_ProtocolList_get}) { $hash->{helper}{FW_SD_Device_ProtocolList_get} = 0; }
+  if (!$hash->{helper}{FW_SD_ProtocolData_get}) { $hash->{helper}{FW_SD_ProtocolData_get} = 0; }
 
   my $ret = "<div class='makeTable wide'><span>Info menu</span>
   <table class='block wide' id='SIGNALduinoInfoMenue' nm='$hash->{NAME}' class='block wide'>
@@ -2551,8 +2499,14 @@ sub SIGNALduino_TOOL_FW_Detail {
   $ret .="<td><a href='#button2' id='button2'>Display Information all Protocols</a></td>";
   $ret .="<td><a href='#button3' id='button3'>Display readed SD_ProtocolList.json</a></td>";
 
-  if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ && $hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
-    $ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
+  if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ ) {
+    my $button = 'nothing';
+    if ($hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
+      $button = 'ok';
+      Log3 $name, 4, "$name: FW_Detail, check -> Check it - button available";
+      $ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
+    }
+    if ($button ne 'ok') { Log3 $name, 4, "$name: FW_Detail, check -> Check it - button NOT available"; }
   }
 
   $ret .= '</tr></table></div>
@@ -2669,7 +2623,8 @@ function function4(txt) {
 
         /* JavaMod need !!! not support -> # = %23 | , = %2C .... */
         allVals = encodeURIComponent(allVals);
-        
+
+        /* action by clicking on "update" in the "Check It" window */
         FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_updateData("'.$name.'","\'+allVals+\'")}\');
          $(this).dialog("close");
          $(div).remove();
@@ -2712,16 +2667,16 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
 
   for (my $i=0;$i<@ProtocolList;$i++) {
     my $clientmodule = "";
-    $clientmodule = $ProtocolList[$i]{clientmodule} if (defined $ProtocolList[$i]{clientmodule});
+    if (defined $ProtocolList[$i]{clientmodule}) { $clientmodule = $ProtocolList[$i]{clientmodule}; }
 
     if (defined $ProtocolList[$i]{data}) {
       for (my $i2=0;$i2<@{ $ProtocolList[$i]{data} };$i2++) {
         $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
         my $user = '';
-        $user = @{ $ProtocolList[$i]{data} }[$i2]->{user} if (defined @{ $ProtocolList[$i]{data} }[$i2]->{user});
+        if (defined @{ $ProtocolList[$i]{data} }[$i2]->{user}) { $user = @{ $ProtocolList[$i]{data} }[$i2]->{user}; }
         if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}) {
-          $RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{rmsg} if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg});
-          $buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".$ProtocolList[$i]{id}.",'SD_ProtocolData.pm','rmsg','".$ProtocolList[$i]{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne "none");
+          if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}) { $RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}; }
+          if ($RAWMSG ne "" && $Dummyname ne "none") { $buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".$ProtocolList[$i]{id}.",'SD_ProtocolData.pm','rmsg','".$ProtocolList[$i]{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>"; }
         }
         $ret .= "<tr class=\"$oddeven\"> <td><div>".$ProtocolList[$i]{id}."</div></td> <td><div>".$clientmodule."</div></td> <td><div>".$ProtocolList[$i]{name}."</div></td> <td><div>".@{ $ProtocolList[$i]{data} }[$i2]->{state}."</div></td> <td><div>".$user."</div></td> <td><div>".$buttons."</div></td> </tr>";
       }
@@ -2740,7 +2695,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   my $JSON_exceptions = AttrVal($name,'JSON_Check_exceptions','noInside');
   my $Dummyname = AttrVal($name,'Dummyname','none');
 
-  Log3 $name, 4, "$name: FW_SD_Device_ProtocolList_check is running (button -> Check it)";
+  Log3 $name, 4, "$name: FW_SD_Device_ProtocolList_check is running (button ".'"Check it" was pressed)';
   return "No data to check in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information." if (!$ProtocolListRead);
 
   if (!$hash->{dispatchSTATE}) {
@@ -2755,25 +2710,25 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 
   ### search decoded_Protocol_ID ###
   my $searchID;
-  $searchID = ReadingsVal($name, 'decoded_Protocol_ID', 'none') if ( not grep { /,/ } ReadingsVal($name, 'decoded_Protocol_ID', 'none') );
-  $searchID = $hash->{helper}->{decoded_Protocol_ID} if ( grep { /,/ } ReadingsVal($name, 'decoded_Protocol_ID', 'none') );
+  if ( not grep { /,/ } ReadingsVal($name, 'decoded_Protocol_ID', 'none') ) { $searchID = ReadingsVal($name, 'decoded_Protocol_ID', 'none'); }
+  if ( grep { /,/ } ReadingsVal($name, 'decoded_Protocol_ID', 'none') ) { $searchID = $hash->{helper}->{decoded_Protocol_ID}; }
 
   ### search last_DMSG ###
-  my $searchDMSG;
-  $searchDMSG = ReadingsVal($name, 'last_DMSG', 'none') if (ReadingsVal($name, 'last_DMSG', 'none') ne 'not clearly definable!');
-  $searchDMSG = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_DMSG'} if (ReadingsVal($name, 'last_DMSG', 'none') eq 'not clearly definable!' && $hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname);
+  my $searchDMSG = '';
+  if (ReadingsVal($name, 'last_DMSG', 'none') ne 'not clearly definable!') { $searchDMSG = ReadingsVal($name, 'last_DMSG', 'none'); }
+  if (ReadingsVal($name, 'last_DMSG', 'none') eq 'not clearly definable!' && $hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname) { $searchDMSG = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_DMSG'}; }
 
   my $searchID_found = 0;
   my $searchDMSG_found = 0;
-  my $searchDMSG_pos = "";
+  my $searchDMSG_pos = '';
 
   my $battery = '';
-  my $dmsg = '';
-  my $comment = '';
-  my $oddeven = 'even';
-  my $state = '';
-
   my $buttons = '';
+  my $comment = '';
+  my $dmsg = '';
+  my $oddeven = 'even';
+  my $readings_diff = '';
+  my $state = '';
 
   ## overview 1 - loop to read information from ID ##
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
@@ -2802,11 +2757,11 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 
           if ($key =~ /^readings/) {
             foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-              $state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /state/);
-              $battery = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /battery/);
+              if ($key =~ /state/) { $state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key}; }
+              if ($key =~ /battery/) { $battery = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} ; }
             }
           }
-          $comment = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /comment/);
+          if ($key =~ /comment/) { $comment = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}; }
         }
         $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
         $ret .= "<tr class=\"$oddeven\"> <td style=\"padding:1px 5px 1px 5px\"><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> $state </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> $battery </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> $dmsg </div></td> <td style=\"padding:1px 5px 1px 5px\"colspan=\"2\" rowspan=\"1\"><div> $comment </div></td> </tr>";
@@ -2834,7 +2789,9 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
     $pos_array_data = 0;                   # reset, DMSG not found -> new empty
   } elsif ($searchDMSG_found == 1) {
     $hash->{helper}->{JSON_new_entry} = 0; # marker for script function, new emtpy need
-    $ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is documented on device $searchDMSG_pos with state ".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state}."</div></td> </tr>";
+    my $state = '';
+    if (@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state}) { $state = @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{state}; }
+    $ret .= "<tr><td colspan=\"6\" rowspan=\"1\"> <div>- DMSG $searchDMSG is documented on device $searchDMSG_pos with state ".$state."</div></td> </tr>";
   }
 
   $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
@@ -2850,10 +2807,18 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
     $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
     $ret .= "<tr class=\"even\"; style=\"text-align:left; text-decoration:underline\"> <td style=\"padding:1px 5px 1px 5px\"><div> readings </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> readed JSON </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> dispatch value </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> last change </div></td></tr>";
 
+    ## check reading from JSON in new device after dispatch
+    foreach my $key_check (sort keys %{@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}}) {
+      if (not exists $DispatchMemory->{READINGS}->{$key_check}) {
+        if ($readings_diff ne '') { $readings_diff.= ', '; }
+        $readings_diff.= $key_check;
+      };
+    }
+
     foreach my $key2 (sort keys %{$DispatchMemory->{READINGS}}) {
       ## to check - value exist a timestamp, any readings are not use a timestamp
       my $timestamp = "";
-      $timestamp = $DispatchMemory->{READINGS}->{$key2}->{TIME} if (defined $DispatchMemory->{READINGS}->{$key2}->{TIME});
+      if (defined $DispatchMemory->{READINGS}->{$key2}->{TIME}) { $timestamp = $DispatchMemory->{READINGS}->{$key2}->{TIME}; }
 
       if (defined @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{$key2} && $searchDMSG_found == 1) {
         if (@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{readings}->{$key2} ne $DispatchMemory->{READINGS}->{$key2}->{VAL} && (not grep { /$key2/ } $JSON_exceptions) ) {
@@ -2892,6 +2857,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
     } else {
       $ret .= "<tr class=\"$oddeven\"><td><div>- DEF</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> - </div></td> <td style=\"padding:1px 5px 1px 5px\"><font color=\"#FE2EF7\"><div>".$DispatchMemory->{DEF}."</font></div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> not documented </div></td> <td><div><input type=\"checkbox\" name=\"internal\" id=\"$searchDMSG\" value=\"DEF\" checked> </div></td></tr>";
     }
+
     $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 
     ## overview 5 - attributes - only relevant model ##
@@ -2902,12 +2868,20 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
       } else {
         $ret .= "<tr class=\"$oddeven\"><td><div>- model</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".@{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{attributes}->{model}."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div>".AttrVal($DispatchMemory->{NAME},"model",0)."</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> documented </div></td> <td><div><input type=\"checkbox\" name=\"attributes\" id=\"$searchDMSG\" value=\"model\" > </div></td></tr>";
       }
+      $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
     } elsif (AttrVal($DispatchMemory->{NAME},"model",0) ne 0) {
       $ret .= "<tr class=\"even\"; style=\"text-align:left; text-decoration:underline\"> <td style=\"padding:1px 5px 1px 5px\"><div> attributes </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> readed JSON </div></td>  <td style=\"padding:1px 5px 1px 5px\"><div> dispatch value </div></td> </tr>";
       $ret .= "<tr class=\"$oddeven\"><td><div>- model</div></td> <td style=\"padding:1px 5px 1px 5px\"><div> - </div></td> <td style=\"padding:1px 5px 1px 5px\"><font color=\"#FE2EF7\"><div>".AttrVal($DispatchMemory->{NAME},"model",0)."</font></div></td> <td style=\"padding:1px 5px 1px 5px\"><div> &nbsp; </div></td> <td style=\"padding:1px 5px 1px 5px\"><div> not documented </div></td> <td><div><input type=\"checkbox\" name=\"attributes\" id=\"$searchDMSG\" value=\"model\" checked> </div></td></tr>";
+      $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
     }
-    $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
   }
+
+  ## read modul revision ##
+  my $revision = 'unknown';
+  if ($DispatchMemory->{TYPE}) { $revision = SIGNALduino_TOOL_version_moduls($hash,$DispatchMemory->{TYPE}); }
+  $ret .= "<tr class=\"$oddeven\"><td colspan=\"6\" rowspan=\"1\"><small><div> Revision Modul: ".$revision."</div></small></td></tr>";
+  if ($readings_diff ne '') { $ret .= "<tr><td colspan=\"6\" rowspan=\"1\"><small> <font color=\"#FF0000\"> <div> !!! difference recognized, reading $readings_diff are now failed !!!</font> </div></small></td></tr>"; }
+  $ret .= "<tr> <td colspan=\"6\" rowspan=\"1\"> <div>&nbsp;</div> </td></tr>";
 
   ## text field name ##
   if (defined @{$ProtocolListRead}[$pos_array_device]->{name} && $searchDMSG_found == 1) {
@@ -2931,7 +2905,6 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   }
 
   $ret .="</tbody></table>";
-
   return $ret;
 }
 
@@ -2956,23 +2929,26 @@ sub SIGNALduino_TOOL_FW_pushed_button {
 }
 
 ################################
-sub SIGNALduino_TOOL_FW_updateData {
+sub SIGNALduino_TOOL_FW_updateData {    # action by clicking on "update" in the "Check It" window
   my $name = shift;
-  my $modJSON = shift;       # values how checked on from overview
+  my $modJSON = shift;                  # values how checked on from overview
   my $hash = $defs{$name};
 
   my @array_value = split(/[X][y][Z],/, $modJSON);
   my $cnt_data_id_max;
+  my $Dummyname = AttrVal($name,'Dummyname','none');
   my $searchDMSG = ReadingsVal($name, 'last_DMSG', 'none');
 
   Log3 $name, 4, "$name: FW_updateData is running (button -> update)";
 
   ### device is find in JSON ###
   if (defined $pos_array_device && exists $hash->{helper}->{JSON_new_entry} && $hash->{helper}->{JSON_new_entry} == 0) {
+    Log3 $name, 4, "$name: FW_updateData - device is found in JSON";
+
     for (my $i=0;$i<@array_value;$i++){
       #Log3 $name, 4, "$name: FW_updateData - $i JavaString = ".$array_value[$i];
       my @modJSON_split = split /\|/, $array_value[$i];
-      $modJSON_split[2] =~ s/XyZ//g if ($modJSON_split[2] && $modJSON_split[2] =~ /XyZ$/); ## need!! Java cut with , array elements
+      if ($modJSON_split[2] && $modJSON_split[2] =~ /XyZ$/) { $modJSON_split[2] =~ s/XyZ//g; } ## need!! Java cut with , array elements
 
       if ($modJSON_split[1] eq 'reading') {
         Log3 $name, 4, "$name: FW_updateData - $i ".$modJSON_split[1].": ".$modJSON_split[2]." -> ".$defs{$defs{$name}->{dispatchDevice}}->{READINGS}->{$modJSON_split[2]}->{VAL};
@@ -2986,8 +2962,8 @@ sub SIGNALduino_TOOL_FW_updateData {
 
       if ($modJSON_split[1] =~ /textfield_/) {
         my @textfield_split = split /\_/, $modJSON_split[1];
-        Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> '.$modJSON_split[2] if($modJSON_split[2]);
-        Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> empty / nothing registered!' if (!$modJSON_split[2]);
+        if ($modJSON_split[2]) { Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> '.$modJSON_split[2]; }
+        if (!$modJSON_split[2]) { Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> empty / nothing registered!'; }
         ## comment textfield not clear
         if ($textfield_split[1] eq 'comment' && $modJSON_split[2]) {
           @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{comment} = $modJSON_split[2];
@@ -3004,18 +2980,34 @@ sub SIGNALduino_TOOL_FW_updateData {
           delete @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{user};
         }
 
-        @{$ProtocolListRead}[$pos_array_device]->{name} = $modJSON_split[2] if ($textfield_split[1] eq 'devicename');
+        if ($textfield_split[1] eq 'devicename') { @{$ProtocolListRead}[$pos_array_device]->{name} = $modJSON_split[2]; }
       }
       
       if ($modJSON_split[1] eq 'attributes') {
         Log3 $name, 4, "$name: FW_updateData - $i ".$modJSON_split[1].': '.$modJSON_split[2].' -> '.AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
         @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{attributes}->{$modJSON_split[2]} = AttrVal($defs{$defs{$name}->{dispatchDevice}}->{NAME},$modJSON_split[2],0);
       }
+
+      ## write minProtocolVersion, revision_entry, revision_modul ##
+      if ($i == ( scalar(@array_value) - 1 ) ) {
+        if ( not defined @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{minProtocolVersion} ) {
+          Log3 $name, 4, "$name: FW_updateData - minProtocolVersion set to '".$defs{$Dummyname}->{versionProtocols}."'";
+          @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{minProtocolVersion} = $defs{$Dummyname}->{versionProtocols};
+        }
+
+        Log3 $name, 4, "$name: FW_updateData - revision_entry set to '".FmtDateTime(time())."'";
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{revision_entry} = FmtDateTime(time());
+
+        my $revision_modul = SIGNALduino_TOOL_version_moduls($hash,@{$ProtocolListRead}[$pos_array_device]->{module});
+        Log3 $name, 4, "$name: FW_updateData - revision_modul set to '$revision_modul'";
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$pos_array_data]->{revision_modul} = $revision_modul;
+      }
     }
+
     Log3 $name, 4, "$name: ".@{$ProtocolListRead}[$pos_array_device]->{name}." with DMSG $searchDMSG is found and values are updated!";
-  ### device is NOT in JSON ###
+   ### device is NOT in JSON ###
   } else {
-    Log3 $name, 4, "$name: ".InternalVal($name,'dispatchDevice','')." with DMSG $searchDMSG is NOT found and values are new writing in memory!";
+    Log3 $name, 4, "$name: FW_updateData - device is NOT found in JSON, ".InternalVal($name,'dispatchDevice','')." with DMSG $searchDMSG is new writing in memory!";
 
     my %attributes;
     my %internals;
@@ -3030,7 +3022,7 @@ sub SIGNALduino_TOOL_FW_updateData {
     ## loop all values from dispatch device
     for (my $i=0;$i<@array_value;$i++) {
       my @modJSON_split = split /\|/, $array_value[$i];
-      $modJSON_split[2] =~ s/XyZ//g if ($modJSON_split[2] && $modJSON_split[2] =~ /XyZ$/); ## need!! Java cut with , array elements
+      if ($modJSON_split[2] && $modJSON_split[2] =~ /XyZ$/) { $modJSON_split[2] =~ s/XyZ//g; } ## need!! Java cut with , array elements
 
       if ($modJSON_split[1] eq 'reading') {
         Log3 $name, 4, "$name: FW_updateData - $i ".$modJSON_split[1].': '.$modJSON_split[2].' -> '.$defs{$defs{$name}->{dispatchDevice}}->{READINGS}->{$modJSON_split[2]}->{VAL};
@@ -3044,19 +3036,19 @@ sub SIGNALduino_TOOL_FW_updateData {
 
       if ($modJSON_split[1] =~ /textfield_/) {
         my @textfield_split = split /\_/, $modJSON_split[1];
-        Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> '.$modJSON_split[2] if($modJSON_split[2]);
-        Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> empty / nothing registered!' if (!$modJSON_split[2]);
+        if ($modJSON_split[2]) { Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> '.$modJSON_split[2]; }
+        if (!$modJSON_split[2]) { Log3 $name, 4, "$name: FW_updateData - $i ".$textfield_split[1].' -> empty / nothing registered!'; }
 
         if($textfield_split[1] eq 'comment') {
-          $comment = $modJSON_split[2] if($modJSON_split[2]);
-          $comment = "" if(!$modJSON_split[2]);
+          if ($modJSON_split[2]) { $comment = $modJSON_split[2]; }
+          if (!$modJSON_split[2]) { $comment = ""; }
         }
 
-        $devicename = $modJSON_split[2] if($textfield_split[1] eq 'devicename');
+        if($textfield_split[1] eq 'devicename') { $devicename = $modJSON_split[2]; }
 
         if($textfield_split[1] eq 'user') {
-          $user = $modJSON_split[2] if($modJSON_split[2]);
-          $user = 'unknown' if(!$modJSON_split[2]);
+          if ($modJSON_split[2]) { $user = $modJSON_split[2]; }
+          if (!$modJSON_split[2]) { $user = 'unknown'; }
         }
       }
 
@@ -3071,8 +3063,7 @@ sub SIGNALduino_TOOL_FW_updateData {
       $cnt_data_element_max = 0;
       ## variant 1) name device = internal NAME
       if (@{$ProtocolListRead}[$i]->{name} eq $defs{$defs{$name}->{dispatchDevice}}->{NAME}) {
-        Log3 $name, 4, "$name: FW_updateData - NAME ".$defs{$defs{$name}->{dispatchDevice}}->{NAME}.' is exists in '.@{$ProtocolListRead}[$i]->{name}." ($i)";
-        Log3 $name, 4, "$name: FW_updateData -> device position is fixed! ($i)";
+        Log3 $name, 4, "$name: FW_updateData - NAME ".$defs{$defs{$name}->{dispatchDevice}}->{NAME}.' is exists in '.@{$ProtocolListRead}[$i]->{name}." (position $i)";
         $devicefound++;
         $pos_array_device = $i;
       }
@@ -3088,39 +3079,44 @@ sub SIGNALduino_TOOL_FW_updateData {
               if ($key2 eq 'DEF') {
                 if (@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}->{DEF} eq $defs{$defs{$name}->{dispatchDevice}}->{DEF} && @{$ProtocolListRead}[$i]->{name} eq $devicename) {
                   Log3 $name, 4, "$name: FW_updateData - DEF ".@{$ProtocolListRead}[$i]->{name}.' check: device exists with DEF, need update data key!';
-                  Log3 $name, 4, "$name: FW_updateData -> device position is fixed! ($i)";
+                  Log3 $name, 4, "$name: FW_updateData - device position is fixed! ($i)";
                   $devicefound++;
                   $pos_array_device = $i;
                   last;
                 }
-                last if ($devicefound != 0);
+                if ($devicefound != 0) { last; }
               }
-              last if ($devicefound != 0);
+              if ($devicefound != 0) { last; }
             }
-            last if ($devicefound != 0);
+            if ($devicefound != 0) { last; }
           }
-          last if ($devicefound != 0);
+          if ($devicefound != 0) { last; }
         }
       }
-      last if ($devicefound != 0);
+      if ($devicefound != 0) { last; }
     }
 
     ### option to write ###
     if ($devicefound == 0) {
-      Log3 $name, 4, "$name: FW_updateData - device can push";
+      ## first data from device
+      Log3 $name, 4, "$name: FW_updateData - NEW device push to list";
 
-      push @{$ProtocolListRead}, { name => $devicename,
-                                         id => ReadingsVal($name, 'decoded_Protocol_ID', 'none'),
-                                         data => [ { dmsg => ReadingsVal($name, 'last_DMSG', 'none'),
-                                         comment => $comment,
-                                         user => $user,
-                                         internals => { %internals },
-                                         readings => { %readings },
-                                         attributes => { %attributes },                  # ggf need check
-                                         rmsg => ReadingsVal($name, 'last_MSG', 'none')
-                                                  }
+      push @{$ProtocolListRead}, { name       => $devicename,
+                                   id         => ReadingsVal($name, 'decoded_Protocol_ID', 'none'),
+                                   data       => [  { dmsg    => ReadingsVal($name, 'last_DMSG', 'none'),
+                                                      comment => $comment,
+                                                      user    => $user,
+                                                      internals           => { %internals },
+                                                      readings            => { %readings },
+                                                      attributes          => { %attributes },                  # ggf need check
+                                                      minProtocolVersion  => $defs{$Dummyname}->{versionProtocols},
+                                                      revision_entry      => FmtDateTime(time()),
+                                                      revision_modul      => SIGNALduino_TOOL_version_moduls($hash,$defs{$devicename}->{TYPE}),
+                                                      rmsg                => ReadingsVal($name, 'last_MSG', 'none')
+                                                    }
                                                  ]
-                                       };
+                                 };
+      ## second and all other data´s from device
     } else {
       Log3 $name, 4, "$name: FW_updateData - device must update on fixed position $pos_array_device with currently $cnt_data_element_max data elements";
 
@@ -3148,6 +3144,9 @@ sub SIGNALduino_TOOL_FW_updateData {
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{internals} = \%internals;
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{readings} = \%readings;
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{attributes} = \%attributes;
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{minProtocolVersion} = $defs{$Dummyname}->{versionProtocols};
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{revision_entry} = FmtDateTime(time());
+        @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{revision_modul} = SIGNALduino_TOOL_version_moduls($hash,$defs{$devicename}->{TYPE});
         @{$ProtocolListRead}[$pos_array_device]->{data}[$cnt_data_element_max]->{rmsg} = ReadingsVal($name, 'last_MSG', 'none');
       }
     }
@@ -3158,9 +3157,7 @@ sub SIGNALduino_TOOL_FW_updateData {
 
   ## only for entry_example (last) | if entry delete, loop can remove ##
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-    if (@{$ProtocolListRead}[$i]->{id} eq '') {
-      @{$ProtocolListRead}[$i]->{id} = 999999;
-    }
+    if (@{$ProtocolListRead}[$i]->{id} eq '') { @{$ProtocolListRead}[$i]->{id} = 999999; }
   }
 
   @$ProtocolListRead = sort { $a->{name} cmp $b->{name} } @$ProtocolListRead;
@@ -3168,22 +3165,22 @@ sub SIGNALduino_TOOL_FW_updateData {
 
   ## only for entry_example (after sort, it first | if entry delete, loop can remove ) ##
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-    if (@{$ProtocolListRead}[$i]->{id} == 999999) {
-      @{$ProtocolListRead}[$i]->{id} = '';
-    }
+    if (@{$ProtocolListRead}[$i]->{id} == 999999) { @{$ProtocolListRead}[$i]->{id} = ''; }
   }
 
   my $output = $json->pretty->encode($ProtocolListRead);
   $ProtocolListRead = eval { decode_json($output) };
 
   # ## for test ##
-  # open(SaveDoc, '>', "./FHEM/lib/$jsonDoc".'_TestWrite.json') || return "ERROR: file ($jsonDoc) can not open!";
+  # open(SaveDoc, '>', "./FHEM/lib/$jsonDoc".'_TestWrite.json') or return "ERROR: file ($jsonDoc) can not open!";
     # print SaveDoc $output;
   # close(SaveDoc);
 
   ### last step - reset ###
   $pos_array_device = undef;
   $pos_array_data = undef;
+
+  # Log3 $name, 4, "$name: FW_updateData - Dumper: ".Dumper\@{$ProtocolListRead}; # ONLY DEBUG
 }
 
 ################################
@@ -3215,9 +3212,9 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
   return "No file readed in memory! Please use option <br><code>get $name ProtocolList_from_file_SD_Device_ProtocolList.json</code><br> to read this information." if (!$ProtocolListRead);
   return "The attribute DispatchModule with value $DispatchModule is set to text files.<br>No filtered overview! Please set a non txt value." if ($DispatchModule =~ /.txt$/);
 
-  $ret ="<table class=\"block wide internals wrapcolumns\">";
+  $ret ="<table class=\"block wide\">";
   $ret .="<caption id=\"SD_protoCaption\">List of message documentation from SD_Device_ProtocolList.json</caption>";
-  $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>state</td> <td>comment</td> <td>DEF</td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
+  $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>ID</td> <td>Clientmodule</td> <td>Hardware name</td> <td>Readings state</td> <td>Internals NAME<br><small><i>comment</i></small></td> <td>battery</td> <td>model</td> <td>user</td> <td>dispatch</td> </thead>";
   $ret .="<tbody>";
 
   ### for compatibility , getProperty ###
@@ -3225,55 +3222,60 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-    my ($DEF,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
+    my ($NAME,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
 
     ### for compatibility , getProperty ###
     if ($modus == 1) {
-      $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+      if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
     } else {
-      $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule') if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'));
+      if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
     }
 
     if (@$ProtocolListRead[$i]->{id} ne '') {
       my $ref_data = @{$ProtocolListRead}[$i]->{data};
-      for (my $i2=0;$i2<@$ref_data;$i2++) {  
+      for (my $i2=0;$i2<@$ref_data;$i2++) {
+        $buttons = '';  # to reset value
+        $dmsg = '';     # to reset value
+        $RAWMSG = '';   # to reset value
+
         foreach my $key (sort keys %{@$ref_data[$i2]}) {
-          $comment = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /comment/);
-          $user = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /user/);
-          $dmsg = urlEncode( @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} ) if ($key =~ /dmsg/); # need urlEncode https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42
+          #Log3 $name, 5, "$name: FW_SD_Device_ProtocolList_get, ".sprintf("%03d", $i)." $i2, ".@{$ProtocolListRead}[$i]->{name}.", $key";
+          if ($key =~ /comment/) { $comment = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}; }
+          if ($key =~ /user/) { $user = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}; }
+          if ($key =~ /dmsg/) { $dmsg = urlEncode( @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} ); } # need urlEncode https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/42
           if ($key =~ /^readings/) {
             foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-              $state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} if ($key =~ /^state/);
-              $battery = "&#10003;" if ($key =~ /battery/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} ne '');
+              if ($key =~ /^state/) { $state = @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key}; }
+              if ($key =~ /battery/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{$key} ne '') { $battery = "&#10003;"; }
             }
           }
           if ($key =~ /^internals/) {
             foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-              $DEF = "&#10003;" if ($key2 eq "DEF" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '');
+              if ($key2 eq "NAME" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '') { $NAME = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}; }
             }
           }
           if ($key =~ /^attributes/) {
             foreach my $key (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-              $model = "&#10003;" if ($key =~ /^model/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{attributes}{$key} ne '');
+              if ($key =~ /^model/ && @{$ProtocolListRead}[$i]->{data}[$i2]->{attributes}{$key} ne '') { $model = "&#10003;"; }
             }
           }
-          $RAWMSG = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key} if ($key =~ /rmsg/);
+          if ($key =~ /rmsg/) { $RAWMSG = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}; }
         }
-        $buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','rmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>" if ($RAWMSG ne "" && $Dummyname ne 'none');
-        $buttons.= "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','dmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."DMSG%20$dmsg$FW_CSRF')\" value=\"dmsg\" %s/>" if ($dmsg ne "" && $Dummyname ne 'none');
-        $buttons = 'no attrib Dummyname' if ($Dummyname eq 'none');
+        if ($RAWMSG ne "" && $Dummyname ne 'none') { $buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','rmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>"; }
+        if ($dmsg ne "" && $Dummyname ne 'none') { $buttons.= "<INPUT type=\"reset\" onclick=\"pushed_button(".@$ProtocolListRead[$i]->{id}.",'SD_Device_ProtocolList.json','dmsg','".@$ProtocolListRead[$i]->{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."DMSG%20$dmsg$FW_CSRF')\" value=\"dmsg\" %s/>"; }
+        if ($Dummyname eq 'none') { $buttons = 'no attrib Dummyname'; }
 
         ## view all ##
         if ($DispatchModule eq '-') {
           $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
-          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$NAME<br><small><i><u>comment:</u> $comment</i></small></div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
 
         ## for filtre DispatchModule if set attribute ##
         } elsif ($DispatchModule eq $clientmodule) {
           $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
-          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$comment</div></td> <td align=\"center\"><div>$DEF</div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
+          $ret .= "<tr class=\"$oddeven\"> <td><div>".@$ProtocolListRead[$i]->{id}."</div></td> <td><div>$clientmodule</div></td> <td><div>".@$ProtocolListRead[$i]->{name}."</div></td> <td><div>$state</div></td> <td><div>$NAME<br><small><i><u>comment:</u> $comment</i></small></div></td> <td align=\"center\"><div>$battery</div></td> <td align=\"center\"><div>$model</div></td> <td><div>$user</div></td> <td><div>$buttons</div></td> </tr>";
         }
-        $DEF = '';
+        $NAME = '';
         $model = '';
       }
     }
@@ -3308,13 +3310,17 @@ sub SIGNALduino_TOOL_Notify {
   my $Dummyname = AttrVal($name,'Dummyname','none');  # Dummyname
   my $ntfy_match;
 
-  return '' if(IsDisabled($name));                    # Return without any further action if the module is disabled
+  if (IsDisabled($name)) { return '';}                # Return without any further action if the module is disabled
   Log3 $name, 5, "$name: Notify is running";
 
   my $events = deviceEvents($dev_hash,1);
-  return if( !$events );
+  if( !$events ) { return; }
 
-  #Log3 $name, 4, "$name: Notify - Events: ".Dumper\@{$events};
+  ## HELP to debug ##
+  #if ($devName ne $Dummyname && $devName ne 'global' && $devName !~ /SVG_/) {
+    #Log3 $name, 5, "$name: Notify - Events from device $devName";
+    #Log3 $name, 5, "$name: Notify - Events: ".Dumper\@{$events};
+  #}
 
   ## ... Parse_MC, Found manchester Protocol id .. clock ... RSSI -47.5 -> ...
   if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /manchester\sProtocol\sid/ } @{$events})) {
@@ -3338,8 +3344,10 @@ sub SIGNALduino_TOOL_Notify {
       ( ($ntfy_match) = grep { /Parse_.*Decoded\smatched\sMS/ } @{$events} ) ||
       ( ($ntfy_match) = grep { /Dispatch,\s[uU]/ } @{$events}) ) {
 
-    $ntfy_match =~ /id\s(\d+.?\d?)/ if (grep { /Decoded/ } $ntfy_match);
-    $ntfy_match =~ /Dispatch,\s[uU](\d+)#/ if (grep { /Dispatch,\s[uU].*#/ } $ntfy_match);
+    Log3 $name, 4, "$name: Notify - ntfy_match check, Decoded ".'|| Dispatch';
+
+    if (grep { /Decoded/ } $ntfy_match) { $ntfy_match =~ /id\s(\d+.?\d?)/; }
+    if (grep { /Dispatch,\s[uU].*#/ } $ntfy_match) { $ntfy_match =~ /Dispatch,\s[uU](\d+)#/; }
 
     if (!$hash->{helper}->{NTFY_match}) {
       Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v1 | mark MS|MU|uU with id $1";
@@ -3439,8 +3447,8 @@ sub SIGNALduino_TOOL_Version_SIGNALduino {
   if (exists $defs{$SIGNALduino}->{versionmodul} && $defs{$SIGNALduino}->{versionmodul} =~ /^(v|V)?\d\./) {
     Log3 $name, 5, "$name: Version_SIGNALduino, found Internal versionmodul with value ".$defs{$SIGNALduino}->{versionmodul};
     $version = $defs{$SIGNALduino}->{versionmodul};
-    $version = substr($version,1) if ($version =~ /^(v|V)\d+/);
-    $modus = $1 if ($version =~ /^(\d+.\d)/);
+    if ($version =~ /^(v|V)\d+/) { $version = substr($version,1); }
+    if ($version =~ /^(\d+.\d)/) { $modus = $1; }
     $modus = $modus < 3.5 ? 1 : 2 ;
   }
 
@@ -3460,7 +3468,7 @@ sub SIGNALduino_TOOL_delete_webCmd {
               grep { $_ !~ m/^$arg(:.+)?$/ }
               split(":", $webCmd);
     $attr{$name}{webCmd} = join(":", sort keys %mod);
-    delete $attr{$name}{webCmd} if( (!keys %mod && defined($attr{$name}{webCmd})) || (defined($attr{$name}{webCmd}) && $attr{$name}{webCmd} eq '') );
+    if ( (!keys %mod && defined($attr{$name}{webCmd})) || (defined($attr{$name}{webCmd}) && $attr{$name}{webCmd} eq '') ) { delete $attr{$name}{webCmd}; }
   }
 }
 
@@ -3492,7 +3500,7 @@ sub SIGNALduino_TOOL_delete_cmdIcon {
               grep { $_ !~ m/^$arg(:.+)?$/ }
               split(' ', $cmdIcon);
     $attr{$name}{cmdIcon} = join(" ", sort keys %mod);
-    delete $attr{$name}{cmdIcon} if( (!keys %mod && defined($attr{$name}{cmdIcon})) || (defined($attr{$name}{cmdIcon}) && $attr{$name}{cmdIcon} eq '') );
+    if ( (!keys %mod && defined($attr{$name}{cmdIcon})) || (defined($attr{$name}{cmdIcon}) && $attr{$name}{cmdIcon} eq '') ) { delete $attr{$name}{cmdIcon}; }
   }
 }
 
@@ -3533,7 +3541,7 @@ sub SIGNALduino_TOOL_deleteInternals {
   Log3 $name, 5, "$name: deleteInternals is running";
 
   for (@internal) {
-    delete $hash->{$_} if ($hash->{$_});
+    if ($hash->{$_}) { delete $hash->{$_}; }
   }
 }
 
@@ -3549,13 +3557,13 @@ sub SIGNALduino_TOOL_nonBlock_Start {
   Log3 $name, 4, "$name: nonBlock_Start is running";
 
   (my $error, my @content) = FileRead($path.$file);  # check file open
-  $count1 = -1 if (defined $error);                  # file can´t open
+  if (defined $error) { $count1 = -1; }              # file can´t open
 
   if (not defined $error) {
     for ($count1 = 0;$count1<@content;$count1++){  # loop to read file in array
-      Log3 $name, 3, "$name: #####################################################################" if ($count1 == 0);
-      Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (max dispatch=$DispatchMax) !!! <<<-- #####" if ($count1 == 0 && $messageNumber == 0);
-      Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (MessageNumber) !!! <<<-- #####" if ($count1 == 0 && $messageNumber != 0);
+      if ($count1 == 0) { Log3 $name, 3, "$name: #####################################################################"; }
+      if ($count1 == 0 && $messageNumber == 0) { Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (max dispatch=$DispatchMax) !!! <<<-- #####"; }
+      if ($count1 == 0 && $messageNumber != 0) { Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (MessageNumber) !!! <<<-- #####"; }
 
       my $string = $content[$count1];
       $string =~ s/[^A-Za-z0-9\-;=#]//g;;       # nur zulässige Zeichen erlauben
@@ -3578,7 +3586,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
         ### dispatch all ###
         if ($count3 <= $DispatchMax && $messageNumber == 0) {
           Log3 $name, 4, "$name: ($count2) get $Dummyname rawmsg $string";
-          Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).') in Zeile '.($count1+1).' ist ungueltig ' if ($lastpos ne ';');
+          if ($lastpos ne ';') { Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).') in Zeile '.($count1+1).' ist ungueltig '; }
 
           CommandGet($hash, "$Dummyname rawmsg $string $FW_CSRF");
           $count3++;
@@ -3586,7 +3594,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
 
         } elsif ($count2 == $messageNumber) {
           Log3 $name, 4, "$name: ($count2) get $Dummyname rawmsg $string";
-          Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1).' ist ungueltig ' if ($lastpos ne ';');
+          if ($lastpos ne ';') { Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1).' ist ungueltig '; }
 
           CommandGet($hash, "$Dummyname rawmsg $string $FW_CSRF");
           $count3 = 1;
@@ -3595,12 +3603,12 @@ sub SIGNALduino_TOOL_nonBlock_Start {
       }
     }
 
-    Log3 $name, 3, "$name: ### -->>> no message to Dispatch found !!! <<<-- ###" if ($count3 == 0);
+    if ($count3 == 0) { Log3 $name, 3, "$name: ### -->>> no message to Dispatch found !!! <<<-- ###"; }
     Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is STOPPED !!! <<<-- #####";
     Log3 $name, 3, "$name: ####################################################";
 
-    $msg = 'finished, all RAMSG´s are dispatched' if ($count3 > 0);
-    $msg = "finished, no RAMSG´s dispatched -> MessageNumber or StartString $string1pos not found!" if ($count3 == 0);
+    if ($count3 > 0) { $msg = 'finished, all RAMSG´s are dispatched'; }
+    if ($count3 == 0) { $msg = "finished, no RAMSG´s dispatched -> MessageNumber or StartString $string1pos not found!"; }
   } else {
     $msg = $error;
     Log3 $name, 3, "$name: FileRead=$error";
@@ -3630,8 +3638,8 @@ sub SIGNALduino_TOOL_nonBlock_StartDone {
   InternalTimer(gettimeofday()+2, "SIGNALduino_TOOL_readingsSingleUpdate_later", "$name/:/$msg");
 
   readingsBeginUpdate($hash);
-  readingsBulkUpdate($hash, 'line_read' , $count1+1) if ($count1 != -1);
-  readingsBulkUpdate($hash, 'message_dispatched' , $count3) if (defined $count3 && $count1 != -1);
+  if ($count1 != -1) { readingsBulkUpdate($hash, 'line_read' , $count1+1); }
+  if (defined $count3 && $count1 != -1) { readingsBulkUpdate($hash, 'message_dispatched' , $count3); }
   readingsBulkUpdate($hash, 'message_to_module' , $DummyMSGCNTvalue);
   readingsEndUpdate($hash, 1);
 }
@@ -3654,6 +3662,30 @@ sub SIGNALduino_TOOL_readingsSingleUpdate_later {
 
   Log3 $name, 4, "$name: readingsSingleUpdate_later running";
   readingsSingleUpdate($hash, 'state', $txt,1);
+}
+
+#####################
+sub SIGNALduino_TOOL_version_moduls {
+  my ( $hash, $modultype ) = @_;
+  my $name = $hash->{NAME};
+
+  Log3 $name, 5, "$name: version_modul running";
+
+  my $verbose_old = AttrVal('global','verbose',3);
+  if ($verbose_old <= 3) { $attr{global}{verbose} = 2; }             # info version write to logfile with verbose 3 and more
+
+  my $revision = fhem("version $modultype");
+  #Log3 $name, 5, "$name: version_modul, modultype $modultype, versionsstring input -> $revision";
+
+  #$revision =~ /.*Change\n+(.*\.pm\s\d+\s\d+-\d+-\d+\s.*)$/m;  
+  $revision =~ /(\d{2}_$modultype\.pm\s+\d+\s\d{4}.*)/;
+  $revision = $1;
+  if (!$revision) { $revision = 'unknown'; }
+  Log3 $name, 5, "$name: version_modul, modultype $modultype, version found -> $revision";
+
+  if ($verbose_old <= 3 ) { $attr{global}{verbose} = $verbose_old; } # reset verbose to old value to not write info version to logfile
+
+  return $revision;
 }
 
 ###############################################
@@ -3715,8 +3747,8 @@ sub SIGNALduino_TOOL_cc1101read_byte2bit {
   $res = substr($binvalue,$pos,$len);
   my $decvalue = oct( "0b$res" );
   my $hexvalue = sprintf("%X", oct( "0b$res" ) );
-  $res = $decvalue if $type eq 'd';
-  $res = $hexvalue if $type eq 'h';
+  if ($type eq 'd') { $res = $decvalue; }
+  if ($type eq 'h') { $res = $hexvalue; }
   return $res;
 }
 #####################
@@ -3726,7 +3758,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   my $path = shift;
   my $text;
 
-  open my $cc1101Doc, '>', $path.'SIGNALduino_TOOL_cc1101read.txt' || return 'ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!';
+  open my $cc1101Doc, '>', $path.'SIGNALduino_TOOL_cc1101read.txt' or return "ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!\n\n$!";
     print $cc1101Doc "\n";
     print $cc1101Doc "---------+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+\n";
     print $cc1101Doc "CC1101 from $IODev_CC110x_Register\n";
@@ -4348,7 +4380,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
   &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="UnitTest_define"></a><code>UnitTest_define</code> - define the available UnitTest (command requires the GET query UnitTests_from_SIGNALduino)</li><a name=""></a></ul>
   <ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
   <ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - deletes the specified room with all devices</li><a name=""></a></ul>
   <ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - deletes logfiles from the system of devices that no longer exist</li><a name=""></a></ul>
@@ -4374,7 +4405,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
   <ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
   <ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
-  <ul><li><a name="UnitTests_from_SIGNALduino"></a><code>UnitTests_from_SIGNALduino</code> - retrieves the available UnitTests (after a successful call, the SET command UnitTest_define is available)</li><a name=""></a></ul>
   <ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
   <ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
   <ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li><a name=""></a></ul>
@@ -4492,7 +4522,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
   &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="UnitTest_define"></a><code>UnitTest_define</code> - definiert den zur Verf&uuml;gung stehenden UnitTest (Befehl erfordert die GET Abfrage UnitTests_from_SIGNALduino)</li><a name=""></a></ul>
   <ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
   <ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - l&ouml;scht den angegebenen Raum mit allen Ger&auml;ten</li><a name=""></a></ul>
   <ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - l&ouml;scht Logfiles von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
@@ -4521,7 +4550,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
   <ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
   <ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
-  <ul><li><a name="UnitTests_from_SIGNALduino"></a><code>UnitTests_from_SIGNALduino</code> - ruft die zur Verf&uuml;gung stehenden UnitTests ab (nach erfolgreichem Abruf ist der SET Befehl UnitTest_define verf&uuml;gbar)</li><a name=""></a></ul>
   <ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
   <ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
   <ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li><a name=""></a></ul>
@@ -4598,5 +4626,94 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <br>
 </ul>
 =end html_DE
+
+=for :application/json;q=META.json 88_SIGNALduino_TOOL.pm
+{
+  "author": [
+    "HomeAuto_User <>",
+    "elektron-bbs"
+  ],
+  "description": "Tool from SIGNALduino",
+  "dynamic_config": 1,
+  "keywords": [
+    "sduino",
+    "fhem-sonstige-systeme",
+    "signalduino",
+    "signalduino_tool"
+  ],
+  "license": [
+    "GPL_2"
+  ],
+  "meta-spec": {
+    "url": "https://metacpan.org/pod/CPAN::Meta::Spec",
+    "version": 2
+  },
+  "name": "FHEM::SIGNALduino_TOOL",
+  "prereqs": {
+    "runtime": {
+      "requires": {
+        "Data::Dumper": 0,
+        "FHEM": 5.00918623,
+        "FHEM::Meta": 0.001006,
+        "HttpUtils": 0,
+        "JSON::PP": 0,
+        "lib::SD_Protocols": "0",
+        "perl": 5.018,
+        "strict": "0",
+        "warnings": "0"
+      }
+    },
+    "develop": {
+      "requires": {
+        "lib::SD_Protocols": "0",
+        "strict": "0",
+        "warnings": "0"
+      }
+    }
+  },
+  "release_status": "stable",
+  "resources": {
+    "bugtracker": {
+      "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues"
+    },
+    "repository": {
+      "x_master": {
+        "type": "git",
+        "url": "https://github.com/RFD-FHEM/SIGNALduino_TOOL.git",
+        "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/master/FHEM/88_SIGNALduino_TOOL.pm"
+      },
+      "type": "",
+      "url": "https://github.com/RFD-FHEM/SIGNALduino_TOOL",
+      "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/master/FHEM/88_SIGNALduino_TOOL.pm",
+      "x_branch": "master",
+      "x_filepath": "FHEM/",
+      "x_raw": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/master/FHEM/88_SIGNALduino_TOOL.pm",
+      "x_dev": {
+        "type": "git",
+        "url": "https://github.com/RFD-FHEM/SIGNALduino_TOOL.git",
+        "web": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/pre-release/FHEM/88_SIGNALduino_TOOL.pm",
+        "x_branch": "pre-release",
+        "x_filepath": "FHEM/",
+        "x_raw": "https://github.com/RFD-FHEM/SIGNALduino_TOOL/blob/pre-release/FHEM/88_SIGNALduino_TOOL.pm"
+      }
+    },
+    "x_commandref": {
+      "web": "https://commandref.fhem.de/#SIGNALduino_TOOL"
+    },
+    "x_wiki": {
+      "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
+    }
+  },
+  "version": "v1.0.0",
+  "x_fhem_maintainer": [
+    "HomeAuto_User",
+    "elektron-bbs"
+  ],
+  "x_fhem_maintainer_github": [
+    "HomeAutoUser",
+    "elektron-bbs"
+  ]
+}
+=end :application/json;q=META.json
 
 =cut

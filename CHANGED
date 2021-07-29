@@ -1,29 +1,142 @@
-2021-02-17 - Update SD_Device_ProtocolList.json (#47)
+2021-07-28 - Update SD_Device_ProtocolList.json
+2021-07-08 - Update 88_SIGNALduino_TOOL.pm
 
-* Update SD_Device_ProtocolList.json
+- fix CC110x_Register_comparison
+- revised some lines for Perl::Critic
+2021-06-28 - Update 88_SIGNALduino_TOOL.pm
 
-removed rmsg, because as comment, rmsg does not match to get dmsg
+ - revised some lines for Perl::Critic
+2021-06-23 - Update SD_Device_ProtocolList.json
 
-* Update SD_Device_ProtocolList.json
+ - added AVANTEK DB-LE
+2021-05-26 - Update SD_Device_ProtocolList.json
 
-Fixed number of dispatch_repeats for HX 70372
+ - added self build arduino sensor
+2021-05-26 - Update SD_Device_ProtocolList.json
+2021-05-26 - Update 88_SIGNALduino_TOOL.pm
 
-* Update SD_Device_ProtocolList.json
+ - little fix
+ - fix minProtocolVersion, revision_entry, revision_modul for second ans all other entrys
+2021-05-25 - Update SD_Device_ProtocolList.json
+2021-05-25 - Update 88_SIGNALduino_TOOL.pm
 
-Update dispatch repeats for HX 70372
+ - fix minProtocolVersion, revision_entry, revision_modul for first entry
+2021-05-25 - Update 88_SIGNALduino_TOOL.pm
 
-* added failing rmsg as comment
-2021-02-16 - added failing rmsg as comment
-2021-02-07 - Update SD_Device_ProtocolList.json
+ - added MN; string
+2021-05-25 - Update SD_Device_ProtocolList.json
 
-Update dispatch repeats for HX 70372
-2021-02-07 - Update SD_Device_ProtocolList.json
+ - added KOPP_FC
+ - revised data ADE WS 1907 revision_modul & minProtocolVersion
+2021-05-22 - Update SD_Device_ProtocolList.json
 
-Fixed number of dispatch_repeats for HX 70372
-2021-02-07 - Update SD_Device_ProtocolList.json
+ - added data ADE WS 1907
+2021-05-19 - Update SD_Device_ProtocolList.json
 
-removed rmsg, because as comment, rmsg does not match to get dmsg
-2021-02-01 - Merge branch 'pre-release'
+ - added data for Pearl NC7159, Auriol HG04641A
+2021-04-22 - Update SD_Device_ProtocolList.json
+
+ - added data for valid Revolt devices
+ - tested data & added minProtocolVersion
+2021-04-21 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
+ - added noted
+2021-04-21 - Update 88_SIGNALduino_TOOL.pm
+
+ - revised logoutput
+2021-04-20 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
+2021-03-26 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
+2021-03-25 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
+2021-03-25 - Update 88_SIGNALduino_TOOL.pm
+
+ - revised logoutput
+2021-03-24 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
+2021-03-24 - Update 88_SIGNALduino_TOOL.pm
+
+ - revised META informations
+ - added META informations
+ - little fix userattr DispatchModule
+2021-03-23 - Update SD_Device_ProtocolList.json
+
+ - tested data & added minProtocolVersion
+ - revision data AS2000, ASH2000
+2021-03-22 - Update 88_SIGNALduino_TOOL.pm
+
+ - little fix
+2021-03-22 - Update SD_Device_ProtocolList.json
+
+ - revised data S2000ID
+ - revised data Clarus_Switch, Somfy
+ - revised data QUIGG_GT-9000, ET-733
+ - revised data FHT80TF-2, FHT80b, EM1000WZ,
+ - revised data Auriol Z31743B, AURIOL_174
+2021-03-18 - Update SD_Device_ProtocolList.json
+
+ - revised data FHT80TF-2
+ - revised data Ventus W132
+ - revised data from ABS700, Prologue, Mebus, Hama TS33C
+2021-03-18 - Update 88_SIGNALduino_TOOL.pm
+
+ - fix write JSON
+ - fix html overview
+ - remove old set cmd UnitTest_define
+ - remove old get cmd UnitTests_from_SIGNALduino
+2021-02-27 - Update SD_Device_ProtocolList.json
+
+ - fix entry (test tested rmsg)
+ - update entry´s revision_entry + revision_modul
+ - added RC-120
+2021-02-27 - Update 88_SIGNALduino_TOOL.pm
+
+ - added JSON structure with minProtocolVersion, revision_entry, revision_modul
+ - fix JSON loaded option
+2021-02-09 - Update 88_SIGNALduino_TOOL.pm
+
+ - added modul revison info on "Check it" button window
+ - revised indentations
+2021-02-09 - Update SD_Device_ProtocolList.json
+
+ - id 39, fix wrong internals DEF
+ - id 79, revised dispatch_repeats
+2021-02-04 - Update SD_Device_ProtocolList.json
+
+ - revised comments
+2021-02-04 - Update 88_SIGNALduino_TOOL.pm
+
+ - added internal version_modul
+ - revised categorys
+2021-02-03 - Update 88_SIGNALduino_TOOL.pm
+
+ - fix regex for Http_data
+ - fix reset counters
+ - added some debug output´s
+2021-02-03 - Update SD_Device_ProtocolList.json
+
+ - added id 1,13, 13.2, 41
+ - revised comments
+ - revised id 43
+2021-02-02 - Update SD_Device_ProtocolList.json
+
+ - revised some comments
+ - added id 51, 77, 100, 101
+ - revised some id´s comments + hardwarename
+ - revised HTML representation JSON file
+2021-02-01 - Update SD_Device_ProtocolList.json
+
+ - added data id 103
+ - revised data id 43
+ - revised data id 12
+ - revised data id 3.1
+ - revised data id 62
 2021-01-28 - Update 88_SIGNALduino_TOOL.pm
 
  - URL for download changed

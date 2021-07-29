@@ -1,4 +1,4 @@
-name: JSON SyntaxCheck
+name: JSON Syntax & EntriesCheck
 on: [push]
 
 jobs:
