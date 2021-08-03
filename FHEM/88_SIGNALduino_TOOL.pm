@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-07-08 15:16:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-08-03 15:16:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -3314,6 +3314,7 @@ sub SIGNALduino_TOOL_Notify {
   Log3 $name, 5, "$name: Notify is running";
 
   my $events = deviceEvents($dev_hash,1);
+  my $id;
   if( !$events ) { return; }
 
   ## HELP to debug ##
@@ -3322,10 +3323,10 @@ sub SIGNALduino_TOOL_Notify {
     #Log3 $name, 5, "$name: Notify - Events: ".Dumper\@{$events};
   #}
 
-  ## ... Parse_MC, Found manchester Protocol id .. clock ... RSSI -47.5 -> ...
-  if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /manchester\sProtocol\sid/ } @{$events})) {
-    $ntfy_match =~ /id\s(\d+.?\d?)/;
-    Log3 $name, 4, "$name: Notify - ntfy_match check, mark MC with id $1";
+  ## ... Parse_MC, Found manchester protocol id .. clock ... RSSI -47.5 -> ...
+  if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /manchester\sprotocol\sid/ } @{$events})) {
+    $ntfy_match =~ /id\s(\d+\.?\d?)/;
+    if ($1) { Log3 $name, 4, "$name: Notify - ntfy_match check, mark MC with id $1"; }
 
     if (!$hash->{helper}->{NTFY_match}) {
       $hash->{helper}->{NTFY_match} = $1;
@@ -3345,22 +3346,26 @@ sub SIGNALduino_TOOL_Notify {
       ( ($ntfy_match) = grep { /Dispatch,\s[uU]/ } @{$events}) ) {
 
     Log3 $name, 4, "$name: Notify - ntfy_match check, Decoded ".'|| Dispatch';
+    #Log3 $name, 4, "$name: Notify - ntfy_match check, ntfy_match:\n\n$ntfy_match";
 
-    if (grep { /Decoded/ } $ntfy_match) { $ntfy_match =~ /id\s(\d+.?\d?)/; }
-    if (grep { /Dispatch,\s[uU].*#/ } $ntfy_match) { $ntfy_match =~ /Dispatch,\s[uU](\d+)#/; }
+    if (grep { /Decoded/ } $ntfy_match) { 
+      if ($ntfy_match =~ /id\s(\d+\.?\d?)/) { $id = $1; }
+    }
+    if (grep { /Dispatch,\s[uU].*#/ } $ntfy_match) {
+      if ($ntfy_match =~ /Dispatch,\s[uU](\d+)#/) { $id = $1 }
+    }
+
+    if ($id) { Log3 $name, 5, "$name: Notify - ntfy_match check, NTFY_match found id $id"; }
 
     if (!$hash->{helper}->{NTFY_match}) {
-      Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v1 | mark MS|MU|uU with id $1";
-      $hash->{helper}->{NTFY_match} = $1;
-      $hash->{helper}->{NTFY_match} =~ s/\s+//g;
+      Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v1 | mark MS|MU|uU with id $id";
+      $hash->{helper}->{NTFY_match} = $id;
       $hash->{helper}->{NTFY_SEARCH_Value_count}++;      # real counter if modul ok
     } else {
-      Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v2 | mark MS|MU|uU with id $1";
-      my $mod = $1;
-      $mod =~ s/\s+//g;
-      if ($hash->{helper}->{NTFY_match} && (not grep { /$mod/ } $hash->{helper}->{NTFY_match})) {
+      Log3 $name, 4, "$name: Notify - ntfy_match check, NTFY_match v2 | mark MS|MU|uU with id $id";
+      if ($hash->{helper}->{NTFY_match} && (not grep { /$id/ } $hash->{helper}->{NTFY_match})) {
         $hash->{helper}->{NTFY_SEARCH_Value_count}++;    # real counter if modul ok
-        $hash->{helper}->{NTFY_match} .= ", ".$mod ;
+        $hash->{helper}->{NTFY_match} .= ", ".$id ;
       }
     }
 
