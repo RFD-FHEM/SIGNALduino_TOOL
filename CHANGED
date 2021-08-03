@@ -1,9 +1,11 @@
 2021-08-03 - Update 88_SIGNALduino_TOOL.pm
 
- * fix PERL WARNING´s
- * revised regex
+ - fix PERL WARNING´s
+ - revised regex
 2021-07-30 - Update SD_Device_ProtocolList.json
+
 2021-07-28 - Update SD_Device_ProtocolList.json
+
 2021-07-08 - Update 88_SIGNALduino_TOOL.pm
 
 - fix CC110x_Register_comparison
