@@ -1,3 +1,6 @@
+2021-08-04 - Update SD_Device_ProtocolList.json
+
+add protocol 111 for TS-FT002 water tank level monitor with temperature
 2021-08-03 - Merge branch 'pre-release'
 2021-08-03 - Update 88_SIGNALduino_TOOL.pm
 
