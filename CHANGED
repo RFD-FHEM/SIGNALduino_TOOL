@@ -1,3 +1,7 @@
+2021-08-05 - Update 88_SIGNALduino_TOOL.pm
+
+ * fix cmd invert_bitMsg
+ * fix cmd invert_hexMsg
 2021-08-04 - Update SD_Device_ProtocolList.json
 
 add protocol 111 for TS-FT002 water tank level monitor with temperature
