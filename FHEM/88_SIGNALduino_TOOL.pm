@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-08-03 15:16:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-08-05 16:16:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1639,18 +1639,15 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'invert_bitMsg' || $cmd eq 'invert_hexMsg') {
     Log3 $name, 4, "$name: Get $cmd - check (5)";
     if (not defined $a[0]) { return 'ERROR: Your input failed!'; }
-    if ($cmd eq 'invert_bitMsg' && !$a[0] =~ /^[0-1]+$/) { return "ERROR: wrong value $a[0]! only [0-1]!"; }
-    if ($cmd eq 'invert_hexMsg' && !$a[0] =~ /^[a-fA-f0-9]+$/) { return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!"; }
+    if ($cmd eq 'invert_bitMsg' && ($a[0] !~ /^[0-1]+$/)) { return "ERROR: wrong value $a[0]! only [0-1]!"; }
+    if ($cmd eq 'invert_hexMsg' && ($a[0] !~ /^[a-fA-f0-9]+$/)) { return "ERROR: wrong value $a[0]! only [a-fA-f0-9]!"; }
 
     if ($cmd eq 'invert_bitMsg') {
       $value = $a[0];
       $value =~ tr/01/10/;                          # ersetze ; durch ;;
     } elsif ($cmd eq 'invert_hexMsg') {
-      my $hlen = length($a[0]);
-      my $blen = $hlen * 4;
-      my $bitData = unpack("B$blen", pack("H$hlen", $a[0]));
-      $bitData =~ tr/01/10/;
-      $value = sprintf("%X", oct("0b$bitData"));    
+      $value = uc($a[0]);
+      $value =~ tr/0123456789ABCDEF/FEDCBA9876543210/;
     }
 
     return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: $value";
