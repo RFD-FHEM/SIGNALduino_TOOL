@@ -2677,24 +2677,24 @@
       "dmsg":"W111#5F5B8860F110C400C9", "comment":"Water tank level monitor with temperature", "user":"docolli",
       "internals": {"DEF":"SD_WS_111_TL", "NAME":"SD_WS_111_TL"},
       "readings": {"state":"T: 16.8 D: 111", "distance":"111", "temperature":"16.8", "type":"TS-FT002"},
-      "minProtocolVersion":"1.32", "revision_entry":"2021-08-04 11:10:45",
-      "revision_modul":"14_SD_WS.pm 21666 2021-07-29 20:39:27Z elektron-bbs",
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:33:15",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-05 19:43:29Z elektron-bbs",
       "rmsg":"MU;P0=-21110;P1=484;P2=-971;P3=-488;D=01213121212121213121312121312121213131312131313131212131313131312121212131313121313131213131313121213131312131313131313131313131212131312131312101213121212121213121312121312121213131312131313131212131313131312121212131313121313131213131313121213131312131;CP=1;R=26;O;"
     },
     {
       "dmsg":"W111#5F5B8840F170240069", "comment":"Water tank level monitor with temperature", "user":"docolli",
       "internals": {"DEF":"SD_WS_111_TL", "NAME":"SD_WS_111_TL"},
       "readings": {"state":"T: 19 D: 47", "distance":"47", "temperature":"19", "type":"TS-FT002"},
-      "minProtocolVersion":"1.32", "revision_entry":"2021-08-04 11:18:06",
-      "revision_modul":"14_SD_WS.pm 21666 2021-07-29 20:39:27Z elektron-bbs",
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:33:45",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-05 19:43:29Z elektron-bbs",
       "rmsg":"MU;P0=-31628;P1=469;P2=-980;P3=-499;P4=-22684;D=01213121212121213121312121312121213131312131313131213131313131312121212131313121312121213131313131312131312131313131313131313131312121312131312141213121212121213121312121312121213131312131313131213131313131312121212131313121312121213131313131312131312131;CP=1;R=38;O;"
     },
     {
       "dmsg":"W111#5F5B8840F110A40089", "comment":"Water tank level monitor with temperature", "user":"docolli",
       "internals": {"DEF":"SD_WS_111_TL", "NAME":"SD_WS_111_TL"},
       "readings": {"state":"T: 20 D: 47", "distance":"47", "temperature":"20", "type":"TS-FT002"},
-      "minProtocolVersion":"1.32", "revision_entry":"2021-08-04 11:21:22",
-      "revision_modul":"14_SD_WS.pm 21666 2021-07-29 20:39:27Z elektron-bbs",
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:34:21",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-05 19:43:29Z elektron-bbs",
       "rmsg":"MU;P0=-5980;P1=464;P2=-988;P3=-511;P4=-22660;D=01213121212121213121312121312121213131312131313131213131313131312121212131313121313131213131313121312131312131313131313131313131213131312131312141213121212121213121312121312121213131312131313131213131313131312121212131313121313131213131313121312131312131;CP=1;R=38;O;"
     }
   ]
@@ -2708,6 +2708,27 @@
       "minProtocolVersion":"1.31", "revision_entry":"2021-06-23 19:46:06",
       "revision_modul":"14_SD_BELL.pm     0 2021-06-21 22:30:35Z HomeAuto_User",
       "rmsg":"MN;D=08C114844FDA5CA2;R=48;"
+    }
+  ]
+},
+{"name":"TR401", "id":"114", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P114#B1F", "comment":"Remote control, Button off (example Well-Light sales)", "dispatch_repeats":"5", "user":"Jake",
+      "internals": {"DEF":"TR401 0_2", "NAME":"TR401_0_2"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"TR401"},
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:55:59",
+      "revision_modul":"14_SD_UT.pm     0 2021-08-05 20:45:57Z HomeAuto_User",
+      "rmsg":"MU;P0=311;P1=585;P2=-779;P3=1255;P4=-1445;P5=-23617;P7=-5646;CP=1;R=230;D=12323234141414141514123414123232341414141415141234141232323414141414151412341412323234141414141514123414123232341414141415141234141232323414141414151412341412323234141414141517141232323414141414150;p;"
+    },
+    {
+      "dmsg":"P114#31F", "comment":"Remote control, Button on (example Well-Light sales)", "dispatch_repeats":"2", "user":"Jake",
+      "internals": {"DEF":"TR401 0_2", "NAME":"TR401_0_2"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0"},
+      "attributes": {"model":"TR401"},
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:56:43",
+      "revision_modul":"14_SD_UT.pm     0 2021-08-05 20:45:57Z HomeAuto_User",
+      "rmsg":"MU;P0=-1426;P1=599;P2=-23225;P3=-748;P4=1281;P5=372;P6=111;P7=268;CP=1;R=235;D=0121343401013434340101010101252621343401013434340101010101252705012134340101343434010101010125;p;"
     }
   ]
 },
