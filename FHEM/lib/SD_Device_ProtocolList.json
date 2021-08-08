@@ -2711,6 +2711,33 @@
     }
   ]
 },
+{"name":"GFGT_433_B1", "id":"113", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W113#2F06E896D14E", "comment":"Wireless Grill Thermometer", "user":"muede-de",
+      "internals": {"DEF":"SD_WS_113_T", "NAME":"SD_WS_113_T"},
+      "readings": {"state":"T: 203 T2: 300", "temperature":"203", "temperature2":"300", "type":"GFGT_433_B1"},
+      "minProtocolVersion":"1.33", "revision_entry":"2021-08-08 13:24:48",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-08 13:00:00Z Sidey",
+      "rmsg":"MS;P1=-262;P2=237;P3=-760;P6=-2972;P7=721;D=26232371237171717123232323237171237171712371232323712323712371712371712371232323712371232371717123;CP=2;SP=6;R=1;O;m2;"
+    },
+    {
+      "dmsg":"W113#2F06E348D102", "comment":"Wireless Grill Thermometer", "user":"muede-de",
+      "internals": {"DEF":"SD_WS_113_T", "NAME":"SD_WS_113_T"},
+      "readings": {"state":"T: 201 T2: 257", "temperature":"201", "temperature2":"257", "type":"GFGT_433_B1"},
+      "minProtocolVersion":"1.33", "revision_entry":"2021-08-08 13:28:16",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-08 13:00:00Z Sidey",
+      "rmsg":"MS;P2=-754;P3=247;P5=-2996;P6=718;P7=-272;D=35323267326767676732323232326767326767673232326767326732326732323267673267323232673232323232326732;CP=3;SP=5;R=3;O;m2;"
+    },
+    {
+      "dmsg":"W113#2F00A5AED106", "comment":"Wireless Grill Thermometer", "user":"muede-de",
+      "internals": {"DEF":"SD_WS_113_T", "NAME":"SD_WS_113_T"},
+      "readings": {"state":"T: 24 T2: 29", "temperature":"24", "temperature2":"29", "type":"GFGT_433_B1"},
+      "minProtocolVersion":"1.33", "revision_entry":"2021-08-08 13:30:11",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-08 13:00:00Z Sidey",
+      "rmsg":"MS;P1=-761;P2=249;P4=-3005;P5=718;P6=-270;D=24212156215656565621212121212121215621562121562156562156215656562156562156212121562121212121565621;CP=2;SP=4;R=34;O;m2;"
+    }
+  ]
+},
 {"name":"TR401", "id":"114", "module":"SD_UT", "data": [
     {
       "dmsg":"P114#B1F", "comment":"Remote control, Button off (example Well-Light sales)", "dispatch_repeats":"5", "user":"Jake",
