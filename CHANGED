@@ -1,12 +1,18 @@
+2021-08-09 - Update SD_Device_ProtocolList.json
+
+ * revised pull date
 2021-08-08 - Update SD_Device_ProtocolList.json
-2021-08-05 - Merge branch 'pre-release'
+2021-08-06 - Update SD_Device_ProtocolList.json
+
+ * revised pull date
+ * added protocol 114
 2021-08-05 - Update 88_SIGNALduino_TOOL.pm
 
- - fix cmd invert_bitMsg
- - fix cmd invert_hexMsg
+ * fix cmd invert_bitMsg
+ * fix cmd invert_hexMsg
 2021-08-04 - Update SD_Device_ProtocolList.json
 
- - add protocol 111 for TS-FT002 water tank level monitor with temperature
+add protocol 111 for TS-FT002 water tank level monitor with temperature
 2021-08-03 - Update 88_SIGNALduino_TOOL.pm
 
  - fix PERL WARNING´s
