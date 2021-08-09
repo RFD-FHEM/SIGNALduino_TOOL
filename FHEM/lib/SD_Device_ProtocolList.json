@@ -2705,8 +2705,8 @@
       "internals": {"DEF":"112 08C114844", "NAME":"SD_BELL_08C114844"},
       "readings": {"state":"ring"},
       "attributes": {"model":"AVANTEK"},
-      "minProtocolVersion":"1.31", "revision_entry":"2021-06-23 19:46:06",
-      "revision_modul":"14_SD_BELL.pm     0 2021-06-21 22:30:35Z HomeAuto_User",
+      "minProtocolVersion":"1.31", "revision_entry":"2021-08-09 21:27:21",
+      "revision_modul":"14_SD_BELL.pm     0 2021-07-12 22:30:35Z HomeAuto_User",
       "rmsg":"MN;D=08C114844FDA5CA2;R=48;"
     }
   ]
@@ -2716,8 +2716,8 @@
       "dmsg":"W113#2F06E896D14E", "comment":"Wireless Grill Thermometer", "user":"muede-de",
       "internals": {"DEF":"SD_WS_113_T", "NAME":"SD_WS_113_T"},
       "readings": {"state":"T: 203 T2: 300", "temperature":"203", "temperature2":"300", "type":"GFGT_433_B1"},
-      "minProtocolVersion":"1.33", "revision_entry":"2021-08-08 13:24:48",
-      "revision_modul":"14_SD_WS.pm 21666 2021-08-08 13:00:00Z Sidey",
+      "minProtocolVersion":"1.33", "revision_entry":"2021-08-09 21:25:05",
+      "revision_modul":"14_SD_WS.pm   21666 2021-08-08 12:01:00Z Sidey",
       "rmsg":"MS;P1=-262;P2=237;P3=-760;P6=-2972;P7=721;D=26232371237171717123232323237171237171712371232323712323712371712371712371232323712371232371717123;CP=2;SP=6;R=1;O;m2;"
     },
     {
@@ -2725,7 +2725,7 @@
       "internals": {"DEF":"SD_WS_113_T", "NAME":"SD_WS_113_T"},
       "readings": {"state":"T: 201 T2: 257", "temperature":"201", "temperature2":"257", "type":"GFGT_433_B1"},
       "minProtocolVersion":"1.33", "revision_entry":"2021-08-08 13:28:16",
-      "revision_modul":"14_SD_WS.pm 21666 2021-08-08 13:00:00Z Sidey",
+      "revision_modul":"14_SD_WS.pm   21666 2021-08-08 12:01:00Z Sidey",
       "rmsg":"MS;P2=-754;P3=247;P5=-2996;P6=718;P7=-272;D=35323267326767676732323232326767326767673232326767326732326732323267673267323232673232323232326732;CP=3;SP=5;R=3;O;m2;"
     },
     {
@@ -2733,7 +2733,7 @@
       "internals": {"DEF":"SD_WS_113_T", "NAME":"SD_WS_113_T"},
       "readings": {"state":"T: 24 T2: 29", "temperature":"24", "temperature2":"29", "type":"GFGT_433_B1"},
       "minProtocolVersion":"1.33", "revision_entry":"2021-08-08 13:30:11",
-      "revision_modul":"14_SD_WS.pm 21666 2021-08-08 13:00:00Z Sidey",
+      "revision_modul":"14_SD_WS.pm   21666 2021-08-08 12:01:00Z Sidey",
       "rmsg":"MS;P1=-761;P2=249;P4=-3005;P5=718;P6=-270;D=24212156215656565621212121212121215621562121562156562156215656562156562156212121562121212121565621;CP=2;SP=4;R=34;O;m2;"
     }
   ]
@@ -2744,8 +2744,8 @@
       "internals": {"DEF":"TR401 0_2", "NAME":"TR401_0_2"},
       "readings": {"state":"off", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"TR401"},
-      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:55:59",
-      "revision_modul":"14_SD_UT.pm     0 2021-08-05 20:45:57Z HomeAuto_User",
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-09 21:20:26",
+      "revision_modul":"14_SD_UT.pm     0 2021-08-08 16:56:40Z HomeAutoUser",
       "rmsg":"MU;P0=311;P1=585;P2=-779;P3=1255;P4=-1445;P5=-23617;P7=-5646;CP=1;R=230;D=12323234141414141514123414123232341414141415141234141232323414141414151412341412323234141414141514123414123232341414141415141234141232323414141414151412341412323234141414141517141232323414141414150;p;"
     },
     {
@@ -2753,8 +2753,8 @@
       "internals": {"DEF":"TR401 0_2", "NAME":"TR401_0_2"},
       "readings": {"state":"on", "LastAction":"receive", "deviceCode":"0"},
       "attributes": {"model":"TR401"},
-      "minProtocolVersion":"1.32", "revision_entry":"2021-08-05 20:56:43",
-      "revision_modul":"14_SD_UT.pm     0 2021-08-05 20:45:57Z HomeAuto_User",
+      "minProtocolVersion":"1.32", "revision_entry":"2021-08-09 21:22:56",
+      "revision_modul":"14_SD_UT.pm     0 2021-08-08 16:56:40Z HomeAutoUser",
       "rmsg":"MU;P0=-1426;P1=599;P2=-23225;P3=-748;P4=1281;P5=372;P6=111;P7=268;CP=1;R=235;D=0121343401013434340101010101252621343401013434340101010101252705012134340101343434010101010125;p;"
     }
   ]
