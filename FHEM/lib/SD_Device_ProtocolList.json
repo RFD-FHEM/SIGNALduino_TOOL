@@ -1441,6 +1441,33 @@
     }
   ]
 },
+{"name":"WH2", "id":"64", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W64#FE97615C94381C", "comment":"Fine Offset Electronics WH2, WH2A Temperature/Humidity sensor", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_WH2_0", "NAME":"SD_WS_WH2_0"},
+      "readings": {"state":"T: 17.4 H: 74", "batteryState":"ok", "channel":"0", "humidity":"74", "temperature":"17.4", "type":"WH2, WH2A"},
+      "minProtocolVersion":"1.34", "revision_entry":"2021-08-17 20:37:38",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-12 18:48:36Z elektron-bbs",
+      "rmsg":"MU;P0=-28888;P1=461;P2=-1012;P3=1440;D=01212121212121232123232123212121232121232323232123212321212123232123232123212323232321212123232323232321212121;CP=1;R=202;"
+    },
+    {
+      "dmsg":"W64#FE976236540E90", "comment":"Fine Offset Electronics WH2, WH2A Temperature/Humidity sensor", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_WH2_0", "NAME":"SD_WS_WH2_0"},
+      "readings": {"state":"T: 28.3 H: 42", "batteryState":"ok", "channel":"0", "humidity":"42", "temperature":"28.3", "type":"WH2, WH2A"},
+      "minProtocolVersion":"1.34", "revision_entry":"2021-08-17 20:40:09",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-12 18:48:36Z elektron-bbs",
+      "rmsg":"MU;P0=-25696;P1=479;P2=-985;P3=1461;D=01212121212121232123232123212121232121232323212323232121232121232321232123212323232323232121212321232321232323;CP=1;R=215;"
+    },
+    {
+      "dmsg":"W64#FE9041CC812844", "comment":"Fine Offset Electronics WH2, WH2A Temperature/Humidity sensor",
+      "internals": {"DEF":"SD_WS_WH2_0", "NAME":"SD_WS_WH2_0"},
+      "readings": {"state":"T: 23 H: 64", "batteryState":"ok", "channel":"0", "humidity":"64", "temperature":"23", "type":"WH2, WH2A"},
+      "minProtocolVersion":"1.34", "revision_entry":"2021-08-17 20:41:55",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-12 18:48:36Z elektron-bbs",
+      "rmsg":"MU;P0=134;P1=-113;P3=412;P4=-1062;P5=1379;D=01010101013434343434343454345454345454545454345454545454343434545434345454345454545454543454543454345454545434545454345;CP=3;"
+    }
+  ]
+},
 {"name":"HomeEasy HE_EU", "id":"65", "module":"IT", "data": [
     {
       "dmsg":"ihC78F366DC8F2E58000", "comment":"https://github.com/RFD-FHEM/RFFHEM/issues/230", "user":"unknown",
