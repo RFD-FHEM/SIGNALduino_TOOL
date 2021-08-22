@@ -2786,6 +2786,25 @@
     }
   ]
 },
+{"name":"BRESSER 6-in-1", "id":"115", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W115#3BF120B00C1618FF77FF0458152293FFF06B0000", "comment":"BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_115_0", "NAME":"SD_WS_115_0"},
+      "readings": {"state":"T: 15.2 H: 93 W: 0.8", "batteryState":"ok", "channel":"0", "humidity":"93", "temperature":"15.2", "type":"Bresser_6in1, new Bresser_5in1", "windDirectionDegree":"45", "windDirectionText":"NE", "windGust":"0.8", "windSpeed":"0.8"},
+      "minProtocolVersion":"1.35", "revision_entry":"2021-08-22 16:51:50",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-17 19:14:52Z elektron-bbs",
+      "rmsg":"MN;D=3BF120B00C1618FF77FF0458152293FFF06B0000;R=242;"
+    },
+    {
+      "dmsg":"W115#1E6C20B00C1618FF99FF0458FFFFA9FF015B0000", "comment":"BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_115_0", "NAME":"SD_WS_115_0"},
+      "readings": {"state":"W: 0.6 R: 5.6", "batteryState":"ok", "channel":"0", "rain":"5.6", "type":"Bresser_6in1, new Bresser_5in1", "windDirectionDegree":"45", "windDirectionText":"NE", "windGust":"0.6", "windSpeed":"0.6"},
+      "minProtocolVersion":"1.35", "revision_entry":"2021-08-22 16:57:57",
+      "revision_modul":"14_SD_WS.pm 21666 2021-08-17 19:14:52Z elektron-bbs",
+      "rmsg":"MN;D=1E6C20B00C1618FF99FF0458FFFFA9FF015B0000;R=241;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
