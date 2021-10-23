@@ -2672,6 +2672,33 @@
     }
   ]
 },
+{"name":"SD_Rojaflex_3122FD2_9", "id":"109", "module":"SD_Rojaflex", "data": [
+    {
+      "dmsg":"P109#083122FD298A018A8E", "comment":"Rojaflex HSR-15, HSTR-15", "user":"elektron-bbs",
+      "internals": {"DEF":"3122FD2_9", "NAME":"SD_Rojaflex_3122FD2_9"},
+      "readings": {"state":"down"},
+      "minProtocolVersion":"1.39", "revision_entry":"2021-10-23 17:07:42",
+      "revision_modul":"10_SD_Rojaflex.pm   100 2021-10-19 18:00:00Z elektron-bbs",
+      "rmsg":"MN;D=083122FD298A018A8E;R=0;"
+    },
+    {
+      "dmsg":"P109#083122FD290A010A8E", "comment":"Rojaflex HSR-15, HSTR-15", "user":"elektron-bbs",
+      "internals": {"DEF":"3122FD2_9", "NAME":"SD_Rojaflex_3122FD2_9"},
+      "readings": {"state":"stop"},
+      "minProtocolVersion":"1.39", "revision_entry":"2021-10-23 17:09:33",
+      "revision_modul":"10_SD_Rojaflex.pm   100 2021-10-19 18:00:00Z elektron-bbs",
+      "rmsg":"MN;D=083122FD290A010A8E;R=244;"
+    },
+    {
+      "dmsg":"P109#083122FD291A011AAE", "comment":"Rojaflex HSR-15, HSTR-15", "user":"elektron-bbs",
+      "internals": {"DEF":"3122FD2_9", "NAME":"SD_Rojaflex_3122FD2_9"},
+      "readings": {"state":"up"},
+      "minProtocolVersion":"1.39", "revision_entry":"2021-10-23 17:10:36",
+      "revision_modul":"10_SD_Rojaflex.pm   100 2021-10-19 18:00:00Z elektron-bbs",
+      "rmsg":"MN;D=083122FD291A011AAE;R=249;"
+    }
+  ]
+},
 {"name":"ADE WS 1907", "id":"110", "module":"SD_WS", "data": [
     {
       "dmsg":"W110#9C1B060001EA05AD4", "comment":"Weather station with rain gauge", "user":"docolli",
