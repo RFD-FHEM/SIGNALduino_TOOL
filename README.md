@@ -13,6 +13,6 @@ All other files can load into a separate folder SD_TOOL.
 
 To make sure that the SIGNALduino_TOOL works with your SIGNALduino, please execute an
 
-```update all https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/dev-r34/controls_signalduino.txt```
+```update all https://raw.githubusercontent.com/RFD-FHEM/RFFHEM/master/controls_signalduino.txt```
 
 beforehand.
