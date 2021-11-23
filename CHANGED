@@ -1,3 +1,51 @@
+2021-11-23 - Squashed commit of the following:
+
+commit f61612ea5dcc7a0ac40ea17729d30879203fb2de
+Author: GitHub Action <action@github.com>
+Date:   Tue Oct 12 06:36:55 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit bdd288ab24d844efdafa0ad691cfae1cd07ebb0f
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Oct 12 08:36:36 2021 +0200
+
+    Update 88_SIGNALduino_TOOL.pm
+
+     - jump to the primary frequency added
+
+commit d08cd3b12827579fe9bc8bf30d07290e9ce04517
+Author: GitHub Action <action@github.com>
+Date:   Wed Oct 6 20:14:04 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 0e3b5196b28aa9b3c3a2dc8eee0597a83e13c7f1
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Wed Oct 6 22:13:47 2021 +0200
+
+    Update 88_SIGNALduino_TOOL.pm
+
+     - deactivated FHEM::Meta (Meta modul has another bug)
+     - code optimized
+     - scan function expanded
+     - revised commandref
+
+commit ddbee056c94ecf5ee25ba8b4b9088905269e2aa4
+Author: GitHub Action <action@github.com>
+Date:   Mon Sep 27 16:38:33 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 4c93b2cc873bcbf33867b7666ef42d909a9d742a
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Sep 27 18:38:15 2021 +0200
+
+    Update 88_SIGNALduino_TOOL.pm
+
+     - new feature
+     - optimized code
+     - grouping attribute names
 2021-10-23 - Update SD_Device_ProtocolList.json
 
  * add Rojaflex HSR-15, HSTR-15
