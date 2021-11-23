@@ -1,6 +1,22 @@
 2021-10-23 - Update SD_Device_ProtocolList.json
 
-add Rojaflex HSR-15, HSTR-15
+ * add Rojaflex HSR-15, HSTR-15
+
+2021-10-12 - Update 88_SIGNALduino_TOOL.pm
+
+ * jump to the primary frequency added
+2021-10-06 - Update 88_SIGNALduino_TOOL.pm
+
+ * deactivated FHEM::Meta (Meta modul has another bug)
+ * code optimized
+ * scan function expanded
+ * revised commandref
+2021-09-27 - Update 88_SIGNALduino_TOOL.pm
+
+ * new feature
+ * optimized code
+ * grouping attribute names
+
 2021-08-22 - Update SD_Device_ProtocolList.json
 2021-08-17 - Update SD_Device_ProtocolList.json
 2021-08-09 - Update SD_Device_ProtocolList.json
