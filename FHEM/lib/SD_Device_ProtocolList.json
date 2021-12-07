@@ -805,9 +805,9 @@
     {
       "dmsg":"W33#0501DD80038", "comment":"(ID 33.2,51,53 additionally)", "user":"HomeAuto_User",
       "internals": {"DEF":"SD_WS_33_T_1", "NAME":"SD_WS_33_T_1"},
-      "readings": {"state":"T: 24.2", "batteryState":"ok", "channel":"1", "temperature":"24.2", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "readings": {"state":"T: 24.2", "channel":"1", "temperature":"24.2", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
       "attributes": {"model":"S522"},
-      "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:45:24",
+      "minProtocolVersion":"1.27", "revision_entry":"2021-12-07 21:05:00",
       "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MS;P1=-8035;P2=504;P3=-2027;P4=-3945;D=21232323232324232423232323232323242424232424242324242323232323232323232323232324242423;CP=2;SP=1;R=19;O;m0;"
     }
