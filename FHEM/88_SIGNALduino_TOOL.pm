@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2021-08-05 16:16:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2021-10-12 07:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -116,13 +116,14 @@ sub SIGNALduino_TOOL_Initialize {
   $hash->{NotifyFn}           = 'SIGNALduino_TOOL_Notify';
   $hash->{FW_detailFn}        = 'SIGNALduino_TOOL_FW_Detail';
   $hash->{FW_deviceOverview}  = 1;
-  $hash->{AttrList}           = 'comment disable DispatchMax Dummyname MessageNumber Path StartString:MC;,MN;,MS;,MU;'
-                                 .' CC110x_Register_old:textField-long CC110x_Register_new:textField-long'
-                                 .' Filename_export Filename_input'
-                                 .' IODev IODev_CC110x_Register IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
-                                 .' JSON_Check_exceptions JSON_write_ERRORs:no,yes'
-                                 .' RAWMSG_M1 RAWMSG_M2 RAWMSG_M3';
-  return FHEM::Meta::InitMod( __FILE__, $hash );
+  $hash->{AttrList}           = 'comment disable:0,1 DispatchMax DispatchMessageNumber Dummyname Path'
+                               .' CC110x_Freq_Scan_Devices CC110x_Freq_Scan_Start CC110x_Freq_Scan_Step CC110x_Freq_Scan_End CC110x_Freq_Scan_Interval'
+                               .' CC110x_Register_old:textField-long CC110x_Register_new:textField-long'
+                               .' File_export File_input File_input_StartString:MC;,MN;,MS;,MU;'
+                               .' IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
+                               .' JSON_Check_exceptions JSON_write_ERRORs:no,yes'
+                               .' RAWMSG_M1 RAWMSG_M2 RAWMSG_M3';
+#  return FHEM::Meta::InitMod( __FILE__, $hash ); # meta module brings warnings with name SIGNALduino_TOOL, development people does not react
 }
 
 ################################
@@ -137,7 +138,7 @@ sub SIGNALduino_TOOL_Define {
   my @arg = split("[ \t][ \t]*", $def);
   my $name = $arg[0];
   my $typ = $hash->{TYPE};
-  my $file = AttrVal($name,'Filename_input','');
+  my $file = AttrVal($name,'File_input','');
 
   if(@arg != 2) { return "Usage: define <name> $name"; }
 
@@ -197,7 +198,7 @@ sub SIGNALduino_TOOL_Shutdown {
 
   Log3 $name, 5, "$name: Shutdown are running!";
   SIGNALduino_TOOL_deleteReadings($hash,'cmd_raw,cmd_sendMSG,last_MSG,last_DMSG,decoded_Protocol_ID,line_read,message_dispatched,message_to_module,message_dispatch_repeats');
-
+  RemoveInternalTimer($hash);
   return;
 }
 
@@ -206,46 +207,55 @@ sub SIGNALduino_TOOL_Set {
   my ( $hash, $name, @a ) = @_;
 
   if(int(@a) < 1) { return 'no set value specified'; }
-  my $RAWMSG_last = ReadingsVal($name, 'last_MSG', 'none');    # check RAWMSG exists
-  my $DMSG_last = ReadingsVal($name, 'last_DMSG', 'none');     # check RAWMSG exists
+  my $RAWMSG_last = ReadingsVal($name, 'last_MSG', 'none');              # check RAWMSG exists
+  my $DMSG_last = ReadingsVal($name, 'last_DMSG', 'none');               # check RAWMSG exists
 
   my $cmd = $a[0];
   my $cmd2 = $a[1];
-  my $count1 = 0;                                              # Initialisieren - zeilen
-  my $count2 = 0;                                              # Initialisieren - startpos found
-  my $count3 = 0;                                              # Initialisieren - dispatch ok
+  my $count1 = 0;                                                        # Initialisieren - zeilen
+  my $count2 = 0;                                                        # Initialisieren - startpos found
+  my $count3 = 0;                                                        # Initialisieren - dispatch ok
   my $return = '';
   my $decoded_Protocol_ID = '';
 
-  my $DispatchMax = AttrVal($name,'DispatchMax',1);            # max value to dispatch from attribut
-  my $DispatchModule = AttrVal($name,'DispatchModule','-');    # DispatchModule List
-  my $Dummyname = AttrVal($name,'Dummyname','none');           # Dummyname
-  my $DummyDMSG = InternalVal($Dummyname, 'DMSG', 'failed');   # P30#7FE
-  my $DummyMSGCNT_old = InternalVal($Dummyname, 'MSGCNT', 0);  # DummynameMSGCNT before
-  my $DummyMSGCNTvalue = 0;                                    # value DummynameMSGCNT before - DummynameMSGCNT
-  my $DummyTime = 0;                                           # to set DummyTime after dispatch
-  my $NameSendSet = 'Send_';                                   # name of setlist value´s to send
-  my $IODev_Repeats = AttrVal($name,'IODev_Repeats',1);        # Repeats of IODev
-  my $Sendername = AttrVal($name,'IODev','none');              # Sendername to direct send command
-  my $cmd_raw;                                                 # cmd_raw to view for user
-  my $cmd_sendMSG;                                             # cmd_sendMSG to view for user
-  my $cnt_loop = 0;                                            # Counter for numbre of setLoop
-  my $file = AttrVal($name,'Filename_input','');               # Filename
-  my $messageNumber = AttrVal($name,'MessageNumber',0);        # MessageNumber
-  my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');          # Path | # Path if not define
-  my $string1pos = AttrVal($name,'StartString','');            # String to find Pos
-  my $userattr = AttrVal($name,'userattr','-');                # userattr value
-  my $webCmd = AttrVal($name,'webCmd','');                     # webCmd value from attr
+  my $DispatchMax = AttrVal($name,'DispatchMax',1);                      # max value to dispatch from attribut
+  my $DispatchModule = AttrVal($name,'DispatchModule','-');              # DispatchModule List
+  my $Dummyname = AttrVal($name,'Dummyname','none');                     # Dummyname
+  my $DummyDMSG = InternalVal($Dummyname, 'DMSG', 'failed');             # P30#7FE
+  my $DummyMSGCNT_old = InternalVal($Dummyname, 'MSGCNT', 0);            # DummynameMSGCNT before
+  my $DummyMSGCNTvalue = 0;                                              # value DummynameMSGCNT before - DummynameMSGCNT
+  my $DummyTime = 0;                                                     # to set DummyTime after dispatch
+  my $NameSendSet = 'Send_';                                             # name of setlist value´s to send
+  my $IODev_Repeats = AttrVal($name,'IODev_Repeats',1);                  # Repeats of IODev
+  my $IODev = AttrVal($name,'IODev',undef);                              # IODev, to direct send command, ...
 
+  my $cmd_raw;                                                           # cmd_raw to view for user
+  my $cmd_sendMSG;                                                       # cmd_sendMSG to view for user
+  my $cnt_loop = 0;                                                      # Counter for numbre of setLoop
+  my $file = AttrVal($name,'File_input','');                             # Filename
+  my $DispatchMessageNumber = AttrVal($name,'DispatchMessageNumber',0);  # DispatchMessageNumber
+  my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # Path | # Path if not define
+  my $string1pos = AttrVal($name,'File_input_StartString','');           # String to find Pos
+  my $userattr = AttrVal($name,'userattr','-');                          # userattr value
+  my $webCmd = AttrVal($name,'webCmd','');                               # webCmd value from attr
+  my $cc110x_f_start = AttrVal($name,'CC110x_Freq_Scan_Start','');       # start freq. to scan cc110x
+  my $cc110x_f_end = AttrVal($name,'CC110x_Freq_Scan_End','');           # end freq. to scan cc110x
+  my $cc110x_f_interval = AttrVal($name,'CC110x_Freq_Scan_Interval',5);  # interval in min to scan cc110x
+
+
+  ## Setlist Arguments ##
   my $setList = $NameDispatchSet.'DMSG '.$NameDispatchSet.'RAWMSG';
   $setList .= ' delete_Device delete_room_with_all_Devices delete_unused_Logfiles:noArg delete_unused_Plots:noArg';
   if ($RAWMSG_last ne 'none' || $DMSG_last ne 'none') { $setList .= " $NameDispatchSet".'last:noArg '; }
-  if (AttrVal($name,'Filename_input','') ne '') { $setList .= " $NameDispatchSet".'file:noArg'; }
+  if (AttrVal($name,'File_input','') ne '') { $setList .= " $NameDispatchSet".'file:noArg'; }
   if (AttrVal($name,'RAWMSG_M1','') ne '') { $setList .= ' RAWMSG_M1:noArg'; }
   if (AttrVal($name,'RAWMSG_M2','') ne '') { $setList .= ' RAWMSG_M2:noArg'; }
   if (AttrVal($name,'RAWMSG_M3','') ne '') { $setList .= ' RAWMSG_M3:noArg'; }
-  if (AttrVal($name,'IODev_CC110x_Register',undef) && AttrVal($name,'CC110x_Register_new',undef) && AttrVal($name,'CC110x_Register_old',undef)) { $setList .= ' CC110x_Register_new:no,yes CC110x_Register_old:no,yes'; }
-  if ($Sendername ne 'none') { $setList .= " $NameSendSet".'RAWMSG'; }
+  if (AttrVal($name,'IODev',undef) && AttrVal($name,'CC110x_Register_new',undef) && AttrVal($name,'CC110x_Register_old',undef)) { $setList .= ' CC110x_Register_new:no,yes CC110x_Register_old:no,yes'; }
+  if (defined $IODev) { $setList .= " $NameSendSet".'RAWMSG'; }
+  if ($cc110x_f_start ne '' && $cc110x_f_end ne '' && $cc110x_f_interval != 0 && $IODev) { $setList .= " CC110x_Freq_Scan:noArg"; }
+  if (InternalVal($name, 'cc110x_freq_now', undef)) { $setList .= " CC110x_Freq_Scan_STOP:noArg"; }
+  ## END
 
   if (($RAWMSG_last eq 'none' && $DMSG_last eq 'none') && (AttrVal($name, 'webCmd', undef) && (AttrVal($name, 'webCmd', undef) =~ /$NameDispatchSet?last/))) { SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'last'); }
 
@@ -416,7 +426,7 @@ sub SIGNALduino_TOOL_Set {
 
   if ($cmd ne '?') {
     Log3 $name, 5, "$name: Set $cmd with modus=$modus, SIGNALduinoVersion=$versionSIGNALduino";
-    Log3 $name, 5, "$name: Set $cmd - Filename_input=$file RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd";
+    Log3 $name, 5, "$name: Set $cmd - File_input=$file RAWMSG_last=$RAWMSG_last DMSG_last=$DMSG_last webCmd=$webCmd";
 
     ### delete readings ###
     SIGNALduino_TOOL_deleteReadings($hash,'last_MSG,message_to_module,message_dispatched,last_DMSG,decoded_Protocol_ID,line_read,message_dispatch_repeats');
@@ -431,16 +441,16 @@ sub SIGNALduino_TOOL_Set {
     $hash->{helper}->{NTFY_SEARCH_Value_count} = 0;
     if (not defined $hash->{helper}->{option}) { $DispatchOption = '-'; }
 
-    if ($Dummyname eq 'none' && $cmd !~ /delete_/) { return 'ERROR: no Dummydevice with Attributes (Dummyname) defined!'; }
+    if ($Dummyname eq 'none' && $cmd !~ /delete_/) { return 'ERROR: no dummydevice with attribute < Dummyname > defined!'; }
 
     ### Liste von RAWMSG´s dispatchen ###
     if ($cmd eq $NameDispatchSet.'file') {
       Log3 $name, 4, "$name: Set $cmd - check (1)";
-      if ($string1pos eq '') { return 'ERROR: no StartString is defined in Attributes!'; }
+      if ($string1pos eq '') { return 'ERROR: no StartString is defined in attribute < File_input_StartString >'; }
 
       readingsSingleUpdate($hash, 'state', 'Dispatch all RAMSG´s in the background are started',1);
       $hash->{helper}->{start_time} = time();
-      $hash->{helper}{RUNNING_PID} = BlockingCall('SIGNALduino_TOOL_nonBlock_Start', $name.'|'.$cmd.'|'.$path.'|'.$file.'|'.$count1.'|'.$count2.'|'.$count3.'|'.$Dummyname.'|'.$string1pos.'|'.$DispatchMax.'|'.$messageNumber, 'SIGNALduino_TOOL_nonBlock_StartDone', 90 , 'SIGNALduino_TOOL_nonBlock_abortFn', $hash) unless(exists($hash->{helper}{RUNNING_PID}));
+      $hash->{helper}{RUNNING_PID} = BlockingCall('SIGNALduino_TOOL_nonBlock_Start', $name.'|'.$cmd.'|'.$path.'|'.$file.'|'.$count1.'|'.$count2.'|'.$count3.'|'.$Dummyname.'|'.$string1pos.'|'.$DispatchMax.'|'.$DispatchMessageNumber, 'SIGNALduino_TOOL_nonBlock_StartDone', 90 , 'SIGNALduino_TOOL_nonBlock_abortFn', $hash) unless(exists($hash->{helper}{RUNNING_PID}));
       return;
     }
 
@@ -733,14 +743,11 @@ sub SIGNALduino_TOOL_Set {
 
       $RAWMSG =~ s/;+/;/g;
 
-      Log3 $name, 3, "$name: set $Sendername raw $RAWMSG";
+      Log3 $name, 3, "$name: set $IODev raw $RAWMSG";
       IOWrite($hash, 'raw', $RAWMSG);
 
       $RAWMSG_last = $a[1];
-      $DummyMSGCNTvalue = undef;
       $cmd_raw = undef;
-      $count3 = undef;
-      $decoded_Protocol_ID = undef;
       $return = 'send RAWMSG';
     }
 
@@ -1008,10 +1015,6 @@ sub SIGNALduino_TOOL_Set {
       if ($return eq '') { $return = 'no device deleted (no existing definition)'; }
 
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
-
-      $count3 = undef;                    # message_dispatched
-      $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
-      $DummyMSGCNTvalue = undef;          # message_to_module
     }
 
     ## delete all device in room ##
@@ -1019,10 +1022,6 @@ sub SIGNALduino_TOOL_Set {
       Log3 $name, 2, "$name: cmd $cmd, for room $a[1]";
       CommandDelete($hash, "room=$a[1]");
       $return = "all devices delete on room $a[1]";
-
-      $count3 = undef;                    # message_dispatched
-      $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
-      $DummyMSGCNTvalue = undef;          # message_to_module
     }
 
     ## old unsed logfile delete ##
@@ -1048,10 +1047,6 @@ sub SIGNALduino_TOOL_Set {
       }
       if ($count1 != 0) { $return = "logfiles deleted ($count1)"; }
       if ($return eq '') { $return = 'no unsed logfile´s found'; }
-
-      $count3 = undef;                    # message_dispatched
-      $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
-      $DummyMSGCNTvalue = undef;          # message_to_module
     }
 
     ## old unsed Plots delete ##
@@ -1103,18 +1098,14 @@ sub SIGNALduino_TOOL_Set {
         if ($count1 != 0) { $return = "gplots deleted ($count1)"; }
       }
       if ($return eq '') { $return = 'no unsed gplots´s found'; }
-
-      $count3 = undef;                    # message_dispatched
-      $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
-      $DummyMSGCNTvalue = undef;          # message_to_module
     }
 
     ## CC110x_Register switch ##
     if ($cmd =~ /^CC110x_Register_/) {
-      if ($cmd2 eq "yes") {
-        my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
-        if (not $defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino') { return "ERROR: IODev $IODev_CC110x_Register is not TYPE SIGNALduino"; }
-        if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected') { return "ERROR: IODev $IODev_CC110x_Register is not opened"; }
+      if ($cmd2 eq 'yes') {
+        my $IODev = AttrVal($name,'IODev',undef);
+        if (not $defs{$IODev}{TYPE} eq 'SIGNALduino') { return "ERROR: IODev $IODev is not TYPE SIGNALduino"; }
+        if (InternalVal($IODev,'STATE','disconnected') eq 'disconnected') { return "ERROR: IODev $IODev is not opened"; }
 
         my $CC110x_Register_value = AttrVal($name,$cmd,undef);
         my $command;
@@ -1149,16 +1140,36 @@ sub SIGNALduino_TOOL_Set {
           $CC110x_Register_value =~ s/,+/ /g;
           $command = $CC110x_Register_value;
         }
-
-        CommandSet($hash, "$IODev_CC110x_Register cc1101_reg $command");
-
-        $count3 = undef;
-        $decoded_Protocol_ID = undef;
-        $DummyMSGCNTvalue = undef;
-        $return = "$cmd was written on IODev $IODev_CC110x_Register"
+        CommandSet($hash, "$IODev cc1101_reg $command");
+        $return = "$cmd was written on IODev $IODev"
       } else {
         return;
       }
+    }
+
+    ## CC110x_Freq_Scan ##
+    if ($cmd eq 'CC110x_Freq_Scan') {
+      Log3 $name, 3, "$name: $cmd - is starting from $cc110x_f_start to $cc110x_f_end MHz";
+      SIGNALduino_TOOL_cc110x_freq_scan("$name/:/$IODev/:/$cc110x_f_start/:/$cc110x_f_end/:/$cc110x_f_interval");
+      $return = "$cmd has started"
+    }
+
+    ## CC110x_Freq_Scan_STOP ##
+    if ($cmd eq 'CC110x_Freq_Scan_STOP') {
+      RemoveInternalTimer("", "SIGNALduino_TOOL_cc110x_freq_scan");
+      SIGNALduino_TOOL_deleteInternals($hash,'cc110x_freq_now,cc110x_freq_scan_timestart,cc110x_freq_scan_timestop,helper_-_cc110x_freq_scan_timestart');
+      readingsDelete($hash,'cc110x_freq_scan_duration_seconds');
+      SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
+      $return = "CC110x_Freq_Scan stopped manually"
+    }
+
+    ## summary, shared code for cmd´s
+    if ($cmd eq $NameSendSet.'RAWMSG' || $cmd eq 'delete_Device' || $cmd eq 'delete_room_with_all_Devices' ||
+          $cmd eq 'delete_unused_Logfiles' || $cmd eq 'delete_unused_Plots' || $cmd eq 'CC110x_Freq_Scan' ||
+            $cmd eq 'CC110x_Freq_Scan_STOP' || ($cmd =~ /^CC110x_Register_/ && $cmd2 eq 'yes') ) {
+      $count3 = undef;                    # message_dispatched
+      $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
+      $DummyMSGCNTvalue = undef;          # message_to_module
     }
 
     if ($RAWMSG_last ne 'none') { $RAWMSG_last =~ s/;;/;/g; }
@@ -1254,12 +1265,12 @@ sub SIGNALduino_TOOL_Set {
 ################################
 sub SIGNALduino_TOOL_Get {
   my ( $hash, $name, $cmd, @a ) = @_;
-  my $Filename_input = AttrVal($name,'Filename_input','');          # Filename
-  my $Filename_export = AttrVal($name,'Filename_export','');        # Filename for export
-  my $webCmd = AttrVal($name,'webCmd','');                          # webCmd value from attr
-  my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');               # Path | # Path if not define
+  my $File_input = AttrVal($name,'File_input','');          # File for input
+  my $File_export = AttrVal($name,'File_export','');        # File for export
+  my $webCmd = AttrVal($name,'webCmd','');                  # webCmd value from attr
+  my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');       # Path | # Path if not define
   my $onlyDataName = '-ONLY_DATA-';
-  my $IODev_CC110x_Register = AttrVal($name,'IODev_CC110x_Register',undef);
+  my $IODev = AttrVal($name,'IODev',undef);
   my $list = 'Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg '.
         'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg '.
         'change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec '.
@@ -1268,10 +1279,10 @@ sub SIGNALduino_TOOL_Get {
   $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MN;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
         "bitMsg_invert:,hexMsg:,hexMsg_invert:,msg:,UserInfo:,$onlyDataName ".
         'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg ';
-  if ($Filename_input ne '') { $list .= 'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse '; }
+  if ($File_input ne '') { $list .= 'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse '; }
   if ($ProtocolListRead) { $list .= 'Github_device_documentation_for_README:noArg '; }
   if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef)) { $list .= 'CC110x_Register_comparison:noArg '; }
-  if ($IODev_CC110x_Register) { $list .= 'CC110x_Register_read:noArg '; }
+  if ($IODev) { $list .= 'CC110x_Register_read:noArg '; }
   my $linecount = 0;
   my $founded = 0;
   my $search = '';
@@ -1343,7 +1354,7 @@ sub SIGNALduino_TOOL_Get {
         }
 
         if ($i == 0) {
-          print $TIMINGS_LOG $timings_protocol.";";                                            # ID Nummer
+          print $TIMINGS_LOG $timings_protocol.";";                                          # ID Nummer
           ### Message - Typ
           if (exists $ProtocolListSIGNALduino{$timings_protocol}{format} && $ProtocolListSIGNALduino{$timings_protocol}{format} eq 'manchester') {
             print $TIMINGS_LOG 'MC;';
@@ -1410,7 +1421,7 @@ sub SIGNALduino_TOOL_Get {
     my $pos;
     my $save = '';
 
-    if (not defined $a[0]) { return 'ERROR: Your arguments in Filename_input is not definded!'; }
+    if (not defined $a[0]) { return 'ERROR: Your arguments in File_input is not definded!'; }
 
     Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0]";
     if (defined $a[1]) { Log3 $name, 4, "$name: Get cmd $cmd - a0=$a[0] a0=$a[1]"; }
@@ -1441,9 +1452,9 @@ sub SIGNALduino_TOOL_Get {
 
     Log3 $name, 4, "$name: Get cmd $cmd - searcharg=$search  splitting arg from a0=".scalar(@arg)."  manually=$manually  only_Data=$only_Data";
 
-    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
+    if ($File_input eq '') { return 'ERROR: Your attribute < File_input > is not definded!'; }
 
-    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search/s){
           chomp ($_);                             # Zeilenende entfernen
@@ -1478,9 +1489,9 @@ sub SIGNALduino_TOOL_Get {
     readingsSingleUpdate($hash, 'state' , 'data filtered', 0);
 
     if ($founded == 0) { return 'ERROR: Your filter ('.$search.") found nothing!\nNo file saved!"; }
-    if ($Filename_export eq '') { return 'ERROR: Your Attributes Filename_export is not definded!'; }
+    if ($File_export eq '') { return 'ERROR: Your Attributes File_export is not definded!'; }
 
-    open my $OutFile, '>', "$path$Filename_export";
+    open my $OutFile, '>', "$path$File_export";
       for (@Zeilen) {
         print $OutFile $_."\n";
       }
@@ -1504,9 +1515,9 @@ sub SIGNALduino_TOOL_Get {
     my $valuepercentmax;
     my $valuepercentmin;
 
-    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
+    if ($File_input eq '') { return 'ERROR: Your attribute < File_input > is not definded!'; }
 
-    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search\d/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1567,8 +1578,8 @@ sub SIGNALduino_TOOL_Get {
   ## read information from InputFile and search ClockPulse or SyncPulse with tol ##
   if ($cmd eq 'InputFile_one_ClockPulse' || $cmd eq 'InputFile_one_SyncPulse') {
     Log3 $name, 4, "$name: Get $cmd - check (4)";
-    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
-    if ($Filename_export eq '') { return 'ERROR: Your Attributes Filename_export is not definded!'; }
+    if ($File_input eq '') { return 'ERROR: Your Attributes File_input is not definded!'; }
+    if ($File_export eq '') { return 'ERROR: Your Attributes File_export is not definded!'; }
     if (!$a[0]) { return 'ERROR: '.substr($cmd,14).' is not definded'; }
     if (!$a[0] =~ /^(-\d+|\d+$)/ && $a[0] > 1) { return "ERROR: wrong value of $cmd! only [0-9]!"; }
 
@@ -1581,7 +1592,7 @@ sub SIGNALduino_TOOL_Get {
     my $pos2;
     my $tol = 0.15;
 
-    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /$search\d/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1626,7 +1637,7 @@ sub SIGNALduino_TOOL_Get {
     if ($founded == 0) { readingsSingleUpdate($hash, 'state' , substr($cmd,14).' NOT in tol found!', 0); }
     if ($founded != 0) { readingsSingleUpdate($hash, 'state' , substr($cmd,14)." in tol found ($founded)", 0); }
 
-    open my $OutFile, '>', "$path$Filename_export";
+    open my $OutFile, '>', "$path$File_export";
       for (@Zeilen) {
         print $OutFile $_."\n";
       }
@@ -1671,14 +1682,14 @@ sub SIGNALduino_TOOL_Get {
   ## read information from InputFile and check RAWMSG of one doublePulse ##
   if ($cmd eq 'InputFile_doublePulse') {
     Log3 $name, 4, "$name: Get $cmd - check (7)";
-    if ($Filename_export eq '') { return 'ERROR: Your Attributes Filename_export is not definded!'; }
-    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
+    if ($File_export eq '') { return 'ERROR: Your Attributes File_export is not definded!'; }
+    if ($File_input eq '') { return 'ERROR: Your Attributes File_input is not definded!'; }
 
     my $counterror = 0;
     my $MUerror = 0;
     my $MSerror = 0;
 
-    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
       while (<$InputFile>){
         if ($_ =~ /READredu:\sM(U|S);|M(U|S);P/s){
           chomp ($_);                               # Zeilenende entfernen
@@ -1704,7 +1715,7 @@ sub SIGNALduino_TOOL_Get {
       }
     close $InputFile;
 
-    open my $OutFile, '>', "$path$Filename_export";
+    open my $OutFile, '>', "$path$File_export";
       for (@Zeilen) {
         print $OutFile $_."\n";
       }
@@ -1720,12 +1731,12 @@ sub SIGNALduino_TOOL_Get {
 
   if ($cmd eq 'InputFile_length_Datapart') {
     Log3 $name, 4, "$name: Get $cmd - check (8)";
-    if ($Filename_input eq '') { return 'ERROR: Your Attributes Filename_input is not definded!'; }
+    if ($File_input eq '') { return 'ERROR: Your Attributes File_input is not definded!'; }
     my @dataarray;
     my $dataarray_min;
     my $dataarray_max;
 
-    open my $InputFile, '<', "$path$Filename_input" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+    open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
     while (<$InputFile>){
       if ($_ =~ /M(U|S);/s){
         if ($_ =~ /.*;D=(\d+?);.*/) { $_ = $1; }     # cut bis D= & ab ;CP=   # NEW
@@ -1835,7 +1846,7 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'ProtocolList_from_file_SD_ProtocolData.pm') {
     $hash->{helper}{FW_SD_ProtocolData_get} = 1;    # need in java, check reload need
     $attr{$name}{DispatchModule} = "-";             # to set standard
-    my $return = SIGNALduino_TOOL_SD_ProtocolData_read($hash, $name,$cmd,$path,$Filename_input);
+    my $return = SIGNALduino_TOOL_SD_ProtocolData_read($hash, $name,$cmd,$path,$File_input);
     readingsSingleUpdate($hash, 'state' , $return, 0);
     if ($ProtocolListRead) {
       $hash->{dispatchOption} = 'from SD_ProtocolData.pm and SD_Device_ProtocolList.json';
@@ -2038,13 +2049,13 @@ sub SIGNALduino_TOOL_Get {
   if ($cmd eq 'CC110x_Register_read') {
     $SIGNALduino_TOOL_NAME = $name;
 
-    if ($defs{$IODev_CC110x_Register}{TYPE} eq 'SIGNALduino') {
+    if ($defs{$IODev}{TYPE} eq 'SIGNALduino') {
       if (exists &SIGNALduino_Get_Callback) {
-        if (InternalVal($IODev_CC110x_Register,'STATE','disconnected') eq 'disconnected') { return "The $IODev_CC110x_Register device is disconnected. Read nothing!"; }
-        if (!InternalVal($IODev_CC110x_Register,'cc1101_available',undef)) { return "The $IODev_CC110x_Register device has no cc1101!"; }
+        if (InternalVal($IODev,'STATE','disconnected') eq 'disconnected') { return "The $IODev device is disconnected. Read nothing!"; }
+        if (!InternalVal($IODev,'cc1101_available',undef)) { return "The $IODev device has no cc1101!"; }
 
-        SIGNALduino_Get_Callback($IODev_CC110x_Register,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
-        return "The $IODev_CC110x_Register cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
+        SIGNALduino_Get_Callback($IODev,\&SIGNALduino_TOOL_cc1101read_cb,'ccreg 99');
+        return "The $IODev cc1101 register was read.\n\nOne file SIGNALduino_TOOL_cc1101read.txt was written to $path.";
       } else {
         return 'ERROR: Your SIGNALduino modul is not compatible. Please update last version';
       }
@@ -2064,7 +2075,7 @@ sub SIGNALduino_TOOL_Attr() {
   my $webCmd = AttrVal($name,'webCmd','');                      # webCmd value from attr
   my $cmdIcon = AttrVal($name,'cmdIcon','');                    # webCmd value from attr
   my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');           # Path | # Path if not define
-  my $Filename_input = AttrVal($name,'Filename_input','');
+  my $File_input = AttrVal($name,'File_input','');
   my $DispatchModule = AttrVal($name,'DispatchModule','-');     # DispatchModule List
   my @Zeilen = ();
 
@@ -2114,13 +2125,18 @@ sub SIGNALduino_TOOL_Attr() {
 
     ### max value for dispatch
     if ($attrName eq 'DispatchMax') {
-      if (not $attrValue =~ /^[0-9]/s) { return "Your $attrName value must only numbers!"; }
+      if (not $attrValue =~ /^\d+$/s) { return "Your $attrName value must only numbers!"; }
       if ($attrValue > 10000) { return "Your $attrName value is to great! (max 10000)"; }
       if ($attrValue < 1) { return "Your $attrName value is to short!"; }
     }
 
+    ### DispatchMessageNumber
+    if ($attrName eq 'DispatchMessageNumber') {
+      if (not $attrValue =~ /^\d+$/s) { return "Your $attrName value must only numbers!"; }
+    }
+
     ### input file for data
-    if ($attrName eq 'Filename_input') {
+    if ($attrName eq 'File_input') {
       if ($attrValue eq '1') { return "Your Attributes $attrName must defined!"; }
 
       ### all files in path
@@ -2144,7 +2160,7 @@ sub SIGNALduino_TOOL_Attr() {
       if ($fileend eq "[^\.\.?]") { $fileend = ""; }
 
       ### check file from attrib
-      if (!-e $path.$attrValue) { return "ERROR: No file ($attrValue) exists for attrib Filename_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist); }
+      if (!-e $path.$attrValue) { return "ERROR: No file ($attrValue) exists for attrib File_input!\n\nAll ".$fileend." Files in path:\n- ".join("\n- ",@errorlist); }
 
       SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet.'file');
     }
@@ -2180,7 +2196,7 @@ sub SIGNALduino_TOOL_Attr() {
         Log3 $name, 4, "$name: Attr - You used $attrName from memory!";
       }
 
-      if ($attrValue eq "1") { return "Your Attributes $attrName must defined!"; }
+      if ($attrValue eq '1') { return "Your Attributes $attrName must defined!"; }
     } elsif ($attrName eq 'DispatchModule' && $attrValue eq '-') {
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchOption');
     }
@@ -2191,13 +2207,57 @@ sub SIGNALduino_TOOL_Attr() {
     }
 
     ### check IODev for CC110x_Register exist and SIGNALduino
-    if ($attrName eq 'IODev_CC110x_Register') {
+    if ($attrName eq 'IODev') {
       return "ERROR: $attrValue is not definded or is not TYPE SIGNALduino" if not (defined($defs{$attrValue}) && $defs{$attrValue}{TYPE} eq 'SIGNALduino');
+    }
+
+    ### check attributes for frequency scan
+    if ($attrName =~ /CC110x_Freq_Scan.*/) {
+      my $duration;
+      if ($attrName =~ /CC110x_Freq_Scan_(Start|End)/) {
+        return "ERROR: your $attrName is not allowed! (315 - 915 MHz)" if ($attrValue !~ /^\d+\.?\d+$/ || $attrValue < 315 || $attrValue > 915);
+        if ($attrName eq 'CC110x_Freq_Scan_Start') {
+          return "ERROR: your $attrName value is above the value CC110x_Freq_Scan_End" if ( AttrVal($name, 'CC110x_Freq_Scan_End', undef) && AttrVal($name, 'CC110x_Freq_Scan_End', undef) < $attrValue );
+          if ( AttrVal($name,'CC110x_Freq_Scan_End',undef) ) {
+            $duration = round ( ( ( (AttrVal($name,'CC110x_Freq_Scan_End',0) - $attrValue) / AttrVal($name,'CC110x_Freq_Scan_Step',0.005) ) * AttrVal($name,'CC110x_Freq_Scan_Interval',5) + AttrVal($name,'CC110x_Freq_Scan_Interval',5) ), 0);
+          }
+        }
+        if ($attrName eq 'CC110x_Freq_Scan_End') {
+          return "ERROR: your $attrName value is below the value CC110x_Freq_Scan_Start" if ( AttrVal($name, 'CC110x_Freq_Scan_Start', undef) && AttrVal($name, 'CC110x_Freq_Scan_Start', undef) > $attrValue );
+          if ( AttrVal($name,'CC110x_Freq_Scan_Start',undef) ) {
+            $duration = round ( ( ( ($attrValue - AttrVal($name,'CC110x_Freq_Scan_Start',0) ) / AttrVal($name,'CC110x_Freq_Scan_Step',0.005) ) * AttrVal($name,'CC110x_Freq_Scan_Interval',5) + AttrVal($name,'CC110x_Freq_Scan_Interval',5) ), 0);
+          }
+        }
+      }
+      if ($attrName eq 'CC110x_Freq_Scan_Interval') {
+        return "ERROR: your $attrName is not allowed! only 5 ... 3600 seconds" if ( $attrValue !~ /^\d+$/ || $attrValue < 5 || $attrValue > 3600 );
+        $duration = round ( ( ( ( AttrVal($name,'CC110x_Freq_Scan_End',0) - AttrVal($name,'CC110x_Freq_Scan_Start',0) ) / AttrVal($name,'CC110x_Freq_Scan_Step',0.005) ) * $attrValue) + AttrVal($name,'CC110x_Freq_Scan_Interval',5), 0);
+      }
+      if ($attrName eq 'CC110x_Freq_Scan_Step') {
+        return "ERROR: your $attrName is not allowed! only 0 ... 1 MHz (example: 0.005 for 5kHz)" if ( $attrValue !~ /^\d(\.\d+)?$/ || $attrValue <= 0 || $attrValue > 1 );
+        $duration = round ( ( ( ( AttrVal($name,'CC110x_Freq_Scan_End',0) - AttrVal($name,'CC110x_Freq_Scan_Start',0) ) / $attrValue ) * AttrVal($name,'CC110x_Freq_Scan_Interval',5) + AttrVal($name,'CC110x_Freq_Scan_Interval',5) ), 0);
+      }
+      if (defined $duration) {readingsSingleUpdate($hash, 'cc110x_freq_scan_duration_seconds' , $duration, 1);}
+    } # end check attributes for frequency scan
+
+    ### check attributes for frequency scan
+    if ($attrName eq 'CC110x_Freq_Scan_Devices') {
+      if ($attrValue !~ /^(\w,?)+$/) {
+        return "ERROR: $attrName only allows names separated by commas with no spaces (example: Device1,Device2)";
+      } else {
+        my @array_attrValue = split(/,/, $attrValue);
+        my $IsDeviceCheck;
+
+        for (my $i=0;$i<@array_attrValue;$i++){
+          Log3 $name, 5, "$name: Attr - CC110x_Freq_Scan_Devices check device: ".$array_attrValue[$i];
+          $IsDeviceCheck = IsDevice($array_attrValue[$i]);
+          if ($IsDeviceCheck == 0) { return "ERROR: $attrName found no exist device $array_attrValue[$i]"; };
+        }
+      }
     }
 
     Log3 $name, 4, "$name: set attribute $attrName to $attrValue";
   }
-
 
   if ($cmd eq 'del') {
     ### delete attribut memory for three message
@@ -2207,7 +2267,7 @@ sub SIGNALduino_TOOL_Attr() {
     }
 
     ### delete file for input
-    if ($attrName eq 'Filename_input') {
+    if ($attrName eq 'File_input') {
       SIGNALduino_TOOL_delete_webCmd($hash,$NameDispatchSet.'file');
     }
 
@@ -2224,6 +2284,7 @@ sub SIGNALduino_TOOL_Attr() {
     Log3 $name, 3, "$name: $cmd attribute $attrName";
   }
 
+  return;
 }
 
 ################################
@@ -2235,7 +2296,7 @@ sub SIGNALduino_TOOL_Undef {
   foreach my $value (qw(FW_SD_Device_ProtocolList_get FW_SD_ProtocolData_get JSON_new_entry NTFY_SEARCH_Time NTFY_SEARCH_Value NTFY_SEARCH_Value_count NTFY_dispatchcount NTFY_match RUNNING_PID decoded_Protocol_ID option start_time)) {
     if (defined($hash->{helper}{$value})) { delete $hash->{helper}{$value}; }
   }
-
+  RemoveInternalTimer($hash);
   return;
 }
 
@@ -2257,7 +2318,7 @@ sub SIGNALduino_TOOL_RAWMSG_Check {
 
 ################################
 sub SIGNALduino_TOOL_SD_ProtocolData_read {
-  my ( $hash, $name, $cmd, $path, $Filename_input) = @_;
+  my ( $hash, $name, $cmd, $path, $File_input) = @_;
   Log3 $name, 4, "$name: Get $cmd - check (10)";
 
   my $id_now;                       # readed id
@@ -2295,7 +2356,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
-  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" or return "ERROR: No file ($Filename_input) found in $path directory from FHEM!";
+  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
   while (<$InputFile>) {
     $_ =~ s/^\s+//g;             # cut space & tab | \s+ matches any whitespace character (equal to [\r\n\t\f\v ])
     $_ =~ s/\n//g;               # cut end
@@ -2697,7 +2758,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
 
   if (!$hash->{dispatchSTATE}) {
     return 'Check is not executable!<br>You need a plausible state!';
-  } elsif ($hash->{dispatchSTATE} && $hash->{dispatchSTATE} eq "-") {
+  } elsif ($hash->{dispatchSTATE} && $hash->{dispatchSTATE} eq '-') {
     return 'Check is not executable!<br>You need a plausible state!';
   }
 
@@ -3248,7 +3309,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
           }
           if ($key =~ /^internals/) {
             foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-              if ($key2 eq "NAME" && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '') { $NAME = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}; }
+              if ($key2 eq 'NAME' && @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2} ne '') { $NAME = @{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}; }
             }
           }
           if ($key =~ /^attributes/) {
@@ -3540,17 +3601,23 @@ sub SIGNALduino_TOOL_deleteInternals {
   my $name = $hash->{NAME};
   my @internal = split(',', $internalname);
 
-  Log3 $name, 5, "$name: deleteInternals is running";
+  Log3 $name, 4, "$name: deleteInternals is running";
 
   for (@internal) {
-    if ($hash->{$_}) { delete $hash->{$_}; }
+    if ($_ !~ /^helper_-_/) {
+      Log3 $name, 5, "$name: deleteInternals, delete Internal $_";
+      if ($hash->{$_}) { delete $hash->{$_}; }
+    } else {
+      Log3 $name, 5, "$name: deleteInternals, delete Internal helper ".substr($_,9);
+      if ($hash->{helper}{substr($_,9)}) { delete $hash->{helper}{substr($_,9)}; }
+    }
   }
 }
 
 #####################
 sub SIGNALduino_TOOL_nonBlock_Start {
   my ($string) = @_;
-  my ($name, $cmd, $path, $file, $count1, $count2, $count3, $Dummyname, $string1pos, $DispatchMax, $messageNumber) = split("\\|", $string);
+  my ($name, $cmd, $path, $file, $count1, $count2, $count3, $Dummyname, $string1pos, $DispatchMax, $DispatchMessageNumber) = split("\\|", $string);
   my $return;
   my $msg = '';
   my $hash = $defs{$name};
@@ -3564,8 +3631,8 @@ sub SIGNALduino_TOOL_nonBlock_Start {
   if (not defined $error) {
     for ($count1 = 0;$count1<@content;$count1++){  # loop to read file in array
       if ($count1 == 0) { Log3 $name, 3, "$name: #####################################################################"; }
-      if ($count1 == 0 && $messageNumber == 0) { Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (max dispatch=$DispatchMax) !!! <<<-- #####"; }
-      if ($count1 == 0 && $messageNumber != 0) { Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (MessageNumber) !!! <<<-- #####"; }
+      if ($count1 == 0 && $DispatchMessageNumber == 0) { Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (max dispatch=$DispatchMax) !!! <<<-- #####"; }
+      if ($count1 == 0 && $DispatchMessageNumber != 0) { Log3 $name, 3, "$name: ##### -->>> DISPATCH_TOOL is running (DispatchMessageNumber) !!! <<<-- #####"; }
 
       my $string = $content[$count1];
       $string =~ s/[^A-Za-z0-9\-;=#]//g;;       # nur zulässige Zeichen erlauben
@@ -3586,7 +3653,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
         $string =~ s/;+/;/g;    # ersetze ;+ durch ;
 
         ### dispatch all ###
-        if ($count3 <= $DispatchMax && $messageNumber == 0) {
+        if ($count3 <= $DispatchMax && $DispatchMessageNumber == 0) {
           Log3 $name, 4, "$name: ($count2) get $Dummyname rawmsg $string";
           if ($lastpos ne ';') { Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).') in Zeile '.($count1+1).' ist ungueltig '; }
 
@@ -3594,7 +3661,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
           $count3++;
           if ($count3 == $DispatchMax) { last; }    # stop loop
 
-        } elsif ($count2 == $messageNumber) {
+        } elsif ($count2 == $DispatchMessageNumber) {
           Log3 $name, 4, "$name: ($count2) get $Dummyname rawmsg $string";
           if ($lastpos ne ';') { Log3 $name, 5, "$name: letztes Zeichen '$lastpos' (".ord($lastpos).") in Zeile ".($count1+1).' ist ungueltig '; }
 
@@ -3610,7 +3677,7 @@ sub SIGNALduino_TOOL_nonBlock_Start {
     Log3 $name, 3, "$name: ####################################################";
 
     if ($count3 > 0) { $msg = 'finished, all RAMSG´s are dispatched'; }
-    if ($count3 == 0) { $msg = "finished, no RAMSG´s dispatched -> MessageNumber or StartString $string1pos not found!"; }
+    if ($count3 == 0) { $msg = "finished, no RAMSG´s dispatched -> DispatchMessageNumber or StartString $string1pos not found!"; }
   } else {
     $msg = $error;
     Log3 $name, 3, "$name: FileRead=$error";
@@ -3690,13 +3757,128 @@ sub SIGNALduino_TOOL_version_moduls {
   return $revision;
 }
 
+###########################################
+### Funktionen für cmd CC110x_Freq_Scan ###
+###########################################
+sub SIGNALduino_TOOL_cc110x_freq_scan {
+  my ($param) = @_;
+  my ($name,$IODev,$cc110x_f_start,$cc110x_f_end,$cc110x_f_interval) = split("/:/", $param);
+  my $hash = $defs{$name};
+  my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');
+  my $cc110x_devices = AttrVal($name,'CC110x_Freq_Scan_Devices',undef);
+  my @array_cc110x_devices;
+  my $scan;
+  my $modus;
+  my $duration;
+
+  RemoveInternalTimer('', 'SIGNALduino_TOOL_cc110x_freq_scan');
+  if ($cc110x_devices) {
+    Log3 $name, 4, "$name: cc110x_freq_scan - found attribut CC110x_Freq_Scan_Devices with value: " . $cc110x_devices;
+    @array_cc110x_devices = split(/,/, $cc110x_devices);
+  }
+
+  if (defined $IODev) { unshift(@array_cc110x_devices, $IODev); }
+
+  if (not defined $hash->{cc110x_freq_now}) {
+    $hash->{cc110x_freq_now} = $cc110x_f_start;
+    $modus = '>';
+    $scan .= "###########################################################################################################\n";
+    $scan .= '### CC110x - Scan at ' . FmtDateTime(time()) . "\n";
+    $scan .= "###\n";
+    $scan .= "### IODev:               $IODev\n";
+    if (defined $cc110x_devices) { $scan .= "### Device(s):           $cc110x_devices\n"; }
+    $scan .= "### Interval:            $cc110x_f_interval seconds\n";
+    $scan .= '### Frequency range:     ' . (sprintf "%.3f", $cc110x_f_start) . " - " . (sprintf "%.3f", $cc110x_f_end) . " MHz\n";
+    $scan .= '### Frequency step size: ' . (sprintf "%.3f", AttrVal($name, 'CC110x_Freq_Scan_Step', 0.005)) . " MHz\n";
+    $scan .= '### Rfmode:              ' . AttrVal($IODev, 'rfmode', 'not defined in Attributes | unknown settings'). "\n";
+    my $cc1101_config = ReadingsVal($IODev, 'cc1101_config', 'not known');
+    if ($cc1101_config ne 'not known') {
+      $cc1101_config =~ /^Freq:\s(.*)\sMHz,\s(Bandwidth:.*kBaud)$/;
+      $cc1101_config = $2;
+      $hash->{helper}{cc110x_freq_scan_before} = $1;  # save current frequency before start scan to switch back after end scan
+    }
+    $scan .= '### Config:              ' . $cc1101_config . "\n";
+    $scan .= '### Config_ext:          ' . ReadingsVal($IODev, 'cc1101_config_ext', 'not known') . "\n";
+    $scan .= "###########################################################################################################\n\n";
+    $scan .= 'Time                  Frequency     MSGCNT from device' . "\n";
+    CommandSet($hash, "$IODev cc1101_freq $cc110x_f_start");
+    $duration = round ( ( ( (AttrVal($name,'CC110x_Freq_Scan_End',0) - AttrVal($name,'CC110x_Freq_Scan_Start',0) ) / AttrVal($name,'CC110x_Freq_Scan_Step',0.005) ) * AttrVal($name,'CC110x_Freq_Scan_Interval',5) + AttrVal($name,'CC110x_Freq_Scan_Interval',5) ), 0);
+
+    my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+    $hash->{helper}{cc110x_freq_scan_timestart} = ($year + 1900) . sprintf("%02d%02d", $mon + 1, $mday) . '_' . sprintf("%02d%02d", $hour, $min);
+    $hash->{cc110x_freq_scan_timestart} = FmtDateTime( time() );
+    $hash->{cc110x_freq_scan_timestop} = FmtDateTime( time() + $duration );
+
+    for (my $i=0;$i<@array_cc110x_devices;$i++){
+      $defs{$array_cc110x_devices[$i]}{MSGCNT} = 0;
+    }
+
+    InternalTimer(gettimeofday() + $cc110x_f_interval, "SIGNALduino_TOOL_cc110x_freq_scan", "$name/:/$IODev/:/$cc110x_f_start/:/$cc110x_f_end/:/$cc110x_f_interval");
+  } elsif (round($hash->{cc110x_freq_now},3) < round($cc110x_f_end,3)) {
+    Log3 $name, 5, "$name: cc110x_freq_scan - cc110x_freq_now " . $hash->{cc110x_freq_now};
+    Log3 $name, 5, "$name: cc110x_freq_scan - cc110x_freq_end " . $cc110x_f_end;
+
+    $scan .= TimeNow() . '   ';
+    $scan .= (sprintf "%.3f", $hash->{cc110x_freq_now}) . ' MHz   ';
+
+    for (my $i=0;$i<@array_cc110x_devices;$i++){
+      $scan .= $array_cc110x_devices[$i] .': ';
+      if (@array_cc110x_devices != $i+1){ $scan .= InternalVal($array_cc110x_devices[$i], 'MSGCNT', '0') . '   '; };
+      if (@array_cc110x_devices == $i+1){ $scan .= InternalVal($array_cc110x_devices[$i], 'MSGCNT', '0'); };
+    }
+    $scan .= "\n";
+    $hash->{cc110x_freq_now} += AttrVal($name, 'CC110x_Freq_Scan_Step', 0.005);
+    $modus = '>>';
+    CommandSet($hash, "$IODev cc1101_freq ".$hash->{cc110x_freq_now});
+    $duration = ReadingsVal($name, 'cc110x_freq_scan_duration_seconds', 0) - $cc110x_f_interval;
+
+    for (my $i=0;$i<@array_cc110x_devices;$i++){
+      $defs{$array_cc110x_devices[$i]}{MSGCNT} = 0;
+    }
+
+    InternalTimer(gettimeofday() + $cc110x_f_interval, "SIGNALduino_TOOL_cc110x_freq_scan", "$name/:/$IODev/:/$cc110x_f_start/:/$cc110x_f_end/:/$cc110x_f_interval");
+  } else {
+    Log3 $name, 3, "$name: cc110x_freq_scan - Frequency ".(sprintf "%.3f", $hash->{cc110x_freq_now}) . ' MHz achieved and reset';
+    $scan = TimeNow() . '   ';
+    $scan .= (sprintf "%.3f", $hash->{cc110x_freq_now}) . ' MHz   ';
+    for (my $i=0;$i<@array_cc110x_devices;$i++){
+      $scan .= $array_cc110x_devices[$i] .': ';
+      if (@array_cc110x_devices != $i+1){ $scan .= InternalVal($array_cc110x_devices[$i], 'MSGCNT', '0') . '   '; };
+      if (@array_cc110x_devices == $i+1){ $scan .= InternalVal($array_cc110x_devices[$i], 'MSGCNT', '0'); };
+    }
+    $scan .= "\n";
+    $modus = '>>';
+    SIGNALduino_TOOL_deleteInternals($hash,'cc110x_freq_now');
+  }
+
+  if (defined $modus) {
+    open my $report, $modus, $path.'SIGNALduino_TOOL_cc1101scan_'.$hash->{helper}{cc110x_freq_scan_timestart}."_".$IODev.".txt" or return "ERROR: file (SIGNALduino_TOOL_cc1101scan.txt) can not open!\n\n$!";
+      print $report "$scan";
+    close $report;
+  }
+
+  my $return = defined $hash->{cc110x_freq_now} ? 'at ' . (sprintf "%.3f", $hash->{cc110x_freq_now}) . ' MHz' : 'finished' ;
+  readingsBeginUpdate($hash);
+  readingsBulkUpdate($hash, 'state' , "cc110x_freq_scan ".$return);
+  readingsBulkUpdate($hash, 'cc110x_freq_scan_duration_seconds' , $duration);
+  readingsEndUpdate($hash, 1);
+
+  if ($return eq 'finished') {
+    CommandSet($hash, "$IODev cc1101_freq ".$hash->{helper}{cc110x_freq_scan_before}); # set frequency before start scan | old frequency
+    SIGNALduino_TOOL_deleteInternals($hash,'cc110x_freq_scan_timestart,cc110x_freq_scan_timestop,helper_-_cc110x_freq_scan_timestart,helper_-_cc110x_freq_scan_before');
+    readingsDelete($hash,'cc110x_freq_scan_duration_seconds');
+    SIGNALduino_TOOL_HTMLrefresh($name,'CC110x_Freq_Scan');
+  }
+  return;
+}
+
 ###############################################
 ### Funktionen für cmd CC110x_Register_read ###
 ###############################################
 sub SIGNALduino_TOOL_cc1101read_cb {
   ## $hash from dev, how register read !!!! ##
   my ($hash, @a) = @_;
-  my $IODev_CC110x_Register = $hash->{NAME};
+  my $IODev = $hash->{NAME};
 
   my $name = $SIGNALduino_TOOL_NAME;                   # name SIGNALduino_TOOL from globale variable
   my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');
@@ -3713,7 +3895,7 @@ sub SIGNALduino_TOOL_cc1101read_cb {
   $CC110x_Register =~ s/\s?ccreg\s\d{2}:\s//g;
   Log3 $name, 5, "$name: SIGNALduino_TOOL_cc1101read_cb - data: $CC110x_Register";
 
-  SIGNALduino_TOOL_cc1101read_Full($CC110x_Register,$IODev_CC110x_Register,$path);
+  SIGNALduino_TOOL_cc1101read_Full($CC110x_Register,$IODev,$path);
   return;
 }
 
@@ -3756,14 +3938,14 @@ sub SIGNALduino_TOOL_cc1101read_byte2bit {
 #####################
 sub SIGNALduino_TOOL_cc1101read_Full {
   my $registerstring = shift;
-  my $IODev_CC110x_Register = shift;
+  my $IODev = shift;
   my $path = shift;
   my $text;
 
   open my $cc1101Doc, '>', $path.'SIGNALduino_TOOL_cc1101read.txt' or return "ERROR: file (SIGNALduino_TOOL_cc1101read.txt) can not open!\n\n$!";
     print $cc1101Doc "\n";
     print $cc1101Doc "---------+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+\n";
-    print $cc1101Doc "CC1101 from $IODev_CC110x_Register\n";
+    print $cc1101Doc "CC1101 from $IODev\n";
     print $cc1101Doc "Register: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E \n";
     print $cc1101Doc "Data:     ".$registerstring."\n";
     print $cc1101Doc "---------+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+\n";
@@ -4367,14 +4549,16 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
   <a name="SIGNALduino_TOOL_Set"></a>
   <b>Set</b>
-  <ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute on IODev from attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute on IODev from attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Freq_Scan"></a><code>CC110x_Freq_Scan</code> - starts the frequency scan on the IODev <font color="red">*7</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Freq_Scan_STOP"></a><code>CC110x_Freq_Scan_STOP</code> - stops the frequency scan on the IODev <font color="red">*7</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute on IODev<font color="red">*5</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute on IODev<font color="red">*5</font color></li><a name=""></a></ul>
   <ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - a finished DMSG from modul to dispatch (without SIGNALduino processing!)<br>
   &emsp;&rarr; example: W51#087A4DB973</li><a name=""></a></ul>
   <ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
   &emsp;&rarr; example: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute StartString)<br>
-  &emsp; <u>note:</u> only after setting the Filename_input attribute does this option appear <font color="red">*1</font color></li><a name=""></a></ul>
+  <ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute File_input_StartString)<br>
+  &emsp; <u>note:</u> only after setting the File_input attribute does this option appear <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - dispatch the last RAW message</li><a name=""></a></ul>
   <ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li><a name=""></a></ul>
   <ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
@@ -4391,7 +4575,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <a name="SIGNALduino_TOOL_Get"></a>
   <b>Get</b>
   <ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - compares two CC110x registers from attribute CC110x_Register_new & CC110x_Register_old  <font color="red">*4</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - evaluates the register from the attribute IODev_CC110x_Register and outputs it in a file <font color="red">*6</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - evaluates the register from the attribute IODev and outputs it in a file <font color="red">*6</font color></li><a name=""></a></ul>
   <ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
   &emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
   &emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
@@ -4400,7 +4584,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
   <ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - calculates the average of the ClockPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - calculates the average of the SyncPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file. <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
+  <ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file. <font color="red">*1 *2</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
@@ -4430,12 +4614,22 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   
   <b>Attributes</b>
   <ul>
+    <li><a name="CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
+      CC110x end frequency of the scan <font color="red">*7</font color></li>
+    <li><a name="CC110x_Freq_Scan_Interval">CC110x_Freq_Scan_Interval</a><br>
+      CC110x Interval in seconds between rate adjustment (default: 5 seconds)</li>
+    <li><a name="CC110x_Freq_Scan_Start">CC110x_Freq_Scan_Start</a><br>
+      CC110x start frequency of the scan <font color="red">*7</font color></li>
+    <li><a name="CC110x_Freq_Scan_Step">CC110x_Freq_Scan_Step</a><br>
+      CC110x frequency graduation in MHz (standard: 0.005 MHz)</li>
     <li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
       Set CC110x register value in SIGNALduino short form <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
     <li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
       Is CC110x register value in SIGNALduino short form <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
     <li><a name="DispatchMax">DispatchMax</a><br>
       Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
+    <li><a name="DispatchMessageNumber">DispatchMessageNumber</a><br>
+      Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
     <li><a name="DispatchModule">DispatchModule</a><br>
       A selection of modules that have been automatically detected. It looking for files in the pattern <code>SIGNALduino_TOOL_Dispatch_xxx.txt</code> in which the RAWMSGs with model designation and state are stored.
       The classification must be made according to the pattern <code>name (model) , state , RAWMSG;</code>. A designation is mandatory NECESSARY! NO set commands entered automatically.
@@ -4443,22 +4637,24 @@ sub SIGNALduino_TOOL_cc1101read_Full {
     <li><a name="Dummyname">Dummyname</a><br>
       Name of the dummy device which is to trigger the dispatch command.<br>
       &emsp; <u>note:</u> Only after entering the dummy name is a dispatch via "click" from the overviews possible. The attribute "event logging" is automatically set, which is necessary for the complete evaluation of the messages.</li>
-    <li><a name="Filename_export">Filename_export</a><br>
+    <li><a name="File_export">File_export</a><br>
       File name of the file in which the new data is stored. <font color="red">*2</font color></li>
-    <li><a name="Filename_input">Filename_input</a><br>
+    <li><a name="File_input">File_input</a><br>
       File name of the file containing the input entries. <font color="red">*1</font color></li>
+    <li><a name="File_input_StartString">File_input_StartString</a><br>
+      The attribute is necessary for the <code>set Dispatch_file</code> option. It search the start of the dispatch command.<br>
+      There are 4 options: <code>MC;</code> | <code>MN;</code> | <code>MS;</code> | <code>MU;</code></li>
     <li><a name="IODev">IODev</a><br>
-      Name of the initialized device, which is used for direct transmission. <font color="red">*3</font color></li>
-    <li><a name="IODev_CC110x_Register">IODev_CC110x_Register</a><br>
-      Name of the initialized device, which has the CC110x for writing the register values. <font color="red">*5</font color></li>
+      name of the initialized device, which <br>
+      1) is used to send (<code>Send_RAWMSG</code>) <font color="red">*3</font color><br>
+      2) is used to read the CC110x register value (<code>CC110x_Register_read </code>) <font color="red">*6</font color><br>
+      3) is used to write the CC110x register value (<code>CC110x_Register_new | CC110x_Register_old</code>) <font color="red">*5</font color></li>
     <li><a name="IODev_Repeats">IODev_Repeats</a><br>
       Numbre of repeats to send. (Depending on the message type, the number of repeats can vary to correctly detect the signal!)</li>
     <li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
       A list of words that are automatically passed by using <code>Check it</code>. This is for self-made READINGS to not import into the JSON list.</li>
-    <li><a name="MessageNumber">MessageNumber</a><br>
-    Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
     <li><a name="Path">Path</a><br>
-      Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined Filename_export - file<br>
+      Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined File_export - file<br>
       &emsp; <u>note:</u> default is ./FHEM/SD_TOOL/ if the attribute not set.</li>
     <li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
       Memory 1 for a raw message</li>
@@ -4466,9 +4662,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       Memory 2 for a raw message</li>
     <li><a name="RAWMSG_M3">RAWMSG_M3</a><br>
       Memory 3 for a raw message</li>
-    <li><a name="StartString">StartString</a><br>
-      The attribute is necessary for the <code>set Dispatch_file</code> option. It search the start of the dispatch command.<br>
-      There are 3 options: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
     <li><a href="#cmdIcon">cmdIcon</a><br>
       Replaces commands from the webCmd attribute with icons. When deleting the attribute, the user only sees the commands as text. (is automatically set when defining the module)</li>
     <li><a href="#disable">disable</a><br>
@@ -4509,14 +4702,16 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
   <a name="SIGNALduino_TOOL_Set"></a>
   <b>Set</b>
-  <ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new in das IODev vom Attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old in das IODev vom Attribute IODev_CC110x_Register <font color="red">*5</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Freq_Scan"></a><code>CC110x_Freq_Scan</code> - startet den Frequenz-Scan auf dem IODev <font color="red">*7</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Freq_Scan_STOP"></a><code>CC110x_Freq_Scan_STOP</code> - stopt den Frequenz-Scan auf dem IODev <font color="red">*7</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new in das IODev <font color="red">*5</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old in das IODev <font color="red">*5</font color></li><a name=""></a></ul>
   <ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - eine fertige DMSG vom Modul welche dispatch werden soll (ohne SIGNALduino Verarbeitung!)<br>
   &emsp;&rarr; Beispiel: W51#087A4DB973</li><a name=""></a></ul>
   <ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
   &emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut StartString definiert wurden)<br>
-  &emsp; <u>Hinweis:</u> erst nach gesetzten Attribut Filename_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
+  <ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut File_input_StartString definiert wurden)<br>
+  &emsp; <u>Hinweis:</u> erst nach gesetzten Attribut File_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
   <ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgew&auml;hlten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
   <ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
@@ -4533,11 +4728,11 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <a name="SIGNALduino_TOOL_Get"></a>
   <b>Get</b>
   <ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - vergleicht die CC110x Register aus dem Attribut CC110x_Register_new & CC110x_Register_old <font color="red">*4</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - wertet das Register vom Attribute IODev_CC110x_Register aus und gibt es in einer Datei aus <font color="red">*6</font color></li><a name=""></a></ul>
+  <ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - wertet das Register vom Attribute IODev aus und gibt es in einer Datei aus <font color="red">*6</font color></li><a name=""></a></ul>
   <ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
   &emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
   &emsp;&rarr; Beispiel 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
-  <ul><li><a name="FilterFile"></a><code>FilterFile</code> - erstellt eine Datei mit den gefilterten Werten <font color="red">*1</font color> <font color="red">*2</font color><br>
+  <ul><li><a name="FilterFile"></a><code>FilterFile</code> - erstellt eine Datei mit den gefilterten Werten <font color="red">*1 *2</font color><br>
   &emsp;&rarr; eine Vorauswahl von Suchbegriffen via Checkbox ist m&ouml;glich<br>
   &emsp;&rarr; die Checkbox Auswahl <i>-ONLY_DATA-</i> filtert nur die Suchdaten einzel aus jeder Zeile anstatt die komplette Zeile mit den gesuchten Daten<br>
   &emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li><a name=""></a></ul>
@@ -4545,7 +4740,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
   <ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern. <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
+  <ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern. <font color="red">*1 *2</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
@@ -4575,10 +4770,20 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   
   <b>Attributes</b>
   <ul>
+    <li><a name="CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
+      CC110x Endfrequenz vom Scan <font color="red">*7</font color></li>
+    <li><a name="CC110x_Freq_Scan_Interval">CC110x_Freq_Scan_Interval</a><br>
+      CC110x Interval in Sekunden zwischen der Frequenzanpassung (Standard: 5 Sekunden)</li>
+    <li><a name="CC110x_Freq_Scan_Start">CC110x_Freq_Scan_Start</a><br>
+      CC110x Startfrequenz vom Scan <font color="red">*7</font color></li>
+    <li><a name="CC110x_Freq_Scan_Step">CC110x_Freq_Scan_Step</a><br>
+      CC110x Frequenzabstufung in MHz (Standard: 0.005 MHz)</li>
     <li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
       Soll CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
     <li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
       Ist CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
+    <li><a name="DispatchMessageNumber">DispatchMessageNumber</a><br>
+      Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
     <li><a name="DispatchMax">DispatchMax</a><br>
       Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
     <li><a name="DispatchModule">DispatchModule</a><br>
@@ -4588,23 +4793,24 @@ sub SIGNALduino_TOOL_cc1101read_Full {
     <li><a name="Dummyname">Dummyname</a><br>
       Name des Dummy-Ger&auml;tes welcher den Dispatch-Befehl ausl&ouml;sen soll.<br>
       &emsp; <u>Hinweis:</u> Nur nach Eingabe dessen ist ein Dispatch via "Klick" aus den Übersichten möglich. Im Dummy wird automatisch das Attribut "eventlogging" gesetzt, welches notwendig zur kompletten Auswertung der Nachrichten ist.</li>
-    <li><a name="Filename_export">Filename_export</a><br>
+    <li><a name="File_export">File_export</a><br>
       Dateiname der Datei, worin die neuen Daten gespeichert werden. <font color="red">*2</font color></li>
-    <li><a name="Filename_input">Filename_input</a><br>
+    <li><a name="File_input">File_input</a><br>
       Dateiname der Datei, welche die Input-Eingaben enth&auml;lt. <font color="red">*1</font color></li>
+    <li><a name="File_input_StartString">File_input_StartString</a><br>
+      Das Attribut ist notwendig für die <code> set Dispatch_file</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
+      Es gibt 4 M&ouml;glichkeiten: <code>MC;</code> | <code>MN;</code> |  <code>MS;</code> | <code>MU;</code></li>
     <li><a name="IODev">IODev</a><br>
-      Name des initialisierten Device, welches zum direkten senden genutzt wird. <font color="red">*3</font color></li>
-    <li><a name="IODev_CC110x_Register">IODev_CC110x_Register</a><br>
-      Name des initialisierten Device, welches den CC110x zum schreiben der Registerwerte besitzt. <font color="red">*5 *6</font color></li>
+      Name des initialisierten Device, welches <br>
+      1) zum senden genutzt wird (<code>Send_RAWMSG</code>) <font color="red">*3</font color><br>
+      2) zum lesen des CC110x-Registerwert genutzt wird (<code>CC110x_Register_read </code>) <font color="red">*6</font color><br>
+      3) zum schreiben des CC110x-Registerwert genutzt wird (<code>CC110x_Register_new | CC110x_Register_old</code>) <font color="red">*5</font color></li>
     <li><a name="IODev_Repeats">IODev_Repeats</a><br>
       Anzahl der Sendewiederholungen. (Je nach Nachrichtentyp, kann die Anzahl der Repeats variieren zur richtigen Erkennung des Signales!)</li>
     <li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
       Eine Liste mit W&ouml;rtern, welche beim pr&uuml;fen mit <code>Check it</code> automatisch &uuml;bergangen werden. Das ist f&uuml;r selbst erstellte READINGS gedacht um diese nicht in die JSON Liste zu importieren.</li>
-    <li><a name="MessageNumber">MessageNumber</a><br>
-      Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
-      <a name="MessageNumberEnd"></a>
     <li><a name="Path">Path</a><br>
-      Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte Filename_export - Datei<br>
+      Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte File_export - Datei<br>
       &emsp; <u>Hinweis:</u> Standard ist ./FHEM/SD_TOOL/ wenn das Attribut nicht gesetzt wurde.</li>
     <li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
       Speicherplatz 1 für eine Roh-Nachricht</li>
@@ -4612,9 +4818,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       Speicherplatz 2 für eine Roh-Nachricht</li>
     <li><a name="RAWMSG_M3">RAWMSG_M3</a><br>
       Speicherplatz 3 für eine Roh-Nachricht</li>
-    <li><a name="StartString">StartString</a><br>
-      Das Attribut ist notwendig für die <code> set Dispatch_file</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
-      Es gibt 3 M&ouml;glichkeiten: <code>MC;</code> | <code>MS;</code> | <code>MU;</code></li>
     <li><a href="#cmdIcon">cmdIcon</a><br>
       Ersetzt Kommandos aus dem Attribut webCmd durch Icons. Beim löschen des Attributes sieht der Benutzer nur die Kommandos als Text. (wird automatisch gesetzt beim definieren des Modules)</li>
     <li><a href="#disable">disable</a><br>
