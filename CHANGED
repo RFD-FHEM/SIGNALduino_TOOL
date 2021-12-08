@@ -1,3 +1,113 @@
+2021-12-08 - Squashed commit of the following:
+
+commit 98947f008623ef470316216122604434d9e8ee3b
+Author: GitHub Action <action@github.com>
+Date:   Tue Dec 7 20:10:17 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 423083d056ae76d0292257f854f12237c441d610
+Author: Udo <info@elektron-bbs.de>
+Date:   Tue Dec 7 21:09:49 2021 +0100
+
+    Update SD_Device_ProtocolList.json
+
+commit ec02191efd8d9d41291822a8afaba239d92b128f
+Author: GitHub Action <action@github.com>
+Date:   Tue Nov 23 21:29:05 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit cd326232c53f9f37dabcf085111533c78a99a7c4
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Nov 23 22:28:46 2021 +0100
+
+    Squashed commit of the following:
+
+    commit f61612ea5dcc7a0ac40ea17729d30879203fb2de
+    Author: GitHub Action <action@github.com>
+    Date:   Tue Oct 12 06:36:55 2021 +0000
+
+        Automaitc updated controls and CHANGED
+
+    commit bdd288ab24d844efdafa0ad691cfae1cd07ebb0f
+    Author: HomeAutoUser <abfall-container@gmx.de>
+    Date:   Tue Oct 12 08:36:36 2021 +0200
+
+        Update 88_SIGNALduino_TOOL.pm
+
+         - jump to the primary frequency added
+
+    commit d08cd3b12827579fe9bc8bf30d07290e9ce04517
+    Author: GitHub Action <action@github.com>
+    Date:   Wed Oct 6 20:14:04 2021 +0000
+
+        Automaitc updated controls and CHANGED
+
+    commit 0e3b5196b28aa9b3c3a2dc8eee0597a83e13c7f1
+    Author: HomeAutoUser <abfall-container@gmx.de>
+    Date:   Wed Oct 6 22:13:47 2021 +0200
+
+        Update 88_SIGNALduino_TOOL.pm
+
+         - deactivated FHEM::Meta (Meta modul has another bug)
+         - code optimized
+         - scan function expanded
+         - revised commandref
+
+    commit ddbee056c94ecf5ee25ba8b4b9088905269e2aa4
+    Author: GitHub Action <action@github.com>
+    Date:   Mon Sep 27 16:38:33 2021 +0000
+
+        Automaitc updated controls and CHANGED
+
+    commit 4c93b2cc873bcbf33867b7666ef42d909a9d742a
+    Author: HomeAutoUser <abfall-container@gmx.de>
+    Date:   Mon Sep 27 18:38:15 2021 +0200
+
+        Update 88_SIGNALduino_TOOL.pm
+
+         - new feature
+         - optimized code
+         - grouping attribute names
+
+commit 3678ec87acf523d015e74f9b2830aee70f6e9476
+Author: GitHub Action <action@github.com>
+Date:   Sat Oct 23 15:47:34 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit aa3bda0b53a2624be3a4db6576ffe77b73f0f708
+Author: Udo <info@elektron-bbs.de>
+Date:   Sat Oct 23 17:47:15 2021 +0200
+
+    Update SD_Device_ProtocolList.json
+
+    add Rojaflex HSR-15, HSTR-15
+
+commit 0d5bc640502a3218ee09d44b48dbd93256b9c7a7
+Author: GitHub Action <action@github.com>
+Date:   Sun Aug 22 15:07:23 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 556b32a4ab92c992f4a5be75f1309f69dd5ffc7e
+Author: Udo <info@elektron-bbs.de>
+Date:   Sun Aug 22 17:07:08 2021 +0200
+
+    Update SD_Device_ProtocolList.json
+
+commit 9c44a1b390ad6cdbfc459772d21d56d760128836
+Author: GitHub Action <action@github.com>
+Date:   Tue Aug 17 19:00:05 2021 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 922d40bc22188db20543a4e231ec02adbc36293d
+Author: Udo <info@elektron-bbs.de>
+Date:   Tue Aug 17 20:59:43 2021 +0200
+
+    Update SD_Device_ProtocolList.json
 2021-12-07 - Update SD_Device_ProtocolList.json
 2021-11-23 - Squashed commit of the following:
 
@@ -49,37 +159,35 @@ Date:   Mon Sep 27 18:38:15 2021 +0200
      - grouping attribute names
 2021-10-23 - Update SD_Device_ProtocolList.json
 
- * add Rojaflex HSR-15, HSTR-15
-
+ - add Rojaflex HSR-15, HSTR-15
 2021-10-12 - Update 88_SIGNALduino_TOOL.pm
 
- * jump to the primary frequency added
+ - jump to the primary frequency added
 2021-10-06 - Update 88_SIGNALduino_TOOL.pm
 
- * deactivated FHEM::Meta (Meta modul has another bug)
- * code optimized
- * scan function expanded
- * revised commandref
+ - deactivated FHEM::Meta (Meta modul has another bug)
+ - code optimized
+ - scan function expanded
+ - revised commandref
 2021-09-27 - Update 88_SIGNALduino_TOOL.pm
 
- * new feature
- * optimized code
- * grouping attribute names
-
+ - new feature
+ - optimized code
+ - grouping attribute names
 2021-08-22 - Update SD_Device_ProtocolList.json
 2021-08-17 - Update SD_Device_ProtocolList.json
 2021-08-09 - Update SD_Device_ProtocolList.json
 
- * revised pull date
+ - revised pull date
 2021-08-08 - Update SD_Device_ProtocolList.json
 2021-08-06 - Update SD_Device_ProtocolList.json
 
- * revised pull date
- * added protocol 114
+ - revised pull date
+ - added protocol 114
 2021-08-05 - Update 88_SIGNALduino_TOOL.pm
 
- * fix cmd invert_bitMsg
- * fix cmd invert_hexMsg
+ - fix cmd invert_bitMsg
+ - fix cmd invert_hexMsg
 2021-08-04 - Update SD_Device_ProtocolList.json
 
 add protocol 111 for TS-FT002 water tank level monitor with temperature
@@ -93,8 +201,8 @@ add protocol 111 for TS-FT002 water tank level monitor with temperature
 
 2021-07-08 - Update 88_SIGNALduino_TOOL.pm
 
-- fix CC110x_Register_comparison
-- revised some lines for Perl::Critic
+ - fix CC110x_Register_comparison
+ - revised some lines for Perl::Critic
 2021-06-28 - Update 88_SIGNALduino_TOOL.pm
 
  - revised some lines for Perl::Critic
@@ -281,7 +389,7 @@ add protocol 111 for TS-FT002 water tank level monitor with temperature
  - added compatibility v3.4 <-> 3.5
 2020-07-17 - Update SD_Device_ProtocolList.json
 
-- revised data id 9
+ - revised data id 9
 2020-07-17 - Merge branch 'pre-release'
 2020-07-05 - Update 88_SIGNALduino_TOOL.pm
 
