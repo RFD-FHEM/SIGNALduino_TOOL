@@ -402,6 +402,17 @@
     }
   ]
 },
+{"name":"Mebus HQ7312-2", "id":"7.1", "module":"SD_WS07", "data": [
+    {
+      "dmsg":"P7#4DA0F5F0A", "comment":"Mebus HQ7312-2", "user":"rpsVerni",
+      "internals": {"DEF":"SD_WS07_TH_3", "NAME":"SD_WS07_TH_3"},
+      "readings": {"state":"T: 24.5 H: 10", "batteryState":"ok", "channel":"3", "humidity":"10", "temperature":"24.5"},
+      "minProtocolVersion":"1.40", "revision_entry":"2021-12-29 09:57:04",
+      "revision_modul":"14_SD_WS07.pm 21666 2020-04-13 21:14:53Z Sidey",
+      "rmsg":"MS;P0=-2128;P1=320;P5=-1159;P6=-4084;D=16151015151010151010151015151515151010101015101510101010101515151510151015;CP=1;SP=6;R=66;O;m2;"
+    }
+  ]
+},
 {"name":"TX3", "id":"8", "module":"CUL_TX", "data": [
     {
       "dmsg":"TXAECA560564", "comment":"(ID 42,75 additionally)", "dispatch_repeats":"1", "user":"sidey79",
