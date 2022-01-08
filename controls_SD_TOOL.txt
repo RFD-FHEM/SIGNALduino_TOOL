@@ -1,2 +1,2 @@
 UPD 2021-11-23_22:28:46 287202 FHEM/88_SIGNALduino_TOOL.pm
-UPD 2022-01-05_21:29:29 203094 FHEM/lib/SD_Device_ProtocolList.json
+UPD 2022-01-08_20:51:27 204298 FHEM/lib/SD_Device_ProtocolList.json
