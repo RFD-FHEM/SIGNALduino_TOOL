@@ -2862,6 +2862,25 @@
     }
   ]
 },
+{"name":"WH57", "id":"116", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W116#5780C655051401C4D0", "comment":"Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_116", "NAME":"SD_WS_116"},
+      "readings": {"state":"I: lightning D: 20", "batteryPercent":"100", "count":"1", "distance":"20", "identified":"lightning", "type":"WH57, DP60, WH31L"},
+      "minProtocolVersion":"1.42", "revision_entry":"2022-01-14 16:47:22",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-08 20:06:52Z elektron-bbs",
+      "rmsg":"MN;D=5780C655051401C4D0;R=37;"
+    },
+    {
+      "dmsg":"W116#5740C655053F0A7272", "comment":"Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_116", "NAME":"SD_WS_116"},
+      "readings": {"state":"I: disturbance D: 63", "batteryPercent":"100", "count":"10", "distance":"63", "identified":"disturbance", "type":"WH57, DP60, WH31L"},
+      "minProtocolVersion":"1.42", "revision_entry":"2022-01-14 16:49:34",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-08 20:06:52Z elektron-bbs",
+      "rmsg":"MN;D=5740C655053F0A7272;R=39;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
