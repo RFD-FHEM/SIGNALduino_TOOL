@@ -1,3 +1,6 @@
+2022-01-14 - Update SD_Device_ProtocolList.json
+
+add protocol 116 - Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L
 2022-01-08 - Update SD_Device_ProtocolList.json
 
 Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor
