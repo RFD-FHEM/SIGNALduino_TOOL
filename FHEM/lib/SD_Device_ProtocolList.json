@@ -2881,6 +2881,33 @@
     }
   ]
 },
+{"name":"BRESSER 7-in-1", "id":"117", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W117#56820C5F2760B2000000000084001270870066760000000000AAAAAA", "comment":"BRESSER 7-in-1 Weather Center", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_117", "NAME":"SD_WS_117"},
+      "readings": {"state":"T: 12.7 H: 87 W: 0 R: 8.4 B: 6.676", "batteryChanged":"1", "batteryState":"ok", "brightness":"6.676", "humidity":"87", "rain":"8.4", "temperature":"12.7", "type":"Bresser_7in1", "uv":"0", "windDirectionDegree":"276", "windDirectionText":"W", "windGust":"0", "windSpeed":"0"},
+      "minProtocolVersion":"1.43", "revision_entry":"2022-01-29 21:00:42",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-15 12:25:06Z elektron-bbs",
+      "rmsg":"MN;D=FC28A6F58DCA18AAAAAAAAAA2EAAB8DA2DAACCDCAAAAAAAAAA000000;R=29;"
+    },
+    {
+      "dmsg":"W117#E76E0C5F1920BA000000000000001310880003600000000000AAAAAA", "comment":"BRESSER 7-in-1 Weather Center", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_117", "NAME":"SD_WS_117"},
+      "readings": {"state":"T: 13.1 H: 88 W: 0 R: 0 B: 0.36", "batteryChanged":"0", "batteryState":"ok", "brightness":"0.36", "humidity":"88", "rain":"0", "temperature":"13.1", "type":"Bresser_7in1", "uv":"0", "windDirectionDegree":"192", "windDirectionText":"SSW", "windGust":"0", "windSpeed":"0"},
+      "minProtocolVersion":"1.43", "revision_entry":"2022-01-29 21:02:52",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-15 12:25:06Z elektron-bbs",
+      "rmsg":"MN;D=4DC4A6F5B38A10AAAAAAAAAAAAAAB9BA22AAA9CAAAAAAAAAAA000000;R=15;"
+    },
+    {
+      "dmsg":"W117#A65A0C5F1320BA000000000000001016940011560000000000AAAAAA", "comment":"BRESSER 7-in-1 Weather Center", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_117", "NAME":"SD_WS_117"},
+      "readings": {"state":"T: 10.1 H: 94 W: 0 R: 0 B: 1.156", "batteryChanged":"0", "batteryState":"low", "brightness":"1.156", "humidity":"94", "rain":"0", "temperature":"10.1", "type":"Bresser_7in1", "uv":"0", "windDirectionDegree":"132", "windDirectionText":"SE", "windGust":"0", "windSpeed":"0"},
+      "minProtocolVersion":"1.43", "revision_entry":"2022-01-29 21:04:17",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-15 12:25:06Z elektron-bbs",
+      "rmsg":"MN;D=0CF0A6F5B98A10AAAAAAAAAAAAAABABC3EAABBFCAAAAAAAAAA000000;R=28;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
