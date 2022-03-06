@@ -2908,6 +2908,36 @@
     }
   ]
 },
+{"name":"Meikee_24_20D3", "id":"118", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P118#20D302", "comment":"Remote controls for Meikee LED lights e.g. RGB LED Wallwasher Light and Solar Flood Light", "user":"elektron-bbs",
+      "internals": {"DEF":"Meikee_24 20D3", "NAME":"Meikee_24_20D3"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"20D3"},
+      "attributes": {"model":"Meikee_24"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-03-06 13:10:07",
+      "revision_modul":"14_SD_UT.pm     0 2022-01-23 16:28:56Z sidey79",
+      "rmsg":"MU;P0=506;P1=-1015;P2=1008;P3=-523;P4=-12696;D=01012301040101230101010101232301230101232301010101010123010;CP=0;R=49;"
+    },
+    {
+      "dmsg":"P118#20D301", "comment":"Remote controls for Meikee LED lights e.g. RGB LED Wallwasher Light and Solar Flood Light", "user":"elektron-bbs",
+      "internals": {"DEF":"Meikee_24 20D3", "NAME":"Meikee_24_20D3"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"20D3"},
+      "attributes": {"model":"Meikee_24"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-03-06 13:11:19",
+      "revision_modul":"14_SD_UT.pm     0 2022-01-23 16:28:56Z sidey79",
+      "rmsg":"MU;P0=-516;P1=518;P2=-1015;P3=1000;P4=-12712;D=01230121230301212121212121230141212301212121212303012301212303012121212121212301;CP=1;R=35;"
+    },
+    {
+      "dmsg":"P118#20D300", "comment":"Remote controls for Meikee LED lights e.g. RGB LED Wallwasher Light and Solar Flood Light", "user":"elektron-bbs",
+      "internals": {"DEF":"Meikee_24 20D3", "NAME":"Meikee_24_20D3"},
+      "readings": {"state":"learn", "LastAction":"receive", "deviceCode":"20D3"},
+      "attributes": {"model":"Meikee_24"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-03-06 13:12:25",
+      "revision_modul":"14_SD_UT.pm     0 2022-01-23 16:28:56Z sidey79",
+      "rmsg":"MU;P0=-509;P1=513;P2=-999;P3=1027;P4=-12704;D=01230121230301212121212121212141212301212121212303012301212303012121212121212121;CP=1;R=77;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "user":"",
