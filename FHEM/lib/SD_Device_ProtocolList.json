@@ -2862,6 +2862,28 @@
     }
   ]
 },
+{"name":"SD_WS_115_21", "id":"115", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W115#6CD6197005FD2900000000002126630000A1FFFF07000000000000000000", "comment":"Bresser_6in1 Thermo-/hygro sensor", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_115_21", "NAME":"SD_WS_115_21"},
+      "readings": {"state":"T: 21.2 H: 63", "batteryState":"ok", "channel":"21", "humidity":"63", "temperature":"21.2", "type":"Bresser_6in1, new Bresser_5in1"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-03-16 21:09:39",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-30 10:19:30Z elektron-bbs",
+      "rmsg":"MN;D=6CD6197005FD2900000000002126630000A1FFFF07000000000000000000;R=28;"
+    }
+  ]
+},
+{"name":"SD_WS_115_47", "id":"115", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W115#F16E187000E347FFFFFF0000252216FFF004000", "comment":"Bresser Explore Scientific SM60020 Soil moisture Sensor", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_115_47", "NAME":"SD_WS_115_47"},
+      "readings": {"state":"T: 25.2 H: 99", "batteryState":"low", "channel":"47", "humidity":"99", "temperature":"25.2", "type":"Bresser_6in1, new Bresser_5in1"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-03-16 21:05:07",
+      "revision_modul":"14_SD_WS.pm 21666 2022-01-30 10:19:30Z elektron-bbs",
+      "rmsg":"MN;D=F16E187000E347FFFFFF0000252216FFF004000;R=242;"
+    }
+  ]
+},
 {"name":"WH57", "id":"116", "module":"SD_WS", "data": [
     {
       "dmsg":"W116#5780C655051401C4D0", "comment":"Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L", "user":"elektron-bbs",
