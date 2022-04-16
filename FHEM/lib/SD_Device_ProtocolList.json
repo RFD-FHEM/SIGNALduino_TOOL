@@ -1890,7 +1890,7 @@
     {
       "dmsg":"W85#0C45C60124B0554F8", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 54,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
-      "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02"},
+      "readings": {"state":"T: 8.7 H: 85", "batteryState":"ok", "channel":"1", "humidity":"85", "temperature":"8.7", "type":"TFA 30.3222.02, TFA 30.3251.10, LaCrosse TX141W"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-04-21 20:20:40",
       "revision_modul":"14_SD_WS.pm   21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=-509;P1=474;P2=-260;P3=228;P4=718;P5=-745;D=01212303030303012301230123012301230301212121230454545453030303012123030301230303012301212123030301212303030303030303012303012303012303012301212303030303012301230123012301230301212121212454545453030303012123030301230303012301212123030301212303030303030303;CP=3;R=46;O;"
@@ -1901,7 +1901,7 @@
     {
       "dmsg":"W85#0C35A602015000C98", "comment":"Thermo-hygro sensor for base station 35.1140.01 (ID 54,61 additionally)", "user":"Iron-R1",
       "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
-      "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02", "windSpeed":"2.1"},
+      "readings": {"state":"W: 2.1", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02, TFA 30.3251.10, LaCrosse TX141W", "windSpeed":"2.1"},
       "minProtocolVersion":"1.27", "revision_entry":"2021-04-21 20:24:18",
       "revision_modul":"14_SD_WS.pm   21666 2020-04-13 21:14:53Z Sidey",
       "rmsg":"MU;P0=242;P1=-506;P2=467;P3=-248;P4=723;P5=-736;D=01012323010123010123014545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301230101010101010101010101012323010123010123234545454501010101232301010101232301230123230123010123230101010101010123010101010101010123012301;CP=0;R=52;O;"
