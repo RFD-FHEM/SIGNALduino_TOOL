@@ -1,3 +1,6 @@
+2022-04-16 - Update SD_Device_ProtocolList.json
+
+protocol 85 change type from "TFA 30.3222.02" to "TFA 30.3222.02, TFA 30.3251.10, LaCrosse TX141W"
 2022-03-16 - Update SD_Device_ProtocolList.json
 
 new sensors protocol 115
