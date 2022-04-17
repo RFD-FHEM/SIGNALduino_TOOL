@@ -1908,6 +1908,18 @@
     }
   ]
 },
+{"name":"TFA 30.3251.10 Windsensor", "id":"85", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W85#0BFF0F0203B03A980", "comment":"additionally windDirectionDegree and windDirectionText", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
+      "readings": {"state":"W: 5.9", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02, TFA 30.3251.10, LaCrosse TX141W", "windDirectionDegree":"58", "windDirectionText":"ENE", "windSpeed":"5.9"},
+      "attributes": {"model":"TFA_30.3251.10"},
+      "minProtocolVersion":"1.27", "revision_entry":"2022-04-17 13:36:34",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-04-15 15:55:23Z elektron-bbs",
+      "rmsg":"MU;P0=-28464;P1=493;P2=-238;P3=244;P4=-492;P5=728;P6=-732;D=01212123434343412121212343434343434123434343434343412121234121234343434343412121234123412343412123434343456565656343434341234121212121212121212123434343412121212343434343434123434343434343412121234121234343434343412121234123412343412123434343456565656343;CP=3;R=20;O;"
+    }
+  ]
+},
 {"name":"CAME TOP 432EV", "id":"86", "module":"SD_UT", "data": [
     {
       "dmsg":"P86#EEE", "comment":"Remote control (ID 81 additionally)", "dispatch_repeats":"7", "user":"andies, andreasloe",
