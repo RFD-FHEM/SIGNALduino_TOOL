@@ -2975,7 +2975,7 @@
 {"name":"funkbus", "id":"119", "module":"IFB", "data": [
     {
       "dmsg":"J2C175F300152", "comment":"button on short off", "user":"gestein",
-      "internals": {"DEF":"IFB43_FAE8_A_1"},
+      "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
       "readings" : {"state":"on","batteryState":"ok","action":"u","long":"0"},
       "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
       "revision_modul":"3.5.4",
@@ -2983,7 +2983,7 @@
     },
     {
       "dmsg":"J2C175F30008F", "comment":"button on short off", "user":"gestein",
-      "internals": {"DEF":"IFB43_FAE8_A_1"},
+      "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
       "readings" : {"state":"off","batteryState":"ok","action":"D","long":"0"},
       "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
       "revision_modul":"3.5.4",
