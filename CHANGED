@@ -1,3 +1,13 @@
+2022-05-22 - Update SD_Device_ProtocolList.json
+
+add dispatch repeats for funkbus
+2022-05-18 - Update SD_Device_ProtocolList.json
+
+added internal name
+2022-05-18 - Update SD_Device_ProtocolList.json
+
+Added testdata for funkbus from fhem forum:
+https://forum.fhem.de/index.php/topic,127189.msg1218031.html#msg1218031
 2022-04-17 - Update SD_Device_ProtocolList.json
 
 add TFA 30.3251.10 Windsensor protocol 85

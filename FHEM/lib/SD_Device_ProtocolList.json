@@ -2972,9 +2972,30 @@
     }
   ]
 },
+{"name":"funkbus", "id":"119", "module":"IFB", "data": [
+    {
+      "dmsg":"J2C175F300152", "comment":"button on short off", "user":"gestein", "dispatch_repeats":"1",
+      "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
+      "readings" : {"state":"on","batteryState":"ok","action":"u","long":"0"},
+      "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
+      "revision_modul":"3.5.4",
+      "rmsg":"MC;LL=-1012;LH=1016;SL=-515;SH=508;D=9D4F3F7554C98;C=508;L=49;R=22;"
+    },
+    {
+      "dmsg":"J2C175F30008F", "comment":"button on short off", "user":"gestein", "dispatch_repeats":"1",
+      "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
+      "readings" : {"state":"off","batteryState":"ok","action":"D","long":"0"},
+      "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
+      "revision_modul":"3.5.4",
+      "rmsg":"MC;LL=-991;LH=1037;SL=-502;SH=519;D=9D4F3F7555A00;C=508;L=49;R=38;"
+    }
+  ]
+},   
+    
+    
 {"name":"", "id":"", "module":"", "data": [
     {
-      "dmsg":"", "comment":"", "user":"",
+      "dmsg":"", "comment":"", "user":"", "dispatch_repeats":"1",
       "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
       "minProtocolVersion":"unknown", "revision_entry":"unknown",
