@@ -523,7 +523,7 @@
     {
       "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"no RAWMSG / only DMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
-      "readings": {"state":"T: 19.3  Ws: 7 Wg: 61  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"61", "windSpeed":"7"},
+      "readings": {"state":"T: 19.3  Ws: 7  Wg: 61  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"61", "windSpeed":"7"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
       "revision_modul":"unknown"
     },
