@@ -1,3 +1,7 @@
+2022-06-12 - Update  SD_Device_ProtocolList.json
+
+- Added Testdata for DV928 with windSpeecCorr and windDirCorr
+- Corrected existing checks against DV928 wo verify that output is alsways with floatingpoint values
 2022-06-09 - Update SD_Device_ProtocolList.json
 
 revised Typing error two :-(
