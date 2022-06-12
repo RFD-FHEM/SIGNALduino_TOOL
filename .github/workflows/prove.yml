@@ -8,8 +8,9 @@ jobs:
     - uses: actions/checkout@master
     - uses: shogo82148/actions-setup-perl@v1.16.0
       with:
-        perl-version: '5.26'
-    - run: cpanm --notest --installdeps .
+        perl-version: '5.32'
+        install-modules-with: cpanm
+        install-modules-args: --no-interactive -v --installdeps
     - name: run prove (testscripts)
       run: |
         prove -lr --ext=.pl t
