@@ -521,38 +521,35 @@
 },
 {"name":"Wireless Weather Station DV928, Wind", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"no RAWMSG / only DMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
       "readings": {"state":"T: 19.3  Ws: 7.00  Wg: 61.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"61.00", "windSpeed":"7.00"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
       "revision_modul":"unknown"
     },
     {
-      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01",  "comment":"no RAWMSG / only DMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01",  "comment":"no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
       "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: S", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"8", "windDirectionDegree":"180", "windDirectionText":"S", "windGust":"20.00", "windSpeed":"10.00"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
       "revision_modul":"unknown"
-    }  
-  ]
-},
-{ "name":"Wireless Weather Station DV928 - with wind correction, Wind", "id":"12", "module":"Hideki", "data": [
-  {
-    "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"no RAWMSG / only DMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
-    "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
-    "readings": {"state":"T: 19.3  Ws: 14.00  Wg: 122.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"122.00", "windSpeed":"14.00"},
-    "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
-    "revision_modul":"unknown",
-    "attributes": {"windSpeedCorr":"2"}
-  },
-  {
-    "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01",  "comment":"no RAWMSG / only DMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
-    "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
-    "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: SW", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"10", "windDirectionDegree":"225", "windDirectionText":"SW", "windGust":"20.00", "windSpeed":"10.00"},
-    "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
-    "revision_modul":"unknown",
-    "attributes": {"windDirCorr":"2"}
-  }
+    },
+    {
+      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"with wind correction, no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
+      "readings": {"state":"T: 19.3  Ws: 14.00  Wg: 122.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"122.00", "windSpeed":"14.00"},
+      "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
+      "revision_modul":"unknown",
+      "attributes": {"windSpeedCorr":"2"}
+    },
+    {
+      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01",  "comment":"with wind correction, no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
+      "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: SW", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"10", "windDirectionDegree":"225", "windDirectionText":"SW", "windGust":"20.00", "windSpeed":"10.00"},
+      "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
+      "revision_modul":"unknown",
+      "attributes": {"windDirCorr":"2"}
+    }
   ]
 },
 {"name":"KD-101LA", "id":"13", "module":"FLAMINGO", "data": [
