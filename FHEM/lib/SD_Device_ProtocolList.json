@@ -521,34 +521,34 @@
 },
 {"name":"Wireless Weather Station DV928, Wind", "id":"12", "module":"Hideki", "data": [
     {
-      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03", "comment":"no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
       "readings": {"state":"T: 19.3  Ws: 7.00  Wg: 61.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"61.00", "windSpeed":"7.00"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
       "revision_modul":"unknown"
     },
     {
-      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01",  "comment":"no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01", "comment":"no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
       "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: S", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"8", "windDirectionDegree":"180", "windDirectionText":"S", "windGust":"20.00", "windSpeed":"10.00"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
       "revision_modul":"unknown"
     },
     {
-      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03",  "comment":"with wind correction, no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03", "comment":"with wind correction, no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
       "readings": {"state":"T: 19.3  Ws: 14.00  Wg: 122.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"122.00", "windSpeed":"14.00"},
+      "attributes": {"windSpeedCorr":"2"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
-      "revision_modul":"unknown",
-      "attributes": {"windSpeedCorr":"2"}
+      "revision_modul":"unknown"
     },
     {
-      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01",  "comment":"with wind correction, no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01", "comment":"with wind correction, no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
       "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
       "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: SW", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"10", "windDirectionDegree":"225", "windDirectionText":"SW", "windGust":"20.00", "windSpeed":"10.00"},
+      "attributes": {"windDirCorr":"2"},
       "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
-      "revision_modul":"unknown",
-      "attributes": {"windDirCorr":"2"}
+      "revision_modul":"unknown"
     }
   ]
 },
@@ -3007,28 +3007,47 @@
 },
 {"name":"funkbus", "id":"119", "module":"IFB", "data": [
     {
-      "dmsg":"J2C175F300152", "comment":"button on short off", "user":"gestein", "dispatch_repeats":"0",
+      "dmsg":"J2C175F300152", "comment":"button on short off", "dispatch_repeats":"0", "user":"gestein",
       "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
-      "readings" : {"state":"on","batteryState":"ok","action":"u","long":"0"},
+      "readings": {"state":"on", "action":"u", "batteryState":"ok", "long":"0"},
       "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
       "revision_modul":"3.5.4",
       "rmsg":"MC;LL=-1012;LH=1016;SL=-515;SH=508;D=9D4F3F7554C98;C=508;L=49;R=22;"
     },
     {
-      "dmsg":"J2C175F30008F", "comment":"button on short off", "user":"gestein", "dispatch_repeats":"0",
+      "dmsg":"J2C175F30008F", "comment":"button on short off", "dispatch_repeats":"0", "user":"gestein",
       "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
-      "readings" : {"state":"off","batteryState":"ok","action":"D","long":"0"},
+      "readings": {"state":"off", "action":"D", "batteryState":"ok", "long":"0"},
       "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
       "revision_modul":"3.5.4",
       "rmsg":"MC;LL=-991;LH=1037;SL=-502;SH=519;D=9D4F3F7555A00;C=508;L=49;R=38;"
     }
   ]
-},   
-    
-    
+},
+{"name":"Busch-Transcontrol HF", "id":"121", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P121#03DC7E", "comment":"remote control 6861", "user":"elektron-bbs",
+      "internals": {"DEF":"TC6861 3DC_1", "NAME":"TC6861_3DC_1"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"3DC"},
+      "attributes": {"model":"TC6861"},
+      "minProtocolVersion":"1.46", "revision_entry":"2022-06-14 09:14:05",
+      "revision_modul":"unknown",
+      "rmsg":"MU;P0=28479;P1=-692;P2=260;P3=574;P4=-371;D=0121212121212134343434213434342121213434343434342;CP=2;R=41;"
+    },
+    {
+      "dmsg":"P121#33DC7E", "comment":"remote control 6861", "user":"elektron-bbs",
+      "internals": {"DEF":"TC6861 3DC_1", "NAME":"TC6861_3DC_1"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"3DC"},
+      "attributes": {"model":"TC6861"},
+      "minProtocolVersion":"1.46", "revision_entry":"2022-06-14 09:24:03",
+      "revision_modul":"unknown",
+      "rmsg":"MU;P0=4372;P1=-689;P2=254;P3=575;P4=-368;D=0121213434212134343434213434342121213434343434342;CP=2;R=59;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
-      "dmsg":"", "comment":"", "user":"", "dispatch_repeats":"1",
+      "dmsg":"", "comment":"", "dispatch_repeats":"1", "user":"",
       "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
       "minProtocolVersion":"unknown", "revision_entry":"unknown",
