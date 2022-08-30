@@ -809,6 +809,18 @@
     }
   ]
 },
+{"name":"HT12e", "id":"29", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P29#DFE", "comment":"remote with 6 buttons, with light dimmer, for example Westinghouse airfan", "user":"monosurr0und",
+      "internals": {"DEF":"Buttons_six E", "NAME":"Buttons_six_E"},
+      "readings": {"state":"light_dimm", "LastAction":"receive", "deviceCode":"1110 (off|off|off|on)"},
+      "attributes": {"model":"Buttons_six"},
+      "minProtocolVersion":"1.46", "revision_entry":"2022-08-30 21:14:56",
+      "revision_modul":"14_SD_UT.pm 0 2022-06-14 07:33:24Z HomeAutoUser",
+      "rmsg":"MU;P0=24164;P1=-495;P2=191;P3=-271;P4=415;P5=-8052;D=01212341212121212121212345212123412121212121212123452121234121212121212121234521212341212121212121212345212123412121212121212123452121234121212121212121234521212341212121212121212345212123412121212121212123452121234121212121212121234521212341212121212121;CP=2;R=52;O;"
+    }
+  ]
+},
 {"name":"Unitec_47031", "id":"30", "module":"SD_UT", "data": [
     {
       "dmsg":"P30#955", "comment":"remote door reed switch, model is under development (ID 63,83 additionally)", "dispatch_repeats":"3", "user":"Dr.E.Witz",
