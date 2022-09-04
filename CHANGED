@@ -1,3 +1,6 @@
+2022-09-04 - Revert "Revert "Update SD_Device_ProtocolList.json""
+
+This reverts commit 382b70bebd1405a4a096382d4ed49fddc0432314.
 2022-09-04 - Update SD_Device_ProtocolList.json
 
 add testdata for SD_WS_85, windDirectionText N, windDirectionDegree 355
