@@ -3045,6 +3045,25 @@
     }
   ]
 },
+{"name":"TFA 35.1077.54.S2", "id":"120", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W120#FEAB049EA804080C53AC", "comment":"Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer)", "user":"Ronny2510",
+      "internals": {"DEF":"SD_WS_120", "NAME":"SD_WS_120"},
+      "readings": {"state":"T: 19.1 H: 84 W: 0.7 R: 473.1", "batteryState":"ok", "humidity":"84", "rain":"473.1", "rawRainCounter":"1577", "temperature":"19.1", "type":"TFA_35.1077", "windGust":"1.3", "windSpeed":"0.7"},
+      "minProtocolVersion":"1.47", "revision_entry":"2022-09-10 13:26:34",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-08-21 12:09:21Z elektron-bbs",
+      "rmsg":"MU;P0=-6544;P1=486;P2=-987;P3=1451;D=01212121212121232123212321232121232323232321232321232321212121232123212321232323232323232321232323232323212323232323232321212323232123212323212121232123212123;CP=1;R=51;"
+    },
+    {
+      "dmsg":"W120#FEAB04D85602040DD0F6", "comment":"Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer)", "user":"Ronny2510",
+      "internals": {"DEF":"SD_WS_120", "NAME":"SD_WS_120"},
+      "readings": {"state":"T: 22 H: 43 W: 0.3 R: 530.4", "batteryState":"ok", "humidity":"43", "rain":"530.4", "rawRainCounter":"1768", "temperature":"22", "type":"TFA_35.1077", "windGust":"0.7", "windSpeed":"0.3"},
+      "minProtocolVersion":"1.47", "revision_entry":"2022-09-10 13:36:21",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-08-21 12:09:21Z elektron-bbs",
+      "rmsg":"MU;P0=-15856;P1=480;P2=-981;P3=1460;D=01212121212121232123212321232121232323232321232321212321212323232321232123212123232323232323212323232323232123232323232321212321212123212323232321212121232121;CP=1;R=47;"
+    }
+  ]
+},
 {"name":"Busch-Transcontrol HF", "id":"121", "module":"SD_UT", "data": [
     {
       "dmsg":"P121#03DC7E", "comment":"remote control 6861", "user":"elektron-bbs",
