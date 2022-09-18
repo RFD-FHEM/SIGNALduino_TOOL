@@ -45,6 +45,7 @@ added internal name
 
 Added testdata for funkbus from fhem forum:
 https://forum.fhem.de/index.php/topic,127189.msg1218031.html#msg1218031
+
 2022-04-17 - Update SD_Device_ProtocolList.json
 
 add TFA 30.3251.10 Windsensor protocol 85
@@ -66,13 +67,9 @@ Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor
 2021-12-29 - Update SD_Device_ProtocolList.json
 
 new protocol definition 7.1 for Mebus HQ7312-2
+
 2021-12-08 - Squashed commit of the following:
 
-commit 98947f008623ef470316216122604434d9e8ee3b
-Author: GitHub Action <action@github.com>
-Date:   Tue Dec 7 20:10:17 2021 +0000
-
-    Automaitc updated controls and CHANGED
 
 commit 423083d056ae76d0292257f854f12237c441d610
 Author: Udo <info@elektron-bbs.de>
