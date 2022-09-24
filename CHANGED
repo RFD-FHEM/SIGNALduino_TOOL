@@ -1,3 +1,52 @@
+2022-09-18 - Merge branch 'pre-release' into merge-master
+2022-09-11 - Update SD_Device_ProtocolList.json
+
+add TFA 35.1077.54.S2 dcf time
+2022-09-10 - Update SD_Device_ProtocolList.json
+
+add TFA 35.1077.54.S2
+2022-09-04 - Update SD_Device_ProtocolList.json
+
+add testdata for SD_WS_85, windDirectionText N, windDirectionDegree 355
+2022-08-30 - Update SD_Device_ProtocolList.json
+
+Testdata for SD_UT RC Buttons_six
+2022-07-22 - Merge pull request #76 from Devirex/patch-1
+
+Testdata for LTECH Protocol ID 31
+2022-06-14 - Update SD_Device_ProtocolList.json
+
+add Busch-Transcontrol HF remote control 6861
+2022-06-13 - Update SD_Device_ProtocolList.json
+
+- Record Merge Wireless Weather Station DV928
+2022-06-12 - Update  SD_Device_ProtocolList.json
+
+- Added Testdata for DV928 with windSpeecCorr and windDirCorr
+- Corrected existing checks against DV928 wo verify that output is alsways with floatingpoint values
+2022-06-09 - Update SD_Device_ProtocolList.json
+
+revised Typing error two :-(
+2022-06-09 - Update SD_Device_ProtocolList.json
+
+revised Typing error
+2022-06-09 - Update SD_Device_ProtocolList.json
+
+add Wireless Weather Station DV928 with diff. windDirectionText
+2022-05-22 - Update SD_Device_ProtocolList.json
+
+fix dispatch repeats for funkbus
+2022-05-22 - Update SD_Device_ProtocolList.json
+
+add dispatch repeats for funkbus
+2022-05-18 - Update SD_Device_ProtocolList.json
+
+added internal name
+2022-05-18 - Update SD_Device_ProtocolList.json
+
+Added testdata for funkbus from fhem forum:
+https://forum.fhem.de/index.php/topic,127189.msg1218031.html#msg1218031
+
 2022-04-17 - Update SD_Device_ProtocolList.json
 
 add TFA 30.3251.10 Windsensor protocol 85
@@ -8,7 +57,7 @@ protocol 85 change type from "TFA 30.3222.02" to "TFA 30.3222.02, TFA 30.3251.10
 
 new sensors protocol 115
 2022-03-06 - new protocol 118 for remote controls Meikee
-2022-01-29 - new protocol 117 BRESSER 7-in-1
+2022-01-29 - add protocol 117 BRESSER 7-in-1
 2022-01-14 - Update SD_Device_ProtocolList.json
 
 add protocol 116 - Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L
@@ -19,14 +68,9 @@ Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor
 2021-12-29 - Update SD_Device_ProtocolList.json
 
 new protocol definition 7.1 for Mebus HQ7312-2
-2021-12-08 - Merge branch 'master' into pre-release
+
 2021-12-08 - Squashed commit of the following:
 
-commit 98947f008623ef470316216122604434d9e8ee3b
-Author: GitHub Action <action@github.com>
-Date:   Tue Dec 7 20:10:17 2021 +0000
-
-    Automaitc updated controls and CHANGED
 
 commit 423083d056ae76d0292257f854f12237c441d610
 Author: Udo <info@elektron-bbs.de>

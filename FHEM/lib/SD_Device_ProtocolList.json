@@ -519,6 +519,39 @@
     }
   ]
 },
+{"name":"Wireless Weather Station DV928, Wind", "id":"12", "module":"Hideki", "data": [
+    {
+      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03", "comment":"no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
+      "readings": {"state":"T: 19.3  Ws: 7.00  Wg: 61.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"61.00", "windSpeed":"7.00"},
+      "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
+      "revision_modul":"unknown"
+    },
+    {
+      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01", "comment":"no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
+      "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: S", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"8", "windDirectionDegree":"180", "windDirectionText":"S", "windGust":"20.00", "windSpeed":"10.00"},
+      "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
+      "revision_modul":"unknown"
+    },
+    {
+      "dmsg":"P12#7585B2C471BF71BFFDF0029C605C03", "comment":"with wind correction, no RAWMSG / O und 90 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
+      "readings": {"state":"T: 19.3  Ws: 14.00  Wg: 122.00  Wd: E", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"1", "temperature":"19.3", "windChill":"19.3", "windDirection":"4", "windDirectionDegree":"90", "windDirectionText":"E", "windGust":"122.00", "windSpeed":"14.00"},
+      "attributes": {"windSpeedCorr":"2"},
+      "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 19:59:26",
+      "revision_modul":"unknown"
+    },
+    {
+      "dmsg":"P12#7585B244FDBEFDBEF000FE403D6C01", "comment":"with wind correction, no RAWMSG / S und 180 Grad, https://forum.fhem.de/index.php/topic,126712.msg1213152.html#msg1213152", "user":"brezel",
+      "internals": {"DEF":"Hideki_12_4", "NAME":"Hideki_12_4"},
+      "readings": {"state":"T: 20.7  Ws: 10.00  Wg: 20.00  Wd: SW", "battery":"ok", "batteryState":"ok", "channel":"4", "package_number":"3", "temperature":"20.7", "windChill":"20.7", "windDirection":"10", "windDirectionDegree":"225", "windDirectionText":"SW", "windGust":"20.00", "windSpeed":"10.00"},
+      "attributes": {"windDirCorr":"2"},
+      "minProtocolVersion":"1.45", "revision_entry":"2022-06-09 21:24:48",
+      "revision_modul":"unknown"
+    }
+  ]
+},
 {"name":"KD-101LA", "id":"13", "module":"FLAMINGO", "data": [
     {
       "dmsg":"P13#32E44F", "comment":"Smoke alarm device / decode as MS", "user":"Wahrschauer",
@@ -773,6 +806,18 @@
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:21:15",
       "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=250;P1=-492;P2=166;P3=-255;P4=491;P5=-8588;D=052121212121234121212121234521212121212341212121212345212121212123412121212123452121212121234121212121234;CP=0;"
+    }
+  ]
+},
+{"name":"HT12e", "id":"29", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P29#DFE", "comment":"remote with 6 buttons, with light dimmer, for example Westinghouse airfan", "user":"monosurr0und",
+      "internals": {"DEF":"Buttons_six E", "NAME":"Buttons_six_E"},
+      "readings": {"state":"light_dimm", "LastAction":"receive", "deviceCode":"1110 (off|off|off|on)"},
+      "attributes": {"model":"Buttons_six"},
+      "minProtocolVersion":"1.46", "revision_entry":"2022-08-30 21:14:56",
+      "revision_modul":"14_SD_UT.pm 0 2022-06-14 07:33:24Z HomeAutoUser",
+      "rmsg":"MU;P0=24164;P1=-495;P2=191;P3=-271;P4=415;P5=-8052;D=01212341212121212121212345212123412121212121212123452121234121212121212121234521212341212121212121212345212123412121212121212123452121234121212121212121234521212341212121212121212345212123412121212121212123452121234121212121212121234521212341212121212121;CP=2;R=52;O;"
     }
   ]
 },
@@ -1917,6 +1962,15 @@
       "minProtocolVersion":"1.27", "revision_entry":"2022-04-17 13:36:34",
       "revision_modul":"14_SD_WS.pm v3.5.4 2022-04-15 15:55:23Z elektron-bbs",
       "rmsg":"MU;P0=-28464;P1=493;P2=-238;P3=244;P4=-492;P5=728;P6=-732;D=01212123434343412121212343434343434123434343434343412121234121234343434343412121234123412343412123434343456565656343434341234121212121212121212123434343412121212343434343434123434343434343412121234121234343434343412121234123412343412123434343456565656343;CP=3;R=20;O;"
+    },
+    {
+      "dmsg":"W85#0BFF0F02000163C10", "comment":"windDirectionText N, windDirectionDegree 355", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_85_THW_1", "NAME":"SD_WS_85_THW_1"},
+      "readings": {"state":"W: 0", "batteryState":"ok", "channel":"1", "type":"TFA 30.3222.02, TFA 30.3251.10, LaCrosse TX141W", "windDirectionDegree":"355", "windDirectionText":"N", "windSpeed":"0"},
+      "attributes": {"model":"TFA_30.3251.10"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-09-04 12:01:02",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-07-05 18:47:28Z elektron-bbs",
+      "rmsg":"MU;P0=-11716;P1=485;P2=-239;P3=251;P4=-490;P5=732;P6=-726;D=01212121234343434121212123434343434341234343434343434343434343434343434123412123434341212121234343434341234565656563434343412341212121212121212121234343434121212123434343434341234343434343434343434343434343434123412123434341212121234343434341234565656563;CP=3;R=23;O;"
     }
   ]
 },
@@ -2972,9 +3026,103 @@
     }
   ]
 },
+{"name":"funkbus", "id":"119", "module":"IFB", "data": [
+    {
+      "dmsg":"J2C175F300152", "comment":"button on short off", "dispatch_repeats":"0", "user":"gestein",
+      "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
+      "readings": {"state":"on", "action":"u", "batteryState":"ok", "long":"0"},
+      "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
+      "revision_modul":"3.5.4",
+      "rmsg":"MC;LL=-1012;LH=1016;SL=-515;SH=508;D=9D4F3F7554C98;C=508;L=49;R=22;"
+    },
+    {
+      "dmsg":"J2C175F30008F", "comment":"button on short off", "dispatch_repeats":"0", "user":"gestein",
+      "internals": {"DEF":"IFB43_FAE8_A_1", "NAME":"IFB43_FAE8_A_1"},
+      "readings": {"state":"off", "action":"D", "batteryState":"ok", "long":"0"},
+      "minProtocolVersion":"1.4.5", "revision_entry":"unknown",
+      "revision_modul":"3.5.4",
+      "rmsg":"MC;LL=-991;LH=1037;SL=-502;SH=519;D=9D4F3F7555A00;C=508;L=49;R=38;"
+    }
+  ]
+},
+{"name":"TFA 35.1077.54.S2", "id":"120", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W120#FEAB049EA804080C53AC", "comment":"Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer)", "user":"Ronny2510",
+      "internals": {"DEF":"SD_WS_120", "NAME":"SD_WS_120"},
+      "readings": {"state":"T: 19.1 H: 84 W: 0.7 R: 473.1", "batteryState":"ok", "humidity":"84", "rain":"473.1", "rawRainCounter":"1577", "temperature":"19.1", "type":"TFA_35.1077", "windGust":"1.3", "windSpeed":"0.7"},
+      "minProtocolVersion":"1.47", "revision_entry":"2022-09-10 13:26:34",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-08-21 12:09:21Z elektron-bbs",
+      "rmsg":"MU;P0=-6544;P1=486;P2=-987;P3=1451;D=01212121212121232123212321232121232323232321232321232321212121232123212321232323232323232321232323232323212323232323232321212323232123212323212121232123212123;CP=1;R=51;"
+    },
+    {
+      "dmsg":"W120#FEAB04D85602040DD0F6", "comment":"Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer)", "user":"Ronny2510",
+      "internals": {"DEF":"SD_WS_120", "NAME":"SD_WS_120"},
+      "readings": {"state":"T: 22 H: 43 W: 0.3 R: 530.4", "batteryState":"ok", "humidity":"43", "rain":"530.4", "rawRainCounter":"1768", "temperature":"22", "type":"TFA_35.1077", "windGust":"0.7", "windSpeed":"0.3"},
+      "minProtocolVersion":"1.47", "revision_entry":"2022-09-10 13:36:21",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-08-21 12:09:21Z elektron-bbs",
+      "rmsg":"MU;P0=-15856;P1=480;P2=-981;P3=1460;D=01212121212121232123212321232121232323232321232321212321212323232321232123212123232323232323212323232323232123232323232321212321212123212323232321212121232121;CP=1;R=47;"
+    },
+    {
+      "dmsg":"W120#FEDFD52C040444920614", "comment":"Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer)", "user":"Ronny2510",
+      "internals": {"DEF":"SD_WS_120", "NAME":"SD_WS_120"},
+      "readings": {"state":"", "dcf":"2022-09-03 16:02:02", "batteryState":"ok", "type":"TFA_35.1077"},
+      "minProtocolVersion":"1.47", "revision_entry":"2022-09-11 11:43:55",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-08-21 12:09:21Z elektron-bbs",
+      "rmsg":"MU;P0=-13168;P1=469;P2=-1000;P3=1450;D=01212121212121232121232121212121212123212321232123232123212123232323232323212323232323232321232323212323232123232123232123232123232323232321212323232321232123;CP=1;R=79;"
+    }
+  ]
+},
+{"name":"Busch-Transcontrol HF", "id":"121", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P121#03DC7E", "comment":"remote control 6861", "user":"elektron-bbs",
+      "internals": {"DEF":"TC6861 3DC_1", "NAME":"TC6861_3DC_1"},
+      "readings": {"state":"off", "LastAction":"receive", "deviceCode":"3DC"},
+      "attributes": {"model":"TC6861"},
+      "minProtocolVersion":"1.46", "revision_entry":"2022-06-14 09:14:05",
+      "revision_modul":"unknown",
+      "rmsg":"MU;P0=28479;P1=-692;P2=260;P3=574;P4=-371;D=0121212121212134343434213434342121213434343434342;CP=2;R=41;"
+    },
+    {
+      "dmsg":"P121#33DC7E", "comment":"remote control 6861", "user":"elektron-bbs",
+      "internals": {"DEF":"TC6861 3DC_1", "NAME":"TC6861_3DC_1"},
+      "readings": {"state":"on", "LastAction":"receive", "deviceCode":"3DC"},
+      "attributes": {"model":"TC6861"},
+      "minProtocolVersion":"1.46", "revision_entry":"2022-06-14 09:24:03",
+      "revision_modul":"unknown",
+      "rmsg":"MU;P0=4372;P1=-689;P2=254;P3=575;P4=-368;D=0121213434212134343434213434342121213434343434342;CP=2;R=59;"
+    }
+  ]
+},
+{"name":"LTECH", "id":"31", "module":"LTECH", "data": [
+      {
+        "dmsg":"P31#202272FF7FFFFF0080040028FA", "comment":"Yellow, on", "user":"unknown",
+        "internals": { "NAME": "LTECH" , "DEF": "04444EFF" }, 
+        "readings": { "crc" : "145F", "function" : "01", "mode" : "FE", "rgbcolor" : "202000", "speed" : "00"},
+        "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
+        "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
+        "rmsg":"MU;P0=1194;P1=597;P2=-6269;P3=306;P4=-298;P5=-1216;P6=-559;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636143636363636363636363636361436363636363636363636363614361436363614141414143614360;CP=3;R=28;"
+      },
+      {
+        "dmsg":"P31#202272FF7FFFFF00000400C4F6", "comment":"Off", "user":"unknown",
+        "internals": { "NAME": "LTECH" , "DEF": "04444EFF" }, 
+        "readings": { "crc" : "236F", "function" : "00", "mode" : "FE", "rgbcolor" : "000000", "speed" : "00"},
+        "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
+        "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
+        "rmsg":"MU;P0=1192;P1=599;P2=-2676;P3=288;P4=-305;P5=-1225;P6=-574;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636363636363636363636363636361436363636363636363636141436363614363614141414361414360;CP=3;R=26;"
+      },
+      {
+        "dmsg":"P31#202272FF7F0000FF80FF002AAF", "comment":"Blue", "user":"unknown",
+        "internals": { "NAME": "LTECH" , "DEF": "04444EFF" }, 
+        "readings": { "crc" : "54F5", "function" : "01", "mode" : "FE", "rgbcolor" : "0000FF", "speed" : "00"},
+        "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
+        "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
+        "rmsg":"MU;P0=580;P1=-314;P2=1181;P3=309;P6=-1228;P7=-595;D=3131313131313131313637370137373737373737013737370137370101013737013701010101010101013701010101010101373737373737373737373737373737370101010101010101013737373737373701010101010101013737373737373737373701370137013701370137010101012;CP=3;R=29;"
+      }    
+    ]
+},       
 {"name":"", "id":"", "module":"", "data": [
     {
-      "dmsg":"", "comment":"", "user":"",
+      "dmsg":"", "comment":"", "dispatch_repeats":"1", "user":"",
       "internals": {"DEF":"", "NAME":""},
       "readings": {"state":"", "batteryState":"", "channel":""},
       "minProtocolVersion":"unknown", "revision_entry":"unknown",
