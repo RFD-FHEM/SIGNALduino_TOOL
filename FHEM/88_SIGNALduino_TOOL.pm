@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-11-04 07:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-11-15 07:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1163,11 +1163,12 @@ sub SIGNALduino_TOOL_Set {
     if ($cmd eq 'replaceBatteryLongID') {
       ### Check min one SIGNALduino definded attrib longids ###
       my $Device_count = 0;
+      my @LongDev = ();
       foreach my $d (keys %defs) {
         if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino') {
-          if( AttrVal($d,'longids',undef) ) {
-            Log3 $name, 3, "$name: $d has set attribute longids";
+          if( AttrVal($d,'longids',undef) && AttrVal($d,'longids',undef) ne '1' && AttrVal($d,'longids',undef) ne '0' ) {
             $Device_count++;
+            @LongDev = split /,/, AttrVal($d,'longids',undef);
           }
         }
       }
@@ -1175,6 +1176,15 @@ sub SIGNALduino_TOOL_Set {
       if ($Device_count == 0) {
         return 'note: no SIGNALduino device definded attrib longids';
       } else {
+        Log3 $name, 3, "$name: setlist $setList";
+        foreach my $Device (@LongDev) {
+          ## check device from Type @LongDev exist
+          foreach my $d (keys %defs) {
+            if(defined($defs{$d}) && $defs{$d}{TYPE} eq $Device) {
+              Log3 $name, 3, "$name: $d is $Device device with support longid";
+            }
+          }
+        }
         $return = "replaceBatteryLongID ToDO code"
       }
     }
