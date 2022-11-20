@@ -1,3 +1,4 @@
+2022-11-20 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
 2022-10-31 - Update SD_Device_ProtocolList.json
 
 add data for "Temola TM40", "id":"122", "module":"SD_WS"
