@@ -1,3 +1,6 @@
+2022-11-20 - Update SD_Device_ProtocolList.json
+
+delete reading batteryState
 2022-11-20 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
 2022-10-31 - Update SD_Device_ProtocolList.json
 
