@@ -2973,6 +2973,22 @@
       "minProtocolVersion":"1.35", "revision_entry":"2021-08-22 16:57:57",
       "revision_modul":"14_SD_WS.pm 21666 2021-08-17 19:14:52Z elektron-bbs",
       "rmsg":"MN;D=1E6C20B00C1618FF99FF0458FFFFA9FF015B0000;R=241;"
+    },
+    {
+      "dmsg":"W115#C898BE40041218FF88FF0008017E88FFF04F0000000000000000", "comment":"BRESSER 3-in-1", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_115_0", "NAME":"SD_WS_115_0"},
+      "readings": {"state":"T: -1.7 H: 88 W: 0.7", "batteryChanged":"1", "batteryState":"ok", "channel":"0", "humidity":"88", "temperature":"-1.7", "type":"Bresser_6in1, new Bresser_5in1", "uv":"0", "windDirectionDegree":"0", "windDirectionText":"N", "windGust":"0.7", "windSpeed":"0.7"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-11-20 19:58:03",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
+      "rmsg":"MN;D=C898BE40041218FF88FF0008017E88FFF04F0000000000000000;R=190;"
+    },
+    {
+      "dmsg":"W115#9104143025BE18FFFFFF2928925A97FFF0000000000000000003", "comment":"BRESSER 6-in-1", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_115_0", "NAME":"SD_WS_115_0"},
+      "readings": {"state":"T: -7.5 H: 97 W: 0", "batteryChanged":"1", "batteryState":"ok", "channel":"0", "humidity":"97", "temperature":"-7.5", "type":"Bresser_6in1, new Bresser_5in1", "uv":"0", "windDirectionDegree":"292", "windDirectionText":"WNW", "windGust":"0", "windSpeed":"0"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-11-20 20:27:05",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
+      "rmsg":"MN;D=9104143025BE18FFFFFF2928925A97FFF0000000000000000003;R=189;"
     }
   ]
 },
