@@ -2943,7 +2943,7 @@
     {
       "dmsg":"W115#F16E187000E347FFFFFF0000252216FFF004000", "comment":"Bresser Explore Scientific SM60020 Soil moisture Sensor", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_115_47", "NAME":"SD_WS_115_47"},
-      "readings": {"state":"T: 25.2 H: 99", "batteryState":"low", "channel":"47", "humidity":"99", "temperature":"25.2", "type":"Bresser_6in1, new Bresser_5in1"},
+      "readings": {"state":"T: 25.2 H: 99", "batteryState":"ok", "channel":"47", "humidity":"99", "temperature":"25.2", "type":"Bresser_6in1, new Bresser_5in1"},
       "minProtocolVersion":"1.44", "revision_entry":"2022-03-16 21:05:07",
       "revision_modul":"14_SD_WS.pm 21666 2022-01-30 10:19:30Z elektron-bbs",
       "rmsg":"MN;D=F16E187000E347FFFFFF0000252216FFF004000;R=242;"
