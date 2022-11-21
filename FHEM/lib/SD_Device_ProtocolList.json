@@ -869,6 +869,18 @@
     }
   ]
 },
+{"name":"TX-EZ6", "id":"33", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W33#17412998A4C", "comment":"fuer Wetterstation TZS First Austria", "user":"elektron-bbs",
+      "internals": {"DEF":"SD_WS_33_TH_1", "NAME":"SD_WS_33_TH_1"},
+      "readings": {"state":"T: 26.7 H: 38", "batteryState":"ok", "channel":"1", "humidity":"38", "humidityTrend":"rising", "sendmode":"manual", "temperature":"26.7", "temperatureTrend":"consistent", "type":"E0001PA, s014, S522, TCM, TFA 30.3200, TX-EZ6"},
+      "attributes": {"model":"TX-EZ6"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-11-21 20:35:39",
+      "revision_modul":"14_SD_WS.pm 21666 2020-04-13 21:14:53Z Sidey",
+      "rmsg":"MS;P0=-3788;P1=-7610;P4=621;P5=-1895;D=41454545404540404045404545454545404545404540454540404545404045454540454045454045454040;CP=4;SP=1;O;"
+    }
+  ]
+},
 {"name":"renkforce E0001PA", "id":"33", "module":"SD_WS", "data": [
     {
       "dmsg":"W33#26C6F570804", "comment":"Conrad (ID 33.2,51,53 additionally)", "user":"HomeAuto_User",
