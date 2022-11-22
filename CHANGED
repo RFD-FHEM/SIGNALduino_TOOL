@@ -1,10 +1,13 @@
-2022-11-15 - Update 88_SIGNALduino_TOOL.pm
+2022-11-21 - Update SD_Device_ProtocolList.json
 
-- added loop for check all devices
-2022-11-04 - Update 88_SIGNALduino_TOOL.pm
+add TX-EZ6 protocoll 33
+2022-11-20 - Update SD_Device_ProtocolList.json
 
-- corrected indentation
-- first step for process
+add protocol 115 with negative temperature
+2022-11-20 - Update SD_Device_ProtocolList.json
+
+delete reading batteryState
+2022-11-20 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
 2022-10-31 - Update SD_Device_ProtocolList.json
 
 add data for "Temola TM40", "id":"122", "module":"SD_WS"
