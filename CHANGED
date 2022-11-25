@@ -1,4 +1,6 @@
-2022-11-22 - Merge branch 'master' into pre_feature_cb
+2022-11-25 - SD_Device_ProtocolList.json
+
+extended more test definitions for better coverage
 2022-11-21 - Update SD_Device_ProtocolList.json
 
 add TX-EZ6 protocoll 33
