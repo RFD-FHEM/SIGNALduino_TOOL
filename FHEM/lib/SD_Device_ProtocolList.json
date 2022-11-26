@@ -2995,7 +2995,7 @@
       "rmsg":"MN;D=C898BE40041218FF88FF0008017E88FFF04F0000000000000000;R=190;"
     },
     {
-      "setreadings":{"temperature":"-1.5"},
+      "setreadings":{"temperature":"-1.5", "humidity":"32"},      
       "dmsg":"W115#9104143025BE18FFFFFF2928925A97FFF0000000000000000003", "comment":"BRESSER 6-in-1 temp diff to high", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_115_0", "NAME":"SD_WS_115_0"},
       "readings": {"state":"T: -7.5 H: 97 W: 0", "batteryChanged":"1", "batteryState":"ok", "channel":"0", "humidity":"97", "temperature":"-7.5", "type":"Bresser_6in1, new Bresser_5in1", "uv":"0", "windDirectionDegree":"292", "windDirectionText":"WNW", "windGust":"0", "windSpeed":"0"},
