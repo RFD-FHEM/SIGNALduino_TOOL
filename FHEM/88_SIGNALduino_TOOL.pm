@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-11-15 07:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-11-30 07:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,7 +8,7 @@
 # Github - RFD-FHEM
 # https://github.com/RFD-FHEM/SIGNALduino_TOOL
 #
-# 2018 - 2021 - HomeAuto_User, elektron-bbs, sidey79
+# 2018 - 2022 - HomeAuto_User, elektron-bbs, sidey79
 # 2020 - SIGNALduino_TOOL_cc1101read Zuarbeit @plin
 ######################################################################
 # Note´s
@@ -94,6 +94,7 @@ my %category = (
   'SD_GT'          => 'Remote control based on protocol GT-9000 with encoding',
   'SD_Keeloq'      => 'Remote controls with KeeLoq encoding',
   'SD_RSL'         => 'Remote controls and switchs',
+  'SD_Rojaflex'    => 'Remote controls',
   'SD_UT'          => 'diverse',
   'SD_WS'          => 'Weather sensors',
   'SD_WS07'        => 'Weather sensors',
@@ -184,7 +185,6 @@ sub SIGNALduino_TOOL_Define {
 
   ### default value´s ###
   $hash->{STATE} = 'Defined';
-
   readingsSingleUpdate($hash, 'state' , 'Defined' , 0);
 
   return $@ unless ( FHEM::Meta::SetInternals($hash) );
@@ -245,7 +245,7 @@ sub SIGNALduino_TOOL_Set {
 
   ## Setlist Arguments ##
   my $setList = $NameDispatchSet.'DMSG '.$NameDispatchSet.'RAWMSG';
-  $setList .= ' delete_Device delete_room_with_all_Devices delete_unused_Logfiles:noArg delete_unused_Plots:noArg replaceBatteryLongID:noArg';
+  $setList .= ' delete_Device delete_room_with_all_Devices delete_unused_Logfiles:noArg delete_unused_Plots:noArg';
   if ($RAWMSG_last ne 'none' || $DMSG_last ne 'none') { $setList .= " $NameDispatchSet".'last:noArg '; }
   if (AttrVal($name,'File_input','') ne '') { $setList .= " $NameDispatchSet".'file:noArg'; }
   if (AttrVal($name,'RAWMSG_M1','') ne '') { $setList .= ' RAWMSG_M1:noArg'; }
@@ -379,7 +379,6 @@ sub SIGNALduino_TOOL_Set {
               my $newDeviceName = @{$ProtocolListRead}[$i]->{name};
               $newDeviceName =~ s/\s+/_/g;
               my $idnow = @{$ProtocolListRead}[$i]->{id};
-
               my $comment = '';
               my $state = '';
 
@@ -430,6 +429,7 @@ sub SIGNALduino_TOOL_Set {
 
     ### delete readings ###
     SIGNALduino_TOOL_deleteReadings($hash,'last_MSG,message_to_module,message_dispatched,last_DMSG,decoded_Protocol_ID,line_read,message_dispatch_repeats');
+
     ### reset Internals ###
     SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
 
@@ -439,12 +439,14 @@ sub SIGNALduino_TOOL_Set {
 
     $hash->{helper}->{NTFY_SEARCH_Value_count} = 0;
     if (not defined $hash->{helper}->{option}) { $DispatchOption = '-'; }
+
     if ($Dummyname eq 'none' && $cmd !~ /delete_/) { return 'ERROR: no dummydevice with attribute < Dummyname > defined!'; }
 
     ### Liste von RAWMSG´s dispatchen ###
     if ($cmd eq $NameDispatchSet.'file') {
       Log3 $name, 4, "$name: Set $cmd - check (1)";
       if ($string1pos eq '') { return 'ERROR: no StartString is defined in attribute < File_input_StartString >'; }
+
       readingsSingleUpdate($hash, 'state', 'Dispatch all RAMSG´s in the background are started',1);
       $hash->{helper}->{start_time} = time();
       $hash->{helper}{RUNNING_PID} = BlockingCall('SIGNALduino_TOOL_nonBlock_Start', $name.'|'.$cmd.'|'.$path.'|'.$file.'|'.$count1.'|'.$count2.'|'.$count3.'|'.$Dummyname.'|'.$string1pos.'|'.$DispatchMax.'|'.$DispatchMessageNumber, 'SIGNALduino_TOOL_nonBlock_StartDone', 90 , 'SIGNALduino_TOOL_nonBlock_abortFn', $hash) unless(exists($hash->{helper}{RUNNING_PID}));
@@ -466,7 +468,7 @@ sub SIGNALduino_TOOL_Set {
           CommandAttr($hash,"$name disable 0");                          # Every change creates an event for fhem.save
           Log3 $name, 4, "$name: Set $cmd - set attribute disable to 0";
         }
-        ### RAMSGs
+      ### RAMSGs
       } else {
         Log3 $name, 4, "$name: Set $cmd - check (2.1)";
         $cmd = $NameDispatchSet.'RAWMSG';
@@ -515,7 +517,7 @@ sub SIGNALduino_TOOL_Set {
         }
         $DispatchOption = 'RAWMSG from SD_ProtocolData via set command';
 
-        ## DispatchModule from hash <- SD_Device_ProtocolList ##
+      ## DispatchModule from hash <- SD_Device_ProtocolList ##
       } elsif ($DispatchModule =~ /^((?!\.txt).)*$/ && $ProtocolListRead) {
         Log3 $name, 4, "$name: Set $cmd - check (4.2) for dispatch from SD_Device_ProtocolList";
         my $device = $cmd;
@@ -544,7 +546,7 @@ sub SIGNALduino_TOOL_Set {
                 }
               }
             }
-            ## for message without state and comment in doc ##
+          ## for message without state and comment in doc ##
           } elsif (defined @{$ProtocolListRead}[$i]->{name} && $devicename eq $device && !$a[1]) {
             Log3 $name, 4, "$name: set $cmd - device $device only verified on name";
             my $data_array = @$ProtocolListRead[$i]->{data};
@@ -560,7 +562,7 @@ sub SIGNALduino_TOOL_Set {
         }
         $DispatchOption = 'RAWMSG from SD_Device_ProtocolList via set command';
 
-        ## DispatchModule from file ##
+      ## DispatchModule from file ##
       } elsif ($DispatchModule =~ /^.*\.txt$/) {
         Log3 $name, 4, "$name: Set $cmd - check (4.3) for dispatch from file";
         foreach my $keys (sort keys %List) {
@@ -575,7 +577,7 @@ sub SIGNALduino_TOOL_Set {
         $DispatchOption = 'RAWMSG from file';
       }
 
-        ## break dispatch -> error
+      ## break dispatch -> error
       if ($error_break == 1) {
         readingsSingleUpdate($hash, 'state' , 'break dispatch - nothing found', 0);
         return '';
@@ -683,7 +685,7 @@ sub SIGNALduino_TOOL_Set {
         Log3 $name, 4, "$name: Set $cmd - check (7.1)";
         if ($hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname) { $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_Protocol_ID'}; }
         if ($hash->{dispatchDevice} && $hash->{dispatchDevice} eq $Dummyname) { $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{LASTDMSGID}; }
-
+      
         ### for compatibility , getProperty ###
         if ($modus == 1) {
           $DummyMSGCNTvalue = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'clientmodule' );
@@ -870,8 +872,8 @@ sub SIGNALduino_TOOL_Set {
                   # diverse discussions about new reading IODev !!!
                   # reading is not relevant for tests -> possibly expand code for skipping
                   # if {$key2 !~ /^IODev$/} (
-                  if ($key2 !~ /^state$/ && $cnt_readings == 1) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
-                  if ($key2 !~ /^state$/ && $cnt_readings > 1) { print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
+                    if ($key2 !~ /^state$/ && $cnt_readings == 1) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
+                    if ($key2 !~ /^state$/ && $cnt_readings > 1) { print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
                   #);
                 }
               }
@@ -964,6 +966,7 @@ sub SIGNALduino_TOOL_Set {
       close $SaveDoc;
 
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
+
       return 'your file SD_ProtocolList.json are saved';
     }
 
@@ -1056,7 +1059,7 @@ sub SIGNALduino_TOOL_Set {
       ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => FHEM_SVN_gplot_URL,
                                                         timeout => TIMEOUT_HttpUtils,
                                                         method  => 'GET',                # Lesen von Inhalten
-                                                      });
+                                                       });
       #### HTTP Requests #### END ####
 
       if ($Http_err ne '') {
@@ -1159,40 +1162,10 @@ sub SIGNALduino_TOOL_Set {
       $return = "CC110x_Freq_Scan stopped manually"
     }
 
-    ## replaceBatteryLongID ##
-    if ($cmd eq 'replaceBatteryLongID') {
-      ### Check min one SIGNALduino definded attrib longids ###
-      my $Device_count = 0;
-      my @LongDev = ();
-      foreach my $d (keys %defs) {
-        if(defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino') {
-          if( AttrVal($d,'longids',undef) && AttrVal($d,'longids',undef) ne '1' && AttrVal($d,'longids',undef) ne '0' ) {
-            $Device_count++;
-            @LongDev = split /,/, AttrVal($d,'longids',undef);
-          }
-        }
-      }
-
-      if ($Device_count == 0) {
-        return 'note: no SIGNALduino device definded attrib longids';
-      } else {
-        Log3 $name, 3, "$name: setlist $setList";
-        foreach my $Device (@LongDev) {
-          ## check device from Type @LongDev exist
-          foreach my $d (keys %defs) {
-            if(defined($defs{$d}) && $defs{$d}{TYPE} eq $Device) {
-              Log3 $name, 3, "$name: $d is $Device device with support longid";
-            }
-          }
-        }
-        $return = "replaceBatteryLongID ToDO code"
-      }
-    }
-
     ## summary, shared code for cmd´s
     if ($cmd eq $NameSendSet.'RAWMSG' || $cmd eq 'delete_Device' || $cmd eq 'delete_room_with_all_Devices' ||
-        $cmd eq 'delete_unused_Logfiles' || $cmd eq 'delete_unused_Plots' || $cmd eq 'CC110x_Freq_Scan' ||
-        $cmd eq 'CC110x_Freq_Scan_STOP' || ($cmd =~ /^CC110x_Register_/ && $cmd2 eq 'yes') || ($cmd eq 'replaceBatteryLongID') ) {
+          $cmd eq 'delete_unused_Logfiles' || $cmd eq 'delete_unused_Plots' || $cmd eq 'CC110x_Freq_Scan' ||
+            $cmd eq 'CC110x_Freq_Scan_STOP' || ($cmd =~ /^CC110x_Register_/ && $cmd2 eq 'yes') ) {
       $count3 = undef;                    # message_dispatched
       $decoded_Protocol_ID = undef;       # decoded_Protocol_ID
       $DummyMSGCNTvalue = undef;          # message_to_module
@@ -1281,8 +1254,10 @@ sub SIGNALduino_TOOL_Set {
       Log3 $name, 4, "$name: Set $cmd - check (last)";
       SIGNALduino_TOOL_add_webCmd($hash,$NameDispatchSet.'last');
     }
+
     return;
   }
+
   return $setList;
 }
 
@@ -2570,23 +2545,29 @@ sub SIGNALduino_TOOL_FW_Detail {
 
   Log3 $name, 5, "$name: FW_Detail is running";
 
+  my $longidsAttr = 0;
+  foreach my $d (keys %attr) {
+    if ( defined($attr{$d}) && $attr{$d}{longids} && $attr{$d}{longids} ne'' ) { $longidsAttr++; }
+  }
+
   if (!$hash->{helper}{FW_SD_Device_ProtocolList_get}) { $hash->{helper}{FW_SD_Device_ProtocolList_get} = 0; }
   if (!$hash->{helper}{FW_SD_ProtocolData_get}) { $hash->{helper}{FW_SD_ProtocolData_get} = 0; }
 
-  my $ret = "<div class='makeTable wide'><span>Info menu</span>
-  <table class='block wide' id='SIGNALduinoInfoMenue' nm='$hash->{NAME}' class='block wide'>
+  my $ret = "<div class='makeTable wide'><span>Advanced menu</span>
+  <table class='block' id='SIGNALduinoInfoMenue' nm='$hash->{NAME}'>
   <tr class='even'>";
 
-  $ret .="<td><a href='#button1' id='button1'>Display doc SD_ProtocolData.pm</a></td>";
-  $ret .="<td><a href='#button2' id='button2'>Display Information all Protocols</a></td>";
-  $ret .="<td><a href='#button3' id='button3'>Display readed SD_ProtocolList.json</a></td>";
+  $ret .="<td>&nbsp;&nbsp;<a href='#button2' id='button2'>Display Information all Protocols</a>&nbsp;&nbsp;</td>";
+  $ret .="<td><a href='#button1' id='button1'>Display doc SD_ProtocolData.pm</a>&nbsp;&nbsp;</td>";
+  $ret .="<td><a href='#button3' id='button3'>Display doc SD_ProtocolList.json</a>&nbsp;&nbsp;</td>";
+  if($longidsAttr > 0) { $ret .="<td><a href='#button5' id='button5'>replaceBatteryLongID</a>&nbsp;&nbsp;</td>"; }
 
   if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ ) {
     my $button = 'nothing';
     if ($hash->{dispatchSTATE} && $hash->{dispatchSTATE} !~ /^-$/) {
       $button = 'ok';
       Log3 $name, 4, "$name: FW_Detail, check -> Check it - button available";
-      $ret .="<td><a href='#button4' id='button4'>Check it</a></td>";
+      $ret .="<td><a href='#button4' id='button4'>Check it</a>&nbsp;&nbsp;</td>";
     }
     if ($button ne 'ok') { Log3 $name, 4, "$name: FW_Detail, check -> Check it - button NOT available"; }
   }
@@ -2612,6 +2593,11 @@ $( "#button3" ).click(function(e) {
 $( "#button4" ).click(function(e) {
   e.preventDefault();
   FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check("'.$FW_detail.'")}&XHR=1"'.$FW_CSRF.'"\', function(data){function4(data)});
+});
+
+$( "#button5" ).click(function(e) {
+  e.preventDefault();
+  FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_replaceBatteryLongID_view("'.$FW_detail.'")}&XHR=1"'.$FW_CSRF.'"\', function(data){function5(data)});
 });
 
 function SD_DocuListWindow(txt) {
@@ -2718,6 +2704,38 @@ function function4(txt) {
         location.reload();
       }},
       ]
+  });
+}
+
+function function5(txt) {
+  var div = $("<div id=\"function5\">");
+  $(div).html(txt);
+  $("body").append(div);
+
+  $(div).dialog({
+    dialogClass:"no-close", modal:true, width:"auto", closeOnEscape:true,
+    maxWidth:$(window).width()*0.9, maxHeight:$(window).height()*0.9,
+    title: "'.$name.' replaceBatteryLongID information",
+    buttons: [
+      {text:"start", click:function(){
+        var allValsDevice = [];
+
+        $("#function5 table td input:checkbox:checked").each(function() {
+          const id1 = $(this).attr(\'id\') * 1;
+          const id2 = (id1 + 1);
+          allValsDevice.push(document.getElementById(id1).value+\',\'+document.getElementById(id2).value);
+        })
+
+        var time = document.getElementById(\'time\').value;
+        FW_cmd(FW_root+ \'?XHR=1"'.$FW_CSRF.'"&cmd={SIGNALduino_TOOL_FW_replaceBatteryLongID("'.$name.'","\'+allValsDevice+\'","\'+time+\'")}\');
+        $(this).dialog("close");
+        $(div).remove();
+        location.reload();
+      }},
+      {text:"close", click:function(){
+        $(this).dialog("close");
+        $(div).remove();
+      }}]
   });
 }
 
@@ -3007,6 +3025,126 @@ sub SIGNALduino_TOOL_FW_pushed_button {
   }
 
   $hash->{helper}->{option} = 'button';
+  return;
+}
+
+################################
+sub SIGNALduino_TOOL_FW_replaceBatteryLongID {
+  my $name = shift;
+  my $string = shift;
+  my $time = shift;
+  my $hash = $defs{$name};
+  my $hashDevName;
+  my %hashDev;
+  my @array = split /,/, $string;
+
+  Log3 $name, 4, "$name: FW_replaceBatteryLongID is running";
+  Log3 $name, 5, "$name: FW_replaceBatteryLongID, string from html selection: $string";
+  Log3 $name, 5, "$name: FW_replaceBatteryLongID, time to change battery in seconds: $time";
+
+  for (my $x=0; $x < scalar @array; $x++) {
+    if (not $x % 2) {
+      $hashDevName = $array[$x];
+      $hashDev{$hashDevName}->{NAME} = $hashDevName;
+      $hashDev{$hashDevName}->{DEF} = $defs{$hashDevName}{DEF};
+    } else {
+      if ($array[$x] ne "") {
+        $hashDev{$hashDevName}->{REGEX} = $array[$x];
+      }
+    }
+  }
+
+  $hash->{replaceBatteryEndTime} = FmtDateTime(time()+$time);
+  $hash->{helper}->{replaceBatteryLongID_Devices} = \%hashDev;
+
+  ## look for autocreate
+  foreach my $d (keys %defs) {
+    if (defined($defs{$d}) && $defs{$d}{TYPE} eq 'autocreate') {
+      if ( AttrVal($d,'disable',undef) ne "1" ) {
+        $hash->{helper}->{replaceBatteryLongID_autocreateVal} = AttrVal($d,'disable',undef);
+        $hash->{helper}->{replaceBatteryLongID_autocreateDev} = $d;
+        CommandAttr($hash,"$d disable 1");
+      }
+    }
+  }
+
+  Log3 $name, 3, "$name: replaceBatteryLongID is started";
+  InternalTimer(gettimeofday()+$time, "SIGNALduino_TOOL_replaceBatteryLongID_End", $name);
+  CommandAttr($hash,"$name disable 0");
+  readingsSingleUpdate($hash, 'state', 'replaceBatteryLongID started',1);
+  return;
+}
+
+################################
+sub SIGNALduino_TOOL_FW_replaceBatteryLongID_view {
+  my $name = shift;
+  my $hash = $defs{$name};
+  my $oddeven = 'odd';                                       # for css styling
+  my $ret;
+  my $alias = '-';
+  my @longids;
+  my @longidsAll;
+
+  Log3 $name, 4, "$name: FW_replaceBatteryLongID_view is running";
+
+  Log3 $name, 5, "$name: FW_replaceBatteryLongID_view, look for supported longid devices from IODev attribute";
+  foreach my $d (keys %defs) {
+    if (defined($defs{$d}) && $defs{$d}{TYPE} eq 'SIGNALduino') {
+      if ( AttrVal($d,'longids',undef) && AttrVal($d,'longids',undef) ne '1' && AttrVal($d,'longids',undef) ne '0' ) {
+        @longids = split /,/, AttrVal($d,'longids',undef);
+        foreach my $Device (sort @longids) {
+          if ( grep( /^$Device$/, @longidsAll ) ) {
+            Log3 $name, 5, "$name: FW_replaceBatteryLongID_view, longid - $Device in the array";
+          } else {
+            Log3 $name, 5, "$name: FW_replaceBatteryLongID_view, longid - $Device NOT in the array";
+            push @longidsAll, $Device;
+          }
+        }
+      }
+    }
+  }
+
+  $ret ="<table class=\"block wide\">";
+  $ret .="<caption id=\"SD_protoCaption\">List of all devices with longid support</caption>";
+  $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td></td> <td>NAME</td> <td>alias</td> <td>DEF</td> <td>RegEx</td></thead>";
+  $ret .="<tbody>";
+
+  Log3 $name, 4, "$name: FW_replaceBatteryLongID_view, build table";
+  my $id = 0;
+  foreach my $Device (sort @longidsAll) {
+    foreach my $d (sort keys %defs) {
+      if (defined($defs{$d}) && $defs{$d}{DEF} && $defs{$d}{DEF} =~ /^$Device/) {
+        $id = $id + 2;
+        $oddeven = $oddeven eq 'odd' ? 'even' : 'odd' ;
+        $alias = AttrVal($d,'alias',undef) ? AttrVal($d,'alias',undef) : '-' ;
+        $ret .= "<tr class=\"$oddeven\"> <td><input type=\"checkbox\" id=\"".($id-1)."\" value=\"$d\"></td> <td>$d</td> <td>$alias</td> <td><small>".$defs{$d}{DEF}."</small></td> <td><input type=\"text\" id=\"".$id."\" value=\"".$Device."\" placeholder=\"optional\"></td></tr>";
+      }
+    }
+  }
+
+  $ret .="</tbody></table>";
+  $ret .="<br>time to change battery in seconds: <input type=\"number\" id=\"time\" value=\"60\" step=\"10\" min=\"60\" max=\"7200\">";
+  $ret .="<br><small>notes: Please make sure that LongID is entered in each IODev</small>";
+  return $ret;
+}
+
+################################
+sub SIGNALduino_TOOL_replaceBatteryLongID_End {
+  my $name = shift;
+  my $hash = $defs{$name};
+
+  CommandAttr($hash,"$name disable 1");
+  if (defined $hash->{replaceBatteryEndTime}) { delete $hash->{replaceBatteryEndTime}; }
+  if (defined $hash->{helper}->{replaceBatteryLongID_Devices}) { delete $hash->{helper}->{replaceBatteryLongID_Devices}; }
+  if (defined $hash->{helper}->{replaceBatteryLongID_autocreateVal}) {
+    if (defined $hash->{helper}->{replaceBatteryLongID_autocreateDev}) {
+      CommandAttr($hash,"$hash->{helper}->{replaceBatteryLongID_autocreateDev} disable $hash->{helper}->{replaceBatteryLongID_autocreateVal}");
+      delete $hash->{helper}->{replaceBatteryLongID_autocreateDev};
+    };
+    delete $hash->{helper}->{replaceBatteryLongID_autocreateVal};
+  };
+  readingsSingleUpdate($hash, 'state', 'replaceBatteryLongID automatically terminated',1);
+  Log3 $name, 3, "$name: replaceBatteryLongID automatically terminated after timeout";
   return;
 }
 
@@ -3452,7 +3590,6 @@ sub SIGNALduino_TOOL_Notify {
     }
 
     # ... Parse_MU, Decoded matched MU Protocol id .. dmsg ... length ... dispatch(1/4) RSSI = ...
-
     if ( ($ntfy_match) = grep { /Decoded.*dispatch\((\d+)/ } @{$events} ) {
       Log3 $name, 5, "$name: Notify - ntfy_match check, found mark Decoded & dispatch(decimal)";
       my $repeatcount = $ntfy_match;
@@ -3521,6 +3658,42 @@ sub SIGNALduino_TOOL_Notify {
     Log3 $name, 4, "$name: Notify - START -> $ntfy_match by event of $devName";
     $hash->{dispatchDeviceTime} = FmtDateTime(time());
     $hash->{dispatchSTATE} = 'UNKNOWNCODE, help me!';
+  }
+
+  ## replaceBatteryLongID automatically
+  if ( $hash->{replaceBatteryEndTime} && $hash->{helper}->{replaceBatteryLongID_Devices} && ( ($ntfy_match) = grep { /^UNDEFINED.+/ } @{$events} ) ) {
+    $ntfy_match =~ /^UNDEFINED\s(.+)\s(.+)\s(.+)/;
+    Log3 $name, 5, "$name: Notify, replaceBatteryLongID match -> $ntfy_match";  # UNDEFINED SD_WS07_TH_EB1 SD_WS07 SD_WS07_TH_EB1
+    Log3 $name, 5, "$name: FW_replaceBatteryLongID, hashDev ".Dumper\$hash->{helper}->{replaceBatteryLongID_Devices};
+
+    foreach my $dev (keys %{$hash->{helper}->{replaceBatteryLongID_Devices}}) {
+      if (defined $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{REGEX} && defined $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{DEF}) {
+        my $regex = $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{REGEX};
+        my $DEF = $1;
+        if ($DEF =~ /$regex/) {
+          CommandModify(undef,$dev." $DEF");    # DEF change
+          readingsSingleUpdate($defs{$dev}, 'note', 'DEF was changed automatically after battery replacement',1);
+          delete $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev};
+        }
+      }
+    }
+
+    if (scalar keys %{$hash->{helper}->{replaceBatteryLongID_Devices}} == 0) {
+      Log3 $name, 3, "$name: replaceBatteryLongID is finished";
+      delete $hash->{helper}->{replaceBatteryLongID_Devices};
+      if (defined $hash->{replaceBatteryEndTime}) { delete $hash->{replaceBatteryEndTime}; }
+      RemoveInternalTimer('', 'SIGNALduino_TOOL_replaceBatteryLongID_End');
+      readingsSingleUpdate($hash, 'state', 'replaceBattery is finished',1);
+      CommandAttr($hash,"$name disable 1");
+
+      if (defined $hash->{helper}->{replaceBatteryLongID_autocreateVal}) {
+        if (defined $hash->{helper}->{replaceBatteryLongID_autocreateDev}) {
+          CommandAttr($hash,"$hash->{helper}->{replaceBatteryLongID_autocreateDev} disable $hash->{helper}->{replaceBatteryLongID_autocreateVal}");
+          delete $hash->{helper}->{replaceBatteryLongID_autocreateDev};
+        }
+        delete $hash->{helper}->{replaceBatteryLongID_autocreateVal};
+      }
+    }
   }
   return;
 }
@@ -4627,15 +4800,17 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="search_ignore_Devices"></a><code>search_ignore_Devices</code> - lists all devices that have been set to ignore</li><a name=""></a></ul>
   <br><br>
 
-  <b>Info menu (links to click)</b>
-  <ul><li><code>Display doc SD_ProtocolData.pm</code> - displays all read information from the SD_ProtocolData.pm file with the option to dispatch it</a></li></ul>
+  <b>Advanced menu (links to click)</b>
   <ul><li><code>Display Information all Protocols</code> - displays an overview of all protocols</a></li></ul>
-  <ul><li><code>Display readed SD_ProtocolList.json</code> -  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></li></ul>
+  <ul><li><code>Display doc SD_ProtocolData.pm</code> - displays all read information from the SD_ProtocolData.pm file with the option to dispatch it</a></li></ul>
+  <ul><li><code>Display doc SD_ProtocolList.json</code>  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></li></ul>
+  <ul><li><code>replaceBatteryLongID</code> - Battery replacement for sensors with active LongID<br>
+  <small><u>Hinweis:</u></small> Only if the <code>longids</code> attribute is set for an IODev.</a></li></ul>
   <ul><li><code>Check it</code> - after a successful dispatch, this item appears to compare the sensor data with the JSON information<br>
   <small><u>note:</u></small> Only if a protocol number appears in Reading <code>decoded_Protocol_ID</code> then the dispatch is to be clearly assigned.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If there are several values ​​in the reading, the point <code>Check it</code> does not appear! In that case please deactivate the redundant IDs and use again.</a></li></ul>
   <br><br>
-  
+
   <b>Attributes</b>
   <ul>
     <li><a name="CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
@@ -4783,15 +4958,17 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><a name="search_ignore_Devices"></a><code>search_ignore_Devices</code> - listet alle Ger&auml;te auf, welche auf ignore gesetzt wurden</li><a name=""></a></ul>
   <br><br>
 
-  <b>Info menu (Links zum anklicken)</b>
-  <ul><li><code>Display doc SD_ProtocolData.pm</code> - zeigt alle ausgelesenen Informationen aus der SD_ProtocolData.pm Datei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <b>Advanced menu (Links zum anklicken)</b>
   <ul><li><code>Display Information all Protocols</code> - zeigt eine Gesamtübersicht der Protokolle an</a></li></ul>
-  <ul><li><code>Display readed SD_ProtocolList.json</code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <ul><li><code>Display doc SD_ProtocolData.pm</code> - zeigt alle ausgelesenen Informationen aus der SD_ProtocolData.pm Datei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <ul><li><code>Display doc SD_ProtocolList.json </code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <ul><li><code>replaceBatteryLongID  </code> - Batterietausch bei Sensoren mit aktiver LongID<br>
+  <small><u>Hinweis:</u></small> Erscheint nur, wenn das Attribut <code>longids</code> bei einem IODev gesetzt ist.</a></li></ul>
   <ul><li><code>Check it</code> - nach einem erfolgreichen und eindeutigen Dispatch erscheint dieser Punkt um die Sensordaten mit den JSON Informationen zu vergleichen<br>
   <small><u>Hinweis:</u></small> Nur wenn im Reading <code>decoded_Protocol_ID</code> eine Protokollnummer erscheint, so ist der Dispatch eindeutig zuzuordnen.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sollten mehrere Werte in dem Reading stehen, so erscheint der Punkt <code>Check it</code> NICHT! In dem Fall deaktivieren Sie bitte die &uuml;berflüssigen ID´s und dispatchen Sie erneut.</a></li></ul>
   <br><br>
-  
+
   <b>Attributes</b>
   <ul>
     <li><a name="CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
