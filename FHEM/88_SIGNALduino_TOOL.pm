@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-11-30 07:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-01 07:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -128,12 +128,10 @@ sub SIGNALduino_TOOL_Initialize {
 }
 
 ################################
-
 # Predeclare Variables from other modules may be loaded later from fhem
 our $FW_wname;
 
 ################################
-
 sub SIGNALduino_TOOL_Define {
   my ($hash, $def) = @_;
   my @arg = split("[ \t][ \t]*", $def);
@@ -155,7 +153,6 @@ sub SIGNALduino_TOOL_Define {
 
   if ( $init_done == 1 ) {
     ### Attributes ###
-    CommandAttr($hash,"$name room SIGNALduino_un") if ( not exists($attr{$name}{room}) );                                                                                                                 # set room, if only undef --> new def
     if ( not exists($attr{$name}{cmdIcon}) ) { SIGNALduino_TOOL_add_cmdIcon($hash,$NameDispatchSet."file:remotecontrol/black_btn_PS3Start $NameDispatchSet".'last:remotecontrol/black_btn_BACKDroid'); }  # set Icon
 
     ## set dummy - if system ONLY ONE dummy ##
@@ -181,7 +178,6 @@ sub SIGNALduino_TOOL_Define {
       return "ERROR: $error";
     };
   }
-
 
   ### default value´s ###
   $hash->{STATE} = 'Defined';
@@ -210,13 +206,9 @@ sub SIGNALduino_TOOL_Set {
   my $RAWMSG_last = ReadingsVal($name, 'last_MSG', 'none');              # check RAWMSG exists
   my $DMSG_last = ReadingsVal($name, 'last_DMSG', 'none');               # check RAWMSG exists
 
-  my $cmd = $a[0];
-  my $cmd2 = $a[1];
-  my $count1 = 0;                                                        # Initialisieren - zeilen
-  my $count2 = 0;                                                        # Initialisieren - startpos found
-  my $count3 = 0;                                                        # Initialisieren - dispatch ok
-  my $return = '';
-  my $decoded_Protocol_ID = '';
+  my ($cmd,$cmd2) = ($a[0],$a[1]);
+  my ($count1,$count2,$count3) = (0,0,0);                                # Initialisieren - zeilen,startpos found, dispatch ok
+  my ($return,$decoded_Protocol_ID) = ('','');
 
   my $DispatchMax = AttrVal($name,'DispatchMax',1);                      # max value to dispatch from attribut
   my $DispatchModule = AttrVal($name,'DispatchModule','-');              # DispatchModule List
@@ -312,8 +304,7 @@ sub SIGNALduino_TOOL_Set {
     if (!$ProtocolListRead && !@ProtocolList && $cmd !~ //) { SIGNALduino_TOOL_deleteInternals($hash,'dispatchOption'); }
 
     if ($DispatchModule ne '-') {
-      my $count = 0;
-      my $returnList = '';
+      my ($count,$returnList) = (0,'');
 
       # Log3 $name, 5, "$name: Set $cmd - Dispatchoption = file" if ($DispatchModule =~ /^.*\.txt$/);
       # Log3 $name, 5, "$name: Set $cmd - Dispatchoption = SD_ProtocolData.pm" if ($DispatchModule =~ /^((?!\.txt).)*$/ && @ProtocolList);
@@ -379,8 +370,7 @@ sub SIGNALduino_TOOL_Set {
               my $newDeviceName = @{$ProtocolListRead}[$i]->{name};
               $newDeviceName =~ s/\s+/_/g;
               my $idnow = @{$ProtocolListRead}[$i]->{id};
-              my $comment = '';
-              my $state = '';
+              my ($comment,$state) = ('','');
 
               ### look for state or comment ###
               if (defined @{$ProtocolListRead}[$i]->{data}) {
@@ -498,8 +488,7 @@ sub SIGNALduino_TOOL_Set {
       if ($DispatchModule =~ /^((?!\.txt).)*$/ && @ProtocolList) {
         Log3 $name, 4, "$name: Set $cmd - check (4.1) for dispatch from SD_ProtocolData";
         if ($a[1] =~/id(\d+.?\d?)_(.*)/) {
-          my $id = $1;
-          my $state = $2;
+          my ($id,$state) = ($1,$2);
           if ($state =~ /|/) { $state =~ s/\|\|/#/g; }    # !! for no allowed # syntax in setlist - back modified
           Log3 $name, 4, "$name: Set $cmd - id:$id state=$state ready to search";
 
@@ -752,13 +741,7 @@ sub SIGNALduino_TOOL_Set {
 
     ### save new SD_Device_ProtocolList file ###
     if ($cmd eq 'ProtocolList_save_to_file') {
-      my $cnt_data_element_max = 0;
-      my $cnt_data_id = 0;
-      my $cnt_data_id_max = 0;
-      my $cnt_internals_max = 0;
-      my $cnt_internals = 0;
-      my $cnt_readings = 0;
-      my $cnt_attributes = 0;
+      my ($cnt_data_element_max,$cnt_data_id,$cnt_data_id_max,$cnt_internals_max,$cnt_internals,$cnt_readings,$cnt_attributes) = (0,0,0,0,0,0,0);
 
       if (-e "./FHEM/lib/$jsonDoc") {
         my $SaveDocData = '';
@@ -1053,9 +1036,7 @@ sub SIGNALduino_TOOL_Set {
       Log3 $name, 4, "$name: Set $cmd - check (11)";
 
       #### HTTP Requests #### Start ####
-      my $Http_err = '';
-      my $Http_data = '';
-
+      my ($Http_err,$Http_data) = ('','');
       ($Http_err, $Http_data) = HttpUtils_BlockingGet({ url     => FHEM_SVN_gplot_URL,
                                                         timeout => TIMEOUT_HttpUtils,
                                                         method  => 'GET',                # Lesen von Inhalten
@@ -1282,9 +1263,7 @@ sub SIGNALduino_TOOL_Get {
   if ($ProtocolListRead) { $list .= 'Github_device_documentation_for_README:noArg '; }
   if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef)) { $list .= 'CC110x_Register_comparison:noArg '; }
   if ($IODev) { $list .= 'CC110x_Register_read:noArg '; }
-  my $linecount = 0;
-  my $founded = 0;
-  my $search = '';
+  my ($linecount,$founded,$search) = (0,0,'');
   my $value;
   my @Zeilen = ();
 
@@ -1414,9 +1393,7 @@ sub SIGNALduino_TOOL_Get {
   ## filtering args from input_file in export_file ##
   if ($cmd eq 'FilterFile') {
     Log3 $name, 4, "$name: Get $cmd - check (2)";
-    my $Data_parts = 1;
-    my $manually = 0;
-    my $only_Data = 0;
+    my ($Data_parts,$manually,$only_Data) = (1,0,0);
     my $pos;
     my $save = '';
 
@@ -1508,8 +1485,7 @@ sub SIGNALduino_TOOL_Get {
     if ($cmd eq 'InputFile_SyncPulse') { $search = 'SP='; }
     my $CP;
     my $SP;
-    my $max = 0;
-    my $min = 0;
+    my ($max,$min) = (0,0);
     my $pos2;
     my $valuepercentmax;
     my $valuepercentmin;
@@ -1582,8 +1558,7 @@ sub SIGNALduino_TOOL_Get {
     if (!$a[0]) { return 'ERROR: '.substr($cmd,14).' is not definded'; }
     if (!$a[0] =~ /^(-\d+|\d+$)/ && $a[0] > 1) { return "ERROR: wrong value of $cmd! only [0-9]!"; }
 
-    my $ClockPulse = 0;     # array Zeilen
-    my $SyncPulse = 0;      # array Zeilen
+    my ($ClockPulse,$SyncPulse) = (0,0);            # array Zeilen
     if ($cmd eq 'InputFile_one_ClockPulse') { $search = 'CP='; }
     if ($cmd eq 'InputFile_one_SyncPulse') { $search = 'SP='; }
     my $CP;
@@ -1684,9 +1659,7 @@ sub SIGNALduino_TOOL_Get {
     if ($File_export eq '') { return 'ERROR: Your Attributes File_export is not definded!'; }
     if ($File_input eq '') { return 'ERROR: Your Attributes File_input is not definded!'; }
 
-    my $counterror = 0;
-    my $MUerror = 0;
-    my $MSerror = 0;
+    my ($counterror,$MUerror,$MSerror) = (0,0,0);
 
     open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
       while (<$InputFile>){
@@ -1762,9 +1735,7 @@ sub SIGNALduino_TOOL_Get {
     my @msg_parts = split(/;/, $a[0]);
     my %patternList;
     my $rawData;
-    my $Durration_of_Message = 0;
-    my $Durration_of_Message_total = 0;
-    my $msg_repeats = 1;
+    my ($Durration_of_Message,$Durration_of_Message_total,$msg_repeats) = (0,0,1);
 
     foreach (@msg_parts) {
       if ($_ =~ m/^P\d=-?\d{2,}/ or $_ =~ m/^[SL][LH]=-?\d{2,}/) {
@@ -2329,24 +2300,15 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   my $id_knownFreqs;                # knownFreqs from SD_Protocols
   my $line_use = 'no';              # flag use line yes / no
 
-  my $RAWMSG_user;                  # user from RAWMSG
-  my $cnt_RAWmsg = 0;               # counter RAWmsg in id
-  my $cnt_RAWmsg_all = 0;           # counter RAWmsg all over
-  my $cnt_id_same = 0;              # counter same id with other RAWmsg
-  my $cnt_ids_total = 0;            # counter protocol ids in file
-  my $cnt_no_comment = 0;           # counter no comment exists
-  my $cnt_no_clientmodule = 0;      # counter no clientmodule in id
-  my $cnt_develop = 0;              # counter id have develop flag
-  my $cnt_develop_modul = 0;        # counter id have developmodul flag
-  my $cnt_frequency = 0;            # counter id have frequency flag
-  my $cnt_knownFreqs = 0;           # counter id have knownFreqs flag without "" value
-  my $cnt_without_knownFreqs = 0;   # counter id without knownFreqs flag
-  my $cnt_Freqs433 = 0;             # counter id knownFreqs 433
-  my $cnt_Freqs868 = 0;             # counter id knownFreqs 868
-
-  my $comment_behind = '';          # comment behind RAWMSG
-  my $comment_infront = '';         # comment in front RAWMSG
-  my $comment = '';                 # comment
+  my $RAWMSG_user;                                                        # user from RAWMSG
+  my ($cnt_RAWmsg,$cnt_RAWmsg_all) = (0,0);                               # counter RAWmsg in id, RAWmsg all over
+  my ($cnt_id_same,$cnt_ids_total) = (0,0);                               # counter same id with other RAWmsg, protocol ids in file
+  my ($cnt_no_comment,$cnt_no_clientmodule) = (0,0);                      # counter no comment exists, no clientmodule in id
+  my ($cnt_develop,$cnt_develop_modul) = (0,0);                           # counter id have develop flag, id have developmodul flag
+  my ($cnt_frequency,$cnt_knownFreqs,$cnt_without_knownFreqs) = (0,0,0);  # counter id have frequency flag, have knownFreqs flag without "" value, without knownFreqs flag
+  my ($cnt_Freqs433,$cnt_Freqs868) = (0,0);                               # counter id knownFreqs 433, 868
+  my ($comment_behind,$comment_infront) = ('','');                        # comment behind RAWMSG, in front RAWMSG
+  my $comment = '';                                                       # comment
   my $return;
 
   my @linevalue;
@@ -2752,8 +2714,7 @@ function pushed_button(value,methode,typ,name) {
 sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
   my $name = shift;
   my $Dummyname = AttrVal($name,'Dummyname','none');  # Dummyname
-  my $RAWMSG = '';
-  my $buttons = '';
+  my ($RAWMSG,$buttons) = ('','');
   my $oddeven = 'odd';                                # for css styling
   my $ret;
 
@@ -2818,17 +2779,8 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_check {
   if (ReadingsVal($name, 'last_DMSG', 'none') ne 'not clearly definable!') { $searchDMSG = ReadingsVal($name, 'last_DMSG', 'none'); }
   if (ReadingsVal($name, 'last_DMSG', 'none') eq 'not clearly definable!' && $hash->{dispatchDevice} && $hash->{dispatchDevice} ne $Dummyname) { $searchDMSG = $defs{$hash->{dispatchDevice}}->{$Dummyname.'_DMSG'}; }
 
-  my $searchID_found = 0;
-  my $searchDMSG_found = 0;
-  my $searchDMSG_pos = '';
-
-  my $battery = '';
-  my $buttons = '';
-  my $comment = '';
-  my $dmsg = '';
-  my $oddeven = 'even';
-  my $readings_diff = '';
-  my $state = '';
+  my ($searchID_found,$searchDMSG_found,$searchDMSG_pos) = (0,0,'');
+  my ($battery,$buttons,$comment,$dmsg,$oddeven,$readings_diff,$state) = ('','','','','even','','');
 
   ## overview 1 - loop to read information from ID ##
   for (my $i=0;$i<@{$ProtocolListRead};$i++) {
@@ -3143,8 +3095,8 @@ sub SIGNALduino_TOOL_replaceBatteryLongID_End {
     };
     delete $hash->{helper}->{replaceBatteryLongID_autocreateVal};
   };
-  readingsSingleUpdate($hash, 'state', 'replaceBatteryLongID automatically terminated',1);
-  Log3 $name, 3, "$name: replaceBatteryLongID automatically terminated after timeout";
+  readingsSingleUpdate($hash, 'state', 'replaceBatteryLongID automatically terminated (timeout reached)',1);
+  Log3 $name, 3, "$name: replaceBatteryLongID automatically terminated after timeout (timeout reached)";
   return;
 }
 
@@ -3232,12 +3184,7 @@ sub SIGNALduino_TOOL_FW_updateData {    # action by clicking on "update" in the 
     my %attributes;
     my %internals;
     my %readings;
-    my $cnt_data_element_max = 0;
-    my $comment = "";
-    my $device_state_found = 0;
-    my $devicefound = 0;
-    my $devicename = "";
-    my $user = "";
+    my ($cnt_data_element_max,$comment,$device_state_found,$devicefound,$devicename,$user) = (0,"",0,0,"","");
 
     ## loop all values from dispatch device
     for (my $i=0;$i<@array_value;$i++) {
@@ -3668,12 +3615,12 @@ sub SIGNALduino_TOOL_Notify {
 
     foreach my $dev (keys %{$hash->{helper}->{replaceBatteryLongID_Devices}}) {
       if (defined $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{REGEX} && defined $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{DEF}) {
-        my $regex = $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{REGEX};
-        my $DEF = $1;
+        my ($regex,$DEF) = ($hash->{helper}->{replaceBatteryLongID_Devices}->{$dev}->{REGEX},$1);
         if ($DEF =~ /$regex/) {
           CommandModify(undef,$dev." $DEF");    # DEF change
           readingsSingleUpdate($defs{$dev}, 'note', 'DEF was changed automatically after battery replacement',1);
           delete $hash->{helper}->{replaceBatteryLongID_Devices}->{$dev};
+          Log3 $name, 3, "$name: replaceBatteryLongID changed device $dev";
         }
       }
     }
@@ -3693,6 +3640,8 @@ sub SIGNALduino_TOOL_Notify {
         }
         delete $hash->{helper}->{replaceBatteryLongID_autocreateVal};
       }
+    } else {
+      readingsSingleUpdate($hash, 'state', 'replaceBattery wait for the next '.(scalar keys %{$hash->{helper}->{replaceBatteryLongID_Devices}}).' device(s)',1);
     }
   }
   return;
@@ -3702,7 +3651,7 @@ sub SIGNALduino_TOOL_Notify {
 sub SIGNALduino_TOOL_Version_SIGNALduino {
   my $name = shift;
   my $SIGNALduino = shift;
-  my ($modus, $version) = (0 , 0);
+  my ($modus, $version) = (0, 0);
 
   if (exists $defs{$SIGNALduino}->{versionmodul} && $defs{$SIGNALduino}->{versionmodul} =~ /^(v|V)?\d\./) {
     Log3 $name, 5, "$name: Version_SIGNALduino, found Internal versionmodul with value ".$defs{$SIGNALduino}->{versionmodul};
