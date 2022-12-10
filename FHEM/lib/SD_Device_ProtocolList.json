@@ -707,6 +707,27 @@
     }
   ]
 },
+{"name":"DC_1961_TG_1846", "id":"20", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P20#1846A865", "comment":"Remote control DC-1961-TG with 12 buttons for ceiling fan with lighting", "user":"Skusi",
+      "internals": {"DEF":"DC_1961_TG 1846", "NAME":"DC_1961_TG_1846"},
+      "readings": {"state":"light_on_off", "LastAction":"receive", "deviceCode":"1846", "rollingCode":"6"},
+      "attributes": {"model":"DC_1961_TG"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-12-10 11:35:35",
+      "revision_modul":"14_SD_UT.pm     0 2022-10-27 17:06:50Z elektron-bbs",
+      "rmsg":"MS;P1=291;P2=-753;P3=762;P4=-249;P5=-8312;D=151212123434121212123412121234341234123412341212121234341212341234;CP=1;SP=5;R=224;O;m2;"
+    },
+    {
+      "dmsg":"P20#1846A77B", "comment":"Remote control DC-1961-TG with 12 buttons for ceiling fan with lighting", "user":"Skusi",
+      "internals": {"DEF":"DC_1961_TG 1846", "NAME":"DC_1961_TG_1846"},
+      "readings": {"state":"fan_off", "LastAction":"receive", "deviceCode":"1846", "rollingCode":"7"},
+      "attributes": {"model":"DC_1961_TG"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-12-10 11:37:49",
+      "revision_modul":"14_SD_UT.pm     0 2022-10-27 17:06:50Z elektron-bbs",
+      "rmsg":"MS;P1=-760;P2=747;P3=-282;P4=253;P5=-8335;D=454141412323414141412341414123234123412341412323234123232323412323;CP=4;SP=5;R=27;O;m2;"
+    }
+  ]
+},
 {"name":"RCnoName20", "id":"20", "module":"SD_UT", "data": [
     {
       "dmsg":"P20#17E911B0", "comment":"Remote control with 4 buttons for diesel heating, Button on", "user":"elektron-bbs",
@@ -725,6 +746,27 @@
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 10:55:29",
       "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MS;P1=-754;P2=213;P4=681;P5=-283;P6=-7869;D=2621212145214545454545452145212145212121212145214521212121452121;CP=2;SP=6;R=69;O;m2;"
+    }
+  ]
+},
+{"name":"RCnoName20_10_3E00", "id":"20.1", "module":"SD_UT", "data": [
+    {
+      "dmsg":"P20#3E001E3B", "comment":"Remote control with 10 buttons for fan", "user":"steffen83",
+      "internals": {"DEF":"RCnoName20_10 3E00", "NAME":"RCnoName20_10_3E00"},
+      "readings": {"state":"light_on", "deviceCode":"3E00", "rollingCode":"3"},
+      "attributes": {"model":"RCnoName20_10"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-09-26 13:45:59",
+      "revision_modul":"14_SD_UT.pm     0 2022-09-06 20:56:47Z elektron-bbs",
+      "rmsg":"MU;P0=-8774;P1=282;P2=-775;P3=815;P4=-253;P5=-32001;D=10121234343434341212121212121212121212123434343412121234343412343415;CP=1;"
+    },
+    {
+      "dmsg":"P20#3E001644", "comment":"Remote control with 10 buttons for fan", "user":"steffen83",
+      "internals": {"DEF":"RCnoName20_10 3E00", "NAME":"RCnoName20_10_3E00"},
+      "readings": {"state":"light_off", "deviceCode":"3E00", "rollingCode":"4"},
+      "attributes": {"model":"RCnoName20_10"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-09-26 13:48:11",
+      "revision_modul":"14_SD_UT.pm     0 2022-09-06 20:56:47Z elektron-bbs",
+      "rmsg":"MU;P0=-238;P1=831;P3=300;P4=-762;P5=-363;P6=192;P7=-8668;D=01010101010343434343434343434343434103415156464156464641564646734341010101010343434343434343434343434103410103434103434341034343734341010101010343434343434343434343434103410103434103434341034343734341010101010343434343434343434343434103410103434103434341;CP=3;O;"
     }
   ]
 },
@@ -830,6 +872,33 @@
       "minProtocolVersion":"1.27", "revision_entry":"2021-03-24 11:23:54",
       "revision_modul":"14_SD_UT.pm     0 2020-12-03 22:15:57Z HomeAuto_User",
       "rmsg":"MU;P0=309;P1=636;P2=-690;P3=-363;P4=-10027;D=012031203120402031312031203120312031204020313120312031203120312040203131203120312031203120402031312031203120312031204020313120312031203120312040203131203120312031203120402031312031203120312031204020313120312031203120312040203131203120312030;CP=0;O;"
+    }
+  ]
+},
+{"name":"LTECH", "id":"31", "module":"", "data": [
+    {
+      "dmsg":"P31#202272FF7FFFFF0080040028FA", "comment":"Yellow, on", "user":"unknown",
+      "internals": {"DEF":"04444EFF", "NAME":"LTECH"},
+      "readings": {"crc":"145F", "function":"01", "mode":"FE", "rgbcolor":"202000", "speed":"00"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
+      "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
+      "rmsg":"MU;P0=1194;P1=597;P2=-6269;P3=306;P4=-298;P5=-1216;P6=-559;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636143636363636363636363636361436363636363636363636363614361436363614141414143614360;CP=3;R=28;"
+    },
+    {
+      "dmsg":"P31#202272FF7FFFFF00000400C4F6", "comment":"Off", "user":"unknown",
+      "internals": {"DEF":"04444EFF", "NAME":"LTECH"},
+      "readings": {"crc":"236F", "function":"00", "mode":"FE", "rgbcolor":"000000", "speed":"00"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
+      "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
+      "rmsg":"MU;P0=1192;P1=599;P2=-2676;P3=288;P4=-305;P5=-1225;P6=-574;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636363636363636363636363636361436363636363636363636141436363614363614141414361414360;CP=3;R=26;"
+    },
+    {
+      "dmsg":"P31#202272FF7F0000FF80FF002AAF", "comment":"Blue", "user":"unknown",
+      "internals": {"DEF":"04444EFF", "NAME":"LTECH"},
+      "readings": {"crc":"54F5", "function":"01", "mode":"FE", "rgbcolor":"0000FF", "speed":"00"},
+      "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
+      "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
+      "rmsg":"MU;P0=580;P1=-314;P2=1181;P3=309;P6=-1228;P7=-595;D=3131313131313131313637370137373737373737013737370137370101013737013701010101010101013701010101010101373737373737373737373737373737370101010101010101013737373737373701010101010101013737373737373737373701370137013701370137010101012;CP=3;R=29;"
     }
   ]
 },
@@ -2947,12 +3016,14 @@
       "rmsg":"MN;D=C898BE40041218FF88FF0008017E88FFF04F0000000000000000;R=190;"
     },
     {
-      "dmsg":"W115#9104143025BE18FFFFFF2928925A97FFF0000000000000000003", "comment":"BRESSER 6-in-1", "user":"elektron-bbs",
+      "setreadings":{"temperature":"-1.5", "humidity":"32"},      
+      "dmsg":"W115#9104143025BE18FFFFFF2928925A97FFF0000000000000000003", "comment":"BRESSER 6-in-1 temp diff to high", "user":"elektron-bbs",
       "internals": {"DEF":"SD_WS_115_0", "NAME":"SD_WS_115_0"},
       "readings": {"state":"T: -7.5 H: 97 W: 0", "batteryChanged":"1", "batteryState":"ok", "channel":"0", "humidity":"97", "temperature":"-7.5", "type":"Bresser_6in1, new Bresser_5in1", "uv":"0", "windDirectionDegree":"292", "windDirectionText":"WNW", "windGust":"0", "windSpeed":"0"},
       "minProtocolVersion":"1.48", "revision_entry":"2022-11-20 20:27:05",
       "revision_modul":"14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
-      "rmsg":"MN;D=9104143025BE18FFFFFF2928925A97FFF0000000000000000003;R=189;"
+      "rmsg":"MN;D=9104143025BE18FFFFFF2928925A97FFF0000000000000000003;R=189;",
+      "returns":{"ParseFn" : ""}
     }
   ]
 },
@@ -3121,33 +3192,25 @@
     }
   ]
 },
-{"name":"LTECH", "id":"31", "module":"LTECH", "data": [
-      {
-        "dmsg":"P31#202272FF7FFFFF0080040028FA", "comment":"Yellow, on", "user":"unknown",
-        "internals": { "NAME": "LTECH" , "DEF": "04444EFF" }, 
-        "readings": { "crc" : "145F", "function" : "01", "mode" : "FE", "rgbcolor" : "202000", "speed" : "00"},
-        "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
-        "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
-        "rmsg":"MU;P0=1194;P1=597;P2=-6269;P3=306;P4=-298;P5=-1216;P6=-559;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636143636363636363636363636361436363636363636363636363614361436363614141414143614360;CP=3;R=28;"
-      },
-      {
-        "dmsg":"P31#202272FF7FFFFF00000400C4F6", "comment":"Off", "user":"unknown",
-        "internals": { "NAME": "LTECH" , "DEF": "04444EFF" }, 
-        "readings": { "crc" : "236F", "function" : "00", "mode" : "FE", "rgbcolor" : "000000", "speed" : "00"},
-        "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
-        "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
-        "rmsg":"MU;P0=1192;P1=599;P2=-2676;P3=288;P4=-305;P5=-1225;P6=-574;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636363636363636363636363636361436363636363636363636141436363614363614141414361414360;CP=3;R=26;"
-      },
-      {
-        "dmsg":"P31#202272FF7F0000FF80FF002AAF", "comment":"Blue", "user":"unknown",
-        "internals": { "NAME": "LTECH" , "DEF": "04444EFF" }, 
-        "readings": { "crc" : "54F5", "function" : "01", "mode" : "FE", "rgbcolor" : "0000FF", "speed" : "00"},
-        "minProtocolVersion":"1.44", "revision_entry":"2022-04-25 16:28:56",
-        "revision_modul":"14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
-        "rmsg":"MU;P0=580;P1=-314;P2=1181;P3=309;P6=-1228;P7=-595;D=3131313131313131313637370137373737373737013737370137370101013737013701010101010101013701010101010101373737373737373737373737373737370101010101010101013737373737373701010101010101013737373737373737373701370137013701370137010101012;CP=3;R=29;"
-      }    
-    ]
-},       
+{"name":"Temola TM40", "id":"122", "module":"SD_WS", "data": [
+    {
+      "dmsg":"W122#926301360136014001680000B88", "comment":"Wireless Grill-, Meat-, Roasting-Thermometer with 4 Temperature Sensors", "user":"Prof. Dr. Peter Henning",
+      "internals": {"DEF":"SD_WS_122_T", "NAME":"SD_WS_122_T"},
+      "readings": {"state":"T: 36 T2: 32 T3: 31 T4: 31", "batteryState":"ok", "temperature":"36", "temperature2":"32", "temperature3":"31", "temperature4":"31", "transmitter":"on", "type":"TM40"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-10-31 15:07:09",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-09-11 12:03:38Z elektron-bbs",
+      "rmsg":"MU;P0=3412;P1=-1029;P2=1043;P3=4706;P4=-2986;P5=549;P6=-1510;P7=-562;D=01212121212121213456575756575756575756565757575656575757575757575657575656575656575757575757575756575756565756565757575757575757565756575757575757575757575757575657565657565757575757575757575757575757575757575756575656565757575621212121212121213456575756;CP=5;R=2;O;"
+    },
+    {
+      "dmsg":"W122#926300DC00DC00DC033E0000DE8", "comment":"Wireless Grill-, Meat-, Roasting-Thermometer with 4 Temperature Sensors", "user":"Prof. Dr. Peter Henning",
+      "internals": {"DEF":"SD_WS_122_T", "NAME":"SD_WS_122_T"},
+      "readings": {"state":"T: 83 T2: 22 T3: 22 T4: 22", "batteryState":"ok", "temperature":"83", "temperature2":"22", "temperature3":"22", "temperature4":"22", "transmitter":"on", "type":"TM40"},
+      "minProtocolVersion":"1.48", "revision_entry":"2022-10-31 15:09:00",
+      "revision_modul":"14_SD_WS.pm v3.5.4 2022-09-11 12:03:38Z elektron-bbs",
+      "rmsg":"MU;P0=11276;P1=-1039;P2=1034;P3=4704;P4=-2990;P5=543;P6=-1537;P7=-559;D=01212121212121213456575756575756575756565757575656575757575757575756565756565657575757575757575757565657565656575757575757575757575656575656565757575757575757565657575656565656575757575757575757575757575757575756565756565656575621212121212121213456575756;CP=5;R=12;O;"
+    }
+  ]
+},
 {"name":"", "id":"", "module":"", "data": [
     {
       "dmsg":"", "comment":"", "dispatch_repeats":"1", "user":"",

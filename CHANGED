@@ -1,14 +1,26 @@
+2022-11-26 - SD_Device_ProtocolList.json
+
+extended more test definitions for better coverage
+
+2022-11-25 - SD_Device_ProtocolList.json
+
+extended more test definitions for better coverage
 2022-11-21 - Update SD_Device_ProtocolList.json
 
-add TX-EZ6 protocol 33
+add TX-EZ6 protocoll 33
 2022-11-20 - Update SD_Device_ProtocolList.json
 
 add protocol 115 with negative temperature
-2022-11-20 - Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
 2022-11-20 - Update SD_Device_ProtocolList.json
 
-correct reading batteryState
-2022-09-18 - Merge branch 'pre-release' into merge-master
+delete reading batteryState
+2022-11-20 - Merge branch 'master' of https://github.com/RFD-FHEM/SIGNALduino_TOOL
+2022-10-31 - Update SD_Device_ProtocolList.json
+
+add data for "Temola TM40", "id":"122", "module":"SD_WS"
+2022-09-26 - Update SD_Device_ProtocolList.json
+
+add data for module SD_UT, RCnoName20_10, protocol 20.1
 2022-09-11 - Update SD_Device_ProtocolList.json
 
 add TFA 35.1077.54.S2 dcf time
@@ -56,7 +68,6 @@ added internal name
 
 Added testdata for funkbus from fhem forum:
 https://forum.fhem.de/index.php/topic,127189.msg1218031.html#msg1218031
-
 2022-04-17 - Update SD_Device_ProtocolList.json
 
 add TFA 30.3251.10 Windsensor protocol 85
@@ -78,9 +89,13 @@ Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor
 2021-12-29 - Update SD_Device_ProtocolList.json
 
 new protocol definition 7.1 for Mebus HQ7312-2
-
 2021-12-08 - Squashed commit of the following:
 
+commit 98947f008623ef470316216122604434d9e8ee3b
+Author: GitHub Action <action@github.com>
+Date:   Tue Dec 7 20:10:17 2021 +0000
+
+    Automaitc updated controls and CHANGED
 
 commit 423083d056ae76d0292257f854f12237c441d610
 Author: Udo <info@elektron-bbs.de>
