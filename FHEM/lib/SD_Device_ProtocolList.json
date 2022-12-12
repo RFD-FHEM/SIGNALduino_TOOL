@@ -7344,15 +7344,17 @@
                "windGust" : "0",
                "windSpeed" : "0"
             },
-            "returns" : {
-               "ParseFn" : ""
-            },
             "revision_entry" : "2022-11-20 20:27:05",
             "revision_modul" : "14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
             "rmsg" : "MN;D=9104143025BE18FFFFFF2928925A97FFF0000000000000000003;R=189;",
-            "setreadings" : {
-               "humidity" : "32",
-               "temperature" : "-1.5"
+            "tests" : {
+               "returns" : {
+                  "ParseFn" : ""
+               },
+               "setreadings" : {
+                  "humidity" : "32",
+                  "temperature" : "-1.5"
+               }
             },
             "user" : "elektron-bbs"
          }
