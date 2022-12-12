@@ -1,3 +1,10 @@
+2022-12-12 - Update SD_Device_ProtocolList.json
+
+* customized JSON after switching to write with library
+2022-12-12 - Update 88_SIGNALduino_TOOL.pm
+
+* revision code for writing JSON with library
+2022-12-12 - Merge branch 'master' into pre_feature_cb
 2022-12-10 - Update SD_Device_ProtocolList.json
 
 add testdata for remote control DC_1961_TG protocol 20
