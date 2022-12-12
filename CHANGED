@@ -1,3 +1,12 @@
+2022-12-12 - Optimization / Structure Adjustment / Feature (#88)
+
+* Update 88_SIGNALduino_TOOL.pm
+
+- added option replaceBatteryLongID
+- small code optimization
+* revision code for writing JSON with library
+
+* Update SD_Device_ProtocolList.json
 2022-12-12 - Update SD_Device_ProtocolList.json
 
 * customized JSON after switching to write with library
