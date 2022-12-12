@@ -1,5 +1,8 @@
 2022-12-12 - Update SD_Device_ProtocolList.json
 
+shifting values ​​for tests to their own section
+2022-12-12 - Update SD_Device_ProtocolList.json
+
 remove testdata for remote control DC_1961_TG protocol 20 (later addition)
 2022-12-12 - Optimization / Structure Adjustment / Feature (#88)
 
