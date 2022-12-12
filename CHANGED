@@ -1,9 +1,6 @@
-2022-12-01 - Update 88_SIGNALduino_TOOL.pm
+2022-12-10 - Update SD_Device_ProtocolList.json
 
-- small code optimization
-2022-11-30 - Update 88_SIGNALduino_TOOL.pm
-
-- added option replaceBatteryLongID
+add testdata for remote control DC_1961_TG protocol 20
 2022-11-26 - SD_Device_ProtocolList.json
 
 extended more test definitions for better coverage
