@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-01 07:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-12 20:10:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -8,7 +8,7 @@
 # Github - RFD-FHEM
 # https://github.com/RFD-FHEM/SIGNALduino_TOOL
 #
-# 2018 - 2022 - HomeAuto_User, elektron-bbs, sidey79
+# 2018 - ... HomeAuto_User, elektron-bbs, sidey79
 # 2020 - SIGNALduino_TOOL_cc1101read Zuarbeit @plin
 ######################################################################
 # Note´s
@@ -23,8 +23,9 @@ use strict;
 use warnings;
 
 eval {use Data::Dumper qw(Dumper);1};
-eval {use JSON::PP qw( );1};
 eval {use HttpUtils;1};
+eval {use JSON::PP qw( );1};
+eval {use JSON::XS;1};
 
 use lib::SD_Protocols;
 use FHEM::Meta;         # https://wiki.fhem.de/wiki/Meta for SVN Revision
@@ -741,20 +742,16 @@ sub SIGNALduino_TOOL_Set {
 
     ### save new SD_Device_ProtocolList file ###
     if ($cmd eq 'ProtocolList_save_to_file') {
-      my ($cnt_data_element_max,$cnt_data_id,$cnt_data_id_max,$cnt_internals_max,$cnt_internals,$cnt_readings,$cnt_attributes) = (0,0,0,0,0,0,0);
-
       if (-e "./FHEM/lib/$jsonDoc") {
         my $SaveDocData = '';
         ## read file for backup ##
-        Log3 $name, 5, "$name: Set $cmd - read exist JSON data";
+        Log3 $name, 5, "$name: Set $cmd - read exist JSON data and backup file";
         open my $SaveDoc, '<', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!";
           while(<$SaveDoc>){
             $SaveDocData = $SaveDocData.$_;
           }
         close $SaveDoc;
 
-        ## save backup data ##
-        Log3 $name, 5, "$name: Set $cmd - save backup JSON data";
         open my $Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5).'Backup.json' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."Backup.json) can not open!\n\n$!";
           print $Backup $SaveDocData;
         close $Backup;
@@ -762,194 +759,42 @@ sub SIGNALduino_TOOL_Set {
 
       ## write new data ##
       Log3 $name, 4, "$name: Set $cmd - write new JSON data";
-      # Log3 $name, 3, Dumper\@{$ProtocolListRead}; ## ONLY DEBUG
 
-      open my $SaveDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
-        print $SaveDoc "[\n";
-
-        ## for max elements ##
-        for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-          $cnt_data_id_max++;
-        }
-
-        for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-          $cnt_data_id++;
-          $cnt_data_element_max = 0;
-          my $clientmodule = "";
-
-          ### for compatibility , getProperty ###
-          if ($modus == 1) {
+      for (my $i=0;$i<@{$ProtocolListRead};$i++) {
+        my $clientmodule = "";
+        if (not exists @{$ProtocolListRead}[$i]->{module}) {                              ## in JSON data, entry module failed
+          if ($modus == 1) {                                                              ## for compatibility , getProperty
             if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
           } else {
             if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
           }
+          @$ProtocolListRead[$i]->{module} = $clientmodule;
+        };
 
-          if ($i > 0) { print $SaveDoc "\n"; }
-          print $SaveDoc '{"name":"'.@$ProtocolListRead[$i]->{name}.'", "id":"'.@$ProtocolListRead[$i]->{id}.'", "module":"'.$clientmodule.'", "data": ['."\n";
-          print $SaveDoc "    {\n";
-          print $SaveDoc "      ";
-
-          ## to count max ##
-          my $data_array = @$ProtocolListRead[$i]->{data};
-          for my $data_element (@$data_array) {
-            $cnt_data_element_max++;
+        my $ref_data = @{$ProtocolListRead}[$i]->{data};
+        for (my $i2=0;$i2<@$ref_data;$i2++) {
+          if (not exists @{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}) {
+            @{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion} = 'unknown';      ## in JSON data, entry minProtocolVersion failed
           }
-
-          my $ref_data = @{$ProtocolListRead}[$i]->{data};
-          for (my $i2=0;$i2<@$ref_data;$i2++) {
-            $cnt_attributes = 0;
-            $cnt_internals = 0;
-            $cnt_internals_max = 0;
-            $cnt_readings = 0;
-            if ($i2 != 0) { print $SaveDoc '      '; }
-            print $SaveDoc '"dmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg}.'",';
-
-            ## all values behind dmsg | example: dispatch_repeats
-            # note: new values how print behind attributes, exclude here !!
-            #       if value exclude, you can write to other position
-            foreach my $key (sort keys %{@$ref_data[$i2]}) {
-              if ($key !~ /^attributes/ && $key !~ /^dmsg/ && $key !~ /^internals/ && $key !~ /^readings/ && $key !~ /^minProtocolVersion/ && $key !~ /^revision_/ && $key !~ /^rmsg/) { print $SaveDoc ' "'.$key.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}.'",'; }
-            }
-
-            ## all values in internals
-            print $SaveDoc "\n";
-
-            foreach my $key (sort keys %{@$ref_data[$i2]}) {
-              if ($key =~ /^internals/) {
-
-                ## to count max elemens
-                foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-                  $cnt_internals_max++;
-                }
-
-                if ($cnt_internals_max != 0) { print $SaveDoc '      "internals": {'; }
-
-                foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 internals=$cnt_internals";
-                  $cnt_internals++;
-                  if ($cnt_internals != $cnt_internals_max) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'", '; }
-                  if ($cnt_internals == $cnt_internals_max) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
-                }
-              }
-            }
-
-            if ($cnt_internals_max != 0 && exists @{$ProtocolListRead}[$i]->{data}[$i2]->{internals}) {
-              print $SaveDoc '},';
-              print $SaveDoc "\n";
-            }
-            ## internals END ##
-
-            ## all values in readings
-            print $SaveDoc '      "readings": {' if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/);
-            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}) {
-              print $SaveDoc '"state":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{readings}{state}.'"' ;
-              $cnt_readings++;
-            }
-
-            foreach my $key (sort keys %{@$ref_data[$i2]}) {
-              if ($key =~ /^readings/) {
-                foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 readings=$cnt_readings";
-                  $cnt_readings++;
-                  ### note !!! ###
-                  # diverse discussions about new reading IODev !!!
-                  # reading is not relevant for tests -> possibly expand code for skipping
-                  # if {$key2 !~ /^IODev$/} (
-                    if ($key2 !~ /^state$/ && $cnt_readings == 1) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
-                    if ($key2 !~ /^state$/ && $cnt_readings > 1) { print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
-                  #);
-                }
-              }
-            }
-
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/) {
-              print $SaveDoc '},';
-              print $SaveDoc "\n";
-            }
-            ## readings END ##
-
-            ## all values in attributes
-            foreach my $key (sort keys %{@$ref_data[$i2]}) {
-              if ($key =~ /^attributes/) {
-                foreach my $key2 (sort keys %{@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}}) {
-                  Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 attributes=$cnt_attributes";
-                  $cnt_attributes++;
-                  if($cnt_attributes == 1 && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/) { print $SaveDoc '      "attributes": {'; }
-                  if ($cnt_attributes == 1) { print $SaveDoc '"'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
-                  if ($cnt_attributes > 1) { print $SaveDoc ', "'.$key2.'":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{$key}{$key2}.'"'; }
-                }
-              }
-            }
-
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^U\d+#/ && $cnt_attributes >= 1) {
-              print $SaveDoc '},';
-              print $SaveDoc "\n";
-            }
-            ## attributes END ##
-
-            ## minProtocolVersion, the protocol is supported from this version ##
-            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}) {
-              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 minProtocolVersion=read value";
-              print $SaveDoc '      "minProtocolVersion":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{minProtocolVersion}.'", ';
-            } else {
-              print $SaveDoc '      "minProtocolVersion":"unknown", ';
-            }
-            ## minProtocolVersion END ##
-
-            ## revision_entry, print day of check ##
-            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}) {
-              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_entry=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry};
-              print $SaveDoc '"revision_entry":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}.'",';
-            } else {
-              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_entry=unknown";
-              print $SaveDoc '"revision_entry":"unknown",';
-            }
-            print $SaveDoc "\n";
-            ## revision_entry END ##
-
-            ## revision_modul, revison of modul on check day ##
-            if (exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}) {
-              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=".@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul};
-              if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc '      "revision_modul":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}.'"'; }
-            } else {
-              Log3 $name, 5, "$name: Set $cmd - ".@$ProtocolListRead[$i]->{id}.' '.@$ProtocolListRead[$i]->{name}.": entry=$i2 revision_modul=unknown";
-              if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc '      "revision_modul":"unknown"'; }
-            }
-            if (@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg} && @{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc ','; }
-            if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { print $SaveDoc "\n"; }
-            ## revision_modul END ##
-
-            ## values rmsg ##
-            if(@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}) {
-              print $SaveDoc '      "rmsg":"'.@{$ProtocolListRead}[$i]->{data}[$i2]->{rmsg}.'"';
-              print $SaveDoc "\n";
-            }
-
-            if ($cnt_data_element_max == ($i2+1)) { print $SaveDoc '    }'; }
-
-            if ($cnt_data_element_max > ($i2+1)) {
-              print $SaveDoc '    },'."\n" ;
-              print $SaveDoc '    {';                                         # end data values
-            }
-            ## rmsg END ##
-            print $SaveDoc "\n";
-
-            if ($cnt_data_element_max == ($i2+1)) {
-              print $SaveDoc '  ]'."\n" ;                                     # end data values
-              if ($cnt_data_id_max != ($i+1)) {
-                print $SaveDoc '},' ;                                         # end name value
-              } elsif ($cnt_data_id_max == ($i+1)) {
-                print $SaveDoc '}';
-                print $SaveDoc "\n";
-              }
-            }
+          if (not exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry}) {
+            @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_entry} = 'unknown';          ## in JSON data, entry revision_entry failed
+          }
+          if (not exists @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul}) {       ## in JSON data, entry revision_modul failed
+            if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul} = 'unknown'; }
           }
         }
-        print $SaveDoc "]\n";
-      close $SaveDoc;
+      }
+
+      my $js = JSON::PP->new;
+      $js->canonical(1);      # will output key-value pairs in the order Perl stores
+      $js->pretty(1);         # all of the indent, space_before and space_after ...
+      my $output = $js->encode($ProtocolListRead);
+
+      open my $PrintDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
+        print $PrintDoc $output;
+      close $PrintDoc;
 
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
-
       return 'your file SD_ProtocolList.json are saved';
     }
 
@@ -1832,15 +1677,15 @@ sub SIGNALduino_TOOL_Get {
     Log3 $name, 4, "$name: Get $cmd - check (11)";
     $hash->{helper}{FW_SD_Device_ProtocolList_get} = 1; # need in java, check reload need
 
-    my $json;
+    my $json;                                         # check JSON file can load
     {
-      local $/; #Enable 'slurp' mode
+      local $/;                                       # Enable 'slurp' mode
       open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc or return "ERROR: file ($jsonDoc) can not open!";
         $json = <$LoadDoc>;
       close $LoadDoc;
     }
 
-    $ProtocolListRead = eval { decode_json($json) };
+    $ProtocolListRead = eval { decode_json($json) };  # check JSON valid
     if ($@) {
       $@ =~ s/\sat\s\.\/FHEM.*//g;
       readingsSingleUpdate($hash, 'state' , "Your file $jsonDoc are not loaded!", 0);  
