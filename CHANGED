@@ -1,5 +1,8 @@
 2022-12-14 - Update SD_Device_ProtocolList.json
 
+comments Bresser 6-in-1 adjusted
+2022-12-14 - Update SD_Device_ProtocolList.json
+
 * entries revised
 * structure for completes https://github.com/RFD-FHEM/SIGNALduino_TOOL/issues/87#issuecomment-1349505598
 2022-12-12 - Update SD_Device_ProtocolList.json
