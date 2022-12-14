@@ -7388,7 +7388,7 @@
             "rmsg" : "MN;D=9104143025BE18FFFFFF2928925A97FFF0000000000000000003;R=189;",
             "tests" : [
               {
-               "comment" : "BRESSER 6-in-1 temp diff not ok without attr",
+               "comment" : "BRESSER 6-in-1 temp diff not ok, without attr",
                "returns" : {
                   "ParseFn" : ""
                },
@@ -7399,7 +7399,7 @@
               },
               {
                "attributes": {"max-deviation-temp":"50"},
-               "comment" : "BRESSER 6-in-1 temp diff ok with attr",
+               "comment" : "BRESSER 6-in-1 temp diff ok, but hum diff not ok, with attr max-deviation-temp",
                "returns" : {
                   "ParseFn" : ""
                },
@@ -7410,14 +7410,14 @@
               },
               {
                "attributes": {"max-deviation-hum":"65"},
-               "comment" : "BRESSER 6-in-1 hum diff ok with attr",
+               "comment" : "BRESSER 6-in-1 hum diff ok, with attr max-deviation-hum",
                "setreadings" : {
                   "humidity" : "32",
                   "temperature":"-7.4"
                }
               },
               {
-               "comment" : "BRESSER 6-in-1 temp diff ok without attr",
+               "comment" : "BRESSER 6-in-1 temp diff ok, hum diff ok, without attr",
                "setreadings" : {
                   "humidity" : "96",
                   "temperature":"-7.6"
