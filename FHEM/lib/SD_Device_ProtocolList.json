@@ -1875,7 +1875,7 @@
       ],
       "id" : "20.1",
       "module" : "SD_UT",
-      "name" : "RCnoName20_10_3E00"
+      "name" : "RCnoName20_10"
    },
    {
       "data" : [
@@ -2136,7 +2136,7 @@
    {
       "data" : [
          {
-            "comment" : "Yellow, on",
+            "comment" : "Yellow, on / https://github.com/RFD-FHEM/RFFHEM/pull/1098",
             "dmsg" : "P31#202272FF7FFFFF0080040028FA",
             "internals" : {
                "DEF" : "04444EFF",
@@ -2153,10 +2153,10 @@
             "revision_entry" : "2022-04-25 16:28:56",
             "revision_modul" : "14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
             "rmsg" : "MU;P0=1194;P1=597;P2=-6269;P3=306;P4=-298;P5=-1216;P6=-559;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636143636363636363636363636361436363636363636363636363614361436363614141414143614360;CP=3;R=28;",
-            "user" : "unknown"
+            "user" : "Devirex"
          },
          {
-            "comment" : "Off",
+            "comment" : "Off / https://github.com/RFD-FHEM/RFFHEM/pull/1098",
             "dmsg" : "P31#202272FF7FFFFF00000400C4F6",
             "internals" : {
                "DEF" : "04444EFF",
@@ -2173,10 +2173,10 @@
             "revision_entry" : "2022-04-25 16:28:56",
             "revision_modul" : "14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
             "rmsg" : "MU;P0=1192;P1=599;P2=-2676;P3=288;P4=-305;P5=-1225;P6=-574;D=123434343434343434343536361436363636363636143636361436361414143636143614141414141414143614141414141414141414141414141414141414141414143636363636363636363636363636363636363636361436363636363636363636141436363614363614141414361414360;CP=3;R=26;",
-            "user" : "unknown"
+            "user" : "Devirex"
          },
          {
-            "comment" : "Blue",
+            "comment" : "Blue / https://github.com/RFD-FHEM/RFFHEM/pull/1098",
             "dmsg" : "P31#202272FF7F0000FF80FF002AAF",
             "internals" : {
                "DEF" : "04444EFF",
@@ -2193,7 +2193,7 @@
             "revision_entry" : "2022-04-25 16:28:56",
             "revision_modul" : "14_LTECH.pm     0 2022-04-25 16:28:56Z Devirex",
             "rmsg" : "MU;P0=580;P1=-314;P2=1181;P3=309;P6=-1228;P7=-595;D=3131313131313131313637370137373737373737013737370137370101013737013701010101010101013701010101010101373737373737373737373737373737370101010101010101013737373737373701010101010101013737373737373737373701370137013701370137010101012;CP=3;R=29;",
-            "user" : "unknown"
+            "user" : "Devirex"
          }
       ],
       "id" : "31",
@@ -2900,7 +2900,7 @@
       ],
       "id" : "44",
       "module" : "SD_WS",
-      "name" : "Bresser Temeo Trend"
+      "name" : "BRESSER Temeo Trend"
    },
    {
       "data" : [
@@ -4253,7 +4253,7 @@
    {
       "data" : [
          {
-            "comment" : "roomthermostat, only receive (ID 63 additionally)",
+            "comment" : "roomthermostat (actuator message), only receive (ID 63 additionally)",
             "dmsg" : "810c04xx0909a00117400000B600",
             "internals" : {
                "DEF" : "1740",
@@ -4266,6 +4266,38 @@
             "revision_entry" : "2021-03-22 13:45:08",
             "revision_modul" : "11_FHT.pm       23183 2020-11-18 21:01:30Z rudolfkoenig",
             "rmsg" : "MU;P0=28736;P1=-402;P2=395;P3=593;P4=-619;P5=-8980;D=01212121212121212121212134212121342134343421213421212121212134212121212121212121342134342134342134212121212121212121212121343421213434252121212121212121212121213421212134213434342121342121212121213421212121212121212134213434213434213421212121212121212121;CP=2;R=21;O;",
+            "user" : "HomeAuto_User"
+         },
+         {
+            "comment" : "roomthermostat (FHZ_ack2 message -> various individual states), only receive (ID 63 additionally)",
+            "dmsg" : "810c04xx0909a001174069007712",
+            "internals" : {
+               "DEF" : "1740",
+               "NAME" : "FHT_1740"
+            },
+            "minProtocolVersion" : "1.27",
+            "readings" : {
+               "FHZ_ack2" : "18"
+            },
+            "revision_entry" : "2022-12-13 22:50:11",
+            "revision_modul" : "11_FHT.pm       23183 2020-11-18 21:01:30Z rudolfkoenig",
+            "rmsg" : "MU;P0=604;P1=-1284;P2=-414;P3=405;P5=-580;D=01023232323232323232323232053232320532050505323205323232323232053205053205323205323205050532050505323232320532320532323205320532053205323;CP=3;R=85;",
+            "user" : "HomeAuto_User"
+         },
+         {
+            "comment" : "roomthermostat (end-xmit message -> various individual states), only receive (ID 63 additionally)",
+            "dmsg" : "810c04xx0909a00117407E006712",
+            "internals" : {
+               "DEF" : "1740",
+               "NAME" : "FHT_1740"
+            },
+            "minProtocolVersion" : "1.27",
+            "readings" : {
+               "end-xmit" : "18"
+            },
+            "revision_entry" : "2022-12-13 22:45:08",
+            "revision_modul" : "11_FHT.pm       23183 2020-11-18 21:01:30Z rudolfkoenig",
+            "rmsg" : "MU;P0=160;P1=-112;P2=2928;P3=-331;P4=458;P5=666;P6=-548;P7=-3888;D=012343434343434343434343435643434356435656564343564343434343435643565656565656434343565643435656565643434356434356434343564356564356434347;CP=4;R=9;",
             "user" : "HomeAuto_User"
          }
       ],
@@ -6910,12 +6942,12 @@
       ],
       "id" : "108",
       "module" : "SD_WS",
-      "name" : "SD_WS_108"
+      "name" : "BRESSER 5in1"
    },
    {
       "data" : [
          {
-            "comment" : "Rojaflex HSR-15, HSTR-15",
+            "comment" : "Button down, https://github.com/RFD-FHEM/RFFHEM/issues/955",
             "dmsg" : "P109#083122FD298A018A8E",
             "internals" : {
                "DEF" : "3122FD2_9",
@@ -6931,7 +6963,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "Rojaflex HSR-15, HSTR-15",
+            "comment" : "Button stop, https://github.com/RFD-FHEM/RFFHEM/issues/955",
             "dmsg" : "P109#083122FD290A010A8E",
             "internals" : {
                "DEF" : "3122FD2_9",
@@ -6947,7 +6979,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "Rojaflex HSR-15, HSTR-15",
+            "comment" : "Button up, https://github.com/RFD-FHEM/RFFHEM/issues/955",
             "dmsg" : "P109#083122FD291A011AAE",
             "internals" : {
                "DEF" : "3122FD2_9",
@@ -6965,7 +6997,7 @@
       ],
       "id" : "109",
       "module" : "SD_Rojaflex",
-      "name" : "SD_Rojaflex_3122FD2_9"
+      "name" : "Rojaflex HSR-15, HSTR-15"
    },
    {
       "data" : [
@@ -7248,6 +7280,40 @@
    {
       "data" : [
          {
+            "comment" : "BRESSER 3-in-1",
+            "dmsg" : "W115#C898BE40041218FF88FF0008017E88FFF04F0000000000000000",
+            "internals" : {
+               "DEF" : "SD_WS_115_0",
+               "NAME" : "SD_WS_115_0"
+            },
+            "minProtocolVersion" : "1.48",
+            "readings" : {
+               "batteryChanged" : "1",
+               "batteryState" : "ok",
+               "channel" : "0",
+               "humidity" : "88",
+               "state" : "T: -1.7 H: 88 W: 0.7",
+               "temperature" : "-1.7",
+               "type" : "Bresser_6in1, new Bresser_5in1",
+               "uv" : "0",
+               "windDirectionDegree" : "0",
+               "windDirectionText" : "N",
+               "windGust" : "0.7",
+               "windSpeed" : "0.7"
+            },
+            "revision_entry" : "2022-11-20 19:58:03",
+            "revision_modul" : "14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
+            "rmsg" : "MN;D=C898BE40041218FF88FF0008017E88FFF04F0000000000000000;R=190;",
+            "user" : "elektron-bbs"
+         }
+      ],
+      "id" : "115",
+      "module" : "SD_WS",
+      "name" : "BRESSER 3-in-1"
+   },
+   {
+      "data" : [
+         {
             "comment" : "BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550",
             "dmsg" : "W115#3BF120B00C1618FF77FF0458152293FFF06B0000",
             "internals" : {
@@ -7296,34 +7362,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 3-in-1",
-            "dmsg" : "W115#C898BE40041218FF88FF0008017E88FFF04F0000000000000000",
-            "internals" : {
-               "DEF" : "SD_WS_115_0",
-               "NAME" : "SD_WS_115_0"
-            },
-            "minProtocolVersion" : "1.48",
-            "readings" : {
-               "batteryChanged" : "1",
-               "batteryState" : "ok",
-               "channel" : "0",
-               "humidity" : "88",
-               "state" : "T: -1.7 H: 88 W: 0.7",
-               "temperature" : "-1.7",
-               "type" : "Bresser_6in1, new Bresser_5in1",
-               "uv" : "0",
-               "windDirectionDegree" : "0",
-               "windDirectionText" : "N",
-               "windGust" : "0.7",
-               "windSpeed" : "0.7"
-            },
-            "revision_entry" : "2022-11-20 19:58:03",
-            "revision_modul" : "14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
-            "rmsg" : "MN;D=C898BE40041218FF88FF0008017E88FFF04F0000000000000000;R=190;",
-            "user" : "elektron-bbs"
-         },
-         {
-            "comment" : "BRESSER 6-in-1 temp diff to high",
+            "comment" : "BRESSER 6-in-1",
             "dmsg" : "W115#9104143025BE18FFFFFF2928925A97FFF0000000000000000003",
             "internals" : {
                "DEF" : "SD_WS_115_0",
@@ -7347,15 +7386,44 @@
             "revision_entry" : "2022-11-20 20:27:05",
             "revision_modul" : "14_SD_WS.pm v3.5.4 2022-11-14 20:37:55Z sidey79",
             "rmsg" : "MN;D=9104143025BE18FFFFFF2928925A97FFF0000000000000000003;R=189;",
-            "tests" : {
+            "tests" : [
+              {
+               "comment" : "BRESSER 6-in-1 temp diff not ok without attr",
                "returns" : {
                   "ParseFn" : ""
                },
                "setreadings" : {
-                  "humidity" : "32",
+                  "humidity" : "92",
                   "temperature" : "-1.5"
                }
-            },
+              },
+              {
+               "attributes": {"max-deviation-temp":"50"},
+               "comment" : "BRESSER 6-in-1 temp diff ok with attr",
+               "returns" : {
+                  "ParseFn" : ""
+               },
+               "setreadings" : {
+                  "humidity" : "92",
+                  "temperature" : "-1.5"
+               }
+              },
+              {
+               "attributes": {"max-deviation-hum":"65"},
+               "comment" : "BRESSER 6-in-1 hum diff ok with attr",
+               "setreadings" : {
+                  "humidity" : "32",
+                  "temperature":"-7.4"
+               }
+              },
+              {
+               "comment" : "BRESSER 6-in-1 temp diff ok without attr",
+               "setreadings" : {
+                  "humidity" : "96",
+                  "temperature":"-7.6"
+               }
+              }
+            ],
             "user" : "elektron-bbs"
          }
       ],
@@ -7389,7 +7457,7 @@
       ],
       "id" : "115",
       "module" : "SD_WS",
-      "name" : "SD_WS_115_21"
+      "name" : "BRESSER 6-in-1"
    },
    {
       "data" : [
@@ -7417,7 +7485,7 @@
       ],
       "id" : "115",
       "module" : "SD_WS",
-      "name" : "SD_WS_115_47"
+      "name" : "Bresser Explore Scientific"
    },
    {
       "data" : [
@@ -7627,7 +7695,7 @@
       ],
       "id" : "118",
       "module" : "SD_UT",
-      "name" : "Meikee_24_20D3"
+      "name" : "Meikee"
    },
    {
       "data" : [
