@@ -792,8 +792,10 @@ sub SIGNALduino_TOOL_Set {
         }
 
         ## preparation part for JSON testData
-        if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {
-          push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
+        if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {  ## check first
+          if (@$ProtocolListRead[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
+            push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
+          }
         }
         ## preparation END
       }
@@ -809,19 +811,27 @@ sub SIGNALduino_TOOL_Set {
 
       ## write & clean part for JSON testData
       Log3 $name, 4, "$name: Set $cmd - write & clean preparation JSON testData file";
-      foreach my $key ( keys %{$hash->{helper}{testData}} ) {
-        opendir(DIR, "./FHEM/lib/t/") or mkdir("./FHEM/lib/t/", 0755);
-        opendir(DIR, "./FHEM/lib/t/FHEM/") or mkdir("./FHEM/lib/t/FHEM/", 0755);
-        opendir(DIR, "./FHEM/lib/t/FHEM/$key/") or mkdir("./FHEM/lib/t/FHEM/$key/", 0755);
-        closedir(DIR);
+      my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # Path | # Path if not define
 
-        open my $PrintFile, '>', "./FHEM/lib/t/FHEM/$key/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
+      foreach my $key ( keys %{$hash->{helper}{testData}} ) {
+        $path.= "t/$key/";
+        if (not -d $path) {
+          my @dir_parts = split('/', $path);                                 # mkdir supports no creating multiple level directory
+          my $part;
+          foreach (@dir_parts){
+            $part.= $_.'/';
+            mkdir($part, 0755);
+          }
+        }
+
+        open my $PrintFile, '>', "$path/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
           my $jst = JSON::PP->new;
           $jst->canonical(1);      # will output key-value pairs in the order Perl stores
           $jst->pretty(1);         # all of the indent, space_before and space_after ...
           my $output = $jst->encode($hash->{helper}{testData}{$key});
           print $PrintFile $output;
         close $PrintFile;
+        $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # RESET --> Path | # Path if not define
       }
       delete $hash->{helper}{testData} if ($hash->{helper}{testData});
       ## write & clean END
@@ -1135,9 +1145,8 @@ sub SIGNALduino_TOOL_Get {
         'search_ignore_Devices:noArg ';
   $list .= 'FilterFile:multiple,DMSG:,Decoded,MC;,MN;,MS;,MU;,RAWMSG:,READ:,READredu:,Read,bitMsg:,'.
         "bitMsg_invert:,hexMsg:,hexMsg_invert:,msg:,UserInfo:,$onlyDataName ".
-        'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg InputFile_doublePulse:noArg ';
+        'InputFile_ClockPulse:noArg InputFile_SyncPulse:noArg ';
   if ($File_input ne '') { $list .= 'InputFile_length_Datapart:noArg InputFile_one_ClockPulse InputFile_one_SyncPulse '; }
-  if ($ProtocolListRead) { $list .= 'Github_device_documentation_for_README:noArg '; }
   if (AttrVal($name,'CC110x_Register_old', undef) && AttrVal($name,'CC110x_Register_new', undef)) { $list .= 'CC110x_Register_comparison:noArg '; }
   if ($IODev) { $list .= 'CC110x_Register_read:noArg '; }
   my ($linecount,$founded,$search) = (0,0,'');
@@ -1530,54 +1539,6 @@ sub SIGNALduino_TOOL_Get {
     }
   }
 
-  ## read information from InputFile and check RAWMSG of one doublePulse ##
-  if ($cmd eq 'InputFile_doublePulse') {
-    Log3 $name, 4, "$name: Get $cmd - check (7)";
-    if ($File_export eq '') { return 'ERROR: Your Attributes File_export is not definded!'; }
-    if ($File_input eq '') { return 'ERROR: Your Attributes File_input is not definded!'; }
-
-    my ($counterror,$MUerror,$MSerror) = (0,0,0);
-
-    open my $InputFile, '<', "$path$File_input" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
-      while (<$InputFile>){
-        if ($_ =~ /READredu:\sM(U|S);|M(U|S);P/s){
-          chomp ($_);                               # Zeilenende entfernen
-          my $checkData = $_;
-
-          if ($_ =~ /.*;D=(\d+?);.*/) { $_ = $1; }  # cut bis D= & ab ;CP=
-
-          my @array_Data = split("",$_);
-          my $pushbefore = '';
-          foreach (@array_Data) {
-            if ($pushbefore eq $_) {
-              $counterror++;
-              push(@Zeilen,"ERROR with same Pulses - $counterror");
-              push(@Zeilen,$checkData);
-              if ($checkData =~ /MU;/s) { $MUerror++; }
-              if ($checkData =~ /MS;/s) { $MSerror++; }
-            }
-            $pushbefore = $_;
-          }
-          $founded++;
-        }
-        $linecount++;
-      }
-    close $InputFile;
-
-    open my $OutFile, '>', "$path$File_export";
-      for (@Zeilen) {
-        print $OutFile $_."\n";
-      }
-    close $OutFile;
-
-    if ($founded == 0) { return 'no doublePulse found!'; }
-
-    my $percenterrorMU = sprintf ("%.2f", ($MUerror*100)/$founded);
-    my $percenterrorMS = sprintf ("%.2f", ($MSerror*100)/$founded);
-
-    return "$cmd are finished.\n\n- read $linecount lines\n- found $founded messages (MS|MU)\n- found MU with ERROR = $MUerror ($percenterrorMU"."%)\n- found MS with ERROR = $MSerror ($percenterrorMS"."%)";
-  }
-
   if ($cmd eq 'InputFile_length_Datapart') {
     Log3 $name, 4, "$name: Get $cmd - check (8)";
     if ($File_input eq '') { return 'ERROR: Your Attributes File_input is not definded!'; }
@@ -1754,71 +1715,6 @@ sub SIGNALduino_TOOL_Get {
     return '';
   }
 
-  ## created Wiki Device Documentaion ##
-  if ($cmd eq 'Github_device_documentation_for_README') {
-    my @testet_devices;
-    my @used_clientmodule;
-    my $file = 'Github_README.txt';
-    my $comment = '';
-
-    for (my $i=0;$i<@{$ProtocolListRead};$i++) {
-      if (defined @{$ProtocolListRead}[$i]->{name} && @{$ProtocolListRead}[$i]->{name} ne '') {
-        my $device = @{$ProtocolListRead}[$i]->{name};
-        my $clientmodule;
-
-        ### for compatibility , getProperty ###
-        if ($modus == 1) {
-          $clientmodule = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-          $comment = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
-          if ( !(lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) ) { $comment = $category{$clientmodule}; }
-
-          if (!$clientmodule) {
-            my $preamble = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
-            if ($preamble =~ "^U.*#") { $clientmodule = 'notify'; }
-            if ($preamble =~ "^u.*#") { $clientmodule = 'development'; }
-          }
-        } else {
-          $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-          $comment = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' );
-          if ( !($hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'comment' )) && $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' ) ) { $comment = $category{$clientmodule}; }
-          
-          if (!$clientmodule) {
-            my $preamble = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'preamble' );
-            if ($preamble =~ "^U.*#") { $clientmodule = 'notify'; }
-            if ($preamble =~ "^u.*#") { $clientmodule = 'development'; }
-          }
-        }
-
-        # no info found
-        if (!$comment) { $comment = 'no additional information'; }
-        $comment =~ s/\|/\//g;
-
-        if (not grep { /$device\s\|/ } @testet_devices) {
-          push (@testet_devices, @{$ProtocolListRead}[$i]->{name} . ' | ' . $clientmodule . " | $comment");
-          if ($clientmodule ne 'notify' && $clientmodule ne 'development') {
-            push (@used_clientmodule, $clientmodule) if (not grep { /$clientmodule$/ } @used_clientmodule);
-          }
-        }
-      }
-    }
-
-    my @testet_devices_sorted = sort { lc($a) cmp lc($b) } @testet_devices;            # sorted array of testet_devices
-    my @used_clientmodule_sorted = sort { lc($a) cmp lc($b) } @used_clientmodule;      # sorted array of used_clientmodule
-
-    open my $Github_file, '>', "$path$file";
-      print $Github_file "Devices tested\n";
-      print $Github_file "======\n";
-      print $Github_file "| Name of device or manufacturer | FHEM - clientmodule | Typ of device |\n";
-      print $Github_file "| ------------- | ------------- | ------------- |\n";
-
-      foreach (@testet_devices_sorted) {
-        print $Github_file '| '.$_." |\n";
-      }
-    close $Github_file;
-
-    return "File writing is ready in $path folder.\n\nInformation about the following modules are available:\n@used_clientmodule_sorted";
-  }
-  
   ## search all disable devices on system ##
   if ($cmd eq 'search_disable_Devices') {
     my $return = '';
@@ -4603,11 +4499,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
   &emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
   <ul><li><a name="FilterFile"></a><code>FilterFile</code> - creates a file with the filtered values <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
-  <ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - creates a txt file which can be integrated in Github for documentation.<br>
-  &emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
   <ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - calculates the average of the ClockPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - calculates the average of the SyncPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - searches for duplicate pulses in the data part of the individual messages in the input_file and filters them into the export_file. It may take a while depending on the size of the file. <font color="red">*1 *2</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
@@ -4761,11 +4654,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp;&rarr; eine Vorauswahl von Suchbegriffen via Checkbox ist m&ouml;glich<br>
   &emsp;&rarr; die Checkbox Auswahl <i>-ONLY_DATA-</i> filtert nur die Suchdaten einzel aus jeder Zeile anstatt die komplette Zeile mit den gesuchten Daten<br>
   &emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li><a name=""></a></ul>
-  <ul><li><a name="Github_device_documentation_for_README"></a><code>Github_device_documentation_for_README</code> - erstellt eine txt-Datei welche in Github zur Dokumentation eingearbeitet werden kann.<br>
-  &emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
   <ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_doublePulse"></a><code>InputFile_doublePulse</code> - sucht nach doppelten Pulsen im Datenteil der einzelnen Nachrichten innerhalb der Input_Datei und filtert diese in die Export_Datei. Je nach Größe der Datei kann es eine Weile dauern. <font color="red">*1 *2</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
   <ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
