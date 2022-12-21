@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-21 20:10:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-21 20:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -125,7 +125,7 @@ sub SIGNALduino_TOOL_Initialize {
                                .' CC110x_Register_old:textField-long CC110x_Register_new:textField-long'
                                .' File_export File_input File_input_StartString:MC;,MN;,MS;,MU;'
                                .' IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
-                               .' JSON_Check_exceptions JSON_write_ERRORs:no,yes'
+                               .' JSON_Check_exceptions JSON_write_ERRORs:no,yes JSON_write_at_any_time:no,yes'
                                .' RAWMSG_M1 RAWMSG_M2 RAWMSG_M3';
 #  return FHEM::Meta::InitMod( __FILE__, $hash ); # meta module brings warnings with name SIGNALduino_TOOL, development people does not react
 }
@@ -412,7 +412,7 @@ sub SIGNALduino_TOOL_Set {
     }
 
     ### for SD_Device_ProtocolList | new empty and save file
-    if ($ProtocolListRead && InternalVal($name, 'STATE', undef) =~ /^RAWMSG dispatched/) { $setList .= ' ProtocolList_save_to_file:noArg'; }
+    if ($ProtocolListRead && ( AttrVal($name,'JSON_write_at_any_time','no') eq 'yes' || InternalVal($name, 'STATE', undef) =~ /^RAWMSG dispatched/) ) { $setList .= ' ProtocolList_save_to_file:noArg'; }
   }
 
 
@@ -759,9 +759,11 @@ sub SIGNALduino_TOOL_Set {
         close $Backup;
       }
 
-      Log3 $name, 4, "$name: Set $cmd - preparation JSON testData file";
-      foreach my $element (@ownModules) {
-        $hash->{helper}{testData}{$element};
+      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'no') {
+        Log3 $name, 4, "$name: Set $cmd - preparation JSON testData file";
+        foreach my $element (@ownModules) {
+          $hash->{helper}{testData}{$element};
+        }
       }
 
       ## write new data ##
@@ -791,13 +793,15 @@ sub SIGNALduino_TOOL_Set {
           }
         }
 
-        ## preparation part for JSON testData
-        if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {  ## check first
-          if (@$ProtocolListRead[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
-            push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
+        if (AttrVal($name,'JSON_write_at_any_time','no') eq 'no') {
+          ## preparation part for JSON testData
+          if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {  ## check first
+            if (@$ProtocolListRead[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
+              push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
+            }
           }
+          ## preparation END
         }
-        ## preparation END
       }
 
       my $js = JSON::PP->new;
@@ -809,32 +813,34 @@ sub SIGNALduino_TOOL_Set {
         print $PrintDoc $output;
       close $PrintDoc;
 
-      ## write & clean part for JSON testData
-      Log3 $name, 4, "$name: Set $cmd - write & clean preparation JSON testData file";
-      my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # Path | # Path if not define
+      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'no') {
+        ## write & clean part for JSON testData
+        Log3 $name, 4, "$name: Set $cmd - write & clean preparation JSON testData file";
+        my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # Path | # Path if not define
 
-      foreach my $key ( keys %{$hash->{helper}{testData}} ) {
-        $path.= "t/$key/";
-        if (not -d $path) {
-          my @dir_parts = split('/', $path);                                 # mkdir supports no creating multiple level directory
-          my $part;
-          foreach (@dir_parts){
-            $part.= $_.'/';
-            mkdir($part, 0755);
+        foreach my $key ( keys %{$hash->{helper}{testData}} ) {
+          $path.= "t/$key/";
+          if (not -d $path) {
+            my @dir_parts = split('/', $path);                                 # mkdir supports no creating multiple level directory
+            my $part;
+            foreach (@dir_parts){
+              $part.= $_.'/';
+              mkdir($part, 0755);
+            }
           }
-        }
 
-        open my $PrintFile, '>', "$path/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
-          my $jst = JSON::PP->new;
-          $jst->canonical(1);      # will output key-value pairs in the order Perl stores
-          $jst->pretty(1);         # all of the indent, space_before and space_after ...
-          my $output = $jst->encode($hash->{helper}{testData}{$key});
-          print $PrintFile $output;
-        close $PrintFile;
-        $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # RESET --> Path | # Path if not define
+          open my $PrintFile, '>', "$path/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
+            my $jst = JSON::PP->new;
+            $jst->canonical(1);      # will output key-value pairs in the order Perl stores
+            $jst->pretty(1);         # all of the indent, space_before and space_after ...
+            my $output = $jst->encode($hash->{helper}{testData}{$key});
+            print $PrintFile $output;
+          close $PrintFile;
+          $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # RESET --> Path | # Path if not define
+        }
+        delete $hash->{helper}{testData} if ($hash->{helper}{testData});
+        ## write & clean END
       }
-      delete $hash->{helper}{testData} if ($hash->{helper}{testData});
-      ## write & clean END
 
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
       return 'your file SD_ProtocolList.json are saved';
@@ -4571,6 +4577,10 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       Numbre of repeats to send. (Depending on the message type, the number of repeats can vary to correctly detect the signal!)</li>
     <li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
       A list of words that are automatically passed by using <code>Check it</code>. This is for self-made READINGS to not import into the JSON list.</li>
+    <li><a name="JSON_write_ERRORs">JSON_write_ERRORs</a><br>
+      Writes all dispatch errors to the SD_Device_ProtocolListERRORs.txt file in the ./FHEM/lib/ directory.</li>
+    <li><a name="JSON_write_at_any_time">JSON_write_at_any_time</a><br>
+      Enables the "ProtocolList_save_to_file" command without checking the loaded file for changes. (Example for use: JSON schema adaptation) </li>
     <li><a name="Path">Path</a><br>
       Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined File_export - file<br>
       &emsp; <u>note:</u> default is ./FHEM/SD_TOOL/ if the attribute not set.</li>
@@ -4726,6 +4736,10 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       Anzahl der Sendewiederholungen. (Je nach Nachrichtentyp, kann die Anzahl der Repeats variieren zur richtigen Erkennung des Signales!)</li>
     <li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
       Eine Liste mit W&ouml;rtern, welche beim pr&uuml;fen mit <code>Check it</code> automatisch &uuml;bergangen werden. Das ist f&uuml;r selbst erstellte READINGS gedacht um diese nicht in die JSON Liste zu importieren.</li>
+    <li><a name="JSON_write_ERRORs">JSON_write_ERRORs</a><br>
+      Schreibt alle Fehler beim dispatch in die Datei SD_Device_ProtocolListERRORs.txt im Verzeichnis ./FHEM/lib/ .</li>
+    <li><a name="JSON_write_at_any_time">JSON_write_at_any_time</a><br>
+      Schaltet den Befehl "ProtocolList_save_to_file" frei ohne eine Prüfung der geladenen Datei auf Änderung. (Bsp. für Nutzung: JSON Schema Anpassung) </li>
     <li><a name="Path">Path</a><br>
       Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte File_export - Datei<br>
       &emsp; <u>Hinweis:</u> Standard ist ./FHEM/SD_TOOL/ wenn das Attribut nicht gesetzt wurde.</li>
