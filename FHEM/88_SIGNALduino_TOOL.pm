@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-12 20:10:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-21 20:10:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -52,7 +52,6 @@ my $SIGNALduino_TOOL_NAME;                               # to better work with T
 #sub SIGNALduino_Get_Callback($$$);
 
 ################################
-
 use constant {
   CCREG_OFFSET                    =>  2,
   FHEM_SVN_gplot_URL              =>  'https://svn.fhem.de/fhem/trunk/fhem/www/gplot/',
@@ -69,8 +68,11 @@ my @ccregnames = (
   '24 FSCAL2  ','25 FSCAL1  ','26 FSCAL0  ','27 RCCTRL1 ','28 RCCTRL0 ','29 FSTEST  ',
   '2A PTEST   ','2B AGCTEST ','2C TEST2   ','2D TEST1   ','2E TEST0   ' );
 
-################################
+my @ownModules = (
+  '10_FS10', '10_SD_GT', '10_SD_Rojaflex', '14_BresserTemeo', '14_FLAMINGO', '14_Hideki', '14_SD_AS',
+  '14_SD_BELL', '14_SD_UT', '14_SD_WS', '14_SD_WS07', '14_SD_WS09', '14_SD_WS_Maverick', '41_OREGON' );
 
+################################
 my %category = (
   # keys(model) => values
   'CUL_EM'         => 'Energy monitoring',
@@ -757,9 +759,14 @@ sub SIGNALduino_TOOL_Set {
         close $Backup;
       }
 
+      Log3 $name, 4, "$name: Set $cmd - preparation JSON testData file";
+      foreach my $element (@ownModules) {
+        $hash->{helper}{testData}{$element};
+      }
+
       ## write new data ##
       Log3 $name, 4, "$name: Set $cmd - write new JSON data";
-
+      ## loop for JSON - SIGNALduino_TOOL
       for (my $i=0;$i<@{$ProtocolListRead};$i++) {
         my $clientmodule = "";
         if (not exists @{$ProtocolListRead}[$i]->{module}) {                              ## in JSON data, entry module failed
@@ -783,6 +790,12 @@ sub SIGNALduino_TOOL_Set {
             if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul} = 'unknown'; }
           }
         }
+
+        ## preparation part for JSON testData
+        if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {
+          push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
+        }
+        ## preparation END
       }
 
       my $js = JSON::PP->new;
@@ -793,6 +806,25 @@ sub SIGNALduino_TOOL_Set {
       open my $PrintDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
         print $PrintDoc $output;
       close $PrintDoc;
+
+      ## write & clean part for JSON testData
+      Log3 $name, 4, "$name: Set $cmd - write & clean preparation JSON testData file";
+      foreach my $key ( keys %{$hash->{helper}{testData}} ) {
+        opendir(DIR, "./FHEM/lib/t/") or mkdir("./FHEM/lib/t/", 0755);
+        opendir(DIR, "./FHEM/lib/t/FHEM/") or mkdir("./FHEM/lib/t/FHEM/", 0755);
+        opendir(DIR, "./FHEM/lib/t/FHEM/$key/") or mkdir("./FHEM/lib/t/FHEM/$key/", 0755);
+        closedir(DIR);
+
+        open my $PrintFile, '>', "./FHEM/lib/t/FHEM/$key/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
+          my $jst = JSON::PP->new;
+          $jst->canonical(1);      # will output key-value pairs in the order Perl stores
+          $jst->pretty(1);         # all of the indent, space_before and space_after ...
+          my $output = $jst->encode($hash->{helper}{testData}{$key});
+          print $PrintFile $output;
+        close $PrintFile;
+      }
+      delete $hash->{helper}{testData} if ($hash->{helper}{testData});
+      ## write & clean END
 
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
       return 'your file SD_ProtocolList.json are saved';
