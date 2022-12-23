@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-21 20:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-23 20:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -71,41 +71,6 @@ my @ccregnames = (
 my @ownModules = (
   '10_FS10', '10_SD_GT', '10_SD_Rojaflex', '14_BresserTemeo', '14_FLAMINGO', '14_Hideki', '14_SD_AS',
   '14_SD_BELL', '14_SD_UT', '14_SD_WS', '14_SD_WS07', '14_SD_WS09', '14_SD_WS_Maverick', '41_OREGON' );
-
-################################
-my %category = (
-  # keys(model) => values
-  'CUL_EM'         => 'Energy monitoring',
-  'CUL_FHTTK'      => 'Door / window contact',
-  'CUL_TCM97001'   => 'Weather sensors',
-  'CUL_TX'         => 'Weather sensors',
-  'CUL_WS'         => 'Weather sensors',
-  'Dooya'          => 'Shutters / awnings motors',
-  'FHT'            => 'Heating control',
-  'FLAMINGO'       => 'Smoke detector',
-  'FS10'           => 'Remote controls',
-  'FS20'           => 'Remote controls / wall buttons',
-  'Hideki'         => 'Weather sensors',
-  'IT'             => 'Remote controls',
-  'KOPP_FC'        => 'Remote controls',
-  'LaCrosse'       => 'Weather sensors',
-  'OREGON'         => 'Weather sensors',
-  'PCA301'         => 'Switch socket for energy cost monitor',
-  'RFXX10REC'      => 'RFXCOM-Receiver',
-  'SD_AS'          => 'Self build arduino sensors',
-  'SD_BELL'        => 'Door Bells',
-  'SD_GT'          => 'Remote control based on protocol GT-9000 with encoding',
-  'SD_Keeloq'      => 'Remote controls with KeeLoq encoding',
-  'SD_RSL'         => 'Remote controls and switchs',
-  'SD_Rojaflex'    => 'Remote controls',
-  'SD_UT'          => 'diverse',
-  'SD_WS'          => 'Weather sensors',
-  'SD_WS07'        => 'Weather sensors',
-  'SD_WS09'        => 'Weather sensors',
-  'SD_WS_Maverick' => 'Food thermometer',
-  'SOMFY'          => 'Shutters / awnings motors / doors',
-  'Siro'           => 'Shutters'
-);
 
 ################################
 sub SIGNALduino_TOOL_Initialize {
