@@ -724,7 +724,7 @@ sub SIGNALduino_TOOL_Set {
         close $Backup;
       }
 
-      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'no') {
+      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'yes') {
         Log3 $name, 4, "$name: Set $cmd - preparation JSON testData file";
         foreach my $element (@ownModules) {
           $hash->{helper}{testData}{$element};
@@ -758,7 +758,7 @@ sub SIGNALduino_TOOL_Set {
           }
         }
 
-        if (AttrVal($name,'JSON_write_at_any_time','no') eq 'no') {
+        if (AttrVal($name,'JSON_write_at_any_time','no') eq 'yes') {
           ## preparation part for JSON testData
           if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {  ## check first
             if (@$ProtocolListRead[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
@@ -778,7 +778,7 @@ sub SIGNALduino_TOOL_Set {
         print $PrintDoc $output;
       close $PrintDoc;
 
-      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'no') {
+      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'yes') {
         ## write & clean part for JSON testData
         Log3 $name, 4, "$name: Set $cmd - write & clean preparation JSON testData file";
         my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # Path | # Path if not define
