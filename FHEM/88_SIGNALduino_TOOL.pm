@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 0 2022-12-23 20:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 99 2023-01-12 20:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -4805,7 +4805,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
     }
   },
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "x_fhem_maintainer": [
     "HomeAuto_User",
     "elektron-bbs"
