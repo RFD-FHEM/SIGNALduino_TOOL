@@ -7808,7 +7808,7 @@
             "user" : "Ronny2510"
          },
          {
-            "comment" : "Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer)",
+            "comment" : "Weather station with 30.3151 (T/H-transmitter), 30.3152 (rain gauge), 30.3153 (anemometer) | DCF time message",
             "dmsg" : "W120#FEDFD52C040444920614",
             "internals" : {
                "DEF" : "SD_WS_120",
