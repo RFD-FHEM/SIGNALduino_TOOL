@@ -1,3 +1,6 @@
+2023-01-13 - Update SD_Device_ProtocolList.json
+
+add protocol 123, Inkbird IBS-P01R Pool Thermometer, Inkbird ITH-20R
 2023-01-12 - added attr JSON_write_at_any_time
 2022-12-23 - Update 88_SIGNALduino_TOOL.pm
 - remove old inputs and commands (are no longer required)
