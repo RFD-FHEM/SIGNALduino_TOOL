@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 99 2023-01-12 20:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 111 2023-01-16 20:58:00Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -722,13 +722,6 @@ sub SIGNALduino_TOOL_Set {
         open my $Backup, '>', "./FHEM/lib/".substr($jsonDoc,0,-5).'Backup.json' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."Backup.json) can not open!\n\n$!";
           print $Backup $SaveDocData;
         close $Backup;
-      }
-
-      if (AttrVal($name,'JSON_write_at_any_time','no') eq 'yes') {
-        Log3 $name, 4, "$name: Set $cmd - preparation JSON testData file";
-        foreach my $element (@ownModules) {
-          $hash->{helper}{testData}{$element};
-        }
       }
 
       ## write new data ##
@@ -4805,7 +4798,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
     }
   },
-  "version": "v1.1.0",
+  "version": "v1.1.1",
   "x_fhem_maintainer": [
     "HomeAuto_User",
     "elektron-bbs"
