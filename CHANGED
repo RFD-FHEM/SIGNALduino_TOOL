@@ -1,3 +1,6 @@
+2023-01-16 - Update 88_SIGNALduino_TOOL.pm
+
+fix warning
 2023-01-13 - Update SD_Device_ProtocolList.json
 
 add protocol 123, Inkbird IBS-P01R Pool Thermometer, Inkbird ITH-20R
