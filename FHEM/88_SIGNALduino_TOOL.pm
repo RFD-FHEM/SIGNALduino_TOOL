@@ -756,6 +756,11 @@ sub SIGNALduino_TOOL_Set {
           if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {  ## check first
             if (@$ProtocolListRead[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
               push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
+
+              my $ref_data = @{$ProtocolListRead}[$i]->{data};
+              for (my $i2=0;$i2<@$ref_data;$i2++) {
+                @{$ProtocolListRead}[$i]->{data}[$i2]->{tests} = [ {"comment" => "#$i2"} ];
+              }
             }
           }
           ## preparation END
