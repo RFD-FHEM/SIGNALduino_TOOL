@@ -1266,7 +1266,7 @@
    {
       "data" : [
          {
-            "comment" : "Thermo-hygro sensor for base station 35.1101.02",
+            "comment" : "Thermo-Hygro sensor for base station 35.1101.02",
             "dmsg" : "P12#75EABA4A17BE07A91D5801",
             "internals" : {
                "DEF" : "Hideki_30_1",
@@ -7936,7 +7936,7 @@
    {
       "data" : [
          {
-            "comment" : "Inkbird IBS-P01R Pool Thermometer, Inkbird ITH-20R",
+            "comment" : "Inkbird IBS-P01R Pool Thermometer",
             "dmsg" : "W123#D3910F800301005A0655FA001405140535F6",
             "internals" : {
                "DEF" : "SD_WS_123_T",
@@ -7964,7 +7964,7 @@
    {
       "data" : [
          {
-            "comment" : "Inkbird IBS-P01R Pool Thermometer, Inkbird ITH-20R",
+            "comment" : "Inkbird ITH-20R Thermo-/hygro sensor",
             "dmsg" : "W123#D3910F00010301207E43FE0014055802772A",
             "internals" : {
                "DEF" : "SD_WS_123_T",
