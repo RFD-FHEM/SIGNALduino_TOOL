@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 111 2023-01-16 20:58:00Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 123 2023-01-26 21:12:21Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -38,6 +38,8 @@ my $ProtocolListInfo;                 # for Info from many parameters from SD_Pr
 
 my @ProtocolList;                     # ProtocolList hash from file write SD_ProtocolData information
 my $ProtocolListRead;                 # ProtocolList from readed SD_Device_ProtocolList file | (name id module dmsg user state repeat model comment rmsg)
+my $ProtocolListTestData;             #
+my $TestData_prepared;                # ProtocolList prepared for testData.json´s
 
 my $DispatchOption;
 my $DispatchMemory;
@@ -724,8 +726,6 @@ sub SIGNALduino_TOOL_Set {
         close $Backup;
       }
 
-      ## write new data ##
-      Log3 $name, 4, "$name: Set $cmd - write new JSON data";
       ## loop for JSON - SIGNALduino_TOOL
       for (my $i=0;$i<@{$ProtocolListRead};$i++) {
         my $clientmodule = "";
@@ -750,21 +750,6 @@ sub SIGNALduino_TOOL_Set {
             if (@{$ProtocolListRead}[$i]->{data}[$i2]->{dmsg} !~ /^[uU]\d+#/) { @{$ProtocolListRead}[$i]->{data}[$i2]->{revision_modul} = 'unknown'; }
           }
         }
-
-        if (AttrVal($name,'JSON_write_at_any_time','no') eq 'yes') {
-          ## preparation part for JSON testData
-          if ( my ($matched) =  grep( /@$ProtocolListRead[$i]->{module}$/, @ownModules ) ) {  ## check first
-            if (@$ProtocolListRead[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
-              push (@{$hash->{helper}{testData}{$matched}}, @{$ProtocolListRead}[$i]);
-
-              my $ref_data = @{$ProtocolListRead}[$i]->{data};
-              for (my $i2=0;$i2<@$ref_data;$i2++) {
-                @{$ProtocolListRead}[$i]->{data}[$i2]->{tests} = [ {"comment" => "#$i2"} ];
-              }
-            }
-          }
-          ## preparation END
-        }
       }
 
       my $js = JSON::PP->new;
@@ -772,16 +757,60 @@ sub SIGNALduino_TOOL_Set {
       $js->pretty(1);         # all of the indent, space_before and space_after ...
       my $output = $js->encode($ProtocolListRead);
 
+      Log3 $name, 4, "$name: Set $cmd - write new JSON data";
       open my $PrintDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
         print $PrintDoc $output;
       close $PrintDoc;
 
       if (AttrVal($name,'JSON_write_at_any_time','no') eq 'yes') {
-        ## write & clean part for JSON testData
-        Log3 $name, 4, "$name: Set $cmd - write & clean preparation JSON testData file";
+        my $TestData;                                         # check JSON file can load
+        {
+          local $/;                                       # Enable 'slurp' mode
+          open my $LoadDoc, '<', "./FHEM/lib/".$jsonDoc or return "ERROR: file ($jsonDoc) can not open!";
+            $TestData = <$LoadDoc>;
+          close $LoadDoc;
+        }
+
+        $ProtocolListTestData = eval { decode_json($TestData) };  # check JSON valid
+        if ($@) {
+          $@ =~ s/\sat\s\.\/FHEM.*//g;
+          readingsSingleUpdate($hash, 'state' , "Your file $TestData are not loaded!", 0);  
+          return "ERROR: decode_json failed, invalid json!<br><br>$@\n";  # error if JSON not valid or syntax wrong
+        }
+
+        Log3 $name, 4, "$name: Set $cmd - JSON data readed for TestData preparation";
+        ## preparation loop for JSON testData
+        for (my $i=0;$i<@{$ProtocolListTestData};$i++) {
+          if ( my ($matched) =  grep( /@$ProtocolListTestData[$i]->{module}$/, @ownModules ) ) {  ## check first
+            if (@$ProtocolListTestData[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
+              push (@{$TestData_prepared->{$matched}}, @{$ProtocolListTestData}[$i]);
+              my $cnt_match = scalar(@{$TestData_prepared->{$matched}});
+              Log3 $name, 5, "$name: Set $cmd - push to testData $matched ($cnt_match) | ".$TestData_prepared->{$matched}[$cnt_match - 1]{name};
+
+              for (my $i2=0; $i2 < scalar(@{$TestData_prepared->{$matched}[$cnt_match - 1]{data}}); $i2++) {
+                if ( $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes} ) {
+                  Log3 $name, 5, "$name: Set $cmd - datapart $i2 with attributes";
+                  $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} = [ {"attributes" => $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes}, "comment" => "#$i2"} ];
+                  delete $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes};
+                } else {
+                  Log3 $name, 5, "$name: Set $cmd - datapart $i2 without attributes";
+                  $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} = [ {"comment" => "#$i2"} ];
+                }
+                foreach my $value (qw(minProtocolVersion revision_entry revision_modul user)) {
+                  if ($TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{$value}) { delete $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{$value}; }
+                }
+              }
+            }
+          }
+        }
+        ## preparation END
+
+        ## write JSON testData
+        Log3 $name, 4, "$name: Set $cmd - write JSON testData file´s";
         my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # Path | # Path if not define
 
-        foreach my $key ( keys %{$hash->{helper}{testData}} ) {
+        foreach my $key ( keys %{$TestData_prepared} ) {
+          Log3 $name, 4, "$name: Set $cmd - write testData for $key";
           $path.= "t/$key/";
           if (not -d $path) {
             my @dir_parts = split('/', $path);                                 # mkdir supports no creating multiple level directory
@@ -796,15 +825,12 @@ sub SIGNALduino_TOOL_Set {
             my $jst = JSON::PP->new;
             $jst->canonical(1);      # will output key-value pairs in the order Perl stores
             $jst->pretty(1);         # all of the indent, space_before and space_after ...
-            my $output = $jst->encode($hash->{helper}{testData}{$key});
+            my $output = $jst->encode($TestData_prepared->{$key});
             print $PrintFile $output;
           close $PrintFile;
           $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # RESET --> Path | # Path if not define
         }
-        delete $hash->{helper}{testData} if ($hash->{helper}{testData});
-        ## write & clean END
       }
-
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
       return 'your file SD_ProtocolList.json are saved';
     }
@@ -4803,7 +4829,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
     }
   },
-  "version": "v1.1.1",
+  "version": "v1.2.3",
   "x_fhem_maintainer": [
     "HomeAuto_User",
     "elektron-bbs"
