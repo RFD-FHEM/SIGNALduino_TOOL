@@ -3032,6 +3032,27 @@
       "data" : [
          {
             "attributes" : {
+               "model" : "Tedsen_SKX1xx"
+            },
+            "comment" : "Tedsen remote with one button, model SKX1MD",
+            "dmsg" : "P46#BAFB0",
+            "internals" : {
+               "DEF" : "Tedsen_SKX1xx F1FF11F",
+               "NAME" : "Tedsen_SKX1xx_F1FF11F"
+            },
+            "minProtocolVersion" : "1.50",
+            "readings" : {
+               "LastAction" : "receive",
+               "state" : "Button_1",
+               "tristateCode" : "F1FF11F10"
+            },
+            "revision_entry" : "2023-01-30 14:41:54",
+            "revision_modul" : "14_SD_UT.pm     0 2023-01-04 17:35:33Z elektron-bbs",
+            "rmsg" : "MU;P0=-15829;P1=-3580;P2=1962;P3=-330;P4=245;P5=-2051;D=1234523232345234523232323234523234540023452323234523452323232323452323454023452323234523452323232323452323454023452323234523452323232323452323454023452323234523452323232323452323454023452323234523452323;CP=2;",
+            "user" : "anphiga"
+         },
+         {
+            "attributes" : {
                "model" : "Tedsen_SKX2xx"
             },
             "comment" : "Geiger Rolladen",
