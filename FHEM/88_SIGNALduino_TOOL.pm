@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 123 2023-01-26 21:12:21Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 123 2023-01-30 11:12:11Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -785,17 +785,23 @@ sub SIGNALduino_TOOL_Set {
             if (@$ProtocolListTestData[$i]->{module} eq substr($matched, 3)) {                    ## check for second plausibility
               push (@{$TestData_prepared->{$matched}}, @{$ProtocolListTestData}[$i]);
               my $cnt_match = scalar(@{$TestData_prepared->{$matched}});
-              Log3 $name, 5, "$name: Set $cmd - push to testData $matched ($cnt_match) | ".$TestData_prepared->{$matched}[$cnt_match - 1]{name};
+              Log3 $name, 5, "$name: Set $cmd - push $matched ($cnt_match) | ".$TestData_prepared->{$matched}[$cnt_match - 1]{name};
 
               for (my $i2=0; $i2 < scalar(@{$TestData_prepared->{$matched}[$cnt_match - 1]{data}}); $i2++) {
-                if ( $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes} ) {
-                  Log3 $name, 5, "$name: Set $cmd - datapart $i2 with attributes";
-                  $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} = [ {"attributes" => $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes}, "comment" => "#$i2"} ];
-                  delete $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes};
-                } else {
-                  Log3 $name, 5, "$name: Set $cmd - datapart $i2 without attributes";
-                  $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} = [ {"comment" => "#$i2"} ];
+                if ( !$TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} ) {
+                  if ( $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes} ) {
+                    Log3 $name, 5, "$name: Set $cmd - ".$TestData_prepared->{$matched}[$cnt_match - 1]{name}." datapart $i2 with attributes";
+                    $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} = [ {"attributes" => $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes}, "comment" => "#$i2"} ];
+                    delete $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{attributes};
+                  } else {
+                    if($TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{comment}) {
+                      Log3 $name, 5, "$name: Set $cmd - ".$TestData_prepared->{$matched}[$cnt_match - 1]{name}." with comment: ".$TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{comment};
+                    }
+                    Log3 $name, 5, "$name: Set $cmd - ".$TestData_prepared->{$matched}[$cnt_match - 1]{name}." datapart $i2 without attributes";
+                    $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{tests} = [ {"comment" => "#$i2"} ];
+                  }
                 }
+
                 foreach my $value (qw(minProtocolVersion revision_entry revision_modul user)) {
                   if ($TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{$value}) { delete $TestData_prepared->{$matched}[$cnt_match - 1]{data}[$i2]{$value}; }
                 }
