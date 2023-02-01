@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 123 2023-01-30 11:12:11Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 125 2023-02-01 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -2199,7 +2199,6 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       if ($comment_behind ne '') { $comment = $comment_behind; }
 
       if (defined $2) {
-        #Log3 $name, 4, "$name: \$2 $_";
         my $RAWMSG = $2;
         $RAWMSG =~ s/\s//g;
         $ProtocolList[$cnt_ids_total]{data}[$cnt_RAWmsg]{rmsg} = $RAWMSG;                        ## RAWMSG -> array
@@ -2221,7 +2220,6 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   }
   close $InputFile;
 
-  #Log3 $name, 3, Dumper\@ProtocolList; ### for test
   Log3 $name, 4, "$name: Get $cmd - file $attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm completely read";
 
   #### JSON write to file | not file for changed ####
@@ -2246,7 +2244,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
     if (defined $ProtocolList[$i]{clientmodule}) {
       my $search = $ProtocolList[$i]{clientmodule};
       if (not grep { /$search$/ } @List_from_pm) {
-        push (@List_from_pm, $ProtocolList[$i]{clientmodule});      
+        push (@List_from_pm, $ProtocolList[$i]{clientmodule});
         Log3 $name, 5, "$name: Get $cmd - added $search to DispatchModule List";
       }
     }
@@ -2258,7 +2256,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   ## write parameters in ProtocolListInfo ##
   $cnt_without_knownFreqs = $cnt_ids_total-$cnt_knownFreqs;
   $ProtocolListInfo = <<"END_MSG";
-ids total: $cnt_ids_total<br>- without clientmodule: $cnt_no_clientmodule<br>- without comment: $cnt_no_comment<br>- development: $cnt_develop<br><br>- without known frequency documentation: $cnt_without_knownFreqs<br>- with known frequency documentation: $cnt_knownFreqs<br>- with additional frequency value: $cnt_frequency<br>- on frequency 433Mhz: $cnt_Freqs433<br>- on frequency 868Mhz: $cnt_Freqs868<br><br>development moduls: $cnt_develop_modul<br><br>available messages: $cnt_RAWmsg_all
+ids total: $cnt_ids_total<br>- without clientmodule: $cnt_no_clientmodule<br>- without comment: $cnt_no_comment<br>- development: $cnt_develop<br><br>- without known frequency documentation: $cnt_without_knownFreqs<br>- with known frequency documentation: $cnt_knownFreqs<br>- with additional frequency value: $cnt_frequency<br>- on frequency 433Mhz: $cnt_Freqs433<br>- on frequency 868Mhz: $cnt_Freqs868<br><br>development moduls: $cnt_develop_modul<br><br>available RAWMSG´s: $cnt_RAWmsg_all
 END_MSG
   ## END ##
 
@@ -4446,7 +4444,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
 =begin html
 
-<a name="SIGNALduino_TOOL"></a>
+<a id="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
   The module is for the support of developers of the <a href="https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34" target="_blank">SIGNALduino project</a>.<br>
@@ -4462,62 +4460,63 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   To use the full range of functions of the tool, you need a defined SIGNALduino dummy. With this device, the attribute eventlogging is set active.<br>
   <i>All commands marked with <code><font color="red">*</font color></code> depend on attributes. The attributes have been given the same label.</i><br><br>
 
+  <a id="SIGNALduino_TOOL-define"></a>
   <b>Define</b><br>
   <ul><code>define &lt;NAME&gt; SIGNALduino_TOOL</code><br><br>
   example: define sduino_TOOL SIGNALduino_TOOL
   </ul><br><br>
 
-  <a name="SIGNALduino_TOOL_Set"></a>
+  <a id="SIGNALduino_TOOL-set"></a>
   <b>Set</b>
-  <ul><li><a name="CC110x_Freq_Scan"></a><code>CC110x_Freq_Scan</code> - starts the frequency scan on the IODev <font color="red">*7</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Freq_Scan_STOP"></a><code>CC110x_Freq_Scan_STOP</code> - stops the frequency scan on the IODev <font color="red">*7</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute on IODev<font color="red">*5</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute on IODev<font color="red">*5</font color></li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - a finished DMSG from modul to dispatch (without SIGNALduino processing!)<br>
-  &emsp;&rarr; example: W51#087A4DB973</li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
-  &emsp;&rarr; example: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute File_input_StartString)<br>
-  &emsp; <u>note:</u> only after setting the File_input attribute does this option appear <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - dispatch the last RAW message</li><a name=""></a></ul>
-  <ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li><a name=""></a></ul>
-  <ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
-  &emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li><a name=""></a></ul>
-  <ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Freq_Scan"></a><li><code>CC110x_Freq_Scan</code> - starts the frequency scan on the IODev <font color="red">*7</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Freq_Scan_STOP"></a><li><code>CC110x_Freq_Scan_STOP</code> - stops the frequency scan on the IODev <font color="red">*7</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Register_new"></a><li><code>CC110x_Register_new</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_new attribute on IODev<font color="red">*5</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Register_old"></a><li><code>CC110x_Register_old</code> - sets the CC110x_Register with the values ​​from the CC110x_Register_old attribute on IODev<font color="red">*5</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_DMSG"></a><li><code>Dispatch_DMSG</code> - a finished DMSG from modul to dispatch (without SIGNALduino processing!)<br>
+  &emsp;&rarr; example: W51#087A4DB973</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_RAWMSG"></a><li><code>Dispatch_RAWMSG</code> - one RAW message to dispatch<br>
+  &emsp;&rarr; example: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_file"></a><li><code>Dispatch_file</code> - starts the loop for automatic dispatch (automatically searches the RAMSGs which have been defined with the attribute File_input_StartString)<br>
+  &emsp; <u>note:</u> only after setting the File_input attribute does this option appear <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_last"></a><li><code>Dispatch_last</code> - dispatch the last RAW message</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-modulname"></a><li><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
+  &emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Send_RAWMSG"></a><li><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
-  &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="delete_Device"></a><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li><a name=""></a></ul>
-  <ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - deletes the specified room with all devices</li><a name=""></a></ul>
-  <ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - deletes logfiles from the system of devices that no longer exist</li><a name=""></a></ul>
-  <ul><li><a name="delete_unused_Plots"></a><code>delete_unused_Plots</code> - deletes plots from the system of devices that no longer exist</li><a name=""></a></ul>
+  &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_Device"></a><li><code>delete_Device</code> - deletes a device in FHEM with associated log file or plot if available (comma separated values ​​are allowed)</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_room_with_all_Devices"></a><li><code>delete_room_with_all_Devices</code> - deletes the specified room with all devices</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_unused_Logfiles"></a><li><code>delete_unused_Logfiles</code> - deletes logfiles from the system of devices that no longer exist</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_unused_Plots"></a><li><code>delete_unused_Plots</code> - deletes plots from the system of devices that no longer exist</li></ul>
   <br>
 
-  <a name="SIGNALduino_TOOL_Get"></a>
+  <a id="SIGNALduino_TOOL-get"></a>
   <b>Get</b>
-  <ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - compares two CC110x registers from attribute CC110x_Register_new & CC110x_Register_old  <font color="red">*4</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - evaluates the register from the attribute IODev and outputs it in a file <font color="red">*6</font color></li><a name=""></a></ul>
-  <ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
+  <ul><a id="SIGNALduino_TOOL-get-CC110x_Register_comparison"></a><li><code>CC110x_Register_comparison</code> - compares two CC110x registers from attribute CC110x_Register_new & CC110x_Register_old  <font color="red">*4</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-CC110x_Register_read"></a><li><code>CC110x_Register_read</code> - evaluates the register from the attribute IODev and outputs it in a file <font color="red">*6</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-Durration_of_Message"></a><li><code>Durration_of_Message</code> - determines the total duration of a Send_RAWMSG or READredu_RAWMSG<br>
   &emsp;&rarr; example 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
-  &emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
-  <ul><li><a name="FilterFile"></a><code>FilterFile</code> - creates a file with the filtered values <font color="red">*1</font color> <font color="red">*2</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - calculates the average of the ClockPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - calculates the average of the SyncPulse from Input_File <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li><a name=""></a></ul>
-  <ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li><a name=""></a></ul>
-  <ul><li><a name="TimingsList"></a><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li><a name=""></a></ul>
-  <ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - converts the binary input to HEX</li><a name=""></a></ul>
-  <ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li><a name=""></a></ul>
-  <ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li><a name=""></a></ul>
-  <ul><li><a name="change_hex_to_dec"></a><code>change_hex_to_dec</code> - converts the hexadecimal input into decimal</li><a name=""></a></ul>
-  <ul><li><a name="invert_bitMsg"></a><code>invert_bitMsg</code> - invert your bitMsg</li><a name=""></a></ul>
-  <ul><li><a name="invert_hexMsg"></a><code>invert_hexMsg</code> - invert your RAWMSG</li><a name=""></a></ul>
-  <ul><li><a name="reverse_Input"></a><code>reverse_Input</code> - reverse your input<br>
-  &emsp;&rarr; example: 1234567 turns 7654321</li><a name=""></a></ul>
-  <ul><li><a name="search_disable_Devices"></a><code>search_disable_Devices</code> - lists all devices that are disabled</li><a name=""></a></ul>
-  <ul><li><a name="search_ignore_Devices"></a><code>search_ignore_Devices</code> - lists all devices that have been set to ignore</li><a name=""></a></ul>
+  &emsp;&rarr; example 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-FilterFile"></a><li><code>FilterFile</code> - creates a file with the filtered values <font color="red">*1</font color> <font color="red">*2</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_ClockPulse"></a><li><code>InputFile_ClockPulse</code> - calculates the average of the ClockPulse from Input_File <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_SyncPulse"></a><li><code>InputFile_SyncPulse</code> - calculates the average of the SyncPulse from Input_File <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_length_Datapart"></a><li><code>InputFile_length_Datapart</code> - determines the min and max length of the readed RAWMSG <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_one_ClockPulse"></a><li><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_one_SyncPulse"></a><li><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Device_ProtocolList.json"></a><li><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_ProtocolData.pm"></a><li><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_bin_to_hex"></a><li><code>change_bin_to_hex</code> - converts the binary input to HEX</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_dec_to_hex"></a><li><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_hex_to_bin"></a><li><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_hex_to_dec"></a><li><code>change_hex_to_dec</code> - converts the hexadecimal input into decimal</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-invert_bitMsg"></a><li><code>invert_bitMsg</code> - invert your bitMsg</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-invert_hexMsg"></a><li><code>invert_hexMsg</code> - invert your RAWMSG</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-reverse_Input"></a><li><code>reverse_Input</code> - reverse your input<br>
+  &emsp;&rarr; example: 1234567 turns 7654321</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-search_disable_Devices"></a><li><code>search_disable_Devices</code> - lists all devices that are disabled</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-search_ignore_Devices"></a><li><code>search_ignore_Devices</code> - lists all devices that have been set to ignore</li></ul>
   <br><br>
 
   <b>Advanced menu (links to click)</b>
@@ -4531,68 +4530,69 @@ sub SIGNALduino_TOOL_cc1101read_Full {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If there are several values ​​in the reading, the point <code>Check it</code> does not appear! In that case please deactivate the redundant IDs and use again.</a></li></ul>
   <br><br>
 
+  <a id="SIGNALduino_TOOL-attr"></a>
   <b>Attributes</b>
   <ul>
-    <li><a name="CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
+    <a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><li><br>
       CC110x end frequency of the scan <font color="red">*7</font color></li>
-    <li><a name="CC110x_Freq_Scan_Interval">CC110x_Freq_Scan_Interval</a><br>
+    <a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_Interval">CC110x_Freq_Scan_Interval</a><li><br>
       CC110x Interval in seconds between rate adjustment (default: 5 seconds)</li>
-    <li><a name="CC110x_Freq_Scan_Start">CC110x_Freq_Scan_Start</a><br>
+    <a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_Start">CC110x_Freq_Scan_Start</a><li><br>
       CC110x start frequency of the scan <font color="red">*7</font color></li>
-    <li><a name="CC110x_Freq_Scan_Step">CC110x_Freq_Scan_Step</a><br>
+    <a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_Step">CC110x_Freq_Scan_Step</a><li><br>
       CC110x frequency graduation in MHz (standard: 0.005 MHz)</li>
-    <li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
+    <a id="SIGNALduino_TOOL-attr-CC110x_Register_new">CC110x_Register_new</a><li><br>
       Set CC110x register value in SIGNALduino short form <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
-    <li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
+    <a id="SIGNALduino_TOOL-attr-CC110x_Register_old">CC110x_Register_old</a><li><br>
       Is CC110x register value in SIGNALduino short form <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
-    <li><a name="DispatchMax">DispatchMax</a><br>
+    <a id="SIGNALduino_TOOL-attr-DispatchMax">DispatchMax</a><li><br>
       Maximum number of messages that can be dispatch. if the attribute not set, the value automatically 1. (The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
-    <li><a name="DispatchMessageNumber">DispatchMessageNumber</a><br>
+    <a id="SIGNALduino_TOOL-attr-DispatchMessageNumber">DispatchMessageNumber</a><li><br>
       Number of message how dispatched only. (force-option - The attribute is considered only with the SET command <code>Dispatch_file</code>!)</li>
-    <li><a name="DispatchModule">DispatchModule</a><br>
+    <a id="SIGNALduino_TOOL-attr-DispatchModule">DispatchModule</a><li><br>
       A selection of modules that have been automatically detected. It looking for files in the pattern <code>SIGNALduino_TOOL_Dispatch_xxx.txt</code> in which the RAWMSGs with model designation and state are stored.
       The classification must be made according to the pattern <code>name (model) , state , RAWMSG;</code>. A designation is mandatory NECESSARY! NO set commands entered automatically.
       If a module is selected, the detected RAWMSG will be listed with the names in the set list and adjusted the overview "Display readed SD_ProtocolList.json" .</li>
-    <li><a name="Dummyname">Dummyname</a><br>
+    <a id="SIGNALduino_TOOL-attr-Dummyname">Dummyname</a><li><br>
       Name of the dummy device which is to trigger the dispatch command.<br>
       &emsp; <u>note:</u> Only after entering the dummy name is a dispatch via "click" from the overviews possible. The attribute "event logging" is automatically set, which is necessary for the complete evaluation of the messages.</li>
-    <li><a name="File_export">File_export</a><br>
+    <a id="SIGNALduino_TOOL-attr-File_export">File_export</a><li><br>
       File name of the file in which the new data is stored. <font color="red">*2</font color></li>
-    <li><a name="File_input">File_input</a><br>
+    <a id="SIGNALduino_TOOL-attr-File_input">File_input</a><li><br>
       File name of the file containing the input entries. <font color="red">*1</font color></li>
-    <li><a name="File_input_StartString">File_input_StartString</a><br>
+    <a id="SIGNALduino_TOOL-attr-File_input_StartString">File_input_StartString</a><li><br>
       The attribute is necessary for the <code>set Dispatch_file</code> option. It search the start of the dispatch command.<br>
       There are 4 options: <code>MC;</code> | <code>MN;</code> | <code>MS;</code> | <code>MU;</code></li>
-    <li><a name="IODev">IODev</a><br>
+    <a id="SIGNALduino_TOOL-attr-IODev">IODev</a><li><br>
       name of the initialized device, which <br>
       1) is used to send (<code>Send_RAWMSG</code>) <font color="red">*3</font color><br>
       2) is used to read the CC110x register value (<code>CC110x_Register_read </code>) <font color="red">*6</font color><br>
       3) is used to write the CC110x register value (<code>CC110x_Register_new | CC110x_Register_old</code>) <font color="red">*5</font color></li>
-    <li><a name="IODev_Repeats">IODev_Repeats</a><br>
+    <a id="SIGNALduino_TOOL-attr-IODev_Repeats">IODev_Repeats</a><li><br>
       Numbre of repeats to send. (Depending on the message type, the number of repeats can vary to correctly detect the signal!)</li>
-    <li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
+    <a id="SIGNALduino_TOOL-attr-JSON_Check_exceptions">JSON_Check_exceptions</a><li><br>
       A list of words that are automatically passed by using <code>Check it</code>. This is for self-made READINGS to not import into the JSON list.</li>
-    <li><a name="JSON_write_ERRORs">JSON_write_ERRORs</a><br>
+    <a id="SIGNALduino_TOOL-attr-JSON_write_ERRORs">JSON_write_ERRORs</a><li><br>
       Writes all dispatch errors to the SD_Device_ProtocolListERRORs.txt file in the ./FHEM/lib/ directory.</li>
-    <li><a name="JSON_write_at_any_time">JSON_write_at_any_time</a><br>
+    <a id="SIGNALduino_TOOL-attr-JSON_write_at_any_time">JSON_write_at_any_time</a><li><br>
       Enables the "ProtocolList_save_to_file" command without checking the loaded file for changes. (Example for use: JSON schema adaptation) </li>
-    <li><a name="Path">Path</a><br>
+    <a id="SIGNALduino_TOOL-attr-Path">Path</a><li><br>
       Path of the tool in which the file (s) are stored or read. example: SIGNALduino_TOOL_Dispatch_SD_WS.txt or the defined File_export - file<br>
       &emsp; <u>note:</u> default is ./FHEM/SD_TOOL/ if the attribute not set.</li>
-    <li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
+    <a id="SIGNALduino_TOOL-attr-RAWMSG_M1">RAWMSG_M1</a><li><br>
       Memory 1 for a raw message</li>
-    <li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
+    <a id="SIGNALduino_TOOL-attr-RAWMSG_M2">RAWMSG_M2</a><li><br>
       Memory 2 for a raw message</li>
-    <li><a name="RAWMSG_M3">RAWMSG_M3</a><br>
+    <a id="SIGNALduino_TOOL-attr-RAWMSG_M3">RAWMSG_M3</a><li><br>
       Memory 3 for a raw message</li>
-    <li><a href="#cmdIcon">cmdIcon</a><br>
+    <a id="SIGNALduino_TOOL-attr-cmdIcon">cmdIcon</a><li><br>
       Replaces commands from the webCmd attribute with icons. When deleting the attribute, the user only sees the commands as text. (is automatically set when defining the module)</li>
-    <li><a href="#disable">disable</a><br>
+    <a id="SIGNALduino_TOOL-attr-disable">disable</a><li><br>
       Disables the Notify function of the device. (will be set automatically)<br>
       &emsp; <u>note:</u> For each dispatch, this attribute is set or redefined.</li>
-    <li><a href="#userattr">userattr</a><br>
+    <a id="SIGNALduino_TOOL-attr-userattr">userattr</a><li><br>
       Is an automatic attribute that reflects detected Dispatch files. It is self-created and necessary for processing. Each modified value is automatically overwritten by the TOOL!</li>
-    <li><a href="#webCmd">webCmd</a><br>
+    <a id="SIGNALduino_TOOL-attr-webCmd">webCmd</a><li><br>
       (is automatically set by the module)</li>
   </ul>
   <br>
@@ -4601,8 +4601,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
 
 =begin html_DE
-
-<a name="SIGNALduino_TOOL"></a>
+<a id="SIGNALduino_TOOL"></a>
 <h3>SIGNALduino_TOOL</h3>
 <ul>
   Das Modul ist zur Hilfestellung für Entwickler des <a href="https://github.com/RFD-FHEM/RFFHEM/tree/dev-r34" target="_blank">SIGNALduino Projektes</a>.<br>
@@ -4618,65 +4617,66 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   Um den vollen Funktionsumfang des Tools zu nutzen, ben&ouml;tigen Sie einen definierten SIGNALduino Dummy. Bei diesem Device wird das Attribut eventlogging aktiv gesetzt.<br>
   <i>Alle mit <code><font color="red">*</font color></code> versehen Befehle sind abh&auml;ngig von Attributen. Die Attribute wurden mit der selben Kennzeichnung versehen.</i><br><br>
 
+  <a id="SIGNALduino_TOOL-define"></a>
   <b>Define</b><br>
   <ul><code>define &lt;NAME&gt; SIGNALduino_TOOL</code><br><br>
   Beispiel: define sduino_TOOL SIGNALduino_TOOL
   </ul><br><br>
 
-  <a name="SIGNALduino_TOOL_Set"></a>
+  <a id="SIGNALduino_TOOL-set"></a>
   <b>Set</b>
-  <ul><li><a name="CC110x_Freq_Scan"></a><code>CC110x_Freq_Scan</code> - startet den Frequenz-Scan auf dem IODev <font color="red">*7</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Freq_Scan_STOP"></a><code>CC110x_Freq_Scan_STOP</code> - stopt den Frequenz-Scan auf dem IODev <font color="red">*7</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_new"></a><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new in das IODev <font color="red">*5</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_old"></a><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old in das IODev <font color="red">*5</font color></li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_DMSG"></a><code>Dispatch_DMSG</code> - eine fertige DMSG vom Modul welche dispatch werden soll (ohne SIGNALduino Verarbeitung!)<br>
-  &emsp;&rarr; Beispiel: W51#087A4DB973</li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_RAWMSG"></a><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
-  &emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_file"></a><code>Dispatch_file</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut File_input_StartString definiert wurden)<br>
-  &emsp; <u>Hinweis:</u> erst nach gesetzten Attribut File_input erscheint diese Option <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="Dispatch_last"></a><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li><a name=""></a></ul>
-  <ul><li><a name="modulname"></a><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgew&auml;hlten Moduls aus dem Attribut DispatchModule.</li><a name=""></a></ul>
-  <ul><li><a name="ProtocolList_save_to_file"></a><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
-  &emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li><a name=""></a></ul>
-  <ul><li><a name="Send_RAWMSG"></a><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Freq_Scan"></a><li><code>CC110x_Freq_Scan</code> - startet den Frequenz-Scan auf dem IODev <font color="red">*7</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Freq_Scan_STOP"></a><li><code>CC110x_Freq_Scan_STOP</code> - stopt den Frequenz-Scan auf dem IODev <font color="red">*7</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Register_new"></a><li><code>CC110x_Register_new</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_new in das IODev <font color="red">*5</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-CC110x_Register_old"></a><li><code>CC110x_Register_old</code> - setzt das CC110x_Register mit den Werten aus dem Attribut CC110x_Register_old in das IODev <font color="red">*5</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_DMSG"></a><li><code>Dispatch_DMSG</code> - eine fertige DMSG vom Modul welche dispatch werden soll (ohne SIGNALduino Verarbeitung!)<br>
+  &emsp;&rarr; Beispiel: W51#087A4DB973</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_RAWMSG"></a><li><code>Dispatch_RAWMSG</code> - eine Roh-Nachricht welche einzeln dispatch werden soll<br>
+  &emsp;&rarr; Beispiel: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_file"></a><li><code>Dispatch_file</code> - startet die Schleife zum automatischen dispatchen (sucht automatisch die RAMSG´s welche mit dem Attribut File_input_StartString definiert wurden)<br>
+  &emsp; <u>Hinweis:</u> erst nach gesetzten Attribut File_input erscheint diese Option <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Dispatch_last"></a><li><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-modulname"></a><li><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgew&auml;hlten Moduls aus dem Attribut DispatchModule.</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
+  &emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-Send_RAWMSG"></a><li><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
-  &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li><a name=""></a></ul>
-  <ul><li><a name="delete_Device"></a><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li><a name=""></a></ul>
-  <ul><li><a name="delete_room_with_all_Devices"></a><code>delete_room_with_all_Devices</code> - l&ouml;scht den angegebenen Raum mit allen Ger&auml;ten</li><a name=""></a></ul>
-  <ul><li><a name="delete_unused_Logfiles"></a><code>delete_unused_Logfiles</code> - l&ouml;scht Logfiles von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
-  <ul><li><a name="delete_unused_Plots"></a><code>delete_unused_Plots</code> - l&ouml;scht Plots von nicht mehr existierenden Ger&auml;ten vom System</li><a name=""></a></ul>
+  &emsp;&rarr; MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_Device"></a><li><code>delete_Device</code> - l&ouml;scht ein Device im FHEM mit dazugeh&ouml;rigem Logfile bzw. Plot soweit existent (kommagetrennte Werte sind erlaubt)</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_room_with_all_Devices"></a><li><code>delete_room_with_all_Devices</code> - l&ouml;scht den angegebenen Raum mit allen Ger&auml;ten</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_unused_Logfiles"></a><li><code>delete_unused_Logfiles</code> - l&ouml;scht Logfiles von nicht mehr existierenden Ger&auml;ten vom System</li></ul>
+  <ul><a id="SIGNALduino_TOOL-set-delete_unused_Plots"></a><li><code>delete_unused_Plots</code> - l&ouml;scht Plots von nicht mehr existierenden Ger&auml;ten vom System</li></ul>
   <br>
 
-  <a name="SIGNALduino_TOOL_Get"></a>
+  <a id="SIGNALduino_TOOL-get"></a>
   <b>Get</b>
-  <ul><li><a name="CC110x_Register_comparison"></a><code>CC110x_Register_comparison</code> - vergleicht die CC110x Register aus dem Attribut CC110x_Register_new & CC110x_Register_old <font color="red">*4</font color></li><a name=""></a></ul>
-  <ul><li><a name="CC110x_Register_read"></a><code>CC110x_Register_read</code> - wertet das Register vom Attribute IODev aus und gibt es in einer Datei aus <font color="red">*6</font color></li><a name=""></a></ul>
-  <ul><li><a name="Durration_of_Message"></a><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
+  <ul><a id="SIGNALduino_TOOL-get-CC110x_Register_comparison"></a><li><code>CC110x_Register_comparison</code> - vergleicht die CC110x Register aus dem Attribut CC110x_Register_new & CC110x_Register_old <font color="red">*4</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-CC110x_Register_read"></a><li><code>CC110x_Register_read</code> - wertet das Register vom Attribute IODev aus und gibt es in einer Datei aus <font color="red">*6</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-Durration_of_Message"></a><li><code>Durration_of_Message</code> - ermittelt die Gesamtdauer einer Send_RAWMSG oder READredu_RAWMSG<br>
   &emsp;&rarr; Beispiel 1: SR;R=3;P0=1520;P1=-400;P2=400;P3=-4000;P4=-800;P5=800;P6=-16000;D=0121212121212121212121212123242424516;<br>
-  &emsp;&rarr; Beispiel 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li><a name=""></a></ul>
-  <ul><li><a name="FilterFile"></a><code>FilterFile</code> - erstellt eine Datei mit den gefilterten Werten <font color="red">*1 *2</font color><br>
+  &emsp;&rarr; Beispiel 2: MS;P0=-16046;P1=552;P2=-1039;P3=983;P5=-7907;P6=-1841;P7=-4129;D=15161716171616171617171617171617161716161616103232;CP=1;SP=5;O;</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-FilterFile"></a><li><code>FilterFile</code> - erstellt eine Datei mit den gefilterten Werten <font color="red">*1 *2</font color><br>
   &emsp;&rarr; eine Vorauswahl von Suchbegriffen via Checkbox ist m&ouml;glich<br>
   &emsp;&rarr; die Checkbox Auswahl <i>-ONLY_DATA-</i> filtert nur die Suchdaten einzel aus jeder Zeile anstatt die komplette Zeile mit den gesuchten Daten<br>
-  &emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li><a name=""></a></ul>
-  <ul><li><a name="InputFile_ClockPulse"></a><code>InputFile_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_SyncPulse"></a><code>InputFile_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_length_Datapart"></a><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_one_ClockPulse"></a><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="InputFile_one_SyncPulse"></a><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li><a name=""></a></ul>
-  <ul><li><a name="ProtocolList_from_file_SD_Device_ProtocolList.json"></a><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li><a name=""></a></ul>
-  <ul><li><a name="ProtocolList_from_file_SD_ProtocolData.pm"></a><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li><a name=""></a></ul>
-  <ul><li><a name="TimingsList"></a><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li><a name=""></a></ul>
-  <ul><li><a name="change_bin_to_hex"></a><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li><a name=""></a></ul>
-  <ul><li><a name="change_dec_to_hex"></a><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li><a name=""></a></ul>
-  <ul><li><a name="change_hex_to_bin"></a><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li><a name=""></a></ul>
-  <ul><li><a name="change_hex_to_dec"></a><code>change_hex_to_dec</code> - wandelt die hexadezimale Eingabe in dezimal um</li><a name=""></a></ul>
-  <ul><li><a name="invert_bitMsg"></a><code>invert_bitMsg</code> - invertiert die eingegebene bin&auml;re Nachricht</li><a name=""></a></ul>
-  <ul><li><a name="invert_hexMsg"></a><code>invert_hexMsg</code> - invertiert die eingegebene hexadezimale Nachricht</li><a name=""></a></ul>
-  <ul><li><a name="reverse_Input"></a><code>reverse_Input</code> - kehrt die Eingabe um<br>
-  &emsp;&rarr; Beispiel: aus 1234567 wird 7654321</li><a name=""></a></ul>
-  <ul><li><a name="search_disable_Devices"></a><code>search_disable_Devices</code> - listet alle Ger&auml;te auf, welche disabled sind</li><a name=""></a></ul>
-  <ul><li><a name="search_ignore_Devices"></a><code>search_ignore_Devices</code> - listet alle Ger&auml;te auf, welche auf ignore gesetzt wurden</li><a name=""></a></ul>
+  &emsp;&rarr; eingegebene Texte im Textfeld welche mit <i>Komma ,</i> getrennt werden, werden ODER verkn&uuml;pft und ein Text mit Leerzeichen wird als ganzes Argument gesucht</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_ClockPulse"></a><li><code>InputFile_ClockPulse</code> - berechnet den Durchschnitt des ClockPulse aus der Input_Datei <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_SyncPulse"></a><li><code>InputFile_SyncPulse</code> - berechnet den Durchschnitt des SyncPulse aus der Input_Datei <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_length_Datapart"></a><li><code>InputFile_length_Datapart</code> - ermittelt die min und max L&auml;nge vom Datenteil der eingelesenen RAWMSG´s <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_one_ClockPulse"></a><li><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-InputFile_one_SyncPulse"></a><li><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Device_ProtocolList.json"></a><li><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_ProtocolData.pm"></a><li><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_bin_to_hex"></a><li><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_dec_to_hex"></a><li><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_hex_to_bin"></a><li><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-change_hex_to_dec"></a><li><code>change_hex_to_dec</code> - wandelt die hexadezimale Eingabe in dezimal um</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-invert_bitMsg"></a><li><code>invert_bitMsg</code> - invertiert die eingegebene bin&auml;re Nachricht</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-invert_hexMsg"></a><li><code>invert_hexMsg</code> - invertiert die eingegebene hexadezimale Nachricht</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-reverse_Input"></a><li><code>reverse_Input</code> - kehrt die Eingabe um<br>
+  &emsp;&rarr; Beispiel: aus 1234567 wird 7654321</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-search_disable_Devices"></a><li><code>search_disable_Devices</code> - listet alle Ger&auml;te auf, welche disabled sind</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-search_ignore_Devices"></a><li><code>search_ignore_Devices</code> - listet alle Ger&auml;te auf, welche auf ignore gesetzt wurden</li></ul>
   <br><br>
 
   <b>Advanced menu (Links zum anklicken)</b>
@@ -4690,68 +4690,69 @@ sub SIGNALduino_TOOL_cc1101read_Full {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sollten mehrere Werte in dem Reading stehen, so erscheint der Punkt <code>Check it</code> NICHT! In dem Fall deaktivieren Sie bitte die &uuml;berflüssigen ID´s und dispatchen Sie erneut.</a></li></ul>
   <br><br>
 
+  <a id="SIGNALduino_TOOL-attr"></a>
   <b>Attributes</b>
   <ul>
-    <li><a name="CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_End">CC110x_Freq_Scan_End</a><br>
       CC110x Endfrequenz vom Scan <font color="red">*7</font color></li>
-    <li><a name="CC110x_Freq_Scan_Interval">CC110x_Freq_Scan_Interval</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_Interval">CC110x_Freq_Scan_Interval</a><br>
       CC110x Interval in Sekunden zwischen der Frequenzanpassung (Standard: 5 Sekunden)</li>
-    <li><a name="CC110x_Freq_Scan_Start">CC110x_Freq_Scan_Start</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_Start">CC110x_Freq_Scan_Start</a><br>
       CC110x Startfrequenz vom Scan <font color="red">*7</font color></li>
-    <li><a name="CC110x_Freq_Scan_Step">CC110x_Freq_Scan_Step</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-CC110x_Freq_Scan_Step">CC110x_Freq_Scan_Step</a><br>
       CC110x Frequenzabstufung in MHz (Standard: 0.005 MHz)</li>
-    <li><a name="CC110x_Register_new">CC110x_Register_new</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-CC110x_Register_new">CC110x_Register_new</a><br>
       Soll CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0D 2E 2A ... </code><font color="red">*4</font color></li>
-    <li><a name="CC110x_Register_old">CC110x_Register_old</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-CC110x_Register_old">CC110x_Register_old</a><br>
       Ist CC110x-Registerwert in SIGNALduino Kurzform <code>ccreg 00: 0C 2E 2D ... </code><font color="red">*4</font color></li>
-    <li><a name="DispatchMessageNumber">DispatchMessageNumber</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-DispatchMessageNumber">DispatchMessageNumber</a><br>
       Nummer der g&uuml;ltigen Nachricht welche EINZELN dispatcht werden soll. (force-Option - Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
-    <li><a name="DispatchMax">DispatchMax</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-DispatchMax">DispatchMax</a><br>
       Maximale Anzahl an Nachrichten welche dispatcht werden d&uuml;rfen. Ist das Attribut nicht gesetzt, so nimmt der Wert automatisch 1 an. (Das Attribut wird nur bei dem SET Befehl <code>Dispatch_file</code> ber&uuml;cksichtigt!)</li>
-    <li><a name="DispatchModule">DispatchModule</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-DispatchModule">DispatchModule</a><br>
       Eine Auswahl an Modulen, welche automatisch erkannt wurden. Gesucht wird jeweils nach Dateien im Muster <code>SIGNALduino_TOOL_Dispatch_xxx.txt</code> worin die RAWMSG´s mit Modelbezeichnung und Zustand gespeichert sind. 
       Die Einteilung muss jeweils nach dem Muster <code>Bezeichnung (Model) , Zustand , RAWMSG;</code> erfolgen. Eine Bezeichnung ist zwingend NOTWENDIG! Mit dem Wert <code> - </code>werden KEINE Set Befehle automatisch eingetragen. 
       Bei Auswahl eines Modules, werden die gefundenen RAWMSG mit Bezeichnungen in die Set Liste eingetragen und die &Uuml;bersicht "Display readed SD_ProtocolList.json" auf das jeweilige Modul beschr&auml;nkt.</li>
-    <li><a name="Dummyname">Dummyname</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-Dummyname">Dummyname</a><br>
       Name des Dummy-Ger&auml;tes welcher den Dispatch-Befehl ausl&ouml;sen soll.<br>
       &emsp; <u>Hinweis:</u> Nur nach Eingabe dessen ist ein Dispatch via "Klick" aus den Übersichten möglich. Im Dummy wird automatisch das Attribut "eventlogging" gesetzt, welches notwendig zur kompletten Auswertung der Nachrichten ist.</li>
-    <li><a name="File_export">File_export</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-File_export">File_export</a><br>
       Dateiname der Datei, worin die neuen Daten gespeichert werden. <font color="red">*2</font color></li>
-    <li><a name="File_input">File_input</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-File_input">File_input</a><br>
       Dateiname der Datei, welche die Input-Eingaben enth&auml;lt. <font color="red">*1</font color></li>
-    <li><a name="File_input_StartString">File_input_StartString</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-File_input_StartString">File_input_StartString</a><br>
       Das Attribut ist notwendig für die <code> set Dispatch_file</code> Option. Es gibt das Suchkriterium an welches automatisch den Start f&uuml;r den Dispatch-Befehl bestimmt.<br>
       Es gibt 4 M&ouml;glichkeiten: <code>MC;</code> | <code>MN;</code> |  <code>MS;</code> | <code>MU;</code></li>
-    <li><a name="IODev">IODev</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-IODev">IODev</a><br>
       Name des initialisierten Device, welches <br>
       1) zum senden genutzt wird (<code>Send_RAWMSG</code>) <font color="red">*3</font color><br>
       2) zum lesen des CC110x-Registerwert genutzt wird (<code>CC110x_Register_read </code>) <font color="red">*6</font color><br>
       3) zum schreiben des CC110x-Registerwert genutzt wird (<code>CC110x_Register_new | CC110x_Register_old</code>) <font color="red">*5</font color></li>
-    <li><a name="IODev_Repeats">IODev_Repeats</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-IODev_Repeats">IODev_Repeats</a><br>
       Anzahl der Sendewiederholungen. (Je nach Nachrichtentyp, kann die Anzahl der Repeats variieren zur richtigen Erkennung des Signales!)</li>
-    <li><a name="JSON_Check_exceptions">JSON_Check_exceptions</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-JSON_Check_exceptions">JSON_Check_exceptions</a><br>
       Eine Liste mit W&ouml;rtern, welche beim pr&uuml;fen mit <code>Check it</code> automatisch &uuml;bergangen werden. Das ist f&uuml;r selbst erstellte READINGS gedacht um diese nicht in die JSON Liste zu importieren.</li>
-    <li><a name="JSON_write_ERRORs">JSON_write_ERRORs</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-JSON_write_ERRORs">JSON_write_ERRORs</a><br>
       Schreibt alle Fehler beim dispatch in die Datei SD_Device_ProtocolListERRORs.txt im Verzeichnis ./FHEM/lib/ .</li>
-    <li><a name="JSON_write_at_any_time">JSON_write_at_any_time</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-JSON_write_at_any_time">JSON_write_at_any_time</a><br>
       Schaltet den Befehl "ProtocolList_save_to_file" frei ohne eine Prüfung der geladenen Datei auf Änderung. (Bsp. für Nutzung: JSON Schema Anpassung) </li>
-    <li><a name="Path">Path</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-Path">Path</a><br>
       Pfadangabe des Tools worin die Datei(en) gespeichert werden oder gelesen werden. Bsp.: SIGNALduino_TOOL_Dispatch_SD_WS.txt oder die definierte File_export - Datei<br>
       &emsp; <u>Hinweis:</u> Standard ist ./FHEM/SD_TOOL/ wenn das Attribut nicht gesetzt wurde.</li>
-    <li><a name="RAWMSG_M1">RAWMSG_M1</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-RAWMSG_M1">RAWMSG_M1</a><br>
       Speicherplatz 1 für eine Roh-Nachricht</li>
-    <li><a name="RAWMSG_M2">RAWMSG_M2</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-RAWMSG_M2">RAWMSG_M2</a><br>
       Speicherplatz 2 für eine Roh-Nachricht</li>
-    <li><a name="RAWMSG_M3">RAWMSG_M3</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-RAWMSG_M3">RAWMSG_M3</a><br>
       Speicherplatz 3 für eine Roh-Nachricht</li>
-    <li><a href="#cmdIcon">cmdIcon</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-cmdIcon">cmdIcon</a><br>
       Ersetzt Kommandos aus dem Attribut webCmd durch Icons. Beim löschen des Attributes sieht der Benutzer nur die Kommandos als Text. (wird automatisch gesetzt beim definieren des Modules)</li>
-    <li><a href="#disable">disable</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-disable">disable</a><br>
       Schaltet die NotifyFunktion des Devices ab. (wird automatisch gesetzt)<br>
       &emsp; <u>Hinweis:</u> Bei jedem Dispatch wird dieses Attribut gesetzt bzw. neu definiert.</li>
-    <li><a href="#userattr">userattr</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-userattr">userattr</a><br>
       Ist ein automatisches Attribut welches die erkannten Dispatch Dateien wiedergibt. Es wird selbst erstellt und ist notwendig für die Verarbeitung. Jeder modifizierte Wert wird durch das TOOL automatisch im Durchlauf &uuml;berschrieben!</li>
-    <li><a href="#webCmd">webCmd</a><br>
+    <li><a id="SIGNALduino_TOOL-attr-webCmd">webCmd</a><br>
       (wird automatisch gesetzt vom Modul)</li>
   </ul>
   <br>
@@ -4835,7 +4836,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
     }
   },
-  "version": "v1.2.3",
+  "version": "v1.2.5",
   "x_fhem_maintainer": [
     "HomeAuto_User",
     "elektron-bbs"
