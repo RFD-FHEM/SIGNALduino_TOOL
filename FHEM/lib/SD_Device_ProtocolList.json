@@ -6890,7 +6890,7 @@
    {
       "data" : [
          {
-            "comment" : "Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor",
+            "comment" : "Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor (Mod. 2-FSK)",
             "dmsg" : "W107#5100C6BF107F1FF8BBFFFFFFEE22",
             "internals" : {
                "DEF" : "SD_WS_107_H",
@@ -6910,7 +6910,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor",
+            "comment" : "Fine Offset WH51, ECOWITT WH51, MISOL/1, Froggit DP100 Soil Moisture Sensor (Mod. 2-FSK)",
             "dmsg" : "W107#51006B586E7F24F8D2FFFFFF3C288",
             "internals" : {
                "DEF" : "SD_WS_107_H",
@@ -6937,7 +6937,7 @@
    {
       "data" : [
          {
-            "comment" : "BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge",
+            "comment" : "BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge (Mod. 2-FSK)",
             "dmsg" : "W108#AD8008700810070228443500",
             "internals" : {
                "DEF" : "SD_WS_108",
@@ -6962,7 +6962,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge",
+            "comment" : "BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge (Mod. 2-FSK)",
             "dmsg" : "W108#AD8000D00010280078443508",
             "internals" : {
                "DEF" : "SD_WS_108",
@@ -6987,7 +6987,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge",
+            "comment" : "BRESSER 5-in-1 Weather Center, Bresser Professional Rain Gauge (Mod. 2-FSK)",
             "dmsg" : "W108#AD8014F01310800088483600",
             "internals" : {
                "DEF" : "SD_WS_108",
@@ -7019,7 +7019,7 @@
    {
       "data" : [
          {
-            "comment" : "Button down, https://github.com/RFD-FHEM/RFFHEM/issues/955",
+            "comment" : "Button down, https://github.com/RFD-FHEM/RFFHEM/issues/955 (Mod. GFSK)",
             "dmsg" : "P109#083122FD298A018A8E",
             "internals" : {
                "DEF" : "3122FD2_9",
@@ -7035,7 +7035,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "Button stop, https://github.com/RFD-FHEM/RFFHEM/issues/955",
+            "comment" : "Button stop, https://github.com/RFD-FHEM/RFFHEM/issues/955 (Mod. GFSK)",
             "dmsg" : "P109#083122FD290A010A8E",
             "internals" : {
                "DEF" : "3122FD2_9",
@@ -7051,7 +7051,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "Button up, https://github.com/RFD-FHEM/RFFHEM/issues/955",
+            "comment" : "Button up, https://github.com/RFD-FHEM/RFFHEM/issues/955 (Mod. GFSK)",
             "dmsg" : "P109#083122FD291A011AAE",
             "internals" : {
                "DEF" : "3122FD2_9",
@@ -7214,7 +7214,7 @@
             "attributes" : {
                "model" : "AVANTEK"
             },
-            "comment" : "wireless doorbell (bell button without battery)",
+            "comment" : "wireless doorbell (bell button without battery) | (Mod. 2-FSK)",
             "dmsg" : "P112#08C114844FDA5CA2",
             "internals" : {
                "DEF" : "112 08C114844",
@@ -7352,7 +7352,7 @@
    {
       "data" : [
          {
-            "comment" : "BRESSER 3-in-1",
+            "comment" : "BRESSER 3-in-1 (Mod. 2-FSK)",
             "dmsg" : "W115#C898BE40041218FF88FF0008017E88FFF04F0000000000000000",
             "internals" : {
                "DEF" : "SD_WS_115_0",
@@ -7386,7 +7386,7 @@
    {
       "data" : [
          {
-            "comment" : "BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550",
+            "comment" : "BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550 (Mod. 2-FSK)",
             "dmsg" : "W115#3BF120B00C1618FF77FF0458152293FFF06B0000",
             "internals" : {
                "DEF" : "SD_WS_115_0",
@@ -7411,7 +7411,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550",
+            "comment" : "BRESSER 6-in-1 Weather Center, Bresser new 5-in-1 sensors 7002550 (Mod. 2-FSK)",
             "dmsg" : "W115#1E6C20B00C1618FF99FF0458FFFFA9FF015B0000",
             "internals" : {
                "DEF" : "SD_WS_115_0",
@@ -7434,7 +7434,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 6-in-1",
+            "comment" : "BRESSER 6-in-1 (Mod. 2-FSK)",
             "dmsg" : "W115#9104143025BE18FFFFFF2928925A97FFF0000000000000000003",
             "internals" : {
                "DEF" : "SD_WS_115_0",
@@ -7468,7 +7468,7 @@
    {
       "data" : [
          {
-            "comment" : "Bresser_6in1 Thermo-/hygro sensor",
+            "comment" : "Bresser_6in1 Thermo-/hygro sensor (Mod. 2-FSK)",
             "dmsg" : "W115#6CD6197005FD2900000000002126630000A1FFFF07000000000000000000",
             "internals" : {
                "DEF" : "SD_WS_115_21",
@@ -7496,7 +7496,7 @@
    {
       "data" : [
          {
-            "comment" : "Bresser Explore Scientific SM60020 Soil moisture Sensor",
+            "comment" : "Bresser Explore Scientific SM60020 Soil moisture Sensor (Mod. 2-FSK)",
             "dmsg" : "W115#F16E187000E347FFFFFF0000252216FFF004000",
             "internals" : {
                "DEF" : "SD_WS_115_47",
@@ -7524,7 +7524,7 @@
    {
       "data" : [
          {
-            "comment" : "Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L",
+            "comment" : "Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L (Mod. 2-FSK)",
             "dmsg" : "W116#5780C655051401C4D0",
             "internals" : {
                "DEF" : "SD_WS_116",
@@ -7545,7 +7545,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L",
+            "comment" : "Thunder and lightning sensor Fine Offset WH57, aka Froggit DP60, aka Ambient Weather WH31L (Mod. 2-FSK)",
             "dmsg" : "W116#5740C655053F0A7272",
             "internals" : {
                "DEF" : "SD_WS_116",
@@ -7573,7 +7573,7 @@
    {
       "data" : [
          {
-            "comment" : "BRESSER 7-in-1 Weather Center",
+            "comment" : "BRESSER 7-in-1 Weather Center (Mod. 2-FSK)",
             "dmsg" : "W117#56820C5F2760B2000000000084001270870066760000000000AAAAAA",
             "internals" : {
                "DEF" : "SD_WS_117",
@@ -7601,7 +7601,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 7-in-1 Weather Center",
+            "comment" : "BRESSER 7-in-1 Weather Center (Mod. 2-FSK)",
             "dmsg" : "W117#E76E0C5F1920BA000000000000001310880003600000000000AAAAAA",
             "internals" : {
                "DEF" : "SD_WS_117",
@@ -7629,7 +7629,7 @@
             "user" : "elektron-bbs"
          },
          {
-            "comment" : "BRESSER 7-in-1 Weather Center",
+            "comment" : "BRESSER 7-in-1 Weather Center (Mod. 2-FSK)",
             "dmsg" : "W117#A65A0C5F1320BA000000000000001016940011560000000000AAAAAA",
             "internals" : {
                "DEF" : "SD_WS_117",
@@ -7957,7 +7957,7 @@
    {
       "data" : [
          {
-            "comment" : "Inkbird IBS-P01R Pool Thermometer",
+            "comment" : "Inkbird IBS-P01R Pool Thermometer (Mod. 2-FSK)",
             "dmsg" : "W123#D3910F800301005A0655FA001405140535F6",
             "internals" : {
                "DEF" : "SD_WS_123_T",
@@ -7985,7 +7985,7 @@
    {
       "data" : [
          {
-            "comment" : "Inkbird ITH-20R Thermo-/hygro sensor",
+            "comment" : "Inkbird ITH-20R Thermo-/hygro sensor (Mod. 2-FSK)",
             "dmsg" : "W123#D3910F00010301207E43FE0014055802772A",
             "internals" : {
                "DEF" : "SD_WS_123_T",
