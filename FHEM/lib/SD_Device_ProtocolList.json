@@ -8014,6 +8014,115 @@
    {
       "data" : [
          {
+            "attributes" : {},
+            "comment" : "Humidity and Temperaturesensor Ecowitt WH31, froggit DP50 / WH31A",
+            "dmsg" : "W125#300282623704516C000200",
+            "internals" : {
+               "DEF" : "SD_WS_125_TH_1",
+               "NAME" : "SD_WS_125_TH_1"
+            },
+            "minProtocolVersion" : "1.52",
+            "readings" : {
+               "batteryState" : "ok",
+               "channel" : 1,
+               "humidity" : 55,
+               "state" : "T: 21.0 H: 55",
+               "temperature" : "21.0",
+               "type" : "WH31e, WH31b, DP50"
+            },
+            "revision_entry" : "2023-08-10 10:49:59",
+            "revision_modul" : "14_SD_WS.pm   26982 2023-05-16 16:34:07Z sidey79",
+            "rmsg" : "MN;D=300282623704516C000200;R=56;",
+            "user" : "sidey79"
+         }
+      ],
+      "id" : 125,
+      "module" : "SD_WS",
+      "name" : "WH31"
+   },
+   {
+      "data" : [
+         {
+            "attributes" : {},
+            "comment" : "Humidity and Temperaturesensor Ecowitt WH31, froggit DP50 / WH31A",
+            "dmsg" : "W125#300292373CDA116C000200",
+            "internals" : {
+               "DEF" : "SD_WS_125_TH_2",
+               "NAME" : "SD_WS_125_TH_2"
+            },
+            "minProtocolVersion" : "1.52",
+            "readings" : {
+               "batteryState" : "ok",
+               "channel" : 2,
+               "humidity" : 60,
+               "state" : "T: 16.7 H: 60",
+               "temperature" : 16.7,
+               "type" : "WH31e, WH31b, DP50"
+            },
+            "revision_entry" : "2023-08-10 10:54:18",
+            "revision_modul" : "14_SD_WS.pm   26982 2023-05-16 16:34:07Z sidey79",
+            "rmsg" : "MN;D=300292373CDA116C000200;R=229;",
+            "user" : "sidey79"
+         }
+      ],
+      "id" : 125,
+      "module" : "SD_WS",
+      "name" : "WH31"
+   },
+   {
+      "data" : [
+         {
+            "attributes" : {},
+            "comment" : "Rainfall Sensor Ecowitt WH40",
+            "dmsg" : "W126#40013E3C900000105BA02A",
+            "internals" : {
+               "DEF" : "SD_WS_126_R",
+               "NAME" : "SD_WS_126_R"
+            },
+            "minProtocolVersion" : "1.52",
+            "readings" : {
+               "batteryState" : "ok",
+               "batteryVoltage" : 1.6,
+               "rain_total" : 0,
+               "rawRainCounter" : 0,
+               "state" : "R: 0",
+               "type" : "WH40"
+            },
+            "revision_entry" : "2023-08-10 11:00:20",
+            "revision_modul" : "14_SD_WS.pm   26982 2023-05-16 16:34:07Z sidey79",
+            "rmsg" : "MN;D=40013E3C900000105BA02A;R=61;",
+            "user" : "sidey79"
+         },
+         {
+            "attributes" : {},
+            "comment" : "Rainfall Sensor Ecowitt WH40",
+            "dmsg" : "W126#40013E3C90005AB55AA0A0800408",
+            "internals" : {
+               "DEF" : "SD_WS_126_R",
+               "NAME" : "SD_WS_126_R"
+            },
+            "minProtocolVersion" : "1.52",
+            "readings" : {
+               "batteryState" : "ok",
+               "batteryVoltage" : 1.6,
+               "rain_total" : 9,
+               "rawRainCounter" : 90,
+               "state" : "R: 9",
+               "type" : "WH40"
+            },
+            "revision_entry" : "2023-08-10 11:03:48",
+            "revision_modul" : "14_SD_WS.pm   26982 2023-05-16 16:34:07Z sidey79",
+            "rmsg" : "MN;D=40013E3C90005AB55AA0A0800408;R=61;",
+            "user" : "sidey79"
+         }
+      ],
+      "id" : 126,
+      "module" : "SD_WS",
+      "name" : "WH40"
+   },
+   {
+      "data" : [
+         {
             "comment" : "",
             "dispatch_repeats" : "1",
             "dmsg" : "",

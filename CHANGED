@@ -1,3 +1,7 @@
+2023-08-11 - Update SD_Device_ProtocolList.json
+
+add protocol 125, Humidity and Temperaturesensor Ecowitt WH31, froggit DP50 / WH31A
+add protocol 126, Rainfall Sensor Ecowitt WH40
 2023-02-01 - Update SD_Device_ProtocolList.json
 
 revised comments
