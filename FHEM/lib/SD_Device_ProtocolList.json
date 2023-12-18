@@ -8282,6 +8282,91 @@
    {
       "data" : [
          {
+            "attributes" : {
+               "model" : "HA_HX2"
+            },
+            "comment" : "Remote control with two buttons for Halemeier LED controllers (typ HA-HX2 for actor HA-RX-M2-1)",
+            "dmsg" : "P132#85EFAA",
+            "internals" : {
+               "DEF" : "HA_HX2 85EF",
+               "NAME" : "HA_HX2_85EF"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "state" : "on"
+            },
+            "revision_entry" : "2023-12-18 18:43:13",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z hightower",
+            "rmsg" : "MU;P0=-696;P1=312;P2=-371;P3=637;P4=-12847;D=01012301230123012341012323232301230101010123010101010123012301230123410123232323012301010101230101010101230123012301234101232323230123010101012301010101012301230123012341012323232301230101010123010101010123012301230123410123232323012301010101230101010101;CP=1;R=236;O;",
+            "user" : "Hightower"
+         },
+         {
+            "attributes" : {
+               "model" : "HA_HX2"
+            },
+            "comment" : "Remote control with two buttons for Halemeier LED controllers (typ HA-HX2 for actor HA-RX-M2-1)",
+            "dispatch_repeats" : 3,
+            "dmsg" : "P132#85EFAC",
+            "internals" : {
+               "DEF" : "HA_HX2 85EF",
+               "NAME" : "HA_HX2_85EF"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "state" : "off"
+            },
+            "revision_entry" : "2023-12-18 18:45:11",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z hightower",
+            "rmsg" : "MU;P0=-12609;P1=305;P2=-696;P3=-344;P4=653;D=01213434343421342121212134212121212134213421213434012134343434213421212121342121212121342134212134340121343434342134212121213421212121213421342121343401213434343421342121212134212121212134213421213434012134343434213421212121342121212121342134212134340121;CP=1;R=239;O;",
+            "user" : "Hightower"
+         },
+         {
+            "attributes" : {
+               "model" : "HA_HX2"
+            },
+            "comment" : "Remote control with two buttons for Halemeier LED controllers (typ HA-HX2 for actor HA-RX-M2-1)",
+            "dmsg" : "P132#01EFAA",
+            "internals" : {
+               "DEF" : "HA_HX2 01EF",
+               "NAME" : "HA_HX2_01EF"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "state" : "on"
+            },
+            "revision_entry" : "2023-12-18 18:49:49",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z hightower",
+            "rmsg" : "MU;P0=-340;P1=639;P2=-686;P3=304;P4=-12480;D=01230123014301010101010101232323232301230123012301430101010101010123232323012323232323012301230123014301010101010101232323230123232323230123012301230143010101010101012323232301232323232301230123012301430101010101010123232323012323232323012301230123014301;CP=3;R=226;O;",
+            "user" : "Hightower"
+         },
+         {
+            "attributes" : {
+               "model" : "HA_HX2"
+            },
+            "comment" : "Remote control with two buttons for Halemeier LED controllers (typ HA-HX2 for actor HA-RX-M2-1)",
+            "dispatch_repeats" : 1,
+            "dmsg" : "P132#01EFAC",
+            "internals" : {
+               "DEF" : "HA_HX2 01EF",
+               "NAME" : "HA_HX2_01EF"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "state" : "off"
+            },
+            "revision_entry" : "2023-12-18 18:50:30",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z hightower",
+            "rmsg" : "MU;P0=307;P1=-685;P2=-350;P3=658;P4=-12510;D=01010102310101010102310231010232340232323232323231010101023101010101023102323232323232323101010102310101010102310231010232340232323232323231010101023101010101023102310102323402323232323232310101010231010101010231023101023234023232323232323101010102310101;CP=0;R=232;O;",
+            "user" : "Hightower"
+         }
+      ],
+      "id" : 132,
+      "module" : "SD_UT",
+      "name" : "HA_HX2_01EF"
+   },
+   {
+      "data" : [
+         {
             "comment" : "",
             "dispatch_repeats" : "1",
             "dmsg" : "",
