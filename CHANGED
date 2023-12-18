@@ -1,4 +1,6 @@
-2023-12-18 - Merge branch 'master' into pre-release
+2023-12-18 - Update SD_Device_ProtocolList.json
+
+add testdata for new protocols 132, remote controls for LED controller Halemeier
 2023-08-29 - Update SD_Device_ProtocolList.json
 
 add testdata for new protocols 127 and 128, remote controls for ceiling fans
