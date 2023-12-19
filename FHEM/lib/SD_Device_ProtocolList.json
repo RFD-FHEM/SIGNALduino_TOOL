@@ -24,7 +24,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "0",
+      "id" : 0,
       "module" : "CUL_TCM97001",
       "name" : "ABS700"
    },
@@ -56,7 +56,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "0",
+      "id" : 0,
       "module" : "CUL_TCM97001",
       "name" : "GT-WT-02"
    },
@@ -87,7 +87,7 @@
             "user" : "killah78"
          }
       ],
-      "id" : "0",
+      "id" : 0,
       "module" : "CUL_TCM97001",
       "name" : "Pearl NC7159"
    },
@@ -118,7 +118,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "0",
+      "id" : 0,
       "module" : "CUL_TCM97001",
       "name" : "Prologue"
    },
@@ -150,7 +150,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "0",
+      "id" : 0,
       "module" : "CUL_TCM97001",
       "name" : "Ventus W044"
    },
@@ -180,7 +180,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "0.1",
+      "id" : 0.1,
       "module" : "CUL_TCM97001",
       "name" : "Mebus"
    },
@@ -212,7 +212,7 @@
             "user" : "killah78"
          }
       ],
-      "id" : "0.3",
+      "id" : 0.3,
       "module" : "CUL_TCM97001",
       "name" : "TCM 212836"
    },
@@ -268,7 +268,7 @@
             "user" : "dirigent"
          }
       ],
-      "id" : "0.3",
+      "id" : 0.3,
       "module" : "CUL_TCM97001",
       "name" : "Ventus W132"
    },
@@ -298,7 +298,7 @@
             "user" : "andies"
          }
       ],
-      "id" : "0.3",
+      "id" : 0.3,
       "module" : "CUL_TCM97001",
       "name" : "Ventus W174"
    },
@@ -324,7 +324,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "0.4",
+      "id" : 0.4,
       "module" : "CUL_TCM97001",
       "name" : "Auriol Z31743B"
    },
@@ -351,7 +351,7 @@
             "user" : "Damian"
          }
       ],
-      "id" : "0.5",
+      "id" : 0.5,
       "module" : "CUL_TCM97001",
       "name" : "Auriol HG04641A"
    },
@@ -374,7 +374,7 @@
             "user" : "gandi1791"
          }
       ],
-      "id" : "1",
+      "id" : 1,
       "module" : "SD_RSL",
       "name" : "Conrad RSL"
    },
@@ -462,7 +462,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "2",
+      "id" : 2,
       "module" : "SD_AS",
       "name" : "ArduinoSensor"
    },
@@ -486,7 +486,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "3",
+      "id" : 3,
       "module" : "IT",
       "name" : "JCHENG SECURITY"
    },
@@ -544,7 +544,7 @@
             "user" : "betrev"
          }
       ],
-      "id" : "3",
+      "id" : 3,
       "module" : "IT",
       "name" : "RC-120"
    },
@@ -585,7 +585,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "3",
+      "id" : 3,
       "module" : "IT",
       "name" : "YET100-1"
    },
@@ -632,7 +632,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "3",
+      "id" : 3,
       "module" : "IT",
       "name" : "door/window contact CHN v1"
    },
@@ -699,7 +699,7 @@
             "user" : "rob"
          }
       ],
-      "id" : "3",
+      "id" : 3,
       "module" : "IT",
       "name" : "door/window contact CHN v2"
    },
@@ -739,7 +739,7 @@
             "user" : "Stefan#"
          }
       ],
-      "id" : "3.1",
+      "id" : 3.1,
       "module" : "IT",
       "name" : "ITS-150"
    },
@@ -794,7 +794,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "6",
+      "id" : 6,
       "module" : "CUL_TCM97001",
       "name" : "TCM 218943"
    },
@@ -864,7 +864,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "7",
+      "id" : 7,
       "module" : "SD_WS07",
       "name" : "Auriol AFW 2 A1"
    },
@@ -911,7 +911,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "7",
+      "id" : 7,
       "module" : "SD_WS07",
       "name" : "EAS800z"
    },
@@ -938,7 +938,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "7",
+      "id" : 7,
       "module" : "SD_WS07",
       "name" : "Hama TS34A"
    },
@@ -965,7 +965,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "7",
+      "id" : 7,
       "module" : "SD_WS07",
       "name" : "Hama TS36E"
    },
@@ -992,7 +992,7 @@
             "user" : "rpsVerni"
          }
       ],
-      "id" : "7.1",
+      "id" : 7.1,
       "module" : "SD_WS07",
       "name" : "Mebus HQ7312-2"
    },
@@ -1017,7 +1017,7 @@
             "user" : "sidey79"
          }
       ],
-      "id" : "8",
+      "id" : 8,
       "module" : "CUL_TX",
       "name" : "TX3"
    },
@@ -1062,7 +1062,7 @@
             "user" : "maddinthebrain"
          }
       ],
-      "id" : "9",
+      "id" : 9,
       "module" : "SD_WS09",
       "name" : "WH1080"
    },
@@ -1126,7 +1126,7 @@
             "user" : "rob"
          }
       ],
-      "id" : "9",
+      "id" : 9,
       "module" : "SD_WS09",
       "name" : "WH2315"
    },
@@ -1152,7 +1152,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "9",
+      "id" : 9,
       "module" : "SD_WS09",
       "name" : "WH3080"
    },
@@ -1179,7 +1179,7 @@
             "user" : "Wetterhexe"
          }
       ],
-      "id" : "10",
+      "id" : 10,
       "module" : "OREGON",
       "name" : "THGR228N"
    },
@@ -1206,7 +1206,7 @@
             "user" : "Wetterhexe"
          }
       ],
-      "id" : "10",
+      "id" : 10,
       "module" : "OREGON",
       "name" : "THGR810"
    },
@@ -1235,7 +1235,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "12",
+      "id" : 12,
       "module" : "Hideki",
       "name" : "BRESSER 70-09993"
    },
@@ -1259,7 +1259,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "12",
+      "id" : 12,
       "module" : "Hideki",
       "name" : "Hama TS33C"
    },
@@ -1289,7 +1289,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "12",
+      "id" : 12,
       "module" : "Hideki",
       "name" : "TFA 30.3176"
    },
@@ -1406,7 +1406,7 @@
             "user" : "brezel"
          }
       ],
-      "id" : "12",
+      "id" : 12,
       "module" : "Hideki",
       "name" : "Wireless Weather Station DV928, Wind"
    },
@@ -1434,7 +1434,7 @@
             "user" : "Wahrschauer"
          }
       ],
-      "id" : "13",
+      "id" : 13,
       "module" : "FLAMINGO",
       "name" : "KD-101LA"
    },
@@ -1463,7 +1463,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "13.1",
+      "id" : 13.1,
       "module" : "FLAMINGO",
       "name" : "FA22RF"
    },
@@ -1491,7 +1491,7 @@
             "user" : "unknown"
          }
       ],
-      "id" : "13.2",
+      "id" : 13.2,
       "module" : "FLAMINGO",
       "name" : "LM-101LD"
    },
@@ -1561,7 +1561,7 @@
             "user" : "privat58"
          }
       ],
-      "id" : "14",
+      "id" : 14,
       "module" : "SD_UT",
       "name" : "Chilitec_22640"
    },
@@ -1588,7 +1588,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "16",
+      "id" : 16,
       "module" : "Dooya",
       "name" : "Dooya"
    },
@@ -1633,7 +1633,7 @@
             "user" : "dafosy"
          }
       ],
-      "id" : "17",
+      "id" : 17,
       "module" : "IT",
       "name" : "ITS-10"
    },
@@ -1678,7 +1678,7 @@
             "user" : "KoelnSolar"
          }
       ],
-      "id" : "17",
+      "id" : 17,
       "module" : "IT",
       "name" : "ITT-1500"
    },
@@ -1725,7 +1725,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "17.1",
+      "id" : 17.1,
       "module" : "IT",
       "name" : "PIR-1000 / ITT-1500"
    },
@@ -1751,7 +1751,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "18",
+      "id" : 18,
       "module" : "OREGON",
       "name" : "THR128"
    },
@@ -1775,7 +1775,7 @@
             "user" : "zag-o-mat"
          }
       ],
-      "id" : "19",
+      "id" : 19,
       "module" : "",
       "name" : "minify Funksteckdose"
    },
@@ -1826,7 +1826,7 @@
             "user" : "Skusi"
          }
       ],
-      "id" : "20",
+      "id" : 20,
       "module" : "SD_UT",
       "name" : "DC-1961-TG"
    },
@@ -1875,7 +1875,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "20",
+      "id" : 20,
       "module" : "SD_UT",
       "name" : "RCnoName20"
    },
@@ -1924,7 +1924,7 @@
             "user" : "steffen83"
          }
       ],
-      "id" : "20.1",
+      "id" : 20.1,
       "module" : "SD_UT",
       "name" : "RCnoName20_10"
    },
@@ -1973,7 +1973,7 @@
             "user" : "MikeRoxx"
          }
       ],
-      "id" : "24",
+      "id" : 24,
       "module" : "SD_UT",
       "name" : "Visivo"
    },
@@ -2023,7 +2023,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "26",
+      "id" : 26,
       "module" : "SD_UT",
       "name" : "xavax"
    },
@@ -2093,7 +2093,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "27",
+      "id" : 27,
       "module" : "SD_WS",
       "name" : "EFTH-800"
    },
@@ -2122,7 +2122,7 @@
             "user" : "gadget"
          }
       ],
-      "id" : "29",
+      "id" : 29,
       "module" : "SD_UT",
       "name" : "HT12e"
    },
@@ -2150,7 +2150,7 @@
             "user" : "monosurr0und"
          }
       ],
-      "id" : "29",
+      "id" : 29,
       "module" : "SD_UT",
       "name" : "HT12e"
    },
@@ -2180,7 +2180,7 @@
             "user" : "Dr.E.Witz"
          }
       ],
-      "id" : "30",
+      "id" : 30,
       "module" : "SD_UT",
       "name" : "Unitec_47031"
    },
@@ -2247,7 +2247,7 @@
             "user" : "Devirex"
          }
       ],
-      "id" : "31",
+      "id" : 31,
       "module" : "",
       "name" : "LTECH"
    },
@@ -2274,7 +2274,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "32",
+      "id" : 32,
       "module" : "SD_BELL",
       "name" : "FreeTec PE-6946"
    },
@@ -2301,7 +2301,7 @@
             "user" : "schwatter"
          }
       ],
-      "id" : "32",
+      "id" : 32,
       "module" : "SD_BELL",
       "name" : "VLOXO"
    },
@@ -2330,7 +2330,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "33",
+      "id" : 33,
       "module" : "SD_WS",
       "name" : "Conrad S522"
    },
@@ -2364,7 +2364,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "33",
+      "id" : 33,
       "module" : "SD_WS",
       "name" : "TX-EZ6"
    },
@@ -2396,7 +2396,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "33",
+      "id" : 33,
       "module" : "SD_WS",
       "name" : "renkforce E0001PA"
    },
@@ -2427,7 +2427,7 @@
             "user" : "cxxcoder"
          }
       ],
-      "id" : "33.1",
+      "id" : 33.1,
       "module" : "SD_WS",
       "name" : "TFA 30.3200"
    },
@@ -2458,7 +2458,7 @@
             "user" : "Doublefant"
          }
       ],
-      "id" : "33.2",
+      "id" : 33.2,
       "module" : "SD_WS",
       "name" : "Tchibo Wetterstation"
    },
@@ -2507,7 +2507,7 @@
             "user" : "kaihs"
          }
       ],
-      "id" : "34",
+      "id" : 34,
       "module" : "SD_UT",
       "name" : "Pollin ISOTRONIC"
    },
@@ -2535,7 +2535,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "34",
+      "id" : 34,
       "module" : "SD_UT",
       "name" : "QUIGG_GT-7000"
    },
@@ -2564,7 +2564,7 @@
             "user" : "codeartisan-de"
          }
       ],
-      "id" : "34",
+      "id" : 34,
       "module" : "SD_UT",
       "name" : "TR_502MSV"
    },
@@ -2605,7 +2605,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "35",
+      "id" : 35,
       "module" : "IT",
       "name" : "HE800"
    },
@@ -2633,7 +2633,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "37",
+      "id" : 37,
       "module" : "SD_WS",
       "name" : "Bresser 7009994"
    },
@@ -2661,7 +2661,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "38",
+      "id" : 38,
       "module" : "SD_WS",
       "name" : "NC-3911-675"
    },
@@ -2687,7 +2687,7 @@
             "user" : "wherzig"
          }
       ],
-      "id" : "39",
+      "id" : 39,
       "module" : "RFXX10REC",
       "name" : "X10 Protocol"
    },
@@ -2732,7 +2732,7 @@
             "user" : "beatz0001"
          }
       ],
-      "id" : "41",
+      "id" : 41,
       "module" : "SD_BELL",
       "name" : "Doorbell DB200"
    },
@@ -2777,7 +2777,7 @@
             "user" : "trosenda"
          }
       ],
-      "id" : "41",
+      "id" : 41,
       "module" : "SD_BELL",
       "name" : "KANGTAI (Pollin 94-550405)"
    },
@@ -2822,7 +2822,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "41",
+      "id" : 41,
       "module" : "SD_BELL",
       "name" : "unitec 98156+98YK"
    },
@@ -2848,7 +2848,7 @@
             "user" : "trosenda"
          }
       ],
-      "id" : "42",
+      "id" : 42,
       "module" : "SD_BELL",
       "name" : "Pollin_551227"
    },
@@ -2895,7 +2895,7 @@
             "user" : "Elektrolurch"
          }
       ],
-      "id" : "43",
+      "id" : 43,
       "module" : "SOMFY",
       "name" : "Somfy RTS"
    },
@@ -2922,7 +2922,7 @@
             "user" : "kpl"
          }
       ],
-      "id" : "43",
+      "id" : 43,
       "module" : "SOMFY",
       "name" : "Somfy RTS - TELIS COMPOSIO"
    },
@@ -2949,7 +2949,7 @@
             "user" : "unknown"
          }
       ],
-      "id" : "44",
+      "id" : 44,
       "module" : "SD_WS",
       "name" : "BRESSER Temeo Trend"
    },
@@ -3024,7 +3024,7 @@
             "user" : "gernot-h"
          }
       ],
-      "id" : "45",
+      "id" : 45,
       "module" : "Revolt",
       "name" : "Revolt"
    },
@@ -3096,7 +3096,7 @@
             "user" : "self_build"
          }
       ],
-      "id" : "46",
+      "id" : 46,
       "module" : "SD_UT",
       "name" : "Tedsen_SKXxxx"
    },
@@ -3124,7 +3124,7 @@
             "user" : "Papaloewe"
          }
       ],
-      "id" : "47",
+      "id" : 47,
       "module" : "SD_WS_Maverick",
       "name" : "ET-733"
    },
@@ -3274,7 +3274,7 @@
             "user" : "Tom71"
          }
       ],
-      "id" : "49.2",
+      "id" : 49.2,
       "module" : "SD_GT",
       "name" : "QUIGG_GT-9000"
    },
@@ -3302,7 +3302,7 @@
             "user" : "sidey79"
          }
       ],
-      "id" : "50",
+      "id" : 50,
       "module" : "SD_WS",
       "name" : "Opus_XT300"
    },
@@ -3332,7 +3332,7 @@
             "user" : "6040"
          }
       ],
-      "id" : "51",
+      "id" : 51,
       "module" : "SD_WS",
       "name" : "IAN 114324"
    },
@@ -3362,7 +3362,7 @@
             "user" : "Stertzi"
          }
       ],
-      "id" : "51",
+      "id" : 51,
       "module" : "SD_WS",
       "name" : "IAN 275901"
    },
@@ -3392,7 +3392,7 @@
             "user" : "dennis82ni"
          }
       ],
-      "id" : "51",
+      "id" : 51,
       "module" : "SD_WS",
       "name" : "IAN 60107"
    },
@@ -3441,7 +3441,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "53",
+      "id" : 53,
       "module" : "SD_WS",
       "name" : "AURIOL AHFL 433 B2"
    },
@@ -3469,7 +3469,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "53",
+      "id" : 53,
       "module" : "SD_WS",
       "name" : "AURIOL AHFL 433 B2"
    },
@@ -3518,7 +3518,7 @@
             "user" : "sido"
          }
       ],
-      "id" : "54",
+      "id" : 54,
       "module" : "SD_WS",
       "name" : "TFA 30.3233.01"
    },
@@ -3567,7 +3567,7 @@
             "user" : "punker"
          }
       ],
-      "id" : "54.1",
+      "id" : 54.1,
       "module" : "SD_WS",
       "name" : "TFA 30.3233.01"
    },
@@ -3595,7 +3595,7 @@
             "user" : "Horst12345"
          }
       ],
-      "id" : "56",
+      "id" : 56,
       "module" : "SD_UT",
       "name" : "AC114_01B"
    },
@@ -3644,7 +3644,7 @@
             "user" : "TheChatty"
          }
       ],
-      "id" : "56",
+      "id" : 56,
       "module" : "SD_UT",
       "name" : "AC114_01B"
    },
@@ -3670,7 +3670,7 @@
             "user" : "rippi46"
          }
       ],
-      "id" : "57",
+      "id" : 57,
       "module" : "SD_BELL",
       "name" : "m-e doorbell"
    },
@@ -3717,7 +3717,7 @@
             "user" : "Burny4600"
          }
       ],
-      "id" : "58",
+      "id" : 58,
       "module" : "SD_WS",
       "name" : "Froggit FT007T"
    },
@@ -3745,7 +3745,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "58",
+      "id" : 58,
       "module" : "SD_WS",
       "name" : "TFA 30.3208.02"
    },
@@ -3773,7 +3773,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "60",
+      "id" : 60,
       "module" : "CUL_WS",
       "name" : "AS2000"
    },
@@ -3800,7 +3800,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "60",
+      "id" : 60,
       "module" : "CUL_WS",
       "name" : "ASH2000"
    },
@@ -3828,7 +3828,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "60",
+      "id" : 60,
       "module" : "CUL_WS",
       "name" : "S2000ID"
    },
@@ -3867,7 +3867,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "61",
+      "id" : 61,
       "module" : "FS10",
       "name" : "FS10"
    },
@@ -3892,7 +3892,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "62",
+      "id" : 62,
       "module" : "IT",
       "name" : "Clarus_Switch"
    },
@@ -3961,7 +3961,7 @@
             "rmsg" : "MU;P0=134;P1=-113;P3=412;P4=-1062;P5=1379;D=01010101013434343434343454345454345454545454345454545454343434545434345454345454545454543454543454345454545434545454345;CP=3;"
          }
       ],
-      "id" : "64",
+      "id" : 64,
       "module" : "SD_WS",
       "name" : "WH2"
    },
@@ -3987,7 +3987,7 @@
             "user" : "unknown"
          }
       ],
-      "id" : "65",
+      "id" : 65,
       "module" : "IT",
       "name" : "HomeEasy HE_EU"
    },
@@ -4012,7 +4012,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "66",
+      "id" : 66,
       "module" : "CUL_TX",
       "name" : "WS7035"
    },
@@ -4036,7 +4036,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "67",
+      "id" : 67,
       "module" : "CUL_TX",
       "name" : "Remote control Sender 7054"
    },
@@ -4061,7 +4061,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "67",
+      "id" : 67,
       "module" : "CUL_TX",
       "name" : "WS7053"
    },
@@ -4131,7 +4131,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "68",
+      "id" : 68,
       "module" : "SD_UT",
       "name" : "Medion OR28V"
    },
@@ -4159,7 +4159,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "69",
+      "id" : 69,
       "module" : "SD_UT",
       "name" : "HS1-868-BS"
    },
@@ -4187,7 +4187,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "69",
+      "id" : 69,
       "module" : "SD_UT",
       "name" : "HSM4"
    },
@@ -4232,7 +4232,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "70",
+      "id" : 70,
       "module" : "CUL_FHTTK",
       "name" : "FHT80TF-2"
    },
@@ -4258,7 +4258,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "71",
+      "id" : 71,
       "module" : "SD_WS",
       "name" : "PV-8644"
    },
@@ -4285,7 +4285,7 @@
             "user" : "Dr.Smag, Byte09"
          }
       ],
-      "id" : "72",
+      "id" : 72,
       "module" : "Siro",
       "name" : "Siro shutter"
    },
@@ -4318,7 +4318,7 @@
             "user" : "Dr.Smag"
          }
       ],
-      "id" : "72.1",
+      "id" : 72.1,
       "module" : "Siro",
       "name" : "Siro shutter"
    },
@@ -4373,7 +4373,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "73",
+      "id" : 73,
       "module" : "FHT",
       "name" : "FHT80b"
    },
@@ -4410,7 +4410,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "74",
+      "id" : 74,
       "module" : "FS20",
       "name" : "FS20 S4A-2"
    },
@@ -4433,7 +4433,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "74",
+      "id" : 74,
       "module" : "FS20",
       "name" : "FS20 S6A"
    },
@@ -4457,7 +4457,7 @@
             "user" : "pejonp"
          }
       ],
-      "id" : "74",
+      "id" : 74,
       "module" : "FS20",
       "name" : "FS20 S8-2"
    },
@@ -4480,7 +4480,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "74.1",
+      "id" : 74.1,
       "module" : "FS20",
       "name" : "FS20 S6A"
    },
@@ -4525,7 +4525,7 @@
             "user" : "sidey79"
          }
       ],
-      "id" : "76",
+      "id" : 76,
       "module" : "SD_UT",
       "name" : "LED XM21"
    },
@@ -4550,7 +4550,7 @@
             "user" : "unknown"
          }
       ],
-      "id" : "77",
+      "id" : 77,
       "module" : "CUL_TX",
       "name" : "DS1820_4Fach"
    },
@@ -4623,7 +4623,7 @@
             "user" : "TheChatty"
          }
       ],
-      "id" : "78",
+      "id" : 78,
       "module" : "SD_UT",
       "name" : "BeSmart_S4"
    },
@@ -4650,7 +4650,7 @@
             "user" : "a13xde"
          }
       ],
-      "id" : "79",
+      "id" : 79,
       "module" : "SD_BELL",
       "name" : "BELL-201-TX"
    },
@@ -4697,7 +4697,7 @@
             "user" : "Holger-Arnold"
          }
       ],
-      "id" : "79",
+      "id" : 79,
       "module" : "SD_BELL",
       "name" : "HX 70372"
    },
@@ -4724,7 +4724,7 @@
             "user" : "rcmcronny"
          }
       ],
-      "id" : "79",
+      "id" : 79,
       "module" : "SD_BELL",
       "name" : "HX 70372"
    },
@@ -4756,7 +4756,7 @@
             "user" : "Derwelcherichbin"
          }
       ],
-      "id" : "80",
+      "id" : 80,
       "module" : "CUL_EM",
       "name" : "EM1000WZ"
    },
@@ -4783,7 +4783,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "81",
+      "id" : 81,
       "module" : "SD_UT",
       "name" : "SA-434-1 mini"
    },
@@ -4822,7 +4822,7 @@
             "user" : "zwiebert"
          }
       ],
-      "id" : "82",
+      "id" : 82,
       "module" : "Fernotron",
       "name" : "Fernotron"
    },
@@ -4851,7 +4851,7 @@
             "user" : "zwiebelxxl"
          }
       ],
-      "id" : "83",
+      "id" : 83,
       "module" : "SD_UT",
       "name" : "RH787T"
    },
@@ -4881,7 +4881,7 @@
             "user" : "roobbb"
          }
       ],
-      "id" : "84",
+      "id" : 84,
       "module" : "SD_WS",
       "name" : "Auriol IAN 283582"
    },
@@ -4910,7 +4910,7 @@
             "user" : "w6s8"
          }
       ],
-      "id" : "84",
+      "id" : 84,
       "module" : "SD_WS",
       "name" : "Sempre 92596/65395"
    },
@@ -4940,7 +4940,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "84",
+      "id" : 84,
       "module" : "SD_WS",
       "name" : "Tecvance TV-4848"
    },
@@ -4968,7 +4968,7 @@
             "user" : "Iron-R1"
          }
       ],
-      "id" : "85",
+      "id" : 85,
       "module" : "SD_WS",
       "name" : "TFA 30.3222.02, Temp"
    },
@@ -4995,7 +4995,7 @@
             "user" : "Iron-R1"
          }
       ],
-      "id" : "85",
+      "id" : 85,
       "module" : "SD_WS",
       "name" : "TFA 30.3222.02, Wind"
    },
@@ -5052,7 +5052,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "85",
+      "id" : 85,
       "module" : "SD_WS",
       "name" : "TFA 30.3251.10 Windsensor"
    },
@@ -5103,7 +5103,7 @@
             "user" : "andies, andreasloe"
          }
       ],
-      "id" : "86",
+      "id" : 86,
       "module" : "SD_UT",
       "name" : "CAME TOP 432EV"
    },
@@ -5176,7 +5176,7 @@
             "user" : "Garfonso"
          }
       ],
-      "id" : "86",
+      "id" : 86,
       "module" : "SD_UT",
       "name" : "Novy 840029"
    },
@@ -5247,7 +5247,7 @@
             "user" : "Devirex"
          }
       ],
-      "id" : "86",
+      "id" : 86,
       "module" : "SD_UT",
       "name" : "Novy 840039"
    },
@@ -5363,7 +5363,7 @@
             "user" : "user"
          }
       ],
-      "id" : "86",
+      "id" : 86,
       "module" : "SD_UT",
       "name" : "SF01_01319004"
    },
@@ -5414,7 +5414,7 @@
             "user" : "Stuetti"
          }
       ],
-      "id" : "86",
+      "id" : 86,
       "module" : "SD_UT",
       "name" : "SF01_01319004_Typ2"
    },
@@ -5473,7 +5473,7 @@
             "user" : "thorschtn"
          }
       ],
-      "id" : "87",
+      "id" : 87,
       "module" : "SD_Keeloq",
       "name" : "JaroLift TDRCT 04W"
    },
@@ -5530,7 +5530,7 @@
             "user" : "D3ltorohd"
          }
       ],
-      "id" : "88",
+      "id" : 88,
       "module" : "SD_Keeloq",
       "name" : "RADEMACHER RP-S1-HS-RF11"
    },
@@ -5562,7 +5562,7 @@
             "user" : "bruen985"
          }
       ],
-      "id" : "88",
+      "id" : 88,
       "module" : "SD_Keeloq",
       "name" : "Roto TX-nM-HCS"
    },
@@ -5669,7 +5669,7 @@
             "user" : "D3ltorohd"
          }
       ],
-      "id" : "88",
+      "id" : 88,
       "module" : "SD_Keeloq",
       "name" : "SCS Sentinel PR3-4207-002"
    },
@@ -5701,7 +5701,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "88",
+      "id" : 88,
       "module" : "SD_Keeloq",
       "name" : "Waeco MA650-TX"
    },
@@ -5783,7 +5783,7 @@
             "user" : "plin"
          }
       ],
-      "id" : "88",
+      "id" : 88,
       "module" : "SD_Keeloq",
       "name" : "enjoy motors HS-8"
    },
@@ -5813,7 +5813,7 @@
             "user" : "Iron-R1"
          }
       ],
-      "id" : "89",
+      "id" : 89,
       "module" : "SD_WS",
       "name" : "TFA 30.3221.02"
    },
@@ -5843,7 +5843,7 @@
             "user" : "my-engel"
          }
       ],
-      "id" : "90",
+      "id" : 90,
       "module" : "SD_UT",
       "name" : "MANAX RC-10 (MX-RCS250)"
    },
@@ -5942,7 +5942,7 @@
             "user" : "peterboeckmann"
          }
       ],
-      "id" : "90",
+      "id" : 90,
       "module" : "SD_UT",
       "name" : "mumbi RC-10 (AFS300-s)"
    },
@@ -5973,7 +5973,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "91",
+      "id" : 91,
       "module" : "SD_UT",
       "name" : "MD-2018R"
    },
@@ -6004,7 +6004,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "91",
+      "id" : 91,
       "module" : "SD_UT",
       "name" : "MD-210R"
    },
@@ -6035,7 +6035,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "91",
+      "id" : 91,
       "module" : "SD_UT",
       "name" : "MD_2003R"
    },
@@ -6065,7 +6065,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "91.1",
+      "id" : 91.1,
       "module" : "SD_UT",
       "name" : "MD-2018R"
    },
@@ -6096,7 +6096,7 @@
             "user" : "Harst"
          }
       ],
-      "id" : "91.1",
+      "id" : 91.1,
       "module" : "SD_UT",
       "name" : "MD-210R"
    },
@@ -6146,7 +6146,7 @@
             "user" : "gestein"
          }
       ],
-      "id" : "92",
+      "id" : 92,
       "module" : "SD_UT",
       "name" : "KRINNER Lumix - LED X-MAS"
    },
@@ -6174,7 +6174,7 @@
             "user" : "SD_Protocol"
          }
       ],
-      "id" : "93",
+      "id" : 93,
       "module" : "SD_UT",
       "name" : "KL-RF01"
    },
@@ -6273,7 +6273,7 @@
             "user" : "Kreidler1221"
          }
       ],
-      "id" : "94",
+      "id" : 94,
       "module" : "SD_WS",
       "name" : "Atech"
    },
@@ -6345,7 +6345,7 @@
             "user" : "BlackcatSandy"
          }
       ],
-      "id" : "95",
+      "id" : 95,
       "module" : "SD_UT",
       "name" : "Techmar"
    },
@@ -6390,7 +6390,7 @@
             "user" : "coolheizer"
          }
       ],
-      "id" : "96",
+      "id" : 96,
       "module" : "SD_BELL",
       "name" : "Grothe_Mistral_SE_01"
    },
@@ -6437,7 +6437,7 @@
             "user" : "coolheizer"
          }
       ],
-      "id" : "96",
+      "id" : 96,
       "module" : "SD_BELL",
       "name" : "Grothe_Mistral_SE_03"
    },
@@ -6508,7 +6508,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "97",
+      "id" : 97,
       "module" : "SD_UT",
       "name" : "Momento"
    },
@@ -6535,7 +6535,7 @@
             "user" : "nagelreo"
          }
       ],
-      "id" : "98",
+      "id" : 98,
       "module" : "SD_BELL",
       "name" : "GEA-028DB"
    },
@@ -6563,7 +6563,7 @@
             "user" : "DavidKing123456"
          }
       ],
-      "id" : "99",
+      "id" : 99,
       "module" : "SD_UT",
       "name" : "NAVARIS 44344.04"
    },
@@ -6589,7 +6589,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "100",
+      "id" : 100,
       "module" : "LaCrosse",
       "name" : "TX29DTH-IT"
    },
@@ -6628,7 +6628,7 @@
             "user" : "Ralf9"
          }
       ],
-      "id" : "101",
+      "id" : 101,
       "module" : "PCA301",
       "name" : "PCA301"
    },
@@ -6651,7 +6651,7 @@
             "user" : "unknown"
          }
       ],
-      "id" : "102",
+      "id" : 102,
       "module" : "KOPP_FC",
       "name" : "KOPP_FC"
    },
@@ -6676,7 +6676,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "103",
+      "id" : 103,
       "module" : "LaCrosse",
       "name" : "TX35-IT"
    },
@@ -6749,7 +6749,7 @@
             "user" : "phoenix-anasazi"
          }
       ],
-      "id" : "104",
+      "id" : 104,
       "module" : "SD_UT",
       "name" : "TR60C-1"
    },
@@ -6822,7 +6822,7 @@
             "user" : "stsirakidis"
          }
       ],
-      "id" : "105",
+      "id" : 105,
       "module" : "SD_UT",
       "name" : "BF-301"
    },
@@ -6883,7 +6883,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "106",
+      "id" : 106,
       "module" : "SD_WS",
       "name" : "GT-TMBBQ-01s"
    },
@@ -6930,7 +6930,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "107",
+      "id" : 107,
       "module" : "SD_WS",
       "name" : "WH51"
    },
@@ -7012,7 +7012,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "108",
+      "id" : 108,
       "module" : "SD_WS",
       "name" : "BRESSER 5in1"
    },
@@ -7067,7 +7067,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "109",
+      "id" : 109,
       "module" : "SD_Rojaflex",
       "name" : "Rojaflex HSR-15, HSTR-15"
    },
@@ -7140,7 +7140,7 @@
             "user" : "docolli"
          }
       ],
-      "id" : "110",
+      "id" : 110,
       "module" : "SD_WS",
       "name" : "ADE WS 1907"
    },
@@ -7204,7 +7204,7 @@
             "user" : "docolli"
          }
       ],
-      "id" : "111",
+      "id" : 111,
       "module" : "SD_WS",
       "name" : "TS-FT002"
    },
@@ -7230,7 +7230,7 @@
             "user" : "HomeAuto_User"
          }
       ],
-      "id" : "112",
+      "id" : 112,
       "module" : "SD_BELL",
       "name" : "AVANTEK DB-LE"
    },
@@ -7294,7 +7294,7 @@
             "user" : "muede-de"
          }
       ],
-      "id" : "113",
+      "id" : 113,
       "module" : "SD_WS",
       "name" : "GFGT_433_B1"
    },
@@ -7345,7 +7345,7 @@
             "user" : "Jake"
          }
       ],
-      "id" : "114",
+      "id" : 114,
       "module" : "SD_UT",
       "name" : "TR401"
    },
@@ -7379,7 +7379,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "115",
+      "id" : 115,
       "module" : "SD_WS",
       "name" : "BRESSER 3-in-1"
    },
@@ -7461,7 +7461,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "115",
+      "id" : 115,
       "module" : "SD_WS",
       "name" : "BRESSER 6-in-1"
    },
@@ -7489,7 +7489,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "115",
+      "id" : 115,
       "module" : "SD_WS",
       "name" : "BRESSER 6-in-1"
    },
@@ -7517,7 +7517,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "115",
+      "id" : 115,
       "module" : "SD_WS",
       "name" : "Bresser Explore Scientific"
    },
@@ -7566,7 +7566,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "116",
+      "id" : 116,
       "module" : "SD_WS",
       "name" : "WH57"
    },
@@ -7657,7 +7657,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "117",
+      "id" : 117,
       "module" : "SD_WS",
       "name" : "BRESSER 7-in-1"
    },
@@ -7727,7 +7727,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "118",
+      "id" : 118,
       "module" : "SD_UT",
       "name" : "Meikee"
    },
@@ -7774,7 +7774,7 @@
             "user" : "gestein"
          }
       ],
-      "id" : "119",
+      "id" : 119,
       "module" : "IFB",
       "name" : "funkbus"
    },
@@ -7848,7 +7848,7 @@
             "user" : "Ronny2510"
          }
       ],
-      "id" : "120",
+      "id" : 120,
       "module" : "SD_WS",
       "name" : "TFA 35.1077.54.S2"
    },
@@ -7897,7 +7897,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "121",
+      "id" : 121,
       "module" : "SD_UT",
       "name" : "Busch-Transcontrol HF"
    },
@@ -7950,7 +7950,7 @@
             "user" : "Prof. Dr. Peter Henning"
          }
       ],
-      "id" : "122",
+      "id" : 122,
       "module" : "SD_WS",
       "name" : "Temola TM40"
    },
@@ -7978,7 +7978,7 @@
             "user" : "xeenon"
          }
       ],
-      "id" : "123",
+      "id" : 123,
       "module" : "SD_WS",
       "name" : "Inkbird IBS-P01R"
    },
@@ -8007,7 +8007,7 @@
             "user" : "elektron-bbs"
          }
       ],
-      "id" : "123",
+      "id" : 123,
       "module" : "SD_WS",
       "name" : "Inkbird ITH-20R"
    },
@@ -8296,9 +8296,9 @@
                "state" : "on"
             },
             "revision_entry" : "2023-12-18 18:43:13",
-            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z HomeAutoUser",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-19 18:00:00Z HomeAuto_User",
             "rmsg" : "MU;P0=-696;P1=312;P2=-371;P3=637;P4=-12847;D=01012301230123012341012323232301230101010123010101010123012301230123410123232323012301010101230101010101230123012301234101232323230123010101012301010101012301230123012341012323232301230101010123010101010123012301230123410123232323012301010101230101010101;CP=1;R=236;O;",
-            "user" : "HomeAutoUser"
+            "user" : "HomeAuto_User"
          },
          {
             "attributes" : {
@@ -8316,9 +8316,9 @@
                "state" : "off"
             },
             "revision_entry" : "2023-12-18 18:45:11",
-            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z HomeAutoUser",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-19 18:00:00Z HomeAuto_User",
             "rmsg" : "MU;P0=-12609;P1=305;P2=-696;P3=-344;P4=653;D=01213434343421342121212134212121212134213421213434012134343434213421212121342121212121342134212134340121343434342134212121213421212121213421342121343401213434343421342121212134212121212134213421213434012134343434213421212121342121212121342134212134340121;CP=1;R=239;O;",
-            "user" : "HomeAutoUser"
+            "user" : "HomeAuto_User"
          },
          {
             "attributes" : {
@@ -8335,9 +8335,9 @@
                "state" : "on"
             },
             "revision_entry" : "2023-12-18 18:49:49",
-            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z HomeAutoUser",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-19 18:00:00Z HomeAuto_User",
             "rmsg" : "MU;P0=-340;P1=639;P2=-686;P3=304;P4=-12480;D=01230123014301010101010101232323232301230123012301430101010101010123232323012323232323012301230123014301010101010101232323230123232323230123012301230143010101010101012323232301232323232301230123012301430101010101010123232323012323232323012301230123014301;CP=3;R=226;O;",
-            "user" : "HomeAutoUser"
+            "user" : "HomeAuto_User"
          },
          {
             "attributes" : {
@@ -8355,9 +8355,9 @@
                "state" : "off"
             },
             "revision_entry" : "2023-12-18 18:50:30",
-            "revision_modul" : "14_SD_UT.pm     0 2023-12-18 19:00:00Z HomeAutoUser",
+            "revision_modul" : "14_SD_UT.pm     0 2023-12-19 18:00:00Z HomeAuto_User",
             "rmsg" : "MU;P0=307;P1=-685;P2=-350;P3=658;P4=-12510;D=01010102310101010102310231010232340232323232323231010101023101010101023102323232323232323101010102310101010102310231010232340232323232323231010101023101010101023102310102323402323232323232310101010231010101010231023101023234023232323232323101010102310101;CP=0;R=232;O;",
-            "user" : "HomeAutoUser"
+            "user" : "HomeAuto_User"
          }
       ],
       "id" : 132,
