@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 125 2023-02-01 15:59:15Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 126 2024-03-01 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -28,7 +28,7 @@ eval {use JSON::PP qw( );1};
 eval {use JSON::XS;1};
 
 use lib::SD_Protocols;
-use FHEM::Meta;         # https://wiki.fhem.de/wiki/Meta for SVN Revision
+use FHEM::Meta;                       # https://wiki.fhem.de/wiki/Meta for SVN Revision
 
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
 
@@ -94,7 +94,10 @@ sub SIGNALduino_TOOL_Initialize {
                                .' IODev IODev_Repeats:1,2,3,4,5,6,7,8,9,10,15,20'
                                .' JSON_Check_exceptions JSON_write_ERRORs:no,yes JSON_write_at_any_time:no,yes'
                                .' RAWMSG_M1 RAWMSG_M2 RAWMSG_M3';
-#  return FHEM::Meta::InitMod( __FILE__, $hash ); # meta module brings warnings with name SIGNALduino_TOOL, development people does not react
+
+# meta module brings warnings with name SIGNALduino_TOOL, development people does not react
+# new message on forum https://forum.fhem.de/index.php?topic=136487.msg1298722#new
+#  return FHEM::Meta::InitMod( __FILE__, $hash );
 }
 
 ################################
@@ -108,6 +111,9 @@ sub SIGNALduino_TOOL_Define {
   my $name = $arg[0];
   my $typ = $hash->{TYPE};
   my $file = AttrVal($name,'File_input','');
+
+  # Anzeigen der Modulversion (Internal FVERSION) über FHEM::Meta, Variable in META.json Abschnitt erforderlich: "version": "v1.0.0", siehe https://wiki.fhem.de/wiki/Meta
+  return $@ unless ( FHEM::Meta::SetInternals($hash) );
 
   if(@arg != 2) { return "Usage: define <name> $name"; }
 
@@ -153,7 +159,6 @@ sub SIGNALduino_TOOL_Define {
   $hash->{STATE} = 'Defined';
   readingsSingleUpdate($hash, 'state' , 'Defined' , 0);
 
-  return $@ unless ( FHEM::Meta::SetInternals($hash) );
   return;
 }
 
@@ -836,6 +841,7 @@ sub SIGNALduino_TOOL_Set {
           close $PrintFile;
           $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');                    # RESET --> Path | # Path if not define
         }
+        %{$TestData_prepared} = ();  # RESET --> memory for tests
       }
       SIGNALduino_TOOL_deleteInternals($hash,'dispatchDeviceTime,dispatchDevice,dispatchSTATE');
       return 'your file SD_ProtocolList.json are saved';
@@ -4803,6 +4809,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       }
     }
   },
+  "version": "v1.2.6",
   "release_status": "stable",
   "resources": {
     "bugtracker": {
@@ -4836,7 +4843,6 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       "web": "https://wiki.fhem.de/wiki/SIGNALduino_TOOL"
     }
   },
-  "version": "v1.2.5",
   "x_fhem_maintainer": [
     "HomeAuto_User",
     "elektron-bbs"
