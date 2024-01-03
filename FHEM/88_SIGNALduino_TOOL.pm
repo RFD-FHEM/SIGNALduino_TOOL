@@ -4795,6 +4795,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
         "FHEM::Meta": 0.001006,
         "HttpUtils": 0,
         "JSON::PP": 0,
+        "JSON::XS": 0,
         "lib::SD_Protocols": "0",
         "perl": 5.018,
         "strict": "0",
