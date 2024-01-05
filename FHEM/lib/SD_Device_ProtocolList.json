@@ -7664,6 +7664,59 @@
    {
       "data" : [
          {
+            "attributes" : {},
+            "comment" : "BRESSER PM2.5/10 air quality meter",
+            "dmsg" : "W117#49C8CAC2176023178000700080009004400530054039600000AA",
+            "internals" : {
+               "DEF" : "SD_WS_117_1",
+               "NAME" : "SD_WS_117_1"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "batteryChanged" : "1",
+               "batteryVoltage" : 3.96,
+               "channel" : 1,
+               "pm_10" : 9,
+               "pm_2_5" : 8,
+               "state" : "PM2.5: 8 PM10: 9",
+               "type" : "Bresser_7in1"
+            },
+            "revision_entry" : "2023-12-29 09:51:53",
+            "revision_modul" : "14_SD_WS.pm 26982 2023-12-29 09:00:00Z elektron-bbs",
+            "rmsg" : "MN;D=E3626068BDCA89BD2AAADAAA2AAA3AAEEAAF9AAFEA93CAAAAA00;R=10;",
+            "user" : "elektron-bbs"
+         },
+         {
+            "attributes" : {},
+            "comment" : "BRESSER PM2.5/10 air quality meter",
+            "dmsg" : "W117#065CCAC2176023178058806290636099999999999939600000AA",
+            "internals" : {
+               "DEF" : "SD_WS_117_1",
+               "NAME" : "SD_WS_117_1"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "batteryChanged" : "1",
+               "batteryVoltage" : 3.96,
+               "channel" : 1,
+               "pm_10" : 636,
+               "pm_2_5" : 629,
+               "state" : "PM2.5: 629 PM10: 636",
+               "type" : "Bresser_7in1"
+            },
+            "revision_entry" : "2023-12-29 09:57:07",
+            "revision_modul" : "14_SD_WS.pm 26982 2023-12-29 09:00:00Z elektron-bbs",
+            "rmsg" : "MN;D=ACF66068BDCA89BD2AF22AC83AC9CA33333333333393CAAAAA00;R=9;",
+            "user" : "elektron-bbs"
+         }
+      ],
+      "id" : 117,
+      "module" : "SD_WS",
+      "name" : "BRESSER PM2.5/10"
+   },
+   {
+      "data" : [
+         {
             "attributes" : {
                "model" : "Meikee_24"
             },
