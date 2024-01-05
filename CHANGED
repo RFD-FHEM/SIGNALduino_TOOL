@@ -1,3 +1,6 @@
+2024-01-05 - Update SD_Device_ProtocolList.json
+
+add testdata for BRESSER PM2.5/10 air quality meter, protocol 117
 2024-01-03 - Update 88_SIGNALduino_TOOL.pm
 2024-01-03 - Update 88_SIGNALduino_TOOL.pm
 2023-12-19 - Update SD_Device_ProtocolList.json
