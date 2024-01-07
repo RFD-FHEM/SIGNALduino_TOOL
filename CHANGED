@@ -1,3 +1,6 @@
+2024-01-07 - Update SD_Device_ProtocolList.json
+
+add testdata for protocol 131, BRESSER lightning detector
 2024-01-05 - Update SD_Device_ProtocolList.json
 
 add testdata for BRESSER PM2.5/10 air quality meter, protocol 117
