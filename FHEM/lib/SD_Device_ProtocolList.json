@@ -8335,6 +8335,57 @@
    {
       "data" : [
          {
+            "attributes" : {},
+            "comment" : "BRESSER lightning detector",
+            "dmsg" : "W131#70F082CC00083A000000",
+            "internals" : {
+               "DEF" : "SD_WS_131",
+               "NAME" : "SD_WS_131"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "batteryChanged" : "0",
+               "batteryState" : "ok",
+               "count" : 0,
+               "distance" : 0,
+               "state" : "D: 0",
+               "type" : "Bresser_lightning"
+            },
+            "revision_entry" : "2023-12-29 10:12:52",
+            "revision_modul" : "14_SD_WS.pm 26982 2023-12-29 09:00:00Z elektron-bbs",
+            "rmsg" : "MN;D=DA5A2866AAA290AAAAAA;R=23;A=-2;",
+            "user" : "elektron-bbs"
+         },
+         {
+            "attributes" : {},
+            "comment" : "BRESSER lightning detector",
+            "dmsg" : "W131#009C82CC148832080000",
+            "internals" : {
+               "DEF" : "SD_WS_131",
+               "NAME" : "SD_WS_131"
+            },
+            "minProtocolVersion" : "1.55",
+            "readings" : {
+               "batteryChanged" : "1",
+               "batteryState" : "ok",
+               "count" : 148,
+               "distance" : 8,
+               "state" : "D: 8",
+               "type" : "Bresser_lightning"
+            },
+            "revision_entry" : "2023-12-29 10:15:46",
+            "revision_modul" : "14_SD_WS.pm 26982 2023-12-29 09:00:00Z elektron-bbs",
+            "rmsg" : "MN;D=AA362866BE2298A2AAAA;R=24;A=-2;",
+            "user" : "elektron-bbs"
+         }
+      ],
+      "id" : 131,
+      "module" : "SD_WS",
+      "name" : "Bresser lightning"
+   },
+   {
+      "data" : [
+         {
             "attributes" : {
                "model" : "HA_HX2"
             },
