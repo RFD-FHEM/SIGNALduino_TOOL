@@ -1883,6 +1883,57 @@
       "data" : [
          {
             "attributes" : {
+               "model" : "RCnoName20_09"
+            },
+            "comment" : "Remote control with 9 buttons for ceiling fan with lighting (Controller MP 2.5+3UF)",
+            "dmsg" : "P20#024F0201",
+            "internals" : {
+               "DEF" : "RCnoName20_09 024F",
+               "NAME" : "RCnoName20_09_024F"
+            },
+            "minProtocolVersion" : "1.56",
+            "readings" : {
+               "LastAction" : "receive",
+               "deviceCode" : "024F",
+               "rollingCode" : "0",
+               "state" : "fan_low"
+            },
+            "revision_entry" : "2024-07-14 16:07:38",
+            "revision_modul" : "14_SD_UT.pm 0 2024-07-07 12:00:00Z elektron-bbs",
+            "rmsg" : "MS;P0=249;P1=-744;P3=770;P4=-228;P5=-8026;D=050101010101013401013401013434343401010101010134010101010101010134;CP=0;SP=5;R=35;O;m2;",
+            "user" : "Butsch"
+         },
+         {
+            "attributes" : {
+               "model" : "RCnoName20_09"
+            },
+            "comment" : "Remote control with 9 buttons for ceiling fan with lighting (Controller MP 2.5+3UF)",
+            "dmsg" : "P20#024F0636",
+            "internals" : {
+               "DEF" : "RCnoName20_09 024F",
+               "NAME" : "RCnoName20_09_024F"
+            },
+            "minProtocolVersion" : "1.56",
+            "readings" : {
+               "LastAction" : "receive",
+               "deviceCode" : "024F",
+               "rollingCode" : "3",
+               "state" : "fan_stop"
+            },
+            "revision_entry" : "2024-07-14 16:16:28",
+            "revision_modul" : "14_SD_UT.pm 0 2024-07-07 12:00:00Z elektron-bbs",
+            "rmsg" : "MS;P0=-7940;P1=246;P2=-757;P3=736;P4=-247;D=101212121212123412123412123434343412121212123434121212343412343412;CP=1;SP=0;R=47;O;m2;",
+            "user" : "Butsch"
+         }
+      ],
+      "id" : 20,
+      "module" : "SD_UT",
+      "name" : "RCnoName20_09"
+   },
+   {
+      "data" : [
+         {
+            "attributes" : {
                "model" : "RCnoName20_10"
             },
             "comment" : "Remote control with 10 buttons for fan",
