@@ -1,3 +1,6 @@
+2024-08-30 - Update SD_Device_ProtocolList.json
+
+CREATE_6601L - Ident changed from 4 to 5 nibbles.
 2024-08-06 - Update SD_Device_ProtocolList.json
 
 add data for Remote control CREATE 6601L with 14 buttons for ceiling fan with lighting
