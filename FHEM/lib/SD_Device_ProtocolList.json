@@ -1788,13 +1788,13 @@
             "comment" : "Remote control CREATE 6601L with 14 buttons for ceiling fan with lighting",
             "dmsg" : "P20#1B900823",
             "internals" : {
-               "DEF" : "CREATE_6601L 1B90",
-               "NAME" : "CREATE_6601L_1B90"
+               "DEF" : "CREATE_6601L 1B900",
+               "NAME" : "CREATE_6601L_1B900"
             },
             "minProtocolVersion" : "1.56",
             "readings" : {
                "LastAction" : "receive",
-               "deviceCode" : "1B90",
+               "deviceCode" : "1B900",
                "rollingCode" : "2",
                "state" : "fan_2"
             },
@@ -1817,13 +1817,13 @@
             "comment" : "Remote control CREATE 6601L with 14 buttons for ceiling fan with lighting",
             "dmsg" : "P20#1B900485",
             "internals" : {
-               "DEF" : "CREATE_6601L 1B90",
-               "NAME" : "CREATE_6601L_1B90"
+               "DEF" : "CREATE_6601L 1B900",
+               "NAME" : "CREATE_6601L_1B900"
             },
             "minProtocolVersion" : "1.56",
             "readings" : {
                "LastAction" : "receive",
-               "deviceCode" : "1B90",
+               "deviceCode" : "1B900",
                "rollingCode" : "8",
                "state" : "fan_5"
             },
