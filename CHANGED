@@ -1,3 +1,6 @@
+2024-09-08 - Update SD_Device_ProtocolList.json
+
+add data for SD_WS_48_T Temperature transmitter TFA 30.3212
 2024-08-30 - Update SD_Device_ProtocolList.json
 
 CREATE_6601L - Ident changed from 4 to 5 nibbles.
