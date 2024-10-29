@@ -12,7 +12,7 @@ jobs:
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: Checkout Repostory
-      uses: actions/checkout@v4.1.7
+      uses: actions/checkout@v4.2.2
       with:
         fetch-depth: 0
     - name: update controls files
