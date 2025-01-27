@@ -1804,7 +1804,7 @@
             "user" : "Kent"
          }
       ],
-      "id" : "20",
+      "id" : 20,
       "module" : "SD_UT",
       "name" : "CREATE_6601L"
    },
@@ -1833,7 +1833,7 @@
             "user" : "Kent"
          }
       ],
-      "id" : "20",
+      "id" : 20,
       "module" : "SD_UT",
       "name" : "CREATE_6601L"
    },
@@ -3280,7 +3280,7 @@
             "user" : "anphiga"
          }
       ],
-      "id" : "48",
+      "id" : 48,
       "module" : "SD_WS",
       "name" : "TFA JOKER"
    },
@@ -8327,6 +8327,33 @@
       "id" : 125,
       "module" : "SD_WS",
       "name" : "WH31"
+   },
+   {
+      "data" : [
+         {
+            "attributes" : {},
+            "comment" : "DCF-Message",
+            "dmsg" : "W125#52971025010910492909B3",
+            "internals" : {
+               "DEF" : "SD_WS_125_DCF",
+               "NAME" : "SD_WS_125_DCF"
+            },
+            "minProtocolVersion" : "1.58",
+            "readings" : {
+               "dcf" : "2025-01-09 10:49:29",
+               "model" : "SD_WS_125_TH",
+               "state" : "97: 2025-01-09 10:49:29",
+               "type" : "WH31e, WH31b, DP50, DNT000005"
+            },
+            "revision_entry" : "2025-01-27 10:56:40",
+            "revision_modul" : "14_SD_WS.pm 26982 2025-01-26 12:43:07Z elektron-bbs",
+            "rmsg" : "MN;D=52971025010910492909B3;R=50;A=0;",
+            "user" : "elektron-bbs"
+         }
+      ],
+      "id" : 125,
+      "module" : "SD_WS",
+      "name" : "WH31e, WH31b, DP50, DNT000005"
    },
    {
       "data" : [
