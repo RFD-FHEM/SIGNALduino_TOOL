@@ -1,6 +1,8 @@
-[
+{
+   "$schema": "../../SD_Device_ProtocolList_Schema.json",
+   "protocols": [
    {
-      "data" : [
+       "data" : [
          {
             "attributes" : {
                "model" : "ABS700"
