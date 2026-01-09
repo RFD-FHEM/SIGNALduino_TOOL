@@ -8,6 +8,7 @@ add data for SD_WS_136_THW_1, "Wind, temperature and humidity sensor EMOS E06016
 2026-02-08 - Update SD_Device_ProtocolList.json
 
 add data for protocol 135
+2026-01-09 - feat: Reference JSON Schema
 2025-12-04 - Update SD_Device_ProtocolList.json
 
 add data for RCnoName20_15
