@@ -3,7 +3,7 @@ use warnings;
 
 use Cwd qw(abs_path);
 use File::Spec;
-use Test2::V0;
+use Test2::V1 qw(-ipP);
 
 my $project_root = File::Spec->rel2abs(File::Spec->catdir(File::Spec->curdir()));
 my $rffhem_dir = $ENV{RFFHEM_DIR}

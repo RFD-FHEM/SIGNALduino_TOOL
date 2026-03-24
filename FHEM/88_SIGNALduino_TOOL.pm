@@ -108,6 +108,8 @@ our %modules;
 our $init_done;
 our $readingFnAttributes;
 our $reread_active;
+our $FW_CSRF;
+our $FW_detail;
 our $FW_wname;
 
 ################################
