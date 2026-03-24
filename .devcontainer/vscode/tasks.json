@@ -1,0 +1,55 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "run FHEM overlay check",
+      "type": "shell",
+      "command": "prove -lv t/load_protocol_package.t",
+      "options": {
+        "env": {
+          "RFFHEM_DIR": "/usr/src/RFFHEM"
+        }
+      }
+    },
+    {
+      "label": "run protocol package smoke test",
+      "type": "shell",
+      "command": "prove -lv t/load_protocol_package.t",
+      "options": {
+        "env": {
+          "RFFHEM_DIR": "/usr/src/RFFHEM"
+        }
+      }
+    },
+    {
+      "label": "run project tests",
+      "type": "shell",
+      "command": "prove -lv t/load_protocol_package.t t/json_check.pl",
+      "options": {
+        "env": {
+          "RFFHEM_DIR": "/usr/src/RFFHEM"
+        }
+      }
+    },
+    {
+      "label": "run prove test suite",
+      "type": "shell",
+      "command": "prove -lv t/*.t",
+      "options": {
+        "env": {
+          "RFFHEM_DIR": "/usr/src/RFFHEM"
+        }
+      }
+    },
+    {
+      "label": "run direct FHEM test for 88_SIGNALduino_TOOL",
+      "type": "shell",
+      "command": "perl /opt/fhem/fhem.pl -t /usr/src/SIGNALduino_TOOL/t/FHEM/88_SIGNALduino_TOOL/10_load.t",
+      "options": {
+        "env": {
+          "RFFHEM_DIR": "/usr/src/RFFHEM"
+        }
+      }
+    }
+  ]
+}

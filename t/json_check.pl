@@ -2,7 +2,7 @@
   use warnings;
 
   use JSON;
-  use Test2::V0;
+  use Test2::V1 qw(-ipP);
   use Test2::Tools::Compare qw{is isnt};
   use Test2::Todo;
   use Data::Dumper;
