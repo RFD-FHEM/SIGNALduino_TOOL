@@ -19,7 +19,8 @@ Beim Erstellen des Containers installiert `initialContainerSetup` FHEM nach `/op
 
 - `prove -lv t/load_protocol_package.t`
 - `prove -lv t/json_check.pl`
+- `prove -lv t/*.t`
 
 ### VS Code Tasks
 
-Die Devcontainer-Konfiguration liefert einfache Tasks fuer Syntaxcheck, Smoke-Test und das lokale Testset.
+Die Devcontainer-Konfiguration liefert einfache Tasks fuer Syntaxcheck, Smoke-Test, das lokale Testset und einen allgemeinen `prove`-Task fuer die `.t`-Suite.
