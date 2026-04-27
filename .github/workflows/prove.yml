@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6.0.2
-    - uses: shogo82148/actions-setup-perl@v1.38.1
+    - uses: shogo82148/actions-setup-perl@v1.40.0
       with:
         perl-version: '5.32'
         install-modules-with: cpanm
