@@ -1,3 +1,4 @@
+2026-04-27 - Automaitc updated controls and CHANGED
 2026-04-27 - Merge branch 'master' into feat/rffhem-protocol-package-update
 2026-03-24 - Add VS Code tasks for FHEM prove runs
 2026-03-24 - Add FHEM integration test for SIGNALduino_TOOL
@@ -8,6 +9,7 @@ add data for SD_WS_136_THW_1, "Wind, temperature and humidity sensor EMOS E06016
 2026-02-08 - Update SD_Device_ProtocolList.json
 
 add data for protocol 135
+2026-01-09 - feat: Reference JSON Schema
 2025-12-04 - Update SD_Device_ProtocolList.json
 
 add data for RCnoName20_15

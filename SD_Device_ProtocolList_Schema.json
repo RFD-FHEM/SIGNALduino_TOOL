@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "$id": "SD_Device_ProtocolList_Schema.json",
+  "title": "SD_Device_ProtocolList_Schema",
+  "description": "Schema für die Liste der Signalduino-Protokolldefinitionen und Testnachrichten.",
+  "type": "object",
+  "properties": {
+    "protocols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Liste der Beispiel-Nachrichtendatensätze für dieses Protokoll.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "attributes": {
+                  "description": "Geräteattribute. Sehr variabel.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "dmsg": {
+                  "description": "Dispatch Message (Hex-Code der dekodierten Nachricht).",
+                  "type": "string"
+                },
+                "internals": {
+                  "description": "Interne FHEM-Werte (z.B. DEF, NAME). Sehr variabel.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean"
+                    ]
+                  }
+                },
+                "minProtocolVersion": {
+                  "description": "Minimale erforderliche Protokollversion des Signalduino Protokolle.",
+                  "type": "string"
+                },
+                "readings": {
+                  "description": "Die vom Protokoll erzeugten FHEM-Readings. Werte sind sehr variabel (Zahlen als String oder Float).",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": [
+                      "string",
+                      "number",
+                      "boolean"
+                    ],
+                    "description": "Der Wert eines Readings. Kann String, Zahl (z.B. Float) oder boolesch sein."
+                  }
+                },
+                "revision_entry": {
+                  "description": "Revisionsdatum des Eintrags.",
+                  "type": "string"
+                },
+                "revision_modul": {
+                  "description": "Revisionsinformationen des Moduls.",
+                  "type": "string"
+                },
+                "rmsg": {
+                  "description": "Raw Message (ursprüngliche, unmodifizierte Nachricht vom Empfänger).",
+                  "type": "string"
+                },
+                "user": {
+                  "description": "Benutzer, der die Nachricht hinzugefügt hat.",
+                  "type": "string"
+                },
+                "comment": {
+                  "description": "Optionaler Kommentar zur Nachricht.",
+                  "type": "string"
+                },
+                "model": {
+                  "description": "Optionales Gerätemodell.",
+                  "type": "string"
+                },
+                "dispatch_repeats": {
+                  "description": "Optional: Anzahl der erwarteten Wiederholungen der Nachricht.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "dmsg",
+                "internals",
+                "minProtocolVersion",
+                "readings",
+                "revision_entry",
+                "revision_modul",
+                "rmsg",
+                "user"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "id": {
+            "description": "Eindeutige ID des Protokolls (kann Integer oder Float sein).",
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "module": {
+            "description": "Name des FHEM-Moduls.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Kurzname des Protokolls/Geräts.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "data",
+          "id",
+          "module",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["protocols"]
+}
