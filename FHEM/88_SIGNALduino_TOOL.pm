@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 126 2024-03-01 15:59:15Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 127 2026-04-28 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1125,7 +1125,7 @@ sub SIGNALduino_TOOL_Get {
   my $onlyDataName = '-ONLY_DATA-';
   my $IODev = AttrVal($name,'IODev',undef);
   my $list = 'Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg '.
-        'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg '.
+        'ProtocolList_from_file_SD_Protocols_Data.pm:noArg TimingsList:noArg '.
         'change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec '.
         'invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg '.
         'search_ignore_Devices:noArg ';
@@ -1637,7 +1637,7 @@ sub SIGNALduino_TOOL_Get {
   }
 
   ## read information from lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm in memory ##
-  if ($cmd eq 'ProtocolList_from_file_SD_ProtocolData.pm') {
+  if ($cmd eq 'ProtocolList_from_file_SD_Protocols_Data.pm') {
     $hash->{helper}{FW_SD_ProtocolData_get} = 1;    # need in java, check reload need
     $attr{$name}{DispatchModule} = "-";             # to set standard
     my $return = SIGNALduino_TOOL_SD_ProtocolData_read($hash, $name,$cmd,$path,$File_input);
@@ -2263,7 +2263,7 @@ sub SIGNALduino_TOOL_FW_Detail {
   <tr class='even'>";
 
   $ret .="<td>&nbsp;&nbsp;<a href='#button2' id='button2'>Display Information all Protocols</a>&nbsp;&nbsp;</td>";
-  $ret .="<td><a href='#button1' id='button1'>Display doc lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</a>&nbsp;&nbsp;</td>";
+  $ret .="<td><a href='#button1' id='button1'>Display doc SD_Protocols Data.pm</a>&nbsp;&nbsp;</td>";
   $ret .="<td><a href='#button3' id='button3'>Display doc SD_ProtocolList.json</a>&nbsp;&nbsp;</td>";
   if($longidsAttr > 0) { $ret .="<td><a href='#button5' id='button5'>replaceBatteryLongID</a>&nbsp;&nbsp;</td>"; }
 
@@ -2462,7 +2462,7 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
   my $ret;
 
   Log3 $name, 4, "$name: FW_SD_ProtocolData_get is running";
-  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolData.pm</code><br> to read this information." if (!@ProtocolList);
+  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_Protocols_Data.pm</code><br> to read this information." if (!@ProtocolList);
 
   $ret = "<table class=\"block wide internals wrapcolumns\">";
   $ret .="<caption id=\"SD_protoCaption\">List of message documentation in lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</caption>";
@@ -3198,7 +3198,7 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_Info {
   my $ret;
 
   Log3 $name, 4, "$name: FW_SD_ProtocolData_Info is running";
-  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolData.pm</code><br> to read this information." if (!$ProtocolListInfo);
+  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_Protocols_Data.pm</code><br> to read this information." if (!$ProtocolListInfo);
 
   $ret = "<table class=\"block wide internals wrapcolumns\">";
   $ret .="<caption id=\"SD_protoCaption\">List of more information over all protocols</caption>";
@@ -3297,17 +3297,19 @@ sub SIGNALduino_TOOL_Notify {
   ## MS
   # ... Dispatch, s4F038300, test ungleich: disabled
   # ... Dispatch, s4F038300, -79.5 dB, dispatch
-
-  if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /Dispatch,.*,\stest/ } @{$events}) ) {
-    if (grep { /ungleich/ } @{$events}) {
+  ## changed in Version 4.0.0 in file SD_Message.pm:
+  # 2026-03-26 17:37:22 SIGNALduino sduino_dummy 5: Dispatch, W136#83B59A1BC54A00CD3A0080D200 is equal to last DMSG
+  # 2026-03-26 17:37:22 SIGNALduino sduino_dummy 5: Dispatch, W136#83B59A1BC54A00CD3A0080D200, -50 dB, dispatch
+  if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /Dispatch,.*equal to last DMSG/ } @{$events}) ) {
+    if (grep { /unequal/ } @{$events}) {
       Log3 $name, 4, "$name: Notify - START with event from $devName\n$ntfy_match";
-    } elsif (grep { /gleich/ } @{$events}) {
+    } elsif (grep { /equal/ } @{$events}) {
       Log3 $name, 4, "$name: Notify - REPEAT with event from $devName\n$ntfy_match";
     }
 
     $ntfy_match =~ s/.*Dispatch,\s//g;
-    $ntfy_match =~ s/,\s.*//g;
-
+    $ntfy_match =~ s/\s.*//g;
+    $ntfy_match =~ s/,//g;
     $hash->{helper}->{NTFY_SEARCH_Value} = $ntfy_match;
     $hash->{helper}->{NTFY_SEARCH_Time} = FmtDateTime(time());
 
@@ -4405,6 +4407,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 # Beginn der Commandref
 
 =pod
+
+=encoding utf8
 =item [helper|device|command]
 =item summary Tool from SIGNALduino
 =item summary_DE Tool vom SIGNALduino
@@ -4447,7 +4451,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp; <u>note:</u> only after setting the File_input attribute does this option appear <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Dispatch_last"></a><li><code>Dispatch_last</code> - dispatch the last RAW message</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-modulname"></a><li><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li></ul>
-  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
+  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolList.json at ./FHEM/lib directory)<br>
   &emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Send_RAWMSG"></a><li><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
@@ -4472,7 +4476,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_ClockPulse"></a><li><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_SyncPulse"></a><li><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Device_ProtocolList.json"></a><li><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li></ul>
-  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_ProtocolData.pm"></a><li><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> how written to the <code>SD_ProtocolList.json</code> file</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Protocols_Data.pm"></a><li><code>ProtocolList_from_file_SD_Protocols_Data.pm</code> - an overview of the RAWMSG's | states and modules directly from <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> how written to the <code>SD_ProtocolList.json</code> file</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - created one file in csv format from <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> to use for import</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_bin_to_hex"></a><li><code>change_bin_to_hex</code> - converts the binary input to HEX</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_dec_to_hex"></a><li><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li></ul>
@@ -4488,7 +4492,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
   <b>Advanced menu (links to click)</b>
   <ul><li><code>Display Information all Protocols</code> - displays an overview of all protocols</a></li></ul>
-  <ul><li><code>Display doc lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> - displays all read information from the protocol data file with the option to dispatch it</a></li></ul>
+  <ul><li><code>Display doc SD_Protocols Data.pm.pm</code> - displays all read information from the protocol data file with the option to dispatch it</a></li></ul>
   <ul><li><code>Display doc SD_ProtocolList.json</code>  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></li></ul>
   <ul><li><code>replaceBatteryLongID</code> - Battery replacement for sensors with active LongID<br>
   <small><u>Hinweis:</u></small> Only if the <code>longids</code> attribute is set for an IODev.</a></li></ul>
@@ -4604,7 +4608,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp; <u>Hinweis:</u> erst nach gesetzten Attribut File_input erscheint diese Option <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Dispatch_last"></a><li><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-modulname"></a><li><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgew&auml;hlten Moduls aus dem Attribut DispatchModule.</li></ul>
-  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
+  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolList.json im ./FHEM/lib Verzeichnis)<br>
   &emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Send_RAWMSG"></a><li><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
@@ -4632,7 +4636,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_ClockPulse"></a><li><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_SyncPulse"></a><li><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Device_ProtocolList.json"></a><li><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li></ul>
-  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_ProtocolData.pm"></a><li><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code>, welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Protocols_Data.pm"></a><li><code>ProtocolList_from_file_SD_Protocols_Data.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code>, welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - erstellt eine Liste der Protokolldatei <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> im CSV-Format welche zum Import genutzt werden kann</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_bin_to_hex"></a><li><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_dec_to_hex"></a><li><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li></ul>
@@ -4648,7 +4652,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
   <b>Advanced menu (Links zum anklicken)</b>
   <ul><li><code>Display Information all Protocols</code> - zeigt eine Gesamtübersicht der Protokolle an</a></li></ul>
-  <ul><li><code>Display doc lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> - zeigt alle ausgelesenen Informationen aus der Protokolldatei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <ul><li><code>Display doc SD_Protocols Data.pm.pm</code> - zeigt alle ausgelesenen Informationen aus der Protokolldatei an mit der Option, diese zu Dispatchen</a></li></ul>
   <ul><li><code>Display doc SD_ProtocolList.json </code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></li></ul>
   <ul><li><code>replaceBatteryLongID  </code> - Batterietausch bei Sensoren mit aktiver LongID<br>
   <small><u>Hinweis:</u></small> Erscheint nur, wenn das Attribut <code>longids</code> bei einem IODev gesetzt ist.</a></li></ul>
@@ -4771,7 +4775,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
       }
     }
   },
-  "version": "v1.2.6",
+  "version": "v1.2.7",
   "release_status": "stable",
   "resources": {
     "bugtracker": {
