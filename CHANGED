@@ -1,3 +1,6 @@
+2026-04-28 - Bugfix link "check it" (#160)
+
+* The "check it" link does not appear when sending new messages.
 2026-04-28 - Merge branch 'master' into master_Bugfix_check-it
 2026-04-28 - The "check it" link does not appear when sending new messages.
 2026-04-27 - Merge branch 'master' into feat/rffhem-protocol-package-update
