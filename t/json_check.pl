@@ -1,7 +1,7 @@
   use strict;
   use warnings;
 
-  use JSON;
+  use JSON::PP qw(decode_json);
   use Test2::V1 qw(-ipP);
   use Test2::Tools::Compare qw{is isnt};
   use Test2::Todo;
@@ -23,9 +23,15 @@
       close (LoadDoc);
     }
 
-    $ProtocolListRead = eval { decode_json($json) };
+    my $ProtocolListDoc = eval { decode_json($json) };
     if ($@) {
       diag( "ERROR: decode_json failed, invalid json!<br><br>$@\n");  # error if JSON not valid or syntax wrong
+    }
+    elsif (ref($ProtocolListDoc) ne 'HASH' || ref($ProtocolListDoc->{protocols}) ne 'ARRAY') {
+      diag( "ERROR: invalid schema structure, expected object with protocols array\n");
+    }
+    else {
+      $ProtocolListRead = $ProtocolListDoc->{protocols};
     }
   }
 
