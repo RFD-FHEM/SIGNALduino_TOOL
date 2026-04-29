@@ -24,8 +24,8 @@ use warnings;
 
 eval {use Data::Dumper qw(Dumper);1};
 eval {use HttpUtils;1};
-eval {use JSON::PP qw( );1};
-eval {use JSON::XS;1};
+eval {use JSON::PP qw(decode_json);1};
+eval {use JSON::XS qw(decode_json);1};
 
 use FHEM::Devices::SIGNALduino::SD_Protocols;
 use FHEM::Meta;                       # https://wiki.fhem.de/wiki/Meta for SVN Revision
@@ -73,6 +73,30 @@ my @ccregnames = (
 my @ownModules = (
   '10_FS10', '10_SD_GT', '10_SD_Rojaflex', '14_BresserTemeo', '14_FLAMINGO', '14_Hideki', '14_SD_AS',
   '14_SD_BELL', '14_SD_UT', '14_SD_WS', '14_SD_WS07', '14_SD_WS09', '14_SD_WS_Maverick', '41_OREGON' );
+
+sub SIGNALduino_TOOL_decode_protocol_list_json {
+  my ($json) = @_;
+  my $ProtocolListDoc = decode_json($json);
+
+  return $ProtocolListDoc if (ref($ProtocolListDoc) eq 'ARRAY');
+  return $ProtocolListDoc->{protocols} if (ref($ProtocolListDoc) eq 'HASH' && ref($ProtocolListDoc->{protocols}) eq 'ARRAY');
+
+  die "invalid schema structure, expected array or object with protocols array\n";
+}
+
+sub SIGNALduino_TOOL_encode_protocol_list_doc {
+  my ($ProtocolList) = @_;
+
+  return {
+    '$schema'  => '../../SD_Device_ProtocolList_Schema.json',
+    protocols => $ProtocolList,
+  };
+}
+
+sub SIGNALduino_TOOL_json {
+  return JSON::XS->new if ($INC{'JSON/XS.pm'} && JSON::XS->can('new'));
+  return JSON::PP->new;
+}
 
 ################################
 sub SIGNALduino_TOOL_Initialize {
@@ -746,10 +770,10 @@ sub SIGNALduino_TOOL_Set {
         }
       }
 
-      my $js = JSON::PP->new;
+      my $js = SIGNALduino_TOOL_json();
       $js->canonical(1);      # will output key-value pairs in the order Perl stores
       $js->pretty(1);         # all of the indent, space_before and space_after ...
-      my $output = $js->encode($ProtocolListRead);
+      my $output = $js->encode(SIGNALduino_TOOL_encode_protocol_list_doc($ProtocolListRead));
 
       Log3 $name, 4, "$name: Set $cmd - write new JSON data";
       open my $PrintDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
@@ -765,7 +789,7 @@ sub SIGNALduino_TOOL_Set {
           close $LoadDoc;
         }
 
-        $ProtocolListTestData = eval { decode_json($TestData) };  # check JSON valid
+        $ProtocolListTestData = eval { SIGNALduino_TOOL_decode_protocol_list_json($TestData) };  # check JSON valid
         if ($@) {
           $@ =~ s/\sat\s\.\/FHEM.*//g;
           readingsSingleUpdate($hash, 'state' , "Your file $TestData are not loaded!", 0);  
@@ -822,7 +846,7 @@ sub SIGNALduino_TOOL_Set {
           }
 
           open my $PrintFile, '>', "$path/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
-            my $jst = JSON::PP->new;
+            my $jst = SIGNALduino_TOOL_json();
             $jst->canonical(1);      # will output key-value pairs in the order Perl stores
             $jst->pretty(1);         # all of the indent, space_before and space_after ...
             my $output = $jst->encode($TestData_prepared->{$key});
@@ -1664,7 +1688,7 @@ sub SIGNALduino_TOOL_Get {
       close $LoadDoc;
     }
 
-    $ProtocolListRead = eval { decode_json($json) };  # check JSON valid
+    $ProtocolListRead = eval { SIGNALduino_TOOL_decode_protocol_list_json($json) };  # check JSON valid
     if ($@) {
       $@ =~ s/\sat\s\.\/FHEM.*//g;
       readingsSingleUpdate($hash, 'state' , "Your file $jsonDoc are not loaded!", 0);  
@@ -3062,7 +3086,7 @@ sub SIGNALduino_TOOL_FW_updateData {    # action by clicking on "update" in the 
     }
   }
 
-  my $json = JSON::PP->new;
+  my $json = SIGNALduino_TOOL_json();
   $json->canonical(1);
 
   ## only for entry_example (last) | if entry delete, loop can remove ##

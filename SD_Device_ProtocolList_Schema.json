@@ -70,6 +70,10 @@
                   "description": "Raw Message (ursprüngliche, unmodifizierte Nachricht vom Empfänger).",
                   "type": "string"
                 },
+                "state": {
+                  "description": "Optionaler Statuswert des Beispielgeräts.",
+                  "type": "string"
+                },
                 "user": {
                   "description": "Benutzer, der die Nachricht hinzugefügt hat.",
                   "type": "string"
@@ -92,10 +96,7 @@
                 "internals",
                 "minProtocolVersion",
                 "readings",
-                "revision_entry",
-                "revision_modul",
-                "rmsg",
-                "user"
+                "revision_entry"
               ],
               "additionalProperties": false
             }

@@ -1,3 +1,4 @@
+2026-04-28 - Support schema-wrapped protocol JSON
 2026-04-28 - Bugfix link "check it" (#160)
 
 * The "check it" link does not appear when sending new messages.
