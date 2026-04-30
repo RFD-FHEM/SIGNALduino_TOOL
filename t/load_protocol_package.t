@@ -39,5 +39,6 @@ my $module_source = do {
 
 like($module_source, qr/use FHEM::Devices::SIGNALduino::SD_Protocols;/, 'Module uses the new protocol package');
 like($module_source, qr{lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data\.pm}, 'Module references the new protocol data path');
+unlike($module_source, qr/SIGNALduino_LoadProtocolHash/, 'Module no longer calls the removed protocol loader');
 
 done_testing;

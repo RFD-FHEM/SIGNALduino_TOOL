@@ -1177,12 +1177,19 @@ sub SIGNALduino_TOOL_Get {
   ## create one list in csv format to import in other program ##
   if ($cmd eq 'TimingsList') {
     Log3 $name, 4, "$name: Get $cmd - check (1)";
-    my %ProtocolListSIGNALduino = SIGNALduino_LoadProtocolHash("$attr{global}{modpath}/lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm");
-    if (exists($ProtocolListSIGNALduino{error})  ) {
-      Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:($ProtocolListSIGNALduino{error})";
-      delete($ProtocolListSIGNALduino{error});
+    my $protocolObject = FHEM::Devices::SIGNALduino::SD_Protocols->new();
+    my $protocolFile = "$attr{global}{modpath}/lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm";
+    my $protocolLoadError = $protocolObject->LoadHash($protocolFile);
+    if (defined $protocolLoadError && $protocolLoadError ne '') {
+      Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:($protocolLoadError)";
       return;
     }
+    my $protocolList = $protocolObject->getProtocolList();
+    if (!defined $protocolList || ref($protocolList) ne 'HASH') {
+      Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:(protocol list is not available)";
+      return;
+    }
+    my %ProtocolListSIGNALduino = %{$protocolList};
 
     my $file = 'timings.txt';
     my @value;                                                                           # for values from hash_list
@@ -1197,7 +1204,11 @@ sub SIGNALduino_TOOL_Get {
       ### max Werte von value_name array ###
       for my $i (0..scalar(@value_name)-1) {
         if (not exists $value_max[$i]) { $value_max[$i] = 0; }
-        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) > $value_max[$i]) { $value_max[$i] = scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}); }
+        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && defined $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}) {
+          my $timing_value = $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]};
+          my $timing_value_count = ref($timing_value) eq 'ARRAY' ? scalar(@{$timing_value}) : 1;
+          if ($timing_value_count > $value_max[$i]) { $value_max[$i] = $timing_value_count; }
+        }
       }
     }
 
@@ -1222,9 +1233,12 @@ sub SIGNALduino_TOOL_Get {
         }
         ### ENDE ###
 
-        foreach my $e(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) {
-          $value[$valuecount] = $e;
-          $valuecount++;
+        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && defined $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}) {
+          my $timing_value = $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]};
+          foreach my $e (ref($timing_value) eq 'ARRAY' ? @{$timing_value} : ($timing_value)) {
+            $value[$valuecount] = $e;
+            $valuecount++;
+          }
         }
 
         if ($i == 0) {
