@@ -5,7 +5,7 @@ jobs:
   jsontest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6.0.3
+    - uses: actions/checkout@v7.0.0
     - uses: shogo82148/actions-setup-perl@v1.41.1
       with:
         perl-version: '5.32'
