@@ -1,0 +1,20 @@
+services:
+  SIGNALduino_TOOL-development:
+    image: signalduino-tool-devcontainer
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4gb
+    build:
+      context: ../
+      dockerfile: ./.devcontainer/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ../:/usr/src/SIGNALduino_TOOL:delegated
+      - ../../RFFHEM:/usr/src/RFFHEM:delegated
+      - ../.devcontainer/vscode:/usr/src/SIGNALduino_TOOL/.vscode:delegated
+      - ~/.gitconfig:/root/.gitconfig:ro
+    environment:
+      - RFFHEM_DIR=/usr/src/RFFHEM
+    entrypoint: /bin/sh -c "while sleep 1000; do :; done"

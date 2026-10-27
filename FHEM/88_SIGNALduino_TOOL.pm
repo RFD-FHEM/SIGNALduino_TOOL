@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 126 2024-03-01 15:59:15Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 127 2026-04-28 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -24,10 +24,10 @@ use warnings;
 
 eval {use Data::Dumper qw(Dumper);1};
 eval {use HttpUtils;1};
-eval {use JSON::PP qw( );1};
-eval {use JSON::XS;1};
+eval {use JSON::PP qw(decode_json);1};
+eval {use JSON::XS qw(decode_json);1};
 
-use lib::SD_Protocols;
+use FHEM::Devices::SIGNALduino::SD_Protocols;
 use FHEM::Meta;                       # https://wiki.fhem.de/wiki/Meta for SVN Revision
 
 #$| = 1;                              #Puffern abschalten, Hilfreich für PEARL WARNINGS Search
@@ -74,6 +74,30 @@ my @ownModules = (
   '10_FS10', '10_SD_GT', '10_SD_Rojaflex', '14_BresserTemeo', '14_FLAMINGO', '14_Hideki', '14_SD_AS',
   '14_SD_BELL', '14_SD_UT', '14_SD_WS', '14_SD_WS07', '14_SD_WS09', '14_SD_WS_Maverick', '41_OREGON' );
 
+sub SIGNALduino_TOOL_decode_protocol_list_json {
+  my ($json) = @_;
+  my $ProtocolListDoc = decode_json($json);
+
+  return $ProtocolListDoc if (ref($ProtocolListDoc) eq 'ARRAY');
+  return $ProtocolListDoc->{protocols} if (ref($ProtocolListDoc) eq 'HASH' && ref($ProtocolListDoc->{protocols}) eq 'ARRAY');
+
+  die "invalid schema structure, expected array or object with protocols array\n";
+}
+
+sub SIGNALduino_TOOL_encode_protocol_list_doc {
+  my ($ProtocolList) = @_;
+
+  return {
+    '$schema'  => '../../SD_Device_ProtocolList_Schema.json',
+    protocols => $ProtocolList,
+  };
+}
+
+sub SIGNALduino_TOOL_json {
+  return JSON::XS->new if ($INC{'JSON/XS.pm'} && JSON::XS->can('new'));
+  return JSON::PP->new;
+}
+
 ################################
 sub SIGNALduino_TOOL_Initialize {
   my ($hash) = @_;
@@ -102,6 +126,14 @@ sub SIGNALduino_TOOL_Initialize {
 
 ################################
 # Predeclare Variables from other modules may be loaded later from fhem
+our %attr;
+our %defs;
+our %modules;
+our $init_done;
+our $readingFnAttributes;
+our $reread_active;
+our $FW_CSRF;
+our $FW_detail;
 our $FW_wname;
 
 ################################
@@ -141,16 +173,15 @@ sub SIGNALduino_TOOL_Define {
     }
   }
 
-  ### for compatibility , getProperty ###
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
   if ($modus == 0) { return "ERROR: $name does not support the version of the SIGNALduino."; }
 
   if ($modus == 2) {
-    $hash->{protocolObject} = new lib::SD_Protocols();
-    my $error = $hash->{protocolObject}->LoadHash(qq[$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm]);
+    $hash->{protocolObject} = new FHEM::Devices::SIGNALduino::SD_Protocols();
+    my $error = $hash->{protocolObject}->LoadHash(qq[$attr{global}{modpath}/lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm]);
 
     if (defined $error && $error ne '') {
-      Log3 $name, 2, "$name: Define error load SD_ProtocolData.pm";
+      Log3 $name, 2, "$name: Define error load lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm";
       return "ERROR: $error";
     };
   }
@@ -333,12 +364,7 @@ sub SIGNALduino_TOOL_Set {
         for (my $i=0;$i<@{$ProtocolListRead};$i++) {
           if (defined @{$ProtocolListRead}[$i]->{id}) {
             my $search;
-            ### for compatibility , getProperty ###
-            if ($modus == 1) {
-              $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-            } else {
-              $search = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-            }
+            $search = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
 
             if (defined $search && $search eq $DispatchModule) {  # for id´s with no clientmodule
               #Log3 $name, 5, "$name: Set $cmd - check setList from SD_Device_ProtocolList - id:".@{$ProtocolListRead}[$i]->{id} if ($cnt_loop == 1);
@@ -621,12 +647,7 @@ sub SIGNALduino_TOOL_Set {
       $decoded_Protocol_ID = InternalVal($Dummyname, 'LASTDMSGID', '');
       my $ID_preamble = '';
 
-      ### for compatibility , getProperty ###
-      if ($modus == 1) {
-        if ($decoded_Protocol_ID ne 'nothing') { $ID_preamble = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'preamble' ); }
-      } else {
-        if ($decoded_Protocol_ID ne 'nothing') { $ID_preamble = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'preamble' ); }
-      }
+      if ($decoded_Protocol_ID ne 'nothing') { $ID_preamble = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'preamble' ); }
 
       if (!$DMSG_last) { $DMSG_last = InternalVal($Dummyname, 'LASTDMSG', '-'); }
       my $rawData = $DMSG_last;
@@ -651,11 +672,7 @@ sub SIGNALduino_TOOL_Set {
         if ($hash->{dispatchDevice} && $hash->{dispatchDevice} eq $Dummyname) { $decoded_Protocol_ID = $defs{$hash->{dispatchDevice}}->{LASTDMSGID}; }
       
         ### for compatibility , getProperty ###
-        if ($modus == 1) {
-          $DummyMSGCNTvalue = lib::SD_Protocols::getProperty( $decoded_Protocol_ID, 'clientmodule' );
-        } else {
-          $DummyMSGCNTvalue = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'clientmodule' );
-        }
+        $DummyMSGCNTvalue = $hashSIGNALduino->{protocolObject}->getProperty( $decoded_Protocol_ID, 'clientmodule' );
 
         $cmd_sendMSG = "set $Dummyname sendMsg $DummyDMSG#R5";
         $cmd_raw = "D=$bitData";
@@ -735,11 +752,7 @@ sub SIGNALduino_TOOL_Set {
       for (my $i=0;$i<@{$ProtocolListRead};$i++) {
         my $clientmodule = "";
         if (not exists @{$ProtocolListRead}[$i]->{module}) {                              ## in JSON data, entry module failed
-          if ($modus == 1) {                                                              ## for compatibility , getProperty
-            if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
-          } else {
-            if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
-          }
+          if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
           @$ProtocolListRead[$i]->{module} = $clientmodule;
         };
 
@@ -757,10 +770,10 @@ sub SIGNALduino_TOOL_Set {
         }
       }
 
-      my $js = JSON::PP->new;
+      my $js = SIGNALduino_TOOL_json();
       $js->canonical(1);      # will output key-value pairs in the order Perl stores
       $js->pretty(1);         # all of the indent, space_before and space_after ...
-      my $output = $js->encode($ProtocolListRead);
+      my $output = $js->encode(SIGNALduino_TOOL_encode_protocol_list_doc($ProtocolListRead));
 
       Log3 $name, 4, "$name: Set $cmd - write new JSON data";
       open my $PrintDoc, '>', "./FHEM/lib/$jsonDoc" or return "ERROR: file ($jsonDoc) can not open!\n\n$!";
@@ -776,7 +789,7 @@ sub SIGNALduino_TOOL_Set {
           close $LoadDoc;
         }
 
-        $ProtocolListTestData = eval { decode_json($TestData) };  # check JSON valid
+        $ProtocolListTestData = eval { SIGNALduino_TOOL_decode_protocol_list_json($TestData) };  # check JSON valid
         if ($@) {
           $@ =~ s/\sat\s\.\/FHEM.*//g;
           readingsSingleUpdate($hash, 'state' , "Your file $TestData are not loaded!", 0);  
@@ -833,7 +846,7 @@ sub SIGNALduino_TOOL_Set {
           }
 
           open my $PrintFile, '>', "$path/testData.json" or return "ERROR: file (testData.json) for $key can not write!\n\n$!";
-            my $jst = JSON::PP->new;
+            my $jst = SIGNALduino_TOOL_json();
             $jst->canonical(1);      # will output key-value pairs in the order Perl stores
             $jst->pretty(1);         # all of the indent, space_before and space_after ...
             my $output = $jst->encode($TestData_prepared->{$key});
@@ -1066,13 +1079,8 @@ sub SIGNALduino_TOOL_Set {
             if ($founded == 0) {
               open my $SaveDoc, '>>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."ERRORs.txt) can not open!\n\n$!";
                 ### for compatibility , getProperty ###
-                if ($modus == 1) {
-                  if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-                  if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-                } else {
-                  if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-                  if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-                }
+              if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
+              if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
 
                 if ($RAWMSG_last) { print $SaveDoc $RAWMSG_last."\n"; }
               close $SaveDoc;
@@ -1080,13 +1088,8 @@ sub SIGNALduino_TOOL_Set {
           } else {
             open my $SaveDoc, '>', './FHEM/lib/'.substr($jsonDoc,0,-5).'ERRORs.txt' or return 'ERROR: file ('.substr($jsonDoc,0,-5)."ERRORs.txt) can not open!\n\n$!";
               ### for compatibility , getProperty ###
-              if ($modus == 1) {
-                if ($2 ne lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".lib::SD_Protocols::getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-                if ($2 eq lib::SD_Protocols::getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-              } else {
-                if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-                if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
-              }
+            if ($2 ne $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 - ".$hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )." -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
+            if ($2 eq $hashSIGNALduino->{protocolObject}->getProperty( $1, 'name' )) { print $SaveDoc "dispatched $1 - $2 -> protocol(s) decoded: $decoded_Protocol_ID \n"; }
 
               if ($RAWMSG_last) { print $SaveDoc $RAWMSG_last."\n"; }
             close $SaveDoc;
@@ -1146,7 +1149,7 @@ sub SIGNALduino_TOOL_Get {
   my $onlyDataName = '-ONLY_DATA-';
   my $IODev = AttrVal($name,'IODev',undef);
   my $list = 'Durration_of_Message ProtocolList_from_file_SD_Device_ProtocolList.json:noArg '.
-        'ProtocolList_from_file_SD_ProtocolData.pm:noArg TimingsList:noArg '.
+        'ProtocolList_from_file_SD_Protocols_Data.pm:noArg TimingsList:noArg '.
         'change_bin_to_hex change_dec_to_hex change_hex_to_bin change_hex_to_dec '.
         'invert_bitMsg invert_hexMsg reverse_Input search_disable_Devices:noArg '.
         'search_ignore_Devices:noArg ';
@@ -1174,12 +1177,19 @@ sub SIGNALduino_TOOL_Get {
   ## create one list in csv format to import in other program ##
   if ($cmd eq 'TimingsList') {
     Log3 $name, 4, "$name: Get $cmd - check (1)";
-    my %ProtocolListSIGNALduino = SIGNALduino_LoadProtocolHash("$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm");
-    if (exists($ProtocolListSIGNALduino{error})  ) {
-      Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:($ProtocolListSIGNALduino{error})";
-      delete($ProtocolListSIGNALduino{error});
+    my $protocolObject = FHEM::Devices::SIGNALduino::SD_Protocols->new();
+    my $protocolFile = "$attr{global}{modpath}/lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm";
+    my $protocolLoadError = $protocolObject->LoadHash($protocolFile);
+    if (defined $protocolLoadError && $protocolLoadError ne '') {
+      Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:($protocolLoadError)";
       return;
     }
+    my $protocolList = $protocolObject->getProtocolList();
+    if (!defined $protocolList || ref($protocolList) ne 'HASH') {
+      Log3 "SIGNALduino", 1, "Error loading Protocol Hash. Module is in inoperable mode error message:(protocol list is not available)";
+      return;
+    }
+    my %ProtocolListSIGNALduino = %{$protocolList};
 
     my $file = 'timings.txt';
     my @value;                                                                           # for values from hash_list
@@ -1194,7 +1204,11 @@ sub SIGNALduino_TOOL_Get {
       ### max Werte von value_name array ###
       for my $i (0..scalar(@value_name)-1) {
         if (not exists $value_max[$i]) { $value_max[$i] = 0; }
-        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) > $value_max[$i]) { $value_max[$i] = scalar(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}); }
+        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && defined $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}) {
+          my $timing_value = $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]};
+          my $timing_value_count = ref($timing_value) eq 'ARRAY' ? scalar(@{$timing_value}) : 1;
+          if ($timing_value_count > $value_max[$i]) { $value_max[$i] = $timing_value_count; }
+        }
       }
     }
 
@@ -1219,9 +1233,12 @@ sub SIGNALduino_TOOL_Get {
         }
         ### ENDE ###
 
-        foreach my $e(@{$ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}}) {
-          $value[$valuecount] = $e;
-          $valuecount++;
+        if (exists $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]} && defined $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]}) {
+          my $timing_value = $ProtocolListSIGNALduino{$timings_protocol}{$value_name[$i]};
+          foreach my $e (ref($timing_value) eq 'ARRAY' ? @{$timing_value} : ($timing_value)) {
+            $value[$valuecount] = $e;
+            $valuecount++;
+          }
         }
 
         if ($i == 0) {
@@ -1657,16 +1674,16 @@ sub SIGNALduino_TOOL_Get {
     return "Your $cmd is ready.\n\n  Input: $a[0]\n Output: ".hex($a[0]);
   }
 
-  ## read information from SD_ProtocolData.pm in memory ##
-  if ($cmd eq 'ProtocolList_from_file_SD_ProtocolData.pm') {
+  ## read information from lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm in memory ##
+  if ($cmd eq 'ProtocolList_from_file_SD_Protocols_Data.pm') {
     $hash->{helper}{FW_SD_ProtocolData_get} = 1;    # need in java, check reload need
     $attr{$name}{DispatchModule} = "-";             # to set standard
     my $return = SIGNALduino_TOOL_SD_ProtocolData_read($hash, $name,$cmd,$path,$File_input);
     readingsSingleUpdate($hash, 'state' , $return, 0);
     if ($ProtocolListRead) {
-      $hash->{dispatchOption} = 'from SD_ProtocolData.pm and SD_Device_ProtocolList.json';
+      $hash->{dispatchOption} = 'from lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm and SD_Device_ProtocolList.json';
     } else {
-      $hash->{dispatchOption} = 'from SD_ProtocolData.pm';
+      $hash->{dispatchOption} = 'from lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm';
     }
 
     return '';
@@ -1685,7 +1702,7 @@ sub SIGNALduino_TOOL_Get {
       close $LoadDoc;
     }
 
-    $ProtocolListRead = eval { decode_json($json) };  # check JSON valid
+    $ProtocolListRead = eval { SIGNALduino_TOOL_decode_protocol_list_json($json) };  # check JSON valid
     if ($@) {
       $@ =~ s/\sat\s\.\/FHEM.*//g;
       readingsSingleUpdate($hash, 'state' , "Your file $jsonDoc are not loaded!", 0);  
@@ -1696,12 +1713,7 @@ sub SIGNALduino_TOOL_Get {
     my @List_from_pm;
     for (my $i=0;$i<@{$ProtocolListRead};$i++) {
       if (defined @{$ProtocolListRead}[$i]->{id}) {
-        ### for compatibility , getProperty ###
-        if ($modus == 1) {
-          $search = lib::SD_Protocols::getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-        } else {
-          $search = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
-        }
+        $search = $hashSIGNALduino->{protocolObject}->getProperty( @{$ProtocolListRead}[$i]->{id}, 'clientmodule' );
 
         if (defined $search) {  # for id´s with no clientmodule
           if (not grep { /$search$/ } @List_from_pm) { push (@List_from_pm, $search); }
@@ -1714,7 +1726,7 @@ sub SIGNALduino_TOOL_Get {
     SIGNALduino_TOOL_HTMLrefresh($name,$cmd);
     readingsSingleUpdate($hash, 'state' , "Your file $jsonDoc are ready readed in memory!", 0);
     if (@ProtocolList) {
-      $hash->{dispatchOption} = 'from SD_ProtocolData.pm and SD_Device_ProtocolList.json';
+      $hash->{dispatchOption} = 'from lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm and SD_Device_ProtocolList.json';
     } else {
       $hash->{dispatchOption} = 'from SD_Device_ProtocolList.json';
     }
@@ -2097,7 +2109,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   my $hashSIGNALduino = $defs{$hash->{SIGNALduinoDev}};
   my ($modus,$versionSIGNALduino) = SIGNALduino_TOOL_Version_SIGNALduino($name, $hash->{SIGNALduinoDev});
 
-  open my $InputFile, '<', "$attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm" or return "ERROR: No file ($File_input) found in $path directory from FHEM!";
+  open my $InputFile, '<', "$attr{global}{modpath}/lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm" or return "ERROR: No file (lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm) found in $attr{global}{modpath}!";
   while (<$InputFile>) {
     $_ =~ s/^\s+//g;             # cut space & tab | \s+ matches any whitespace character (equal to [\r\n\t\f\v ])
     $_ =~ s/\n//g;               # cut end
@@ -2119,21 +2131,12 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
       Log3 $name, 5, "$name: id $id_now";
 
       ### for compatibility , getProperty ###
-      if ($modus == 1) {
-        $ProtocolList[$cnt_ids_total]{name} = lib::SD_Protocols::getProperty($id_now,'name');                   ## name -> array
-        $id_comment = lib::SD_Protocols::getProperty($id_now,'comment');                                        ## statistic - comment from protocol id
-        $id_clientmodule = lib::SD_Protocols::getProperty($id_now,'clientmodule');                              ## statistic - clientmodule from protocol id
-        $id_frequency = lib::SD_Protocols::getProperty($id_now,'frequency');                                    ## statistic - frequency from protocol id
-        $id_knownFreqs = lib::SD_Protocols::getProperty($id_now,'knownFreqs');                                  ## statistic - knownFreqs from protocol id
-        $id_develop = lib::SD_Protocols::getProperty($id_now,'developId');                                      ## statistic - developId
-      } else {
-        $ProtocolList[$cnt_ids_total]{name} = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'name');  ## name -> array
-        $id_comment = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'comment');                       ## statistic - comment from protocol id
-        $id_clientmodule = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'clientmodule');             ## statistic - clientmodule from protocol id
-        $id_frequency = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'frequency');                   ## statistic - frequency from protocol id
-        $id_knownFreqs = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'knownFreqs');                 ## statistic - knownFreqs from protocol id
-        $id_develop = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'developId');                     ## statistic - developId
-      }
+      $ProtocolList[$cnt_ids_total]{name} = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'name');  ## name -> array
+      $id_comment = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'comment');                       ## statistic - comment from protocol id
+      $id_clientmodule = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'clientmodule');             ## statistic - clientmodule from protocol id
+      $id_frequency = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'frequency');                   ## statistic - frequency from protocol id
+      $id_knownFreqs = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'knownFreqs');                 ## statistic - knownFreqs from protocol id
+      $id_develop = $hashSIGNALduino->{protocolObject}->getProperty($id_now,'developId');                     ## statistic - developId
 
       if (not defined $id_comment) {
         $cnt_no_comment++;
@@ -2226,7 +2229,7 @@ sub SIGNALduino_TOOL_SD_ProtocolData_read {
   }
   close $InputFile;
 
-  Log3 $name, 4, "$name: Get $cmd - file $attr{global}{modpath}/FHEM/lib/SD_ProtocolData.pm completely read";
+  Log3 $name, 4, "$name: Get $cmd - file $attr{global}{modpath}/lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm completely read";
 
   #### JSON write to file | not file for changed ####
   ## !!! format JSON need revised to SD_Device_ProtocolList.json format !!! ##
@@ -2298,7 +2301,7 @@ sub SIGNALduino_TOOL_FW_Detail {
   <tr class='even'>";
 
   $ret .="<td>&nbsp;&nbsp;<a href='#button2' id='button2'>Display Information all Protocols</a>&nbsp;&nbsp;</td>";
-  $ret .="<td><a href='#button1' id='button1'>Display doc SD_ProtocolData.pm</a>&nbsp;&nbsp;</td>";
+  $ret .="<td><a href='#button1' id='button1'>Display doc SD_Protocols Data.pm</a>&nbsp;&nbsp;</td>";
   $ret .="<td><a href='#button3' id='button3'>Display doc SD_ProtocolList.json</a>&nbsp;&nbsp;</td>";
   if($longidsAttr > 0) { $ret .="<td><a href='#button5' id='button5'>replaceBatteryLongID</a>&nbsp;&nbsp;</td>"; }
 
@@ -2497,10 +2500,10 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
   my $ret;
 
   Log3 $name, 4, "$name: FW_SD_ProtocolData_get is running";
-  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolData.pm</code><br> to read this information." if (!@ProtocolList);
+  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_Protocols_Data.pm</code><br> to read this information." if (!@ProtocolList);
 
   $ret = "<table class=\"block wide internals wrapcolumns\">";
-  $ret .="<caption id=\"SD_protoCaption\">List of message documentation in SD_ProtocolData.pm</caption>";
+  $ret .="<caption id=\"SD_protoCaption\">List of message documentation in lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</caption>";
   $ret .="<thead style=\"text-align:left; text-decoration:underline\"> <td>id</td> <td>clientmodule</td> <td>name</td> <td>comment or state of rmsg</td> <td>user</td> <td>dispatch</td> </thead>";
   $ret .="<tbody>";
 
@@ -2515,7 +2518,7 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_get {
         if (defined @{ $ProtocolList[$i]{data} }[$i2]->{user}) { $user = @{ $ProtocolList[$i]{data} }[$i2]->{user}; }
         if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}) {
           if (defined @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}) { $RAWMSG = @{ $ProtocolList[$i]{data} }[$i2]->{rmsg}; }
-          if ($RAWMSG ne "" && $Dummyname ne "none") { $buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".$ProtocolList[$i]{id}.",'SD_ProtocolData.pm','rmsg','".$ProtocolList[$i]{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>"; }
+          if ($RAWMSG ne "" && $Dummyname ne "none") { $buttons = "<INPUT type=\"reset\" onclick=\"pushed_button(".$ProtocolList[$i]{id}.",'lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm','rmsg','".$ProtocolList[$i]{name}."'); FW_cmd('/fhem?XHR=1&cmd.$name=set%20$name%20$NameDispatchSet"."RAWMSG%20$RAWMSG$FW_CSRF')\" value=\"rmsg\" %s/>"; }
         }
         $ret .= "<tr class=\"$oddeven\"> <td><div>".$ProtocolList[$i]{id}."</div></td> <td><div>".$clientmodule."</div></td> <td><div>".$ProtocolList[$i]{name}."</div></td> <td><div>".@{ $ProtocolList[$i]{data} }[$i2]->{state}."</div></td> <td><div>".$user."</div></td> <td><div>".$buttons."</div></td> </tr>";
       }
@@ -3097,7 +3100,7 @@ sub SIGNALduino_TOOL_FW_updateData {    # action by clicking on "update" in the 
     }
   }
 
-  my $json = JSON::PP->new;
+  my $json = SIGNALduino_TOOL_json();
   $json->canonical(1);
 
   ## only for entry_example (last) | if entry delete, loop can remove ##
@@ -3170,11 +3173,7 @@ sub SIGNALduino_TOOL_FW_SD_Device_ProtocolList_get {
     my ($NAME,$RAWMSG,$battery,$clientmodule,$comment,$dmsg,$model,$state,$user) = ('','','','','','','','','');
 
     ### for compatibility , getProperty ###
-    if ($modus == 1) {
-      if (defined lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = lib::SD_Protocols::getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
-    } else {
-      if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
-    }
+    if (defined $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule')) { $clientmodule = $hashSIGNALduino->{protocolObject}->getProperty(@$ProtocolListRead[$i]->{id},'clientmodule'); }
 
     if (@$ProtocolListRead[$i]->{id} ne '') {
       my $ref_data = @{$ProtocolListRead}[$i]->{data};
@@ -3237,7 +3236,7 @@ sub SIGNALduino_TOOL_FW_SD_ProtocolData_Info {
   my $ret;
 
   Log3 $name, 4, "$name: FW_SD_ProtocolData_Info is running";
-  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_ProtocolData.pm</code><br> to read this information." if (!$ProtocolListInfo);
+  return "No array available! Please use option <br><code>get $name ProtocolList_from_file_SD_Protocols_Data.pm</code><br> to read this information." if (!$ProtocolListInfo);
 
   $ret = "<table class=\"block wide internals wrapcolumns\">";
   $ret .="<caption id=\"SD_protoCaption\">List of more information over all protocols</caption>";
@@ -3336,17 +3335,19 @@ sub SIGNALduino_TOOL_Notify {
   ## MS
   # ... Dispatch, s4F038300, test ungleich: disabled
   # ... Dispatch, s4F038300, -79.5 dB, dispatch
-
-  if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /Dispatch,.*,\stest/ } @{$events}) ) {
-    if (grep { /ungleich/ } @{$events}) {
+  ## changed in Version 4.0.0 in file SD_Message.pm:
+  # 2026-03-26 17:37:22 SIGNALduino sduino_dummy 5: Dispatch, W136#83B59A1BC54A00CD3A0080D200 is equal to last DMSG
+  # 2026-03-26 17:37:22 SIGNALduino sduino_dummy 5: Dispatch, W136#83B59A1BC54A00CD3A0080D200, -50 dB, dispatch
+  if ($devName eq $Dummyname && ( ($ntfy_match) = grep { /Dispatch,.*equal to last DMSG/ } @{$events}) ) {
+    if (grep { /unequal/ } @{$events}) {
       Log3 $name, 4, "$name: Notify - START with event from $devName\n$ntfy_match";
-    } elsif (grep { /gleich/ } @{$events}) {
+    } elsif (grep { /equal/ } @{$events}) {
       Log3 $name, 4, "$name: Notify - REPEAT with event from $devName\n$ntfy_match";
     }
 
     $ntfy_match =~ s/.*Dispatch,\s//g;
-    $ntfy_match =~ s/,\s.*//g;
-
+    $ntfy_match =~ s/\s.*//g;
+    $ntfy_match =~ s/,//g;
     $hash->{helper}->{NTFY_SEARCH_Value} = $ntfy_match;
     $hash->{helper}->{NTFY_SEARCH_Time} = FmtDateTime(time());
 
@@ -3436,7 +3437,7 @@ sub SIGNALduino_TOOL_Version_SIGNALduino {
     $version = $defs{$SIGNALduino}->{versionmodul};
     if ($version =~ /^(v|V)\d+/) { $version = substr($version,1); }
     if ($version =~ /^(\d+.\d)/) { $modus = $1; }
-    $modus = $modus < 3.5 ? 1 : 2 ;
+    $modus = $modus < 3.5 ? 0 : 2;
   }
 
   return ($modus,$version);
@@ -4444,6 +4445,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 # Beginn der Commandref
 
 =pod
+
+=encoding utf8
 =item [helper|device|command]
 =item summary Tool from SIGNALduino
 =item summary_DE Tool vom SIGNALduino
@@ -4486,7 +4489,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp; <u>note:</u> only after setting the File_input attribute does this option appear <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Dispatch_last"></a><li><code>Dispatch_last</code> - dispatch the last RAW message</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-modulname"></a><li><code>&lt;modulname&gt;</code> - dispatch a message of the selected module from the DispatchModule attribute</li></ul>
-  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolListTEST.json at ./FHEM/lib directory)<br>
+  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - stores the sensor information as a JSON file (currently SD_Device_ProtocolList.json at ./FHEM/lib directory)<br>
   &emsp; <u>note:</u> only after successful loading of a JSON file does this option appear</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Send_RAWMSG"></a><li><code>Send_RAWMSG</code> - send one MU | MS | MC RAWMSG with the defined IODev. Depending on the message type, the attribute IODev_Repeats may need to be adapted for the correct recognition. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
@@ -4511,8 +4514,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_ClockPulse"></a><li><code>InputFile_one_ClockPulse</code> - find the specified ClockPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_SyncPulse"></a><li><code>InputFile_one_SyncPulse</code> - find the specified SyncPulse with 15% tolerance from the Input_File and filter the RAWMSG in the Export_File <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Device_ProtocolList.json"></a><li><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - loads the information from the file <code>SD_Device_ProtocolList.json</code> file into memory</li></ul>
-  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_ProtocolData.pm"></a><li><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - an overview of the RAWMSG's | states and modules directly from protocol file how written to the <code>SD_ProtocolList.json</code> file</li></ul>
-  <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - created one file in csv format from the file &lt;SD_ProtocolData.pm&gt; to use for import</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Protocols_Data.pm"></a><li><code>ProtocolList_from_file_SD_Protocols_Data.pm</code> - an overview of the RAWMSG's | states and modules directly from <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> how written to the <code>SD_ProtocolList.json</code> file</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - created one file in csv format from <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> to use for import</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_bin_to_hex"></a><li><code>change_bin_to_hex</code> - converts the binary input to HEX</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_dec_to_hex"></a><li><code>change_dec_to_hex</code> - converts the decimal input into hexadecimal</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_hex_to_bin"></a><li><code>change_hex_to_bin</code> - converts the hexadecimal input into binary</li></ul>
@@ -4527,7 +4530,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
   <b>Advanced menu (links to click)</b>
   <ul><li><code>Display Information all Protocols</code> - displays an overview of all protocols</a></li></ul>
-  <ul><li><code>Display doc SD_ProtocolData.pm</code> - displays all read information from the SD_ProtocolData.pm file with the option to dispatch it</a></li></ul>
+  <ul><li><code>Display doc SD_Protocols Data.pm.pm</code> - displays all read information from the protocol data file with the option to dispatch it</a></li></ul>
   <ul><li><code>Display doc SD_ProtocolList.json</code>  - displays all read information from SD_ProtocolList.json file with the option to dispatch it</a></li></ul>
   <ul><li><code>replaceBatteryLongID</code> - Battery replacement for sensors with active LongID<br>
   <small><u>Hinweis:</u></small> Only if the <code>longids</code> attribute is set for an IODev.</a></li></ul>
@@ -4643,7 +4646,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   &emsp; <u>Hinweis:</u> erst nach gesetzten Attribut File_input erscheint diese Option <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Dispatch_last"></a><li><code>Dispatch_last</code> - Dispatch die zu letzt dispatchte Roh-Nachricht</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-modulname"></a><li><code>&lt;modulname&gt;</code> - Dispatch eine Nachricht des ausgew&auml;hlten Moduls aus dem Attribut DispatchModule.</li></ul>
-  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolListTEST.json im ./FHEM/lib Verzeichnis)<br>
+  <ul><a id="SIGNALduino_TOOL-set-ProtocolList_save_to_file"></a><li><code>ProtocolList_save_to_file</code> - speichert die Sensorinformationen als JSON Datei (derzeit als SD_Device_ProtocolList.json im ./FHEM/lib Verzeichnis)<br>
   &emsp; <u>Hinweis:</u> erst nach erfolgreichen laden einer JSON Datei erscheint diese Option</li></ul>
   <ul><a id="SIGNALduino_TOOL-set-Send_RAWMSG"></a><li><code>Send_RAWMSG</code> - sendet eine MU | MS | MC Nachricht direkt über den angegebenen Sender. Je Nachrichtentyp, muss eventuell das Attribut IODev_Repeats angepasst werden zur richtigen Erkennung. <font color="red">*3</font color><br>
   &emsp;&rarr; MU;P0=-110;P1=-623;P2=4332;P3=-4611;P4=1170;P5=3346;P6=-13344;P7=225;D=123435343535353535343435353535343435343434353534343534343535353535670;CP=4;R=4;<br>
@@ -4671,8 +4674,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_ClockPulse"></a><li><code>InputFile_one_ClockPulse</code> - sucht den angegebenen ClockPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-InputFile_one_SyncPulse"></a><li><code>InputFile_one_SyncPulse</code> - sucht den angegebenen SyncPulse mit 15% Tolleranz aus der Input_Datei und filtert die RAWMSG in die Export_Datei <font color="red">*1</font color></li></ul>
   <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Device_ProtocolList.json"></a><li><code>ProtocolList_from_file_SD_Device_ProtocolList.json</code> - l&auml;d die Informationen aus der Datei <code>SD_Device_ProtocolList.json</code> in den Speicher</li></ul>
-  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_ProtocolData.pm"></a><li><code>ProtocolList_from_file_SD_ProtocolData.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus der Protokolldatei welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li></ul>
-  <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - erstellt eine Liste der Protokolldatei &lt;SD_ProtocolData.pm&gt; im CSV-Format welche zum Import genutzt werden kann</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-ProtocolList_from_file_SD_Protocols_Data.pm"></a><li><code>ProtocolList_from_file_SD_Protocols_Data.pm</code> - eine &Uuml;bersicht der RAWMSG´s | Zust&auml;nde und Module direkt aus <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code>, welche in die <code>SD_ProtocolList.json</code> Datei geschrieben werden.</li></ul>
+  <ul><a id="SIGNALduino_TOOL-get-TimingsList"></a><li><code>TimingsList</code> - erstellt eine Liste der Protokolldatei <code>lib/FHEM/Devices/SIGNALduino/SD_Protocols/Data.pm</code> im CSV-Format welche zum Import genutzt werden kann</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_bin_to_hex"></a><li><code>change_bin_to_hex</code> - wandelt die bin&auml;re Eingabe in hexadezimal um</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_dec_to_hex"></a><li><code>change_dec_to_hex</code> - wandelt die dezimale Eingabe in hexadezimal um</li></ul>
   <ul><a id="SIGNALduino_TOOL-get-change_hex_to_bin"></a><li><code>change_hex_to_bin</code> - wandelt die hexadezimale Eingabe in bin&auml;r um</li></ul>
@@ -4687,7 +4690,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
 
   <b>Advanced menu (Links zum anklicken)</b>
   <ul><li><code>Display Information all Protocols</code> - zeigt eine Gesamtübersicht der Protokolle an</a></li></ul>
-  <ul><li><code>Display doc SD_ProtocolData.pm</code> - zeigt alle ausgelesenen Informationen aus der SD_ProtocolData.pm Datei an mit der Option, diese zu Dispatchen</a></li></ul>
+  <ul><li><code>Display doc SD_Protocols Data.pm.pm</code> - zeigt alle ausgelesenen Informationen aus der Protokolldatei an mit der Option, diese zu Dispatchen</a></li></ul>
   <ul><li><code>Display doc SD_ProtocolList.json </code> - zeigt alle ausgelesenen Informationen aus SD_ProtocolList.json Datei an mit der Option, diese zu Dispatchen</a></li></ul>
   <ul><li><code>replaceBatteryLongID  </code> - Batterietausch bei Sensoren mit aktiver LongID<br>
   <small><u>Hinweis:</u></small> Erscheint nur, wenn das Attribut <code>longids</code> bei einem IODev gesetzt ist.</a></li></ul>
@@ -4796,7 +4799,7 @@ sub SIGNALduino_TOOL_cc1101read_Full {
         "HttpUtils": 0,
         "JSON::PP": 0,
         "JSON::XS": 0,
-        "lib::SD_Protocols": "0",
+        "FHEM::Devices::SIGNALduino::SD_Protocols": "0",
         "perl": 5.018,
         "strict": "0",
         "warnings": "0"
@@ -4804,13 +4807,13 @@ sub SIGNALduino_TOOL_cc1101read_Full {
     },
     "develop": {
       "requires": {
-        "lib::SD_Protocols": "0",
+        "FHEM::Devices::SIGNALduino::SD_Protocols": "0",
         "strict": "0",
         "warnings": "0"
       }
     }
   },
-  "version": "v1.2.6",
+  "version": "v1.2.7",
   "release_status": "stable",
   "resources": {
     "bugtracker": {

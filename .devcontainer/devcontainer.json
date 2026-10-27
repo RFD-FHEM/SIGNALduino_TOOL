@@ -1,0 +1,21 @@
+{
+    "name": "SIGNALduino_TOOL Development environment",
+    "dockerComposeFile": "docker-compose.devcontainer.yml",
+    "service": "SIGNALduino_TOOL-development",
+    "workspaceFolder": "/usr/src/SIGNALduino_TOOL",
+    "postCreateCommand": "sudo /bin/bash -c '. /entry.sh && initialContainerSetup'",
+    "postStartCommand": "sudo /bin/bash -c './.devcontainer/link_workspace.sh'",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+                "richterger.perl",
+                "rioj7.command-variable",
+                "shd101wyy.markdown-preview-enhanced"
+            ]
+        }
+    }
+}
