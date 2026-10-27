@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 127 2026-04-28 15:59:15Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 128 2026-10-27 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -2304,6 +2304,7 @@ sub SIGNALduino_TOOL_FW_Detail {
   $ret .="<td><a href='#button1' id='button1'>Display doc SD_Protocols Data.pm</a>&nbsp;&nbsp;</td>";
   $ret .="<td><a href='#button3' id='button3'>Display doc SD_ProtocolList.json</a>&nbsp;&nbsp;</td>";
   if($longidsAttr > 0) { $ret .="<td><a href='#button5' id='button5'>replaceBatteryLongID</a>&nbsp;&nbsp;</td>"; }
+  if(defined $hash->{helper}->{cc110x_freq_scan_log}) { $ret .="<td><a href='#button6' id='button6'>Last cc110x_freq_scan_log</a>&nbsp;&nbsp;</td>"; }
 
   if ($ProtocolListRead && $hash->{STATE} !~ /^-$/ && $hash->{STATE} !~ /ready readed in memory!/ && $hash->{STATE} !~ /only information are readed!/ ) {
     my $button = 'nothing';
@@ -2341,6 +2342,11 @@ $( "#button4" ).click(function(e) {
 $( "#button5" ).click(function(e) {
   e.preventDefault();
   FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_replaceBatteryLongID_view("'.$FW_detail.'")}&XHR=1"'.$FW_CSRF.'"\', function(data){function5(data)});
+});
+
+$( "#button6" ).click(function(e) {
+  e.preventDefault();
+  FW_cmd(FW_root+\'?cmd={SIGNALduino_TOOL_FW_CC110x_Freq_Scan_Log("'.$FW_detail.'")}&XHR=1"'.$FW_CSRF.'"\', function(data){function6(data)});
 });
 
 function SD_DocuListWindow(txt) {
@@ -2480,6 +2486,23 @@ function function5(txt) {
         $(div).remove();
       }}]
   });
+}
+
+function function6(txt) {
+  var div = $("<div id=\"function6\">");
+  $(div).html(txt);
+  $("body").append(div);
+
+  $(div).dialog({
+    dialogClass:"no-close", modal:true, width:"auto", closeOnEscape:true,
+    maxWidth:$(window).width()*0.9, maxHeight:$(window).height()*0.9,
+    title: "'.$name.' CC110x_Freq_Scan_Log information",
+    buttons: [
+      {text:"close", click:function(){
+        $(this).dialog("close");
+        $(div).remove();
+      }}]
+   });
 }
 
 function pushed_button(value,methode,typ,name) {
@@ -2806,6 +2829,30 @@ sub SIGNALduino_TOOL_FW_replaceBatteryLongID {
   CommandAttr($hash,"$name disable 0");
   readingsSingleUpdate($hash, 'state', 'replaceBatteryLongID started',1);
   return;
+}
+
+################################
+sub SIGNALduino_TOOL_FW_CC110x_Freq_Scan_Log {
+  my $name = shift;
+  my $hash = $defs{$name};
+  my $oddeven = 'odd';                                       # for css styling
+  my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');
+  my $count1;
+  my $ret;
+
+  Log3 $name, 4, "$name: FW_CC110x_Freq_Scan_Log is running";
+  Log3 $name, 4, $hash->{helper}->{cc110x_freq_scan_log};
+
+  (my $error, my @content) = FileRead($path.$hash->{helper}->{cc110x_freq_scan_log});  # check file open
+  if (defined $error) { $count1 = -1; }              # file can´t open
+
+  if (not defined $error) {
+    for ($count1 = 0;$count1<@content;$count1++){  # loop to read file in array
+
+    }
+  }
+  $ret = 'TEST';
+  return $ret;
 }
 
 ################################
@@ -3790,6 +3837,7 @@ sub SIGNALduino_TOOL_cc110x_freq_scan {
 
   if ($return eq 'finished') {
     CommandSet($hash, "$IODev cc1101_freq ".$hash->{helper}{cc110x_freq_scan_before}); # set frequency before start scan | old frequency
+    $hash->{helper}->{cc110x_freq_scan_log} = 'SIGNALduino_TOOL_cc1101scan_'.$hash->{helper}{cc110x_freq_scan_timestart}."_".$IODev.".txt";
     SIGNALduino_TOOL_deleteInternals($hash,'cc110x_freq_scan_timestart,cc110x_freq_scan_timestop,helper_-_cc110x_freq_scan_timestart,helper_-_cc110x_freq_scan_before');
     readingsDelete($hash,'cc110x_freq_scan_duration_seconds');
     SIGNALduino_TOOL_HTMLrefresh($name,'CC110x_Freq_Scan');
