@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 128 2026-10-27 15:59:15Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 128 2026-10-29 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -1036,6 +1036,11 @@ sub SIGNALduino_TOOL_Set {
 
     ## CC110x_Freq_Scan ##
     if ($cmd eq 'CC110x_Freq_Scan') {
+      #check IO DEV
+      if ( (!defined $IODev) || (IsDevice($IODev,'SIGNALduino') == 0) ) {
+        readingsSingleUpdate($hash, 'state' , $cmd.' found not IODEV', 0);
+        return;
+      }
       Log3 $name, 3, "$name: $cmd - is starting from $cc110x_f_start to $cc110x_f_end MHz";
       SIGNALduino_TOOL_cc110x_freq_scan("$name/:/$IODev/:/$cc110x_f_start/:/$cc110x_f_end/:/$cc110x_f_interval");
       $return = "$cmd has started"
@@ -2496,7 +2501,7 @@ function function6(txt) {
   $(div).dialog({
     dialogClass:"no-close", modal:true, width:"auto", closeOnEscape:true,
     maxWidth:$(window).width()*0.9, maxHeight:$(window).height()*0.9,
-    title: "'.$name.' CC110x_Freq_Scan_Log information",
+    title: "'.$name.' CC110x_Freq_Scan Information",
     buttons: [
       {text:"close", click:function(){
         $(this).dialog("close");
@@ -2837,21 +2842,20 @@ sub SIGNALduino_TOOL_FW_CC110x_Freq_Scan_Log {
   my $hash = $defs{$name};
   my $oddeven = 'odd';                                       # for css styling
   my $path = AttrVal($name,'Path','./FHEM/SD_TOOL/');
-  my $count1;
+  my $line;
+  my @linesplit;
   my $ret;
 
   Log3 $name, 4, "$name: FW_CC110x_Freq_Scan_Log is running";
-  Log3 $name, 4, $hash->{helper}->{cc110x_freq_scan_log};
 
   (my $error, my @content) = FileRead($path.$hash->{helper}->{cc110x_freq_scan_log});  # check file open
-  if (defined $error) { $count1 = -1; }              # file can´t open
+  if (defined $error) { $line = -1; }              # file can´t open
 
   if (not defined $error) {
-    for ($count1 = 0;$count1<@content;$count1++){  # loop to read file in array
-
+    for ($line = 0;$line<@content;$line++){  # loop to read file in array
+      if ($line != 12) { $ret.= $content[$line] . "<br>"; }
     }
   }
-  $ret = 'TEST';
   return $ret;
 }
 
