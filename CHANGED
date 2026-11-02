@@ -1,3 +1,262 @@
+2026-11-02 - Squashed commit of the following:
+
+commit cf511de15323459f33712b8dac77ddcebba61fbf
+Author: GitHub Action <action@github.com>
+Date:   Mon Nov 2 19:23:42 2026 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 707c6263a54acce748b58fe58eb7ae84f52ba1ae
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Nov 2 20:23:28 2026 +0100
+
+    Update 88_SIGNALduino_TOOL.pm
+
+    - added doc option "latest scan log"
+
+commit 718db3ddf32e506c8363ca5379dcc04d50ccffe9
+Author: GitHub Action <action@github.com>
+Date:   Thu Oct 29 19:36:51 2026 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 2c588bf73ff0c15dcea819cbaeae7e1caf70ce18
+Merge: 7795135 a667642
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Thu Oct 29 20:36:36 2026 +0100
+
+    Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+
+commit 7795135119ba8d4b778e9c5310a200f254d77a78
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Thu Oct 29 20:36:33 2026 +0100
+
+    Update 88_SIGNALduino_TOOL.pm
+
+    - added option to view the latest scan log
+    - fix scan with old value attr IODEV
+
+commit a6676422c3b6e52204f3603ae1604b7050313e6d
+Author: GitHub Action <action@github.com>
+Date:   Tue Oct 27 19:51:59 2026 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 9a0fa63cafa03780e7ca5369f2148688709794c3
+Merge: 6773616 c19e1f3
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Oct 27 20:51:30 2026 +0100
+
+    Merge branch 'pre-release' of https://github.com/RFD-FHEM/SIGNALduino_TOOL into pre-release
+
+commit 6773616e6fb1969e07e32af256215179e3ddf379
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Oct 27 20:51:00 2026 +0100
+
+    Update 88_SIGNALduino_TOOL.pm
+
+    started, added option to view the latest scan log
+
+commit c19e1f3444cfb32aff691c5e3fa394078941e6be
+Author: GitHub Action <action@github.com>
+Date:   Tue Oct 27 19:47:22 2026 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit c8ba9882628211914356cd942ce29235c982f4f8
+Merge: c8145d5 8b9287d
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Oct 27 20:47:05 2026 +0100
+
+    Merge branch 'master' into pre-release
+
+commit c8145d5cf10d1c70db149360dd996e805ccf77f1
+Author: GitHub Action <action@github.com>
+Date:   Wed Jan 3 19:32:59 2024 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit aa1d7ab3f03d9a6c41ccc75732713caacf99fbc9
+Merge: 34856bf d7c5aa5
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Wed Jan 3 20:32:44 2024 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 34856bfebbb56bf517081d429f4a49b049dc603f
+Author: GitHub Action <action@github.com>
+Date:   Wed Jan 3 19:30:06 2024 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 581b436beb3f6c9db75006e778698f3ddbcb32f4
+Merge: 0b0ef0a 67ea458
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Wed Jan 3 20:29:51 2024 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 0b0ef0a1cb43b74abf40db6a614afb1b6c435f1b
+Merge: 56079c9 a4b10bc
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Wed Jan 3 17:54:42 2024 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 56079c972e005bbde8f76b10897f0365d90b1636
+Author: GitHub Action <action@github.com>
+Date:   Tue Dec 19 18:29:07 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 291ab6d680be752a79d56c9f3b75c73f684350ed
+Merge: 59fe531 9b01ce2
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Dec 19 19:28:51 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 59fe5311cc6a9e941890d5cbc41c519d74368dbd
+Author: GitHub Action <action@github.com>
+Date:   Tue Dec 19 18:09:18 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 5ba889cf243380a2450fd39ed345fd0c470bc327
+Merge: 9de432f 6ee004b
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Tue Dec 19 19:09:05 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 9de432f2d62098a558ffa2b23b041898fd816220
+Author: GitHub Action <action@github.com>
+Date:   Mon Dec 18 18:17:55 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 68746f7db73c0507afeb53d4aa4a6fb0dcfde9a1
+Merge: 351a488 d49078a
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Dec 18 19:17:42 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 351a4886694d4b204a164d6cb9ac410eebceb0c7
+Author: GitHub Action <action@github.com>
+Date:   Mon Dec 18 18:10:01 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit f6bedcf99aaf26eda1ec0af86c89dfbb265792bb
+Merge: e8342da 7b27c43
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Dec 18 19:09:43 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit e8342da397c86ca280152b08efaf004add7d1234
+Author: GitHub Action <action@github.com>
+Date:   Mon Dec 18 17:36:40 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 147f75ff8cefde14af93fb96546e72136e190307
+Merge: 38d50b1 5c2e41e
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Dec 18 18:36:25 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 38d50b153a2666cf67d97848e4d4f38a40d7664a
+Author: GitHub Action <action@github.com>
+Date:   Tue Aug 29 14:16:23 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit f7f903790a4ab9cc9494813047d7bd6ed001c574
+Author: Udo <info@elektron-bbs.de>
+Date:   Tue Aug 29 16:15:56 2023 +0200
+
+    Update SD_Device_ProtocolList.json
+
+    add testdata for new protocols 127 and 128, remote controls for ceiling fans
+
+commit 69137673b7d1ec0881b2893629b0f46dc63dd479
+Author: GitHub Action <action@github.com>
+Date:   Sun Aug 27 10:50:27 2023 +0000
+
+    Automaitc updated controls and CHANGED
+
+commit 3b5e6587e7eaa4f56430d05171673c9748d7091b
+Author: Udo <info@elektron-bbs.de>
+Date:   Sun Aug 27 12:50:11 2023 +0200
+
+    Update SD_Device_ProtocolList.json
+
+    add protocol 129, Sainlogic weather stations
+
+commit 7acef7bce7a40747610116d7b44d8672379bcb40
+Merge: 37faea7 0b5e7f9
+Author: Udo <info@elektron-bbs.de>
+Date:   Fri Aug 11 17:28:52 2023 +0200
+
+    Merge branch 'master' into pre-release
+
+commit 37faea7cf7ece4167c8c40b9dc366af97339b3b3
+Merge: dc5d5f3 2b69160
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Wed Feb 1 15:25:39 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit dc5d5f3462ec4e26c8731fb7d4f08d5d39f84448
+Merge: d093ecd 04c869e
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Wed Feb 1 14:12:04 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit d093ecdbe0debc49f461cb3efa7f1a656af9a131
+Merge: 76ed0e2 0951ba0
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Jan 30 15:04:34 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit 76ed0e259d805d156234046d15fa7faff6d50884
+Merge: edece75 01a669b
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Jan 30 11:39:54 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit edece75cb2e0dccb3ab8b96d03d939f9a2a2f97a
+Merge: a3e97c1 a720a75
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Thu Jan 26 21:19:42 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit a3e97c1c0eb7b2fb8f670a489c430423a00f10c7
+Merge: fc6b18d 41e5b91
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Thu Jan 26 21:15:30 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit fc6b18d5f57592f1c200feb07f747b8a367c9330
+Merge: e7eeae9 7039527
+Author: HomeAutoUser <abfall-container@gmx.de>
+Date:   Mon Jan 16 20:03:08 2023 +0100
+
+    Merge branch 'master' into pre-release
+
+commit e7eeae926bb0cc613a2f3d5b41ea030e58b95065
+Author: GitHub Action <action@github.com>
+Date:   Mon Jan 16 13:48:06 2023 +0000
+
+    Automaitc updated controls and CHANGED
 2026-11-02 - Update 88_SIGNALduino_TOOL.pm
 
 - added doc option "latest scan log"
