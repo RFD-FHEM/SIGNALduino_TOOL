@@ -1,5 +1,5 @@
 ######################################################################
-# $Id: 88_SIGNALduino_TOOL.pm 128 2026-10-29 15:59:15Z HomeAuto_User $
+# $Id: 88_SIGNALduino_TOOL.pm 128 2026-11-02 15:59:15Z HomeAuto_User $
 #
 # The file is part of the SIGNALduino project
 # see http://www.fhemwiki.de/wiki/SIGNALduino to support debugging of unknown signal data
@@ -4589,6 +4589,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><code>Check it</code> - after a successful dispatch, this item appears to compare the sensor data with the JSON information<br>
   <small><u>note:</u></small> Only if a protocol number appears in Reading <code>decoded_Protocol_ID</code> then the dispatch is to be clearly assigned.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If there are several values ​​in the reading, the point <code>Check it</code> does not appear! In that case please deactivate the redundant IDs and use again.</a></li></ul>
+  <ul><li><code>Last cc110x_freq_scan_log</code> - Log file from the last successful <code>set CC110x_Freq_Scan command</code><br>
+  <small><u>Hinweis:</u></small> Only visible once the set command has been executed.</li></ul>
   <br><br>
 
   <a id="SIGNALduino_TOOL-attr"></a>
@@ -4749,6 +4751,8 @@ sub SIGNALduino_TOOL_cc1101read_Full {
   <ul><li><code>Check it</code> - nach einem erfolgreichen und eindeutigen Dispatch erscheint dieser Punkt um die Sensordaten mit den JSON Informationen zu vergleichen<br>
   <small><u>Hinweis:</u></small> Nur wenn im Reading <code>decoded_Protocol_ID</code> eine Protokollnummer erscheint, so ist der Dispatch eindeutig zuzuordnen.<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sollten mehrere Werte in dem Reading stehen, so erscheint der Punkt <code>Check it</code> NICHT! In dem Fall deaktivieren Sie bitte die &uuml;berflüssigen ID´s und dispatchen Sie erneut.</a></li></ul>
+  <ul><li><code>Last cc110x_freq_scan_log</code> - Logfile vom letzten erfolgreichen <code>set CC110x_Freq_Scan Befehl</code><br>
+  <small><u>Hinweis:</u></small> Erst sichtbar wenn der Set Befehl ausgeführt wurde.</li></ul>
   <br><br>
 
   <a id="SIGNALduino_TOOL-attr"></a>
